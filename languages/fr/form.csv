@@ -1,0 +1,36 @@
+"Are you sure you want to remove this section?";"Etes-vous sûr de vouloir supprimer cette section ?"
+"Are you sure you want to remove this field?";"Etes-vous sûr de vouloir supprimer ce champ ?"
+"Create a new field";"Créer un nouveau champ"
+"Edit field %s";"Editer le champ %s"
+"Field name:";"Nom du champ :"
+"Field name";"Nom du champ"
+"Choose a field type:";"Choisissez un type de champ :"
+"You have to choose a field type.";"Vous devez choisir un type de champ."
+"This field is required";"Ce champ est obligatoire"
+Text;Texte
+Number;Nombre
+Geolocation;Géolocalisation
+Date/Hour;Date/Heure
+"Multiline text";"Texte multi-ligne"
+Checkbox;Checkbox
+Radio;Radio
+"Drop down";"Liste déroulante"
+"Manage options:";"Gérer les options :"
+Option;Option
+"Recipient email:";"Email du destinataire :"
+"Add a section";"Ajouter une section"
+"Add an option";"Ajouter une option"
+"Add a field";"Ajouter un champ"
+Send;Envoyer
+"We thank you for having filled out our form.";"Nous vous remercions d'avoir rempli notre formulaire."
+"An error occurred while sending the form. Please, try again later.";"Une erreur est survenue lors de l'envoi de votre formulaire. Merci de réessayer ultérieurement."
+"An error occurred while retrieving the user location";"Une erreur est survenue lors de la récupération de la position de l'utilisateur"
+"An error occurred while retrieving your location";"Une erreur est survenue lors de la récupération de votre position"
+"You have refused to share your location";"Vous avez refusé de partager votre position"
+"<strong>%s</strong> must be filled<br />";"<strong>%s</strong> doit être renseigné<br />"
+"<strong>%s</strong> must be a valid email address<br />";"<strong>%s</strong> doit être une adresse email valide<br />"
+"<strong>%s</strong> must be a numerical value<br />";"<strong>%s</strong> doit être une valeur numerique<br />"
+"<strong>%s</strong> must be a valid date<br />";"<strong>%s</strong> doit être une date<br />"
+"Your app's form";"Formulaire de votre application"
+"An error occurred while saving. A field can't be identified.";"Une erreur est survenue lors de la sauvegarde. Un champ n'a pas pu être identifié."
+"Manage fields";"Gérer les champs"

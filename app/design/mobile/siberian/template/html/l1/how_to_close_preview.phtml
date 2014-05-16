@@ -1,0 +1,6 @@
+<?php $time = time(); ?>
+<?php $isLoggedIn = $this->getSession()->isLoggedIn('customer'); ?>
+<?php $option_values = $this->getOptionValues(); ?>
+<div id="how_to_close_preview" style="display:none; position:absolute; top: 30px; left: 30px; right: 30px; background: rgba(0, 0, 0, 0.8); border-radius: 5px; font-size: 25px; z-index:1000">
+    <p class="align-center white" style="font-size: 20px;"><?php echo $this->_("Click on the background image to go back to the apps list"); ?></p>
+</div>

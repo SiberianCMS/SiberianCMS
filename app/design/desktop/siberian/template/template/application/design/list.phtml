@@ -1,0 +1,18 @@
+<?php $application = $this->getApplication() ?>
+<?php $design = new Template_Model_Design(); ?>
+<?php $designs = $design->findAll(); ?>
+<ul>
+    <?php foreach($designs as $design) : ?>
+    <li class="left">
+        <p>
+            <a href="javascript:void(0);" class="change_design block relative">
+                <img src="<?php echo $design->getOverview(); ?>" width="220" height="330" />
+                <?php if($application->getDesignId() == $design->getId()) : ?>
+                <img src="<?php echo $this->getImage('customization/design/check.png'); ?>" class="checked" />
+                <?php endif ?>
+                <input type="hidden" name="design_id" value="<?php echo $design->getId(); ?>" />
+            </a>
+        </p>
+    </li>
+    <?php endforeach ?>
+</ul>

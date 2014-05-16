@@ -1,0 +1,72 @@
+<?php
+    $option = $this->getCurrentOption();
+    $app = $this->getApplication();
+    $current_game = $this->getCurrentGame();
+    $team_leader = $this->getTeamLeader();
+    $customers = $this->getCustomers();
+    $periodName = strtoupper($current_game->getGamePeriodLabel());
+?>
+
+<div id="socialgaming" class="socialgaming">
+    <div id="game_scrollview" class="relative" rel="<?php echo $option->getId(); ?>">
+        <?php $block = $app->getDesignBlock('header'); ?>
+        <ul id="players_list">
+            <li class="header header"><span><?php echo $periodName ?></span></li>
+            <li class="separator"></li>
+            <?php /*if($current_game->getGift()) : ?>
+            <li><div class="shadow align-center">En cadeau</div><div class="border"></div></li>
+            <li class=""><div class="shadow align-center"><?php echo $current_game->getGift() ?></div><div class="border"></div></li>
+            <li class="separator"></li>
+            <?php endif;*/ ?>
+            <li class="header header"><span><?php echo $this->_('Team Leader'); ?></span></li>
+            <li class="separator"></li>
+            <?php if($team_leader) : ?>
+            <li class="team_leader">
+                <div class="shadow">
+                    <div class="left">
+                        <img class="logo customer_image_<?php echo $team_leader->getId(); ?>" src="<?php echo $team_leader->getImageLink() ?>" width="35" />
+                    </div>
+                    <p class="challenger_name left"><?php echo $team_leader->getFirstname(). ' ' . substr($team_leader->getLastname(), 0, 1) . '.'; ?></p>
+                    <p class="number_of_points right">
+                        <span class="left"><?php echo sprintf($team_leader->getNumberOfPoints() . ' point%s', $team_leader->getNumberOfPoints() > 1 ? 's' : ''); ?></span>
+                        <img src="<?php echo $this->getColorizedImage($option->getIconId(), $this->getApplication()->getDesignBlock('background')->getColor()); ?>" class="right" width="24" />
+                    </p>
+                    <div class="clear"></div>
+                </div>
+                <div class="clear border"></div>
+            </li>
+            <li class="separator"></li>
+            <?php endif; ?>
+            <?php if($customers->count() > 0) : ?>
+            <li class="header header"><div class="shadow"><?php echo $this->_('Challengers'); ?></div><div class="border"></div></li>
+            <li class="separator"></li>
+
+            <?php foreach($customers as $k => $customer) : ?>
+            <li class="challenger<?php if($k%2 == 1): ?> overlay_20<?php endif; ?>">
+                <div class="shadow">
+                    <div class="left">
+                        <img class="logo customer_image_<?php echo $customer->getId(); ?>" src="<?php echo $customer->getImageLink() ?>" width="35" />
+                    </div>
+                    <p class="challenger_name left"><?php echo $customer->getFirstname(). ' ' . substr($customer->getLastname(), 0, 1) . '.'; ?></p>
+                    <p class="number_of_points right"><?php echo sprintf($customer->getNumberOfPoints() . ' point%s', $customer->getNumberOfPoints() > 1 ? 's' : ''); ?></p>
+                </div>
+                <div class="clear"></div>
+            </li>
+            <li class="separator"></li>
+            <?php endforeach; ?>
+            <?php endif; ?>
+        </ul>
+
+    </div>
+    <script type="text/javascript">
+
+        var subpage = page.getSubpage('<?php echo $option->getId(); ?>');
+        subpage.setCallback('willappear', function() {
+            this.setScrollview(new iScroll('game_scrollview')).setContentSize();
+        });
+    </script>
+</div>
+
+
+
+

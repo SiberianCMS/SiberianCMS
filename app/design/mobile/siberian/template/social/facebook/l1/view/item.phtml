@@ -1,0 +1,45 @@
+<?php $option = $this->getCurrentOption(); ?>
+<?php $application = $this->getApplication(); ?>
+<?php $post = $this->getCurrentPost(); ?>
+<?php $color = $this->getBlock('news')->getColor(); ?>
+<li id="status_<?php echo $post->getId() ?>" rel="<?php echo $post->getId() ?>" class="social_facebook_<?php echo $option->getId(); ?> list_news news<?php if($option->getBackgroundImage()) : ?> _no-background<?php endif; ?>" onclick="page.showSubpage({id: 'facebook_post_<?php echo $option->getId(); ?>_<?php echo $post->getId(); ?>', url: '<?php echo $this->getUrl('social/mobile_facebook/details', array('option_value_id' => $option->getId(), 'post_id' => $post->getId())); ?>', isAjax:true});">
+    <div>
+        <div class="logo left" style="width:37px; height:37px; overflow:hidden" id="logo_cont">
+            <!--<a href="<?php echo $post->getProfileUrl()?>" target="_blank">-->
+                <img width="37" height="37" id="logo_src" class="logo_src" src="<?php echo $post->getAvatarUrl() ?>" data-default="<?php echo $application->getLogo() ?>" />
+            <!--</a>-->
+        </div>
+        <p class="text">
+            <span class="name bold"><?php echo $post->getAuthor(); ?></span>
+            <span class="auto_resize" data-rows="3">
+                <?php echo $post->getShortMessage(); ?>
+            </span>
+        </p>
+        <div class="clear"></div>
+    </div>
+    <?php /*if($img_src = $post->getThumbnail()) : ?>
+        <div class="image right">
+            <div>
+                <!--<a href="<?php echo $post->getLink()?>" target="_blank">-->
+                    <img src="<?php echo $img_src ?>" alt="<?php echo $application->getName() ?>" title="<?php echo $application->getName() ?>" width="183" />
+                <!--</a>-->
+            </div>
+        </div>
+        <div class="clear"></div>
+    <?php endif;*/ ?>
+    <div class="comment_metas">
+        <span class="comments_date lowercase left">
+            <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/pencil.png', true), $color); ?>" alt="" style="vertical-align:bottom" width="13" height="10px"/>
+            <?php echo $post->getCreatedAt() ?>
+        </span>
+        <span class="comments_count right ">
+            <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/comment.png', true), $color); ?>" alt="" style="vertical-align:bottom" width="13" />
+            <?php echo $post->getNbrOfComments() ?>
+        </span>
+        <span class="likes_count right">
+            <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/like.png', true), $color); ?>" alt="<?php echo $this->_('Likes') ?>" style="vertical-align:bottom" width="13" height="12px" />
+            <?php echo $post->getNbrOfLikes() ?>
+        </span>
+        <div class="clear"></div>
+    </div>
+</li>

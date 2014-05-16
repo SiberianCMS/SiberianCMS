@@ -1,0 +1,51 @@
+<?php $application = $this->getApplication(); ?>
+<?php $is_overview = $this->getRequest()->getParam('overview'); ?>
+<?php $option_values = $application->getPages($is_overview ? 5 : null); ?>
+<?php $color = $this->getBlock('tabbar')->getImageColor(); ?>
+<div class="general relative">
+    <div id="homepage_content" class="content">
+        <img id="homepage_background_image_link" src="" alt=""/>
+    </div>
+</div>
+<div class="tabbar_items l6">
+    <div id="tabbar_background" class="tabbar background animated toBottom"></div>
+    <div id="tabbar_items" class="tabbar no-background animated toBottom">
+        <?php $block = $application->getDesignBlock('tabbar'); ?>
+        <?php $base_path_image_link = Core_Model_Directory::getBasePathTo($block->getImageLink()) ?>
+    <?php $url = $block->getImageLink() != '' && is_dir($base_path_image_link) && glob($base_path_image_link.'/*') ? $block->getImageLink() : $this->getImage('tabs') ?>
+        <ul id="tabbar" class="tabbar_l6">
+            <?php foreach($option_values as $k => $option_value) : ?>
+            <?php if(!$option_value->isActive() AND !$is_overview) continue; ?>
+            <li class="border-color"<?php if(!$option_value->isActive()) : ?> style="display:none;"<?php endif; ?>>
+                <a href="<?php echo $option_value->getUrl('view', array('option_value_id' => $option_value->getId()), false); ?>" id="tabbar_item_<?php echo $option_value->getId(); ?>" rel="<?php echo $option_value->getId(); ?>" class="item item_<?php echo $option_value->getCode(); ?><?php if($option_value->getIsAjax()) : ?> is_ajax<?php endif; ?> not-loaded"<?php if(!$option_value->getIsDummy()) : ?> onclick="page.showSubpage({a:this}); return false;"<?php endif; ?><?php if($option_value->isLink()) : ?> attr-link="is_link"<?php endif; ?>>
+                    <img id="icon_<?php echo $option_value->getId(); ?>" src="<?php echo $this->getColorizedImage($option_value->getIconId(), $color); ?>" class="<?php echo $option_value->getImage()->getCanBeColorized() ? 'colorable' : '' ?>" alt="" title="" width="30" height="30" />
+                    <span id="tabbar_name_<?php echo $option_value->getId(); ?>" class="tabbar_name_<?php echo $option_value->getId(); ?> block"><?php echo $option_value->getShortTabbarName(); ?></span>
+                </a>
+            </li>
+            <?php endforeach; ?>
+            <?php if($application->usesUserAccount()) : ?>
+            <?php $option_value = new Application_Model_Option_Value(); ?>
+            <?php $option_value->findTabbarAccount(); ?>
+            <li class="border-color">
+                <a href="javascript:void(0)" id="tabbar_item_customer_account" class="item" onclick="customer.openLoginForm();" rel="customer_account">
+                    <img src="<?php echo $this->getColorizedImage($option_value->getBaseIconUrl(), $application->getDesignBlock('tabbar')->getImageColor()); ?>" class="colorable" alt="" title="" width="30" height="30" />
+                    <span id="tabbar_name_customer_account" class="tabbar_name_customer_account block"><?php echo $application->getShortTabbarAccountName() ?></span>
+                </a>
+            </li>
+            <?php endif; ?>
+        </ul>
+        <script type="text/javascript">
+            tabbar.nbr_of_icons_per_row = 1;
+            tabbar.nbr_of_icons = 0;
+            tabbar.setType('scroll_y');
+
+            //A ouvrir dans la webview
+            if(typeof Android != "undefined") {
+                $('#tabbar').find('a.item[attr-link]').each(function() {
+                    var href = $(this).attr('href');
+                    $(this).attr('href', href+'?webview=1');
+                });
+            }
+        </script>
+    </div>
+</div>

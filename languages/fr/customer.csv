@@ -1,0 +1,27 @@
+Log-in;Connectez-vous
+Log-in;Connexion
+"Or with your account";"Ou avec votre compte"
+"My Account";"Mon compte"
+"Create an account";"Créez un compte"
+"Show me in ranking";"Apparaître dans le classement"
+"your password";"de votre mot de passe"
+Change;Modification
+Old;Ancien
+New;Nouveau
+"Current password";"Ancien mot de passe"
+"New password";"Nouveau mot de passe"
+"Forgot your password?";"Mot de passe oublié ?"
+"Forgotten password?";"Mot de passe oublié"
+"Please enter your email address. We'll send you your password right now.";"Veuillez indiquer l'adresse email. Nous vous envoyons dans l'instant un nouveau mot de passe."
+"Enter your email address:";"Saisissez votre adresse email :"
+"An error occurred while connecting ";"Une erreur est survenue lors de la connexion"
+"Please log in with your mobile phone";"Veuillez utiliser votre mobile pour vous connecter"
+"The password must be at least 6 characters";"Le mot de passe doit comporter au minimum 6 caractères"
+"%s have just collected %d loyalty point%s at %s";"%s a validé %d point%s de fidélité chez %s"
+;"Congratz %s ! Vous avez mis le feu en cuisine chez %s. Une carte validée !"
+"An error occurred while connecting to your Facebook account. Please try again later";"Une erreur est survenue lors de la tentative de connexion avec votre compte Facebook. Merci de réessayer ultérieurement."
+"Congratulation, your account has been successfully created";"Félicitations, votre compte a été créé avec succès"
+"The picture %s does not exist";"L'image %s n'existe pas"
+"%s – Account creation";"%s - Création du compte"
+"We are sorry but the %s account is already linked to one of our customers";"Nous sommes désolés mais ce compte %s est déjà lié à un de nos clients"
+"Your account has been successfully saved";"Votre compte a été sauvegardé avec succès"

@@ -1,0 +1,109 @@
+<?php $application = $this->getApplication(); ?>
+
+<div>
+
+    <div id="map"><div id="map_canvas" style="height:100%;width:100%"></div></div>
+
+    <script type="text/javascript">
+
+        var gmaps_page = page.getSubpage('gmaps');
+
+        gmaps_page.marker = null;
+        gmaps_page.name = "";
+        gmaps_page.address = "";
+
+        gmaps_page.setCallback('willappear', function() {
+            this.setContentSize();
+        }).setCallback('diddisappear', function() {
+            if(this.marker) {
+                this.marker.setMap(null);
+                delete this.marker;
+            }
+        }).setCallback('didresize', function() {
+            this.setContentSize();
+        });
+
+        gmaps_page.setContentSize = function() {
+            var height = $(window).height() - $('#page_header_gmaps').outerHeight(true);
+            $('#map').css('height', height).css('width', $(window).width());
+        }
+
+        gmaps_page.setAddress = function(address, name) {
+
+            if(!this.is_displayed) {
+                this.setCallback('didappear', function() {
+                    this.updateMaps(address, name);
+                    this.unsCallback('didappear');
+                });
+            }
+            else {
+                this.updateMaps(address, name);
+            }
+
+        }
+
+        gmaps_page.updateMaps = function(address, name) {
+
+            this.address = address;
+            this.name = name;
+
+            if(!geocoder) {
+                var geocoder = new google.maps.Geocoder();
+            }
+
+            geocoder.geocode({'address': address}, function(results, status) {
+
+                if (status == google.maps.GeocoderStatus.OK) {
+                    var lat = results[0].geometry.location.lat();
+                    var lng = results[0].geometry.location.lng();
+                    this.showMaps(lat, lng);
+                } else {
+                    new Alert('<?php echo addslashes($this->_("The address you're looking for does not exists")); ?>').show();
+                    page.goBack();
+                }
+            }.bind(this));
+        }
+
+        gmaps_page.showMaps = function(lat, lng) {
+
+            var latlng = new google.maps.LatLng(lat, lng);
+
+            var options = {
+                zoom: 15,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            }
+
+            if(!this.map) {
+                this.map = new google.maps.Map(document.getElementById("map_canvas"), options);
+                google.maps.event.addListener(this.map, 'idle', function() {
+                    loader.hide();
+                });
+            }
+
+            if(this.marker) {
+                google.maps.event.removeListener(this.marker, 'click');
+                this.marker.setMap(null);
+                delete this.marker;
+                delete this.infoWindow;
+
+            }
+            this.marker = new google.maps.Marker({
+                position: latlng,
+                map: this.map
+            });
+            var infoWindowContent = '<div><p style="color:black;">'+this.name+'</p><p style="color:black;">'+this.address+'</p></div>';
+            this.infoWindow = new google.maps.InfoWindow({
+                content: infoWindowContent
+            });
+
+            google.maps.event.addListener(this.marker, 'click', function () {
+                this.infoWindow.open(this.map, this.marker);
+            }.bind(this));
+
+            this.map.setCenter(latlng);
+
+        }
+
+
+    </script>
+</div>

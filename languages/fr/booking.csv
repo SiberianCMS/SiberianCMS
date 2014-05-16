@@ -1,0 +1,25 @@
+"Message from your app %s";"Message en provenance de votre application %s"
+"First name / Last name";"Nom / Prénom"
+"People number:";"Nombre de personnes :"
+Location:;"Lieu :"
+"Date and time";"Date et heure"
+"Booking details";"Détails de la réservation"
+Comment;Commentaire
+"Enter the location name and contact email:";"Saisissez le nom et l'email du lieu :"
+Location:;"Lieu :"
+"Email:";"Email :"
+"Please fill out the following fields:<br />";"Veuillez renseigner correctement les champs suivants : <br />"
+"Your name";"Votre nom"
+"Your chosen location";"Le lieu de votre choix"
+"Your phone number or email address";"Votre téléphone ou adresse email"
+"The number of people";"Le nombre de personnes"
+"The date and time of the booking";"La date et heure de réservation"
+"The booking informations";"Le motif de la réservation"
+"Thank you for your request. We'll answer you as soon as possible.";"Nous vous remercions pour votre message. Nous vous répondrons dans les plus brefs délais."
+"An error occurred while sending your message. We apologize and ask you to try later.";"Une erreur est survenue lors de l'envoi de votre message. Nous vous prions de nous excuser et vous invitons à réessayer ultérieurement."
+"Please, choose a store";"Veuillez saisir le nom du lieu"
+SEND;ENVOYER
+"MM dd yy";"dd MM yy"
+Mddyy;ddMyy
+"hh:ii A";HH:ii
+hhiiA;HHii

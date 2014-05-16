@@ -1,0 +1,180 @@
+<?php $application = $this->getApplication(); ?>
+<?php $option = $this->getCurrentOption(); ?>
+<?php $contact = new Contact_Model_Contact(); ?>
+<?php $contact->find($option->getId(), 'value_id'); ?>
+<?php $customer = $this->getSession()->isLoggedIn('customer') ? $this->getSession()->getCustomer() : new Customer_Model_Customer(); ?>
+<?php $contact_name = !is_null($contact->getName()) ? $contact->getName() : $application->getName(); ?>
+
+<div class="contact">
+    <div id="contact_<?php echo $option->getId(); ?>" class="relative" rel="<?php echo $option->getId(); ?>">
+        <div class="scroll" class="relative" style="position:relative !important">
+            <div class="padding">
+                <div class="contact_name">
+                    <p id="contact_name_<?php echo $option->getId(); ?>" class="name"><?php echo $contact_name; ?></p>
+                </div>
+                <div id="contact_cover_<?php echo $option->getId(); ?>" class="contact_cover" style="<?php if(!$contact->getCover()) : ?> display:none;<?php endif; ?>">
+                    <img id="contact_cover_img_<?php echo $option->getId(); ?>" class="contact_cover_img" src="<?php echo $contact->getCoverUrl() ?>" width="100%" onload="page.getSubpage('<?php echo $option->getId(); ?>').refreshScrollview();" />
+                </div>
+                <div class="contact_address_<?php echo $option->getId(); ?>" id="contact_address">
+                    <p class="address">
+                        <span id="contact_street_<?php echo $option->getId(); ?>" class="block"><?php echo $contact->getStreet() ?></span>
+                        <span id="contact_postcode_<?php echo $option->getId(); ?>"><?php echo $contact->getPostcode() ?></span>
+                        <span id="contact_city_<?php echo $option->getId(); ?>"><?php echo $contact->getCity(); ?></span>
+                    </p>
+                </div>
+                <div class="contact_description_<?php echo $option->getId(); ?>" id="contact_description_<?php echo $option->getId(); ?>">
+                    <?php echo nl2br($contact->getDescription()); ?>
+                </div>
+                <div class="buttons">
+                    <a href="tel:<?php echo $contact->getPhone(); ?>" id="contact_phone_<?php echo $option->getId(); ?>" class="contact_links button full_width icon_left contact_us block arrow_right"<?php if(!$contact->getPhone()) : ?> style="display:none;"<?php endif; ?>>
+                        <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/phone.png', true), $application->getDesignBlock('button')->getColor()); ?>" width="21" height="21" />
+                        <?php echo $this->_('Phone'); ?>
+                    </a>
+                    <button class="button full_width icon_left locate_us arrow_right" id="contact_gmaps_<?php echo $option->getId(); ?>"<?php if(!$contact->getStreet() OR !$contact->getPostcode() OR !$contact->getCity()) : ?> style="display:none;"<?php else : ?> onclick="page.getSubpage('<?php echo $option->getId() ?>').showGoogleMaps();"<?php endif; ?>>
+                        <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/marker.png', true), $application->getDesignBlock('button')->getColor()); ?>" width="21" height="21" />
+                        <?php echo $this->_('Locate'); ?>
+                    </button>
+                    <button class="button full_width icon_left email_us arrow_right" id="contact_email_<?php echo $option->getId(); ?>"<?php if(!$contact->getEmail()) : ?> style="display:none;"<?php else : ?> onclick="showContacForm('contact_form_<?php echo $option->getId() ?>');"<?php endif; ?>>
+                        <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/envelope.png', true), $application->getDesignBlock('button')->getColor()); ?>" width="21" height="21" />
+                        <?php echo $this->_('Email'); ?>
+                    </button>
+                    <a href="<?php echo $contact->getWebsite(); ?>" id="contact_website_<?php echo $option->getId(); ?>" class="arrow_right contact_links button full_width icon_left contact_us block"<?php if(!$contact->getWebsite()) : ?> style="display:none;"<?php endif; ?>>
+                        <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/world.png', true), $application->getDesignBlock('button')->getColor()); ?>" width="21" height="21" />
+                        <?php echo $this->_('Website'); ?>
+                    </a>
+                    <a href="<?php echo $contact->getFacebook(); ?>" id="contact_facebook_<?php echo $option->getId(); ?>" class="arrow_right contact_links button full_width icon_left contact_us block"<?php if(!$contact->getFacebook()) : ?> style="display:none;"<?php endif; ?>>
+                        <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/facebook_alt.png', true), $application->getDesignBlock('button')->getColor()); ?>" width="21" height="21" />
+                        <?php echo $this->_('Facebook'); ?>
+                    </a>
+                    <a href="<?php echo $contact->getTwitter(); ?>" id="contact_twitter_<?php echo $option->getId(); ?>" class="arrow_right contact_links button full_width icon_left contact_us block"<?php if(!$contact->getTwitter()) : ?> style="display:none;"<?php endif; ?>>
+                        <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/twitter.png', true), $application->getDesignBlock('button')->getColor()); ?>" width="21" height="21" />
+                        <?php echo $this->_('Twitter'); ?>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="contact_form_<?php echo $option->getId(); ?>" class="contact_form relative" rel="contact_form_<?php echo $option->getId(); ?>">
+        <form id="contactForm_<?php echo $option->getId(); ?>" action="<?php echo $this->getUrl('contact/mobile/post'); ?>" onsubmit="submitContactForm('<?php echo $option->getId(); ?>'); return false;"<?php if(!$contact->getEmail()) : ?> style="display:none;"<?php endif; ?>>
+            <div class="padding">
+                <ul>
+                    <li><input type="text" id="contact_username_<?php echo $option->getId(); ?>" placeholder="<?php echo $this->_("Your name") ?>" name="name" value="<?php echo $customer->getId() ? $customer->getFirstname() . ' ' . $customer->getLastname() : '' ?>" /></li>
+                    <li><input type="email" id="contact_courriel_<?php echo $option->getId(); ?>" placeholder="<?php echo $this->_("Your email address") ?>" name="email" value="<?php echo $customer->getEmail() ?>" /></li>
+                    <li><textarea  id="contact_content_<?php echo $option->getId(); ?>" placeholder="<?php echo $this->_("Your request") ?>" name="info" rows="4"></textarea></li>
+                </ul>
+                <button type="submit" class="button right"><?php echo $this->_("SEND") ?></button>
+                <div class="clear"></div>
+                <input type="hidden" name="option_value_id" value="<?php echo $option->getId(); ?>" />
+            </div>
+        </form>
+    </div>
+
+    <script type="text/javascript">
+
+        var subpage = page.getSubpage('<?php echo $option->getId(); ?>');
+
+        var contact_page = page.getSubpage('contact_form_<?php echo $option->getId() ?>');
+        if(!contact_page) {
+            var div = $('#contactForm_<?php echo $option->getId(); ?>').parent('div.contact_form');
+            var html = div.get(0).outerHTML;
+            div.remove();
+            var contact_page = page.createSubpage({
+                id: 'contact_form_<?php echo $option->getId() ?>',
+                title: '<?php echo $this->_('Form'); ?>',
+                html: html
+            });
+            contact_page.setCallback('willappear', function() {
+                var scrollview = new iScroll('contact_form_<?php echo $option->getId(); ?>');
+                contact_page.setScrollview(scrollview);
+            }).setCallback('diddisappear', function() {
+                $('#contactForm_<?php echo $option->getId(); ?>').get(0).reset();
+            });
+
+            subpage.addChild(contact_page);
+        }
+
+        subpage.setCallback('willappear', function() {
+            var scrollview = new iScroll('contact_<?php echo $option->getId(); ?>', {
+                hScroll: false
+            });
+
+            this.setScrollview(scrollview)
+                .setContentSize()
+            ;
+
+            <?php if(DEVICE_TYPE != 'mobile') : ?>
+//            var mobile_alert = new Alert('This section is unlocked for mobile users only', 'error');
+            $('#contact_website_<?php echo $option->getId(); ?>').click(function(){
+                new Alert('<?php echo addslashes($this->_('This section is unlocked for mobile users only'))?>', 'error').show();
+                return false;
+            });
+            $('#contact_facebook_<?php echo $option->getId(); ?>').click(function(){
+                new Alert('<?php echo addslashes($this->_('This section is unlocked for mobile users only'))?>', 'error').show();
+                return false;
+            });
+            $('#contact_twitter_<?php echo $option->getId(); ?>').click(function(){
+                new Alert('<?php echo addslashes($this->_('This section is unlocked for mobile users only'))?>', 'error').show();
+                return false;
+            });
+            $('#contact_phone_<?php echo $option->getId(); ?>').click(function(){
+                new Alert('<?php echo addslashes($this->_('This section is unlocked for mobile users only'))?>', 'error').show();
+                return false;
+            });
+//            $('.geo_link_<?php echo $option->getId(); ?>').click(function(){
+//                new Alert('This section is unlocked for mobile users only', 'error').show();
+//                return false;
+//            });
+            <?php endif; ?>
+
+        });
+
+        subpage.showGoogleMaps = function() {
+            var address = '<?php echo mysql_escape_string($contact->getStreet()); ?>, <?php echo $contact->getPostcode(); ?>, <?php echo mysql_escape_string($contact->getCity()); ?>';
+            var name = "<?php echo addslashes($contact_name); ?>";
+            page.showGoogleMaps(address, name);
+        }
+
+        function showContacForm(id) {
+            page.slide(page.getSubpage(id));
+        }
+
+        function submitContactForm(id) {
+            <?php if(DEVICE_TYPE == 'mobile') : ?>
+            var errors = new Array();
+            if($('#contact_username_'+id).val().isEmpty()) errors[errors.length] = '<?php echo $this->_("Your name") ?>';
+            if($('#contact_courriel_'+id).val().isEmpty()) errors[errors.length] = '<?php echo $this->_("Your email") ?>';
+            if($('#contact_content_'+id).val().isEmpty()) errors[errors.length] = '<?php echo $this->_("Your request") ?>';
+
+            if(errors.length > 0) {
+                new Alert('<?php echo addslashes($this->_("Please fill in the following fields:")) ?> <br />' + errors.join('<br />'), 'error').show();
+            }
+            else {
+                loader.show();
+                $.ajax({
+                    url: '<?php echo $this->getUrl('contact/mobile/post'); ?>',
+                    dataType: 'json',
+                    data: $('#contactForm_'+id).serializeArray(),
+                    type: 'post',
+                    success: function(datas) {
+                        if(datas.success) {
+                            new Alert('<?php echo addslashes($this->_("Thank you for your request. We\'ll answer you as soon as possible.")) ?>').show();
+                        }
+                        else if(datas.error) {
+                            new Alert(datas.message, 'error').show();
+                        }
+                    },
+                    error: function() {
+                        new Alert('<?php echo addslashes($this->_("An error occurred while sending your message. We apologize and ask you to try later.")) ?>', 'error').show();
+                    },
+                    complete: function() {
+                        loader.hide();
+                    }
+                });
+            }
+            <?php endif; ?>
+
+        }
+
+    </script>
+</div>

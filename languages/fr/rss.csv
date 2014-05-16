@@ -1,0 +1,11 @@
+"Enter a name and an URL address for this RSS feed";"Saisissez un nom et l'adresse du flux RSS"
+URL;Adresse
+"Display feed pictures whenever possible";"Afficher les images du flux si possible"
+"Found feeds";"Liste des flux trouvés"
+"%s ago";"Il y a %s"
+"Please enter a valid url";"Veuillez saisir une url correcte"
+"No RSS feed could be found";"Aucun flux n'a pu être trouvé à cette adresse"
+"Please enter a title";"Veuillez saisir le titre"
+"An error occurred while saving your RSS feed";"Une erreur est survenue lors de la sauvegarde de votre flux."
+"RSS feed successfully saved";"Flux RSS sauvegardé avec succès"
+"An error occurred while sorting your RSS feeds. Please try again later.";"Une erreur est survenue lors de l'organisation de vos flux. Merci de réessayer ultérieurement"

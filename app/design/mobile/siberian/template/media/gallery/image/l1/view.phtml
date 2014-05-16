@@ -1,0 +1,223 @@
+<?php $application = $this->getApplication(); ?>
+<?php $option = $this->getCurrentOption(); ?>
+<?php $image = new Media_Model_Gallery_Image(); ?>
+<?php $images = $image->findAll(array('value_id' => $option->getId())) ?>
+
+<div id="images">
+    <div id="tab_<?php echo $option->getId(); ?>" class="images header">
+        <div id="header_images_scrollview_<?php echo $option->getId(); ?>" class="scroll_list relative" rel="<?php echo $option->getId(); ?>">
+
+            <ul>
+                <?php foreach($images as $k => $image) : ?>
+                <li><a href="javascript:void(0)"<?php if($k == 0) : ?> id="first_images_list_<?php echo $option->getId(); ?>"<?php endif ?> onclick="page.getSubpage('<?php echo $option->getId(); ?>').showImages(this); return false;" class="show_images show_images_<?php echo $option->getId(); ?>" rel="<?php echo $image->getId(); ?>"><?php echo $image->getName(); ?></a></li>
+                <?php endforeach; ?>
+            </ul>
+            <div class="separator"></div>
+        </div>
+    </div>
+
+    <div id="images_scrollview_<?php echo $option->getId() ?>" class="relative">
+        <ul id="images_list_<?php echo $option->getId() ?>"></ul>
+    </div>
+
+    <?php
+        echo $this->getLayout()->addPartial('image_gallery', 'core_view_mobile_default', 'html/l1/image/gallery.phtml')
+            ->setOptionValue($option)
+            ->toHtml()
+        ;
+    ?>
+</div>
+
+<script type="text/javascript">
+
+    var subpage = page.getSubpage('<?php echo $option->getId(); ?>');
+
+    subpage.setCallback('willappear', function() {
+        <?php if($images->count() < 2) : ?>
+        $('#header_images_scrollview_<?php echo $option->getId(); ?>').hide();
+        <?php endif; ?>
+    }).setCallback('didappear', function() {
+
+        <?php if($images->count() > 1) : ?>
+        if($('#first_images_list_<?php echo $option->getId(); ?>').attr('id')) {
+            scrollviews.add('header_images_scrollview_'+this.id, new iScroll('header_images_scrollview_'+this.id, {
+                vScroll: false,
+                hScroll: true,
+                hScrollbar:false
+            }));
+
+        }
+        <?php endif; ?>
+
+        this.setScrollview(new iScroll('images_scrollview_'+this.id))
+            .setContentSize(false)
+        ;
+
+        if(!$('.show_images_<?php echo $option->getId(); ?>.selected').length) {
+            $('#first_images_list_<?php echo $option->getId(); ?>').click();
+        }
+
+    }).setCallback('willdisappear', function() {
+        scrollviews.destroy('header_images_scrollview_'+this.id);
+    });
+
+    subpage.resizeImage = function(img_loader, src) {
+        var max_thumb_width = $(window).width() / 4 - 1;
+        var p = $(img_loader).parent('p');
+        var img = p.next('img');
+        p.css('width', max_thumb_width).css('height', max_thumb_width).fadeIn();
+        img.attr('width', max_thumb_width).attr('height', max_thumb_width).load(function() {
+            p.remove();
+            img.fadeIn();
+            this.scrollview.refresh();
+        }.bind(this));
+
+        img.attr('src', src);
+
+    }.bind(subpage);
+
+    subpage.refreshScrollview = function() {
+
+//        var height = $(window).height() - $('#page_header_'+this.id).height();
+//        if($('#header_images_scrollview_'+this.id).is(':visible')) {
+//            height -= $('#header_images_scrollview_'+this.id).height();
+//        }
+
+        <?php if($images->count() > 1) : ?>
+        var ul = $('#header_images_scrollview_'+this.id).children('ul:first-child');
+        var total_width = 0;
+        ul.children('li').each(function() {total_width += $(this).outerWidth(true);});
+        ul.css({'min-width':this.container.width()+1, width: ++total_width});
+        $('#header_images_scrollview_'+this.id).css('width', this.container.width());
+        scrollviews.refresh('header_images_scrollview_'+this.id);
+        <?php endif ?>
+
+        var height = $(window).height() - $('#images_scrollview_'+this.id).offset().top;
+        $('#images_scrollview_'+this.id).css('height', height);
+        $('#images_scrollview_'+this.id).children('ul').css('min-height', height);
+
+        this.scrollview.refresh();
+
+        return this;
+    }
+
+    subpage.setContentSize = function(animated) {
+
+        var max_thumb_width = $(window).width() / 4 - 1;
+        $('.image_preview_'+this.id).attr('width', max_thumb_width).attr('height', max_thumb_width)
+        return this;
+
+    }.bind(subpage);
+
+    subpage.showImages = function(a) {
+
+        a = $(a);
+        if(a.hasClass('selected')) return;
+        var id = a.attr('rel');
+
+        if($('.image_'+this.id+'_'+id).length) {
+            $('.show_images_'+this.id).removeClass('selected header reverse');
+            a.addClass('selected header reverse');
+            $('.image_'+this.id).hide();
+            this.scrollview.scrollTo(0,0,0);
+            $('.image_'+this.id+'_'+id).fadeIn();
+            this.scrollview.refresh();
+        }
+        else {
+
+            loader.show();
+            $.ajax({
+                url: '<?php echo $this->getUrl('media/mobile_gallery_image/list'); ?>',
+                dataType: 'json',
+                data: [{name:'option_value_id',value:this.id}, {name:'image_id',value:id}],
+                type: 'post',
+                success: function(datas) {
+                    if(datas.html) {
+
+                        $('.show_images_'+this.id).removeClass('selected header reverse');
+                        a.addClass('selected header reverse');
+
+                        $('#images_list_'+this.id).append(datas.html);
+                        $('.image_'+this.id).hide();
+                        $('.image_'+this.id+'_'+id).show();
+
+                        this.scrollview.refresh();
+
+                        this.getChild('gallery_'+this.id).setImages(datas.id, datas.images);
+
+                    }
+                }.bind(this),
+                error: function() {
+                    new Alert('<?php echo $this->_("An error occurred while loading pictures. Please try later.") ?>').show();
+                },
+                complete: function() {
+                    loader.hide();
+                }
+            });
+        }
+    }
+
+    subpage.loadMore = function(id) {
+
+        var offset = $('.image.image_'+this.id+'_'+id+':last').attr('data-offset');
+        loader.show();
+        $.ajax({
+            url: '<?php echo $this->getUrl('media/mobile_gallery_image/loadmore'); ?>',
+            dataType: 'json',
+            data: [{name:'image_id', value:id}, {name:'offset', value:offset}, {name:'option_value_id', value:this.id}],
+            type: 'post',
+            success: function(datas) {
+                if(datas.html) {
+                    $('#load_more_'+this.id+'_'+id).before(datas.html);
+                    this.getChild('gallery_'+this.id).setImages(datas.id, datas.images);
+                }
+            }.bind(this),
+            error: function() {
+                new Alert('<?php echo $this->_("An error occurred while loading pictures. Please try later.") ?>').show();
+            },
+            complete: function() {
+                loader.hide();
+            }
+        });
+    }
+
+    subpage.showGallery = function(li) {
+        var idx = $('.image.image_'+this.id+'_'+li.attr('rel')+':visible').index(li);
+        $('.gallery_'+this.id).hide();
+        $('.gallery_'+this.id+'_'+li.attr('rel')).show();
+        var gallery_page = page.getSubpage('gallery_'+this.id);
+        gallery_page.scrollview_page = idx;
+        page.slide(gallery_page);
+    }
+
+</script>
+<style>
+    div.list_images .scrollview_images li.load_more {
+        padding-top:20px;
+    }
+
+    #gallery ul li span.title {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 40px;
+        max-height: 40px;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        overflow: hidden;
+        line-height: 35px;
+    }
+
+    #gallery ul li span.description {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        height: 60px;
+        max-height: 60px;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        overflow: hidden;
+        line-height: 30px;
+    }
+
+</style>

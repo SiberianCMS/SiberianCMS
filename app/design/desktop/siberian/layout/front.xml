@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <default>
+        <base>
+            <template>layout</template>
+            <class>core_view_default</class>
+            <title>Siberian, build a mobile app easier</title>
+            <scripts>
+                <js>
+                    <jquery link="js/jquery.js" />
+                    <jquery_ui link="js/jquery-ui.js" />
+                    <validateform link="js/jquery.validate.js" />
+                    <placeholder link="js/jquery.placeholder.js" />
+                    <object link="js/object.js" />
+                    <dropkick link="js/jquery.dropkick.js" />
+                    <custom_checkbox_and_radio link="js/custom_checkbox_and_radio.js" />
+                    <customer_radio link="js/radio.js" />
+                    <js link="js/js.js" />
+                    <prettyphoto link="js/jquery.prettyPhoto.js" />
+                </js>
+                <css>
+                    <style link="css/style.css" />
+                    <prettyphoto link="css/prettyPhoto.css" />
+                    <bootstrap link="css/bootstrap.css" />
+                    <flat_ui link="css/flat-ui.css" />
+                    <gfonts_breeserif href="//fonts.googleapis.com/css?family=Bree+Serif|Open+Sans+Condensed:700,300,300italic" />
+                    <gfonts_oleo href="//fonts.googleapis.com/css?family=Oleo+Script" />
+                    <font_awesome link="css/font-awesome.min.css" />
+                    <gfonts_poiret href="//fonts.googleapis.com/css?family=Didact+Gothic" />
+                </css>
+            </scripts>
+            <metas>
+                <Content-Type value="text/html; charset=utf-8" type="http-equiv" />
+                <description value="" />
+                <keywords value="" />
+            </metas>
+        </base>
+        <views>
+            <header class="core_view_default" template="page/layout/header.phtml" />
+            <messages class="front_view_html_messages" template="html/messages.phtml" />
+            <footer class="core_view_default" template="page/layout/footer.phtml" />
+        </views>
+    </default>
+
+    <front_index_noroute>
+        <base>
+            <title>404, Page not found</title>
+        </base>
+        <views>
+            <content class="core_view_default" template="error/404.phtml" />
+        </views>
+    </front_index_noroute>
+
+    <front_index_error>
+        <views>
+            <content class="core_view_default" template="error/503.phtml" />
+        </views>
+    </front_index_error>
+
+    <admin_menu>
+        <views>
+            <menu class="admin_view_default" template="admin/header/menu.phtml" />
+        </views>
+    </admin_menu>
+
+</layout>

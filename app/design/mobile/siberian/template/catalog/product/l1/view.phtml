@@ -1,0 +1,327 @@
+<?php $option = $this->getCurrentOption(); ?>
+<?php $product = $this->getCurrentProduct(); ?>
+<?php $min_price = $product->getMinPrice(); ?>
+<?php $groups = $product->getGroups(); ?>
+<div id="product_scrollview_<?php echo $product->getId(); ?>" class="product_view relative" rel="product_view_<?php echo $product->getId(); ?>">
+    <div>
+        <div class="padding">
+            <div class="product_title">
+                <h4><?php echo $product->getName(); ?></h4>
+            </div>
+            <form id="productForm<?php echo $product->getId(); ?>" action="<?php echo $this->getUrl('mcommerce/mobile_cart/add'); ?>">
+                <div class="product_details">
+                    <?php if($picture_url = $product->getPictureUrl()) : ?>
+                    <div class="area picture">
+                        <img id="product_image_<?php echo $product->getId(); ?>" src="<?php echo $picture_url; ?>" class="left" onload="page.getSubpage('product_view_<?php echo $product->getId(); ?>').refreshScrollview();" width="100%" />
+                        <div class="clear"></div>
+                    </div>
+                    <?php endif; ?>
+                    <div class="area">
+                        <p class="product_price left">
+                            <?php if($min_price != $product->getPrice()) : ?>
+                            <span class="price_from"><?php echo $this->_('<span id="price_from_%s">From:<br /></span><span id="current_price_%s">%s</span>', $product->getId(), $product->getId(), $product->formatPrice($min_price)); ?></span>
+                            <?php else : ?>
+                            <span class="price" id="current_price_<?php echo $product->getId(); ?>"><?php echo $product->getFormattedPrice(); ?></span>
+                            <?php endif; ?>
+                        </p>
+                        <p class="right add_to_cart">
+                            <button type="submit" class="button"><?php echo $this->_('Add to cart'); ?></button>
+                        </p>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="area description">
+                        <div class="middle">
+                            <?php $short_description = strip_tags($product->getDescription()); ?>
+                            <?php if(strlen($short_description) > 100) : ?>
+                            <div id="short_description_product_view_<?php echo $product->getId(); ?>" class="short_description relative">
+                                <p class="auto_resize" data-rows="2"><?php echo $short_description; ?></p>
+                                <a href="javascript:void(0);" id="show_description_product_view_<?php echo $product->getId(); ?>" class="toggle_product_view_description noclickdelay" onclick="page.getSubpage('product_view_<?php echo $product->getId(); ?>').product.showDescription();"><?php echo $this->_('Show...'); ?></a>
+                            </div>
+                            <?php endif; ?>
+                            <div id="long_description_product_view_<?php echo $product->getId(); ?>" class="long_description relative<?php if(strlen($short_description) > 100) : ?> none<?php endif; ?>">
+                                <div><?php echo $product->getDescription(); ?></div>
+                                <?php if(strlen($short_description) > 100) : ?>
+                                <a href="javascript:void(0);" id="hide_description_product_view_<?php echo $product->getId(); ?>" class="toggle_product_view_description noclickdelay" onclick="page.getSubpage('product_view_<?php echo $product->getId(); ?>').product.hideDescription();"><?php echo $this->_('Hide...'); ?></a>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php if($groups->count()) : ?>
+                <div class="product_options">
+                    <table class="list options_list">
+                        <col width="100%" />
+                        <col width="40px" />
+                        <tr>
+                            <th></th>
+                            <th><?php echo $this->_('Qty'); ?></th>
+                        </tr>
+                        <?php foreach($groups as $group) : ?>
+                        <tr>
+                            <td class="select_option">
+                                <select id="group_options_<?php echo $group->getGroupId(); ?>" name="option[<?php echo $group->getId() ?>][option_id]" class="scroller absolute<?php if($group->isRequired()) : ?> required<?php endif; ?>" onchange="page.getSubpage('product_view_<?php echo $product->getId(); ?>').product.setOption($(this))" rel="<?php echo $group->getGroupId(); ?>">
+                                    <option value=""><?php echo $group->getTitle(); ?></option>
+                                    <?php foreach($group->getOptions() as $option) : ?>
+                                    <option value="<?php echo $option->getOptionId(); ?>"><?php echo $option->getName(); ?> <?php echo $option->getFormattedPrice(); ?></option>
+                                    <?php endforeach ?>
+                                </select>
+                            </td>
+                            <td class="select_option_qty">
+                                <select id="group_options_qty_<?php echo $group->getGroupId(); ?>" name="option[<?php echo $group->getId() ?>][qty]" class="scroller absolute qty<?php if($group->isRequired()) : ?> required<?php endif; ?>" onchange="page.getSubpage('product_view_<?php echo $product->getId(); ?>').product.setQty($(this))" rel="<?php echo $group->getGroupId(); ?>">
+                                    <?php for($i=1;$i<=10;$i++) : ?>
+                                    <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                                    <?php endfor; ?>
+                                </select>
+                            </td>
+                        </tr>
+                        <?php endforeach ?>
+                    </table>
+                </div>
+                <?php endif; ?>
+                <input type="hidden" name="product_id" value="<?php echo $product->getId(); ?>" />
+                <input type="hidden" name="option_value_id" value="<?php echo $this->getApplication()->getPage('m_commerce')->getId(); ?>" />
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+
+    var subpage = page.getSubpage('product_view_<?php echo $product->getId(); ?>');
+
+    subpage.setCallback('willappear', function() {
+
+        <?php $script_src = (DEVICE_IS_IPHONE || DEVICE_TYPE == 'desktop') ? 'mobiscroll.ios-2.5.4.js' : 'mobiscroll.android-ics-2.5.4.js'; ?>
+        var scripts = {
+            mobiscroll_core: '<?php echo $this->getJs('mobiscroll.core-2.5.4.js') ?>',
+            mobiscroll_theme: '<?php echo $this->getJs($script_src); ?>',
+            mobiscroll_language: '<?php echo $this->getJs('mobiscroll.core-2.5.4-fr.js'); ?>',
+        }
+        for(var id in scripts) {
+            page.loadJs({id: id, url: scripts[id]});
+        }
+
+        page.loadJs({id: 'mobiscroll_select', url: '<?php echo $this->getJs('mobiscroll.select-2.5.4.js'); ?>', onload: function() {
+
+            $('#product_scrollview_'+<?php echo $product->getId(); ?>).find('select.scroller').each(function() {
+                var classNames = 'full_width';
+                if($(this).hasClass('qty')) classNames += ' align-center';
+                $(this).mobiscroll().select({
+                    lang: '<?php echo $this->_('en') ?>',
+                    theme: '<?php echo (DEVICE_IS_IPHONE || DEVICE_TYPE == 'desktop') ? 'ios' : 'android-ics' ?>',
+                    display: 'bottom',
+                    mode: 'scroller',
+                    inputClass: classNames
+                });
+                $(this).show().css({top:'-100%',left:'-100%'})
+            });
+
+        }});
+
+
+        this.setScrollview(new iScroll('product_scrollview_<?php echo $product->getId(); ?>'))
+            .setContentSize()
+        ;
+
+//        this.setDescriptionSize();
+        this.product.init();
+
+    }).setCallback('willdisappear', function() {
+        this.product.destroy();
+    }).setCallback('didresize', function() {
+//        this.setDescriptionSize();
+    });
+
+    subpage.submit = page.showCart.bind(page);
+
+
+    subpage.product = {
+        id: '<?php echo $product->getId(); ?>',
+        price: '<?php echo $product->getPrice(); ?>',
+        min_price: '<?php echo $product->getMinPrice(); ?>',
+        groups: new Array(),
+        form: null,
+        init: function() {
+
+            this.form = $('#productForm'+this.id);
+            this.form.submit(function(e) {
+                if(!this.form.valid()) {
+                    subpage.scrollview.refresh();
+                    return false;
+                }
+                loader.show();
+                $.ajax({
+                    url: this.form.attr('action'),
+                    data: this.form.serializeArray(),
+                    dataType: 'json',
+                    type: 'POST',
+                    success: function(datas) {
+                        loader.hide();
+                        if(datas.success) {
+                            page.showCart(true);
+                        }
+                    },
+                    error: function() {
+                        loader.hide();
+                    }
+                });
+                return false;
+            }.bind(this));
+        },
+        setOption: function(select) {
+
+            var group = this.getGroup(select.attr('rel'));
+            if(group) {
+                var option_id = select.val();
+                console.log('option_id : ' + option_id);
+                for(var i in group.options) {
+                    if(group.options[i].id == option_id) group.options[i].is_selected = true;
+                    else group.options[i].is_selected = false;
+                }
+            }
+
+            this.calcPrice();
+
+        },
+        setQty: function(select) {
+            var group = this.getGroup(select.attr('rel'));
+            if(group) {
+                var option_id = $('#group_options_'+select.attr('rel')).val();
+                if(!option_id) return;
+                console.log('option_id : ' + option_id);
+                var qty = select.val();
+                console.log('qty : ' + qty);
+                group.qty = qty;
+//                for(var i in group.options) {
+//                    if(group.options[i].id == option_id) group.options[i].qty = qty;
+//                    else group.options[i].qty = 0;
+//                }
+            }
+
+            this.calcPrice();
+        },
+        getGroup: function(group_id) {
+            for(var i in this.groups) {
+                if(this.groups[i].id == group_id) return this.groups[i];
+            }
+            return null;
+        },
+        calcPrice: function() {
+            var price = parseInt(this.price);
+            var has_options = false;
+            for(var i in this.groups) {
+                var group = this.groups[i];
+                for(var j in group.options) {
+                    var option = group.options[j];
+                    if(option.is_selected) {
+                        price += parseFloat(option.price) * Math.max(1, parseFloat(group.qty | 0));
+                        has_options = true;
+                    }
+                }
+            }
+
+            if(has_options) {
+                $('#price_from_'+this.id).hide();
+            }
+            else {
+                $('#price_from_'+this.id).show();
+                price = this.min_price;
+            }
+
+            $('#current_price_'+this.id).html(price).formatCurrency({region: '<?php echo Core_Model_Language::getCurrentCurrency()->getShortName() ?>'});
+
+        },
+        showDescription: function() {
+            //toggle_product_view_description
+            $('#show_description_product_view_'+this.id).hide();
+            $('#hide_description_product_view_'+this.id).hide();
+            $('#short_description_product_view_'+this.id).hide();
+            $('#long_description_product_view_'+this.id).slideDown(300, function() {
+                page.current_page.refreshScrollview();
+                $('#hide_description_product_view_'+this.id).show();
+            }.bind(this));
+        },
+        hideDescription: function() {
+            $('#show_description_product_view_'+this.id).hide();
+            $('#hide_description_product_view_'+this.id).hide();
+            $('#long_description_product_view_'+this.id).slideUp(300, function() {
+                $('#short_description_product_view_'+this.id).show();
+                page.current_page.refreshScrollview();
+                $('#show_description_product_view_'+this.id).show();
+            }.bind(this));
+        },
+        destroy: function() {
+            this.form.unbind('submit');
+        }
+    };
+
+    <?php foreach($groups as $group) : ?>
+    subpage.product.groups.push(<?php echo $group->toJson(); ?>);
+    <?php endforeach ?>
+
+</script>
+
+<style>
+    .product_view .product_title {
+        font-size: 15px;
+        text-transform: uppercase;
+        text-align: center;
+    }
+
+    .product_view .area {
+        margin-top: 10px;
+        padding: 5px;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 10px;
+    }
+
+    .product_view .picture img {
+        border-radius: 7px;
+    }
+
+    .product_view p.product_price {
+        margin:0;
+        padding-left: 2%;
+    }
+    .product_view p.product_price * {
+        font-size:20px;
+    }
+
+    .product_view p.product_price span.price, .product_view p.product_price span.price_from {
+        display:table-cell;
+        height:65px;
+        vertical-align:middle;
+    }
+
+    .product_view p.product_price span.price_from {
+
+    }
+
+    .product_view .add_to_cart {
+        margin: 10px 0;
+    }
+    .product_view .add_to_cart button {
+        width:auto;
+        height:45px;
+        padding:0 15px;
+        font-size:18px;
+    }
+
+    .product_view .area.description { min-height:45px;overflow:hidden; }
+    /*.product_view .area.description .middle { min-height:65px; }*/
+    .product_view .area.description .middle .short_description { min-height:45px; }
+    .product_view .area.description .middle .short_description, .product_view .area.description .middle .long_description { padding-bottom:20px; }
+    .product_view .area.description .middle .toggle_product_view_description { position:absolute;right:0;bottom:0;font-size:15px; }
+    .product_view .area.description p { margin:0;font-size:15px;line-height:22px; }
+    .product_view .product_options table.options_list { margin-top: 10px; }
+    .product_view .product_options table.options_list td { padding-top: 10px; }
+    .product_view .product_options table.options_list td.select_option { padding-right: 10px; }
+
+
+/*    .middle {
+        display:table-cell;
+        vertical-align:middle;
+    }*/
+
+</style>

@@ -1,0 +1,23 @@
+<?php $application = $this->getApplication(); ?>
+<div class="application_promote application">
+    <div class="application_header app_name">
+        <?php echo $this->getPartialHtml('customization_header'); ?>
+    </div>
+    <div class="application_content inner_content">
+        <div class="title">
+            <i class="left icon-bullhorn"></i>
+            <h2 class="left f-rounded"><?php echo $this->_('Promote'); ?></h2>
+            <div class="clear"></div>
+            <hr class="reverse" />
+        </div>
+        <div class="area">
+            <h3 class="title">
+                <span class="left area"><?php echo $this->_('My QRCode'); ?></span>
+                <hr class="reverse" />
+                <div class="clear"></div>
+            </h3>
+            <p><?php echo $this->_('You can download your QRCode by'); ?> <a class="f-bold" href="<?php echo $this->getUrl('application/promote/qrcode'); ?>"><?php echo $this->_('clicking here'); ?></a></p>
+            <?php echo $application->getQrcode(); ?>
+        </div>
+    </div>
+</div>

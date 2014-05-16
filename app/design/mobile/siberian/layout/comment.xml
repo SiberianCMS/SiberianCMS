@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <comment_mobile_view_l1>
+        <views>
+            <content class="core_view_mobile_default" template="comment/l1/view.phtml" />
+        </views>
+    </comment_mobile_view_l1>
+
+</layout>

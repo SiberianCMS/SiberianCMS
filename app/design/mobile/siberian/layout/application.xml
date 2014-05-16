@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <application_mobile_customization_colors>
+        <views>
+            <content class="core_view_mobile_default" template="application/customization/colors.phtml" />
+            <tabbar class="core_view_mobile_default" template="home/l1/view.phtml" />
+        </views>
+    </application_mobile_customization_colors>
+
+    <application_mobile_previewer_infos_l1>
+        <views>
+            <content class="core_view_mobile_default" template="application/previewer/l1/infos.phtml" />
+        </views>
+    </application_mobile_previewer_infos_l1>
+
+    <application_mobile_previewer_infos_l2>
+        <views>
+            <content class="core_view_mobile_default" template="application/previewer/l2/infos.phtml" />
+        </views>
+    </application_mobile_previewer_infos_l2>
+
+</layout>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <home_mobile_view_l1>
+        <views>
+            <content class="core_view_mobile_default" template="home/l1/view.phtml" />
+        </views>
+    </home_mobile_view_l1>
+
+    <home_mobile_view_l2>
+        <views>
+            <content class="core_view_mobile_default" template="home/l2/view.phtml" />
+        </views>
+    </home_mobile_view_l2>
+
+    <home_mobile_view_l3>
+        <views>
+            <content class="core_view_mobile_default" template="home/l3/view.phtml" />
+        </views>
+    </home_mobile_view_l3>
+
+    <home_mobile_view_l4>
+        <views>
+            <content class="core_view_mobile_default" template="home/l4/view.phtml" />
+        </views>
+    </home_mobile_view_l4>
+
+    <home_mobile_view_l5>
+        <views>
+            <content class="core_view_mobile_default" template="home/l5/view.phtml" />
+        </views>
+    </home_mobile_view_l5>
+
+    <home_mobile_view_l6>
+        <views>
+            <content class="core_view_mobile_default" template="home/l6/view.phtml" />
+        </views>
+    </home_mobile_view_l6>
+
+    <home_mobile_view_l7>
+        <views>
+            <content class="core_view_mobile_default" template="home/l7/view.phtml" />
+        </views>
+    </home_mobile_view_l7>
+
+</layout>

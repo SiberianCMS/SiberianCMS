@@ -1,0 +1,20 @@
+"Mobile display";"Affichage mobile"
+Folders;Dossiers
+"Close mobile display";"Fermer l'affichage mobile"
+"Background image";"Image de fond"
+Title;Titre
+Subtitle;Sous-titre
+"Add a page";"Ajouter une page"
+"Add a";"Ajoutez une"
+picture;image
+"Click on a page to add it to the folder <span id=""folder_name"" class=""folder_name"">""%s""</span>";"Cliquez sur une page pour l'ajouter au dossier <span id=""folder_name"" class=""folder_name"">""%s""</span>"
+"Choose a folder";"Choisissez un dossier"
+"Click on";"Cliquez sur"
+"to add a folder.";"pour ajouter un dossier."
+"to add a subfolder.";"pour ajouter un sous-dossier."
+"New folder";"Nouveau dossier"
+"Delete this folder and all its subfolders?";"Etes-vous sûr de vouloir supprimer ce dossier et tous ses sous-dossiers ?"
+"Folder title is required";"Le titre du dossier est obligatoire."
+"You cannot add this feature";"Vous ne pouvez pas ajouter cette fonctionnalité."
+"You will lose all unsaved changes, continue?";"Vous allez perdre les modifications en cours, voulez-vous continuer ?"
+"You must first complete the current category creation process";"Vous devez d'abord terminer la création de cette catégorie"

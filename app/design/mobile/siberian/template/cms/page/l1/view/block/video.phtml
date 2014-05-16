@@ -1,0 +1,18 @@
+<?php $block = $this->getCurrentBlock(); ?>
+<?php $video = $block->getObject(); ?>
+<div rel="<?php echo $block->getPosition() ?>" class="cms_block video padding">
+    <?php if($video->getTypeId() == 'youtube') : ?>
+    <a href="youtube:<?php echo $video->getYoutube(); ?>" <?php if(!IS_APPLICATION OR !DEVICE_IS_IPHONE) : ?>onclick="page.showYoutubePlayer('<?php echo $video->getYoutube() ?>'); return false;"<?php endif; ?> class="play_video">
+        <div class="sprite"></div>
+        <img class="youtube_preview cover" src="<?php echo $video->getImageUrl(); ?>" width="100%" height="100%" onload="$(this).show(); page.getSubpage('<?php echo $this->getOptionValue()->getId() ?>').refreshScrollview(); $(this).removeAttr('onload');" style="display:none;" />
+    </a>
+    <?php else : ?>
+    <div class="full_width">
+        <a href="video:<?php echo $video->getLink(); ?>" class="play_video"<?php if(!IS_APPLICATION OR !DEVICE_IS_IPHONE) : ?>onclick="page.showVideoPlayer('<?php echo $video->getLink(); ?>'); return false;"<?php endif; ?>>
+            <div class="sprite"></div>
+            <img src="<?php echo $video->getImageUrl() ?>" width="100%" height="100%" onload="$(this).show(); page.getSubpage('<?php echo $this->getOptionValue()->getId() ?>').refreshScrollview(); $(this).removeAttr('onload');" style="display:none;" />
+        </a>
+    </div>
+    <?php endif; ?>
+    <p class="description"><?php echo $video->getDescription(); ?></p>
+</div>

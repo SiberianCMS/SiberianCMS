@@ -1,0 +1,241 @@
+<?php $application = $this->getApplication(); ?>
+<?php $option_value = $this->getOptionValue(); ?>
+<?php $rss_feed = new Rss_Model_Feed(); ?>
+<?php $rss_feeds = $rss_feed->findAll(array('value_id' => $option_value->getId()), 'position ASC') ?>
+<div class="clear"></div>
+<div class="edit_page rss_feed">
+    <div class="section">
+        <h4 class="subtitle">
+            <span class="left area"><?php echo $this->_('Add'); ?></span>
+            <hr class="area reverse">
+            <span class="area right">
+                <button type="button" onclick="feature.edit()" class="default_button new_promotion add" id="add_item">
+                    <i class="icon-plus"></i>
+                </button>
+            </span>
+            <div class="clear"></div>
+        </h4>
+        <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
+        <div id="row_new" class="new_rss_feed" style="display: none;">
+            <h3><?php echo $this->_("Enter a name and an URL address for this RSS feed"); ?> :</h3>
+            <form id="new_form_rss_feed" class="form_rss_feed">
+
+                <table class="no-collapse" cellspacing="10">
+                    <col width="35px" />
+                    <col width="220px" />
+                    <col width="220px" />
+                    <col width="40px" />
+                    <col width="40px" />
+                    <tr class="a-center">
+                        <th></th>
+                        <th><label data-tip="19" data-tip-left="80" for="title_new"><?php echo $this->_('Title'); ?></label></th>
+                        <th><label data-tip-right="150" data-tip="20" for="link_new"><?php echo $this->_('URL'); ?></label></th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><input type="text" id="title_new" name="title" class="field_new required input" value="" /></td>
+                        <td><input type="text" id="link_new" name="link" class="field_new required url input" value="" /></td>
+                        <td><button type="submit" class="default_button save_feed"><?php echo $this->_('OK'); ?></button></td>
+                        <td><button type="button" rel="new" class="delete delete_feed"><i class="icon-remove"></i></button></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td colspan="4">
+                            <label class="checkbox" for="picture_new">
+                                <input type="checkbox" value="1" id="picture_new" name="picture" checked="checked">
+                            </label>
+                            <label for="picture_new"><?php echo $this->_('Display feed pictures whenever possible'); ?></label>
+                        </td>
+                    </tr>
+                </table>
+                <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>"/>
+            </form>
+        </div>
+    </div>
+
+    <div id="existing_items_section" class="section"<?php if($rss_feeds->count() == 0) : ?> style="display:none;"<?php endif; ?>>
+        <h4 class="subtitle">
+            <span class="left area"><?php echo $this->_('Manage'); ?></span>
+            <hr class="area reverse">
+            <span class="area right">
+                <button type="button" class="default_button" id="toggle_existing_items">
+                    <i class="icon-chevron-down"></i>
+                </button>
+            </span>
+            <div class="clear"></div>
+        </h4>
+        <div id="existing_items">
+            <table id="header_feeds_list" class="no-collapse" cellspacing="10">
+                <col width="35px" />
+                <col width="220px" />
+                <col width="220px" />
+                <col width="40px" />
+                <col width="40px" />
+                <tr class="a-center">
+                    <th></th>
+                    <th><label><?php echo $this->_('Title'); ?></label></th>
+                    <th><label><?php echo $this->_('URL'); ?></label></th>
+                    <th></th>
+                </tr>
+            </table>
+            <ul id="feeds_list" cellspacing="10">
+                <?php foreach($rss_feeds as $rss_feed) : ?>
+                <?php
+                    echo $this->getLayout()->addPartial('row_'.$rss_feed->getId(), 'admin_view_default', 'rss/application/feed/edit/row.phtml')
+                        ->setCurrentFeed($rss_feed)
+                        ->setCurrentOptionValue($option_value)
+                        ->toHtml()
+                ?>
+                <?php endforeach ?>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <?php
+            echo $this->getLayout()
+                ->addPartial('background_image', 'Core_View_Default', 'application/customization/features/edit/background_image.phtml')
+                ->setValueId($option_value->getId())
+                ->toHtml()
+            ;
+        ?>
+    </div>
+
+    <div id="links_found" style="display: none;">
+        <h4 class="subtitle">
+            <span class="left area"><?php echo $this->_('Found feeds'); ?> : </span>
+            <hr class="area reverse">
+            <div class="clear"></div>
+        </h4>
+    </div>
+
+    <style>
+        .rss_feed div.new_rss_feed h3 { font-size: 1em; margin: 10px 0px; }
+        .rss_feed ul li .form_rss_feed { margin: 0; }
+        .rss_feed ul li.inner_content { height: 91px; border-radius: 5px; }
+        #feeds_list li { display: block; padding: 0; transition: none; }
+        .form_rss_feed table tr { vertical-align: top; }
+        .form_rss_feed table tr td button { margin: 6px auto; }
+        a.link_found { font-size: 0.9em; margin: 0px; padding: 10px; }
+        .handle { cursor: move; padding: 10px; }
+        #row_new { margin-top: 20px; }
+        div#links_found, div#links_found_new { margin-top: 20px; }
+        .form_content { width:auto !important; }
+    </style>
+    <script type="text/javascript">
+
+        page.setCallback('didappear', function() {
+
+            $('#toggle_existing_items').click(function() {
+                $('#existing_items').stop().slideToggle(300, function() {
+                    if($(this).is(':visible')) $('#toggle_existing_items').children('i').removeClass('icon-chevron-down').addClass('icon-chevron-up');
+                    else $('#toggle_existing_items').children('i').removeClass('icon-chevron-up').addClass('icon-chevron-down');
+                });
+            });
+
+            bindAll();
+
+            $('#feeds_list').sortable({
+                handle : '.handle',
+                placeholder: "list_edit-placeholder inner_content",
+                axis: 'y',
+                update : function (e, ui) {
+                    var order = $(e.target).sortable('serialize');
+                    $(e.target).sortable("refresh");
+                    reload($('#feeds_list'), "<?php echo $this->getUrl('rss/application_feed/sort') ?>?"+order, true, function() {
+                        iframe.f.page.reload();
+                    });
+                }
+            });
+
+            $('#add_item').click(function() {
+                $('#no_item').hide();
+                $('#row_new').fadeIn();
+            });
+
+        });
+
+        page.setCallback('willdisappear', function() {
+            $('#toggle_existing_items').unbind('click');
+            $('#form_rss_feed').unbind('submit');
+            $('.link_found').unbind('click');
+        });
+
+        function bindAll() {
+
+            $('.form_rss_feed').submit(function() {
+                $('#links_found').slideUp();
+                var url_field = $(this).find('.url');
+                if(!url_field.val().isEmpty() && !url_field.val().startsWith('http://') && !url_field.val().startsWith('https://')) url_field.val('http://'+url_field.val());
+                if(!$(this).valid()) {
+                    return false;
+                }
+                $(this).data('validator').resetForm();
+//                $(this).removeData('validator');
+                reload(this, '<?php echo $this->getUrl('rss/application_feed/search') ?>', true, function(datas) {
+                    if(datas.links) {
+                        $('#links_found').append('<ul id="links_found_list"></ul>');
+                        for(var id in datas.links) {
+                            $('<a />').addClass('link_found block').attr('href', datas.links[id]).attr('rel', datas.id).html(datas.links[id]).appendTo($('#links_found_list'));
+                        }
+                        $('#links_found').prettyPhoto({
+                            default_width: 500,
+                            default_height: 400,
+                            show_title: false,
+                            deeplinking: false,
+                            social_tools: '',
+                            gallery_markup: '',
+                            keyboard_shortcuts: false,
+                            changepicturecallback: function() {
+                                $('#links_found_list .link_found').click(function() {
+                                    $('#link_'+$(this).attr('rel')).val($(this).attr('href'));
+                                    $.prettyPhoto.close();
+                                    return false;
+                                }).hover(function() {
+                                    $(this).addClass('reverse');
+                                }, function() {
+                                    $(this).removeClass('reverse');
+                                });
+                            },
+                            callback: function() {
+                                $('#links_found_list').remove();
+                            },
+                            theme: 'pp_none'
+                        });
+                        $.prettyPhoto.open('#links_found','<?php echo $this->_('Found feeds'); ?>');
+                    } else {
+                        page.reload();
+                    }
+                });
+                return false;
+            });
+
+            $('.delete_feed').unbind('click');
+            $('.delete_feed').click(function() {
+                var id = $(this).attr('rel');
+                if(id == 'new') {
+                    $('#row_new').find('input.field_new').val('');
+                    $('#row_new').hide();
+                    $('#no_item').fadeIn();
+                    if($('#new_form_rss_feed').data('validator')) $('#new_form_rss_feed').data('validator').resetForm();
+                }
+                else {
+                    reload(this, '<?php echo $this->getUrl('rss/application_feed/delete')?>/id/'+id, true, function(datas) {
+                        iframe.f.page.reload();
+                        $('li#row_'+id).css('background-color', '#C41313').css('color', 'white')
+                            .animate({opacity: 0.3, height: 0}, 500, function() {
+                                $('li#row_'+id).remove();
+                                if($('#feeds_list').children('li').length == 0) $('#existing_items_section').fadeOut();
+                            })
+                        ;
+                    });
+                }
+                return false;
+            });
+
+            createCustomUI();
+        }
+
+    </script>
+</div>

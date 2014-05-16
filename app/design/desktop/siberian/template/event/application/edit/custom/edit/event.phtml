@@ -1,0 +1,104 @@
+<?php $event = $this->getEvent();?>
+
+<div id="add_custom_event" class="custom_event">
+    <div class="area">
+        <h3 class="title">
+            <span class="area"><?php echo $event->getId() ? $this->_("Modify the event") : $this->_('Create a new event'); ?></span>
+            <hr class="reverse" />
+            <div class="clear"></div>
+        </h3>
+        <form action="<?php echo $this->getUrl('event/application_event/edit'); ?>" method="post" id="customEventForm">
+            <div class="button">
+                <button type="button" id="hide_form" class="delete left" onclick="custom.cancel();"><i class="icon-arrow-left"></i></button>
+                <button type="button" class="default_button right right" onclick="custom.save();">OK</button>
+                <div class="clear"></div>
+            </div>
+            <br />
+
+            <table class="list" width="100%">
+                <tr>
+                    <td><label for="custom_event_name"><?php echo $this->_("Event title:"); ?></label></td>
+                    <td><input class="name required input" type="text" id="custom_event_name" value="<?php echo $event->getName(); ?>" name="name" /></td>
+                </tr>
+                <tr>
+                    <td><label for="custom_event_description"><?php echo $this->_('Description:'); ?></label></td>
+                    <td><input class="description input" type="text" id="custom_event_description" value="<?php echo $event->getDescription(); ?>" name="description" /></td>
+                </tr>
+                <tr>
+                    <td><label for="custom_event_start_at"><?php echo $this->_('Beginning date:'); ?></label></td>
+                    <td><input class="start_at input calendar required" type="text" id="custom_event_start_at" value="<?php echo $event->getStartAt(); ?>" name="start_at" /></td>
+                </tr>
+                <tr>
+                    <td><label for="custom_event_end_at"><?php echo $this->_('Ending date:'); ?></label></td>
+                    <td><input class="end_at input calendar required" type="text" id="custom_event_end_at" value="<?php echo $event->getEndAt(); ?>" name="end_at" /></td>
+                </tr>
+                <tr>
+                    <td><label for="custom_event_location"><?php echo $this->_('Location:'); ?></label></td>
+                    <td><input class="location input" type="text" id="custom_event_location" value="<?php echo $event->getLocation(); ?>" name="location" /></td>
+                </tr>
+                <tr>
+                    <td><label for="custom_event_rsvp"><?php echo $this->_('RSVP URL:'); ?></label></td>
+                    <td><input class="rsvp input" type="text" id="custom_event_rsvp" value="<?php echo $event->getRsvp(); ?>" name="rsvp" /></td>
+                </tr>
+                <tr>
+                    <td><label><?php echo $this->_('Illustration');?> : </label></td>
+                    <td>
+                        <!--[if gte IE 10]><!-->
+                        <button class="upload_picture default_button btn-block" type="button">
+                            <?php echo $event->getPicture() ? $this->_("Change picture") : $this->_("Add a picture"); ?>
+                        </button>
+                        <!--<![endif]-->
+                        <input style="display:none" class="uploader_picture" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
+                    </td>
+                </tr>
+            </table>
+
+            <br />
+            <input type="hidden" name="option_value_id" value="<?php echo $this->getOptionValue()->getId(); ?>" />
+            <input type="hidden" id="custom_event_id" name="id" value="<?php echo $event->getId(); ?>" />
+            <input type="hidden" id="agenda_id" name="agenda_id" value="<?php echo $this->getAgendaId(); ?>" />
+            <input type="hidden" id="picture" name="picture" value="<?php echo $event->getPicture(); ?>" />
+            <div class="clear"></div>
+        </form>
+        <form action="<?php echo $this->getUrl('event/application_event/validatecrop'); ?>" method="post" id="validateCrop">
+            <table class="list" width="100%">
+                <tr>
+                    <td id="cont_delete_picture" >
+                        <?php if($event->getPicture()) : ?>
+                            <button type="button" onclick="custom.removepicture();" id="delete_picture" class="delete delete_red"><i class="icon-remove"></i></button>
+                        <?php endif; ?>
+                    </td>
+                    <td id="event_picture" width="290" style="padding:0">
+                        <?php if($event->getPicture()) : ?>
+                            <img src="<?php echo Application_Model_Application::getImagePath().$event->getPicture(); ?>" width="150" height="100" />
+                        <?php endif; ?>
+                    </td>
+                </tr>
+            </table>
+            <input type="hidden" id="file" name="file"/>
+            <input type="hidden" id="x1" name="x1" />
+            <input type="hidden" id="y1" name="y1" />
+            <input type="hidden" id="x2" name="x2" />
+            <input type="hidden" id="y2" name="y2" />
+            <input type="hidden" id="w" name="w" />
+            <input type="hidden" id="h" name="h" />
+            <input type="hidden" id="source_width" name="source_width" value="" />
+            <input type="hidden" id="source_height" name="source_height" value="" />
+            <input type="hidden" id="output_width" name="output_width" value="900" />
+            <input type="hidden" id="output_height" name="output_height" value="600" />
+            <input type="hidden" id="crop_width" name="crop_width" value="" />
+            <input type="hidden" id="crop_height" name="crop_height" value="" />
+        </form>
+    </div>
+    <style>
+        .pp_content div.area .product_formats .title span.right {
+            width: 100px;
+        }
+        .pp_content div.area .product_formats .title span.right label {
+            font-size: 20px;
+        }
+        .pp_content div.area .product_formats table tr td input {
+            width: 145px;
+        }
+    </style>
+</div>

@@ -1,0 +1,30 @@
+<script type="text/javascript">
+    (function(d){
+        var js, id = 'facebook-jssdk';if (d.getElementById(id)) {return;}
+        js = d.createElement('script');js.id = id;js.async = true;
+        js.src = "//connect.facebook.net/fr_FR/all.js#xfbml=1&appId=496051233788014";
+        d.getElementsByTagName('head')[0].appendChild(js);
+    }(document));
+</script>
+<?php //if($this->getApplication()->getFacebookId() AND $this->getApplication()->getFacebookKey()) : ?>
+<form id="fbConnectForm" action="<?php echo $this->getUrl('customer/mobile_account/loginwithfacebook'); ?>" method="post">
+</form>
+<script type="text/javascript">
+
+    var fbObject={id:'<?php echo $this->getApplication()->getFacebookId(); ?>', perms:'<?php echo Customer_Model_Customer_Type_Facebook::getScope() ?>'}
+    fbObject.id = "1419611994934459";
+    window.fbAsyncInit = function() {
+        FB.init({appId  : fbObject.id, status : true, cookie : true, xfbml  : true});
+    };
+
+    function loginWithFacebook() {
+        var url = 'https://www.facebook.com/dialog/oauth/';
+        url += '?client_id='+fbObject.id;
+        url += '&redirect_uri=<?php echo $this->getUrl('customer/mobile_account/loginwithfacebook'); ?>'
+        url += '&scope='+fbObject.perms;
+
+        window.location = url;
+    }
+
+</script>
+<?php //endif; ?>

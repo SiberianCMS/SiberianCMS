@@ -1,0 +1,191 @@
+<?php $application = $this->getApplication(); ?>
+<?php $option = $this->getCurrentOption(); ?>
+<?php $video = new Media_Model_Gallery_Video(); ?>
+<?php $videos = $video->findAll(array('value_id' => $option->getId())) ?>
+
+<div id="tab_<?php echo $option->getId(); ?>" class="videos header">
+    <?php //if($videos->count() > 1) : ?>
+    <div id="header_scrollview_videos_<?php echo $option->getId(); ?>" class="scroll_list relative"<?php if($videos->count() < 2) : ?> style="display:none;"<?php endif; ?>>
+        <ul>
+        <?php foreach($videos as $k => $video) : ?>
+            <li><a href="javascript:void(0)"<?php if($k == 0) : ?> id="first_videos_list_<?php echo $option->getId(); ?>"<?php endif ?> onclick="page.getSubpage('<?php echo $option->getId(); ?>').showList(this); return false;" class="show_videos_<?php echo $option->getId();?>" rel="<?php echo $video->getId(); ?>"><?php echo $video->getName(); ?></a></li>
+        <?php endforeach; ?>
+        </ul>
+        <div class="separator"></div>
+    </div>
+    <?php //endif; ?>
+
+    <div id="videos_scrollview_<?php echo $option->getId() ?>" class="list_videos list_videos_<?php echo $option->getId() ?> not-loaded left relative">
+        <ul id="videos_list_<?php echo $option->getId(); ?>">
+
+        </ul>
+    </div>
+
+    <div id="video_details_<?php echo $option->getId(); ?>">
+
+        <?php /*foreach($videos as $video) : ?>
+        <?php foreach($video->getVideos() as $key => $link) : ?>
+        <div id="video_<?php echo $video->getId(); ?>_<?php echo $key ?>" class="video_details" style="display:none;">
+            <div class="relative">
+                <p class="no-margin" style="font-size:15px;font-weight:bold;height:40px;"><?php echo $link->getTitle(); ?></p>
+                <iframe id="iframe_<?php echo $video->getId(); ?>_<?php echo $key ?>" src=""></iframe>
+            </div>
+        </div>
+        <?php endforeach; ?>
+        <?php endforeach; */?>
+    </div>
+
+</div>
+<script type="text/javascript">
+
+    var subpage = page.getSubpage('<?php echo $option->getId(); ?>');
+    var max_width = $('body').width();
+    var list_videos;
+    var total_height = 40;
+//    $('iframe').attr('width', $('body').width());
+    subpage.resizeYoutubeImage = function(id, img) {
+        img.fadeIn();
+        img.attr('width', max_width).removeAttr('height');
+        this.scrollview.refresh();
+    }
+
+    subpage.setCallback('willappear', function() {
+
+        <?php if($videos->count() > 1) : ?>
+        if($('#first_videos_list_'+this.id).attr('id')) {
+            scrollviews.add('header_scrollview_videos_<?php echo $option->getId(); ?>',
+                new iScroll('header_scrollview_videos_<?php echo $option->getId(); ?>', {
+                    vScroll: false,
+                    hScroll: true,
+                    hScrollbar:false
+                })
+            );
+        }
+        <?php endif; ?>
+
+        this.setScrollview(new iScroll('videos_scrollview_'+this.id)).setContentSize();
+
+        $('#first_videos_list_'+this.id).click();
+    })
+
+    subpage.refreshScrollview = function() {
+
+        var height = $(window).height() - $('#videos_scrollview_'+this.id).offset().top;
+        $('#videos_scrollview_'+this.id).css('height', height);
+        $('#videos_scrollview_'+this.id).children('ul').css('min-height', height);
+
+        this.scrollview.refresh();
+
+        return this;
+    }
+    subpage.setContentSize = function() {
+
+        var scrollview = $('#header_scrollview_videos_'+this.id);
+        var ul = scrollview.children('ul');
+        var total_width = 0;
+        ul.children('li').each(function() {total_width += $(this).outerWidth(true);});
+        ul.css('min-width', this.container.width()+1).css('width', total_width+1);
+        scrollview.css('width', this.container.width());
+
+        $('#videos_list_'+this.id).find('img.cover').attr('width', this.container.width());
+
+        scrollviews.refresh('header_scrollview_videos_'+this.id);
+
+        return this;
+
+    }
+
+    subpage.showList = function(a) {
+
+        a = $(a);
+        if(a.hasClass('selected')) return;
+        var id = a.attr('rel');
+
+        if($('.video_'+this.id+'_'+id).length) {
+            $('.show_videos_'+this.id).removeClass('selected header reverse');
+            a.addClass('selected header reverse');
+            $('.video_'+this.id).hide();
+            this.scrollview.scrollTo(0,0,0);
+            $('.video_'+this.id+'_'+id).fadeIn();
+            this.scrollview.refresh();
+        }
+        else {
+
+            loader.show();
+            $.ajax({
+                url: '<?php echo $this->getUrl('media/mobile_gallery_video/list'); ?>',
+                dataType: 'json',
+                data: [{name:'option_value_id',value:this.id}, {name:'video_id',value:id}],
+                type: 'post',
+                success: function(datas) {
+                    if(datas.html) {
+
+                        $('.video_'+this.id).hide();
+                        this.scrollview.scrollTo(0,0,0);
+                        $('#videos_list_'+this.id).append(datas.html);
+
+                        $('.show_videos_'+this.id).removeClass('selected header reverse');
+                        a.addClass('selected header reverse');
+
+                        this.scrollview.refresh();
+                    }
+                }.bind(this),
+                error: function() {
+                    new Alert('<?php echo $this->_("An error occurred while loading videos. Please try later.") ?>').show();
+                },
+                complete: function() {
+                    loader.hide();
+                }
+            });
+        }
+
+    }
+
+    subpage.loadMore = function(id) {
+
+        var offset = $('.video.video_'+this.id+'_'+id).length + 1;
+
+        loader.show();
+        $.ajax({
+            url: '<?php echo $this->getUrl('media/mobile_gallery_video/loadmore'); ?>',
+            dataType: 'json',
+            data: [{name:'video_id', value:id}, {name:'offset', value:offset}, {name:'option_value_id', value:'<?php echo $option->getId(); ?>'}],
+            type: 'post',
+            success: function(datas) {
+                if(datas.html) {
+                    $('#load_more_'+id).before(datas.html);
+                }
+            },
+            error: function() {
+                new Alert('<?php echo $this->_("An error occurred while loading videos. Please try later.") ?>').show();
+            },
+            complete: function() {
+                loader.hide();
+            }
+        });
+
+    }
+
+    subpage.showVideo = function(id, type_id) {
+
+        if(type_id == 'youtube') {
+            page.showYoutubePlayer(id);
+        }
+        else if(type_id == 'vimeo') {
+            page.showVimeoPlayer(id);
+        }
+        else {
+            page.showVideoPlayer(id);
+        }
+
+        return this;
+    }
+
+    subpage.modal = new Array();
+
+</script>
+<style>
+    div.videos .scrollview_videos li.load_more {padding-top:20px;}
+    div.videos .scrollview_videos li.video img.icon {margin: 10px 5px;}
+    div.videos .scrollview_videos li.video p.title_video {vertical-align: middle; display:table-cell;margin:3px 0;font-size:15px;font-weight:bold;line-height:17px;}
+</style>

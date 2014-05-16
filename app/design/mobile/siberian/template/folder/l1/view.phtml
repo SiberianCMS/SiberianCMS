@@ -1,0 +1,16 @@
+<?php $application = $this->getApplication(); ?>
+<?php $option = $this->getCurrentOption(); ?>
+<?php $category = new Folder_Model_Category(); ?>
+<?php $category->find($option->getObject()->getRootCategoryId(), 'category_id'); ?>
+
+<?php echo $this->getLayout()->addPartial('category_'.$category->getCategoryId(), 'core_view_mobile_default', 'folder/l1/view/category.phtml')
+        ->setCurrentOptionValue($option)
+        ->setCurrentCategory($category)
+        ->setId($option->getId())
+        ->toHtml()
+    ;
+?>
+
+<style type="text/css">
+    .folder_scrollview .folder_scrollview_categories .element a.arrow_right {background-image: url("<?php echo $this->getColorizedImage($this->getImage('pictos/white_arrow_right.png', true), $application->getDesignBlock('background')->getColor()); ?>");}
+</style>

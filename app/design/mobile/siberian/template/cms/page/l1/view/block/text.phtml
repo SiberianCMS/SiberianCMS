@@ -1,0 +1,9 @@
+<?php $block = $this->getCurrentBlock(); ?>
+
+<div rel="<?php echo $block->getPosition() ?>" class="cms_block text padding">
+    <?php if($block->getImage()) : ?>
+    <img width="<?php echo $block->getSize(); ?>%" src="<?php echo $block->getImageUrl(); ?>" class="textillus align<?php echo $block->getAlignment(); ?>" style="float:<?php echo $block->getAlignment(); ?>" onload="page.getSubpage('<?php echo $this->getOptionValue()->getValueId(); ?>').setContentSize(); $(this).removeAttr('onload')" />
+    <?php endif; ?>
+    <?php echo $block->getContent(); ?>
+    <div class="clear"></div>
+</div>

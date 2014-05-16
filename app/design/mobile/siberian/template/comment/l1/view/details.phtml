@@ -1,0 +1,125 @@
+<?php $option = $this->getCurrentOption(); ?>
+<?php $application = $this->getApplication(); ?>
+<?php $comment = $this->getCurrentComment(); ?>
+<?php $block_subheader = $application->getDesignBlock('subheader'); ?>
+<?php $block_button = $application->getDesignBlock('button'); ?>
+
+<div>
+    <div id="scrolview_news_details_<?php echo $comment->getId() ?>" class="new_details relative comment_details_<?php echo $option->getId(); ?> news<?php if($option->getBackgroundImage()) : ?> _no-background<?php endif; ?>" rel="news_details_<?php echo $option->getId(); ?>_<?php echo $comment->getId(); ?>">
+        <ul id="scrolview_details_<?php echo $comment->getId(); ?>">
+            <li id="comment_details_<?php echo $option->getId(); ?>_<?php echo $comment->getId(); ?>" class="subheader comment_details_title">
+                <div id="logo_cont_<?php echo $comment->getId(); ?>" class="logo left" style="width:37px; height:37px; overflow:hidden">
+                    <img width="37" height="37" id="logo_src_<?php echo $comment->getId(); ?>" class="logo_src" src="<?php echo $application->getLogo() ?>" data-default="<?php echo $application->getLogo() ?>" />
+                </div>
+                <p class="text">
+                    <span class="name bold"><?php echo $application->getName(); ?></span>
+                </p>
+                <div class="clear"></div>
+                <div class="comment_metas">
+                    <span class="comments_date left">
+                        <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/pencil.png', true), $block_subheader->getColor()); ?>" alt="" style="vertical-align:bottom" width="13" height="10px"/>
+                        <?php echo $comment->getFormattedCreatedAt($this->_('MM/dd/y')) ?>
+                    </span>
+                    <span class="comments_count right">
+                        <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/comment.png', true), $block_subheader->getColor()); ?>" alt="<?php echo $this->_('Coms') ?>" style="vertical-align:bottom" width="13" />
+                        <?php $answers = $comment->getAnswers(); ?>
+                        <?php echo count($answers) ?>
+                    </span>
+                    <span class="likes_count right">
+                        <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/like.png', true), $block_subheader->getColor()); ?>" alt="<?php echo $this->_('Likes') ?>" style="vertical-align:bottom" width="13" height="12px" />
+                        <?php $likes = $comment->getLikes(); ?>
+                        <?php echo count($likes) ?>
+                    </span>
+                    <div class="clear"></div>
+                </div>
+            </li>
+            <li class="comment_details_content">
+                <?php if($comment->getImageUrl() || $comment->getId() == 'new') : ?>
+                <div class="comment_details_image">
+                    <img id="comment_details_image_<?php echo $option->getId(); ?>_<?php echo $comment->getId(); ?>" src="<?php echo $comment->getImageUrl() ?>" alt="<?php echo $application->getName() ?>" title="<?php echo $application->getName() ?>" width="100%"<?php if($comment->getId() == 'new') : ?> onload="page.getSubpage('news_details_<?php echo $option->getId(); ?>_<?php echo $comment->getId(); ?>').scrollview.refresh();" style="display:none;"<?php endif; ?> />
+                </div>
+                <?php endif; ?>
+                <p id="comment_details_text_<?php echo $option->getId(); ?>_<?php echo $comment->getId(); ?>" class="comment_details_text">
+                    <?php echo $comment->getText() ?>
+                </p>
+                <div class="a-center add_comment">
+                    <button type="button" class="button icon_left" onclick="javascript:var subpage = page.getSubpage('news_details_<?php echo $option->getId(); ?>_<?php echo $comment->getId(); ?>'); if(customer.isLoggedIn()) {subpage.openAddCommentForm();} else {customer.openLoginForm();} return false;">
+                        <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/like.png', true), $block_button->getColor()); ?>" width="25" height="20" />
+                        <?php echo $this->_('Comment'); ?>
+                    </button>
+                    <button type="button" class="button icon_left" onclick="javascript:addLike('<?php echo $comment->getId() ?>'); return false;">
+                        <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/comment.png', true), $block_button->getColor()); ?>" width="25" height="20" />
+                        <?php echo $this->_('Like'); ?>
+                    </button>
+                </div>
+            </li>
+            <?php $answers = $comment->getAnswers(); ?>
+            <?php $nbr_answers = count($answers); $i = 0; ?>
+            <?php foreach($answers as $answer) : ?>
+                <?php $customer = $answer->getCustomer(); ?>
+            <li id="answer_<?php echo $answer->getId() ?>" class="comments answer<?php if($option->getBackgroundImage()) : ?> _no-background<?php endif; ?><?php if($answer->getIsFirst()) : ?> first<?php elseif($answer->getIsLast()) : ?> last<?php endif; ?>">
+                <div>
+                    <?php $customer_name = $customer->getFirstname().' '.substr($customer->getLastname(), 0, 1).'.'; ?>
+                    <img width="35" height="35" class="logo left" src="<?php echo $customer->getImageLink() ?>" title="<?php echo $customer_name ?>" alt="<?php echo $customer_name ?>" />
+                    <p class="text"><span class="bold"><?php echo $customer_name; ?></span> <?php echo $answer->getText(); ?></p>
+                    <div class="clear"></div>
+                </div>
+            </li>
+            <li class="separator"></li>
+            <?php endforeach ?>
+
+            <?php if($this->isMobileDevice() || $application->getId() == 6) : ?>
+            <li id="li_add_comment_<?php echo $comment->getId() ?>" rel="<?php echo $this->getCommentId() ?>" class="align-center news<?php if($option->getBackgroundImage()) : ?> _no-background<?php endif; ?>" style="display: none">
+                <div class="comment_content">
+                    <form class="commentForm" rel="<?php echo $comment->getId() ?>" id="commentForm_<?php echo $comment->getId(); ?>" action="<?php echo $this->getUrl('comment/customer/add'); ?>" method="POST" onsubmit="validateComment(<?php echo $comment->getId() ?>); return false;">
+                        <input type="text" class="input_comment large border" id="input_comment_<?php echo $comment->getId(); ?>" name="text" value="" placeholder="<?php echo $this->_("Your comment") ?>" />
+                        <input type="hidden" name="status_id" value="<?php echo $comment->getId()?>" />
+                        <div class="button">
+                            <button type="button" id="cancel_comment_<?php echo $comment->getId(); ?>" onclick="javascript:page.getSubpage('news_details_<?php echo $option->getId(); ?>_<?php echo $comment->getId(); ?>').closeAddCommentForm();" class="pad_button cancel left"><?php echo $this->_('Cancel'); ?></button>
+                            <button type="submit" id="validate_comment_<?php echo $comment->getId(); ?>" class="pad_button validate correct right"><?php echo $this->_('Validate'); ?></button>
+                            <input type="hidden" name="option_value_id" value="<?php echo $option->getId(); ?>"/>
+                        </div>
+                    </form>
+                </div>
+                <div class="clear"></div>
+            </li>
+            <?php endif; ?>
+        </ul>
+    </div>
+</div>
+<script type="text/javascript">
+
+    var subpage = page.getSubpage('news_details_<?php echo $option->getId(); ?>_<?php echo $comment->getId(); ?>');
+
+    subpage.setCallback('willappear', function() {
+        var scrollview = new iScroll('scrolview_news_details_<?php echo $comment->getId(); ?>', {
+            hScroll: false
+        });
+        this.setScrollview(scrollview);
+    });
+
+    subpage.setCallback('diddisappear', function() {
+        $('#li_add_comment_<?php echo $comment->getId(); ?>').hide();
+    })
+
+    subpage.setCallback('customerdidlogin', function() {
+        this.openAddCommentForm();
+    });
+
+    subpage.openAddCommentForm = function() {
+
+        $('#li_add_comment_<?php echo $comment->getId(); ?>').slideDown(300, function() {
+            this.scrollview.refresh();
+            this.scrollview.scrollToElement('#input_comment_<?php echo $comment->getId(); ?>', 0);
+//            $('#input_comment_'+id).focus();
+        }.bind(this));
+
+    };
+
+    subpage.closeAddCommentForm = function() {
+        $('#li_add_comment_<?php echo $comment->getId(); ?>').slideUp(300, function() {
+            this.scrollview.refresh();
+        }.bind(this));
+    };
+
+</script>

@@ -1,0 +1,29 @@
+"can only be used once";"utilisable une seule fois"
+"Can only be used once";"Utilisable une seule fois"
+Name;Intitulé
+Description;Description
+Conditions;Conditions
+"Ending date";"Date de fin"
+"or unlimited";"ou Illimitée"
+"you will be able to delete this discount later";"vous pourrez supprimer cette promo plus tard"
+"Add a confirmation button";"Ajouter un bouton de validation"
+On;Le
+Details;Description
+"End at";"Se termine"
+"Closed discounts";"Promotions terminées"
+"Delete this discount?";"Êtes-vous sur de vouloir supprimer cette promotion ?"
+"Please log in.";"Veuillez vous connecter..."
+"Valid until";"Valable jusqu'au"
+"Use this coupon";"Utiliser cette promo"
+"An error occurred while saving your discount. Please try again later.";"Une erreur est survenue lors de la sauvegarde de votre promotion. Veuillez réessayer ultérieurement."
+"An error occurred while saving your discount. Please fill in all fields";"Une erreur est survenue lors de la sauvegarde de votre promotion. Merci de renseigner tous les champs."
+"Please select an end date greater than the current date.";"Merci de sélectionner une date de fin supérieure à la date actuelle."
+"Discount successfully saved";"Promotion sauvegardée avec succès"
+"Discount successfully deleted";"Promotion supprimée avec succès"
+"Discount name";"Nom de la réduction"
+"There is no discount to export between %s and %s";"Il n'y a pas de réduction à exporter entre le %s et le %s"
+"You must be logged in to use a discount";"Vous devez être connecté pour utiliser une promotion"
+"You have already use this discount";"Vous avez déjà utilisé cette promotion"
+"This discount is temporaly deleted due to too many validation attempts";"Cette réduction est temporairement supprimée dû à un trop grand nombre de tentatives de validation"
+"Wrong password. >br />Be careful";"Mot de passe erroné.<br />Attention"
+"You have exceeded the number of attempts to validate this cooupon.";"Vous avez dépassé le quota d'essai pour valider cette réduction."

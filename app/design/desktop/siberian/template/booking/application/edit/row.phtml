@@ -1,0 +1,20 @@
+<?php $store = $this->getCurrentStore(); ?>
+<?php $option_value = $this->getCurrentOptionValue(); ?>
+<li id="row_<?php echo $store->getId(); ?>">
+    <form class="form_booking">
+        <table class="no-collapse" cellspacing="10">
+            <col width="220px" />
+            <col width="220px" />
+            <col width="40px" />
+            <col width="40px" />
+            <tr>
+                <td><input type="text" id="store_name_<?php echo $store->getId() ?>" name="store_name" class="booking_field required input" value="<?php echo $store->getStoreName(); ?>"/></td>
+                <td><input type="text" id="email_<?php echo $store->getId() ?>" name="email" class="booking_field required input email" value="<?php echo $store->getEmail(); ?>"/></td>
+                <td><button type="submit" class="default_button save_booking">OK</button></td>
+                <td><button type="button" rel="<?php echo $store->getId(); ?>" class="delete delete_booking"><i class="icon-remove"></i></button></td>
+            </tr>
+        </table>
+        <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>"/>
+        <input type="hidden" name="store_id" value="<?php echo $store->getId(); ?>"/>
+    </form>
+</li>

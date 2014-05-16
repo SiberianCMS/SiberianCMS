@@ -1,0 +1,283 @@
+<?php $option = $this->getCurrentOption(); ?>
+<?php $sections = $this->getSections(); ?>
+<?php
+// Check l'activation de mobiscroll
+$mobiscroll = false;
+$icheck = false;
+foreach ($sections as $k => $section) {
+    foreach ($section->getFields() as $key => $field) {
+        if ($field->getType() == 'date' || $field->getType() == 'select') {
+            $mobiscroll = true;
+        }
+        if ($field->getType() == 'checkbox' || $field->getType() == 'radio') {
+            $icheck = true;
+        }
+    }
+}
+if ($mobiscroll == true) :
+    ?>
+    <script type="text/javascript" src="<?php echo $this->getJs('mobiscroll.core-2.5.4.js') ?>"></script>
+    <?php
+    if (DEVICE_IS_IPHONE || DEVICE_TYPE == 'desktop') :
+        $theme = 'ios';
+        $script_src = 'mobiscroll.ios-2.5.4.js';
+    else :
+        $theme = 'android-ics';
+        $script_src = 'mobiscroll.android-ics-2.5.4.js';
+    endif;
+    ?>
+    <script type="text/javascript" src="<?php echo $this->getJs($script_src) ?>"></script>
+    <script type="text/javascript" src="<?php echo $this->getJs('mobiscroll.core-2.5.4-fr.js') ?>"></script>
+    <script type="text/javascript" src="<?php echo $this->getJs('mobiscroll.datetime-2.5.4.js') ?>"></script>
+    <script type="text/javascript" src="<?php echo $this->getJs('mobiscroll.select-2.5.4.js') ?>"></script>
+<?php endif; ?>
+<?php if ($icheck == true) : ?>
+    <script type="text/javascript" src="<?php echo $this->getJs('icheck.min.js') ?>"></script>
+<?php endif; ?>
+
+<div class="sections">
+    <div class="content relative">
+        <form id="form_<?php echo $option->getId() ?>" action="#" method="post" onsubmit="page.current_page.submitForm(this); return false;">
+            <div id="sections_<?php echo $option->getId(); ?>" rel="<?php echo $option->getId(); ?>">
+                <div class="scroll">
+                    <div class="padding">
+                        <input type="hidden" name="option_value_id" value="<?php echo $option->getId(); ?>" />
+                        <?php if ($sections->count() > 0) : ?>
+
+                        <?php foreach ($sections as $k => $section) : ?>
+                        <h1><?php echo $section->getName(); ?></h1>
+                            <?php foreach ($section->getFields() as $key => $field) : ?>
+                            <div class="fields">
+                                <?php switch ($field->getType()) :
+                                    case 'textarea' :
+                                        ?>
+                                        <textarea rows="4" placeholder="<?php echo $field->getName()?>" name="field_<?php echo $k ?>_<?php echo $key ?>" id="field_<?php echo $k ?>_<?php echo $key ?>"></textarea>
+                                        <div class="clear"></div>
+                                        <?php
+                                        break;
+                                        case 'texte' :
+                                        case 'email' :
+                                        case 'nombre' :
+                                        case 'date' :
+                                            ?>
+                                        <?php $type = $field->getType() == 'nombre' ? 'number' : $field->getType(); ?>
+                                        <?php $type = $field->getType() == 'date' ? 'datetime' : $type; ?>
+                                            <input class="<?php echo $field->getRequired() == '1' ? 'required ' : '' ?> <?php echo $type ?>" type="<?php echo $field->getType() == 'nombre' ? 'number' : $field->getType() == 'date' ? 'text' : $field->getType()  ?>" name="field_<?php echo $k ?>_<?php echo $key ?>" placeholder="<?php echo $field->getName() ?>" id="field_<?php echo $k ?>_<?php echo $key ?>" />
+                                            <div class="clear"></div>
+                                            <?php
+                                            break;
+                                        case 'geoloc' :
+                                            ?>
+                                            <label for="field_<?php echo $k ?>_<?php echo $key ?>">
+                                                <input id="geoloc_<?php echo $option->getId(); ?>" class="<?php echo $field->getRequired() == 1 ? 'required' : '' ?> geoloc" type="checkbox" name="field_<?php echo $k ?>_<?php echo $key ?>[]" id="field_<?php echo $k ?>_<?php echo $key ?>" id="field_<?php echo $k ?>_<?php echo $key ?>" value="" onchange="askCurrentPosition($(this))" />
+                                                <?php echo $field->getName() ?>
+                                                <div class="clear"></div>
+                                            </label>
+                                            <?php
+                                            break;
+                                        case 'checkbox' :
+                                        case 'radio' :
+                                            ?>
+                                        <ul>
+                                            <li><?php echo $field->getName()?> :</li>
+                                            <?php $options = explode(';', $field->getOption()); ?>
+                                            <?php foreach ($options as $optionKey => $option_data) : ?>
+                                            <li>
+                                                <label for="field_<?php echo $k ?>_<?php echo $key ?>_<?php echo $optionKey ?>">
+                                                    <input class="<?php echo $field->getRequired() == 1 ? 'required' : '' ?> <?php echo $field->getType() ?>" type="<?php echo $field->getType() ?>" name="field_<?php echo $k ?>_<?php echo $key ?>[]" id="field_<?php echo $k ?>_<?php echo $key ?>_<?php echo $optionKey ?>" value="<?php echo $option_data ?>" />
+                                                    <?php echo $option_data ?>
+                                                </label>
+                                                <div class="clear"></div>
+                                            </li>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                        <?php
+                                        break;
+                                    case 'select' :
+                                        ?>
+                                        <?php echo $field->getName() ?><br /><br />
+                                        <select name="field_<?php echo $k ?>_<?php echo $key ?>" id="field_<?php echo $k ?>_<?php echo $key ?>" <?php echo $field->getRequired() == 1 ? 'class="required"' : '' ?>>
+                                            <?php $options = explode(';', $field->getOption()); ?>
+                                            <?php foreach ($options as $option_key => $option_data) : ?>
+                                            <option value="<?php echo $option_data ?>"><?php echo $option_data ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                        <div class="clear"></div>
+                                    <?php break; ?>
+                                <?php endswitch ?>
+                            </div>
+                            <?php endforeach; ?>
+                        <?php endforeach; ?>
+                        <?php endif; ?>
+                        <button class="button" type="submit"><?php echo $this->_('Send') ?></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script type="text/javascript">
+        var subpage = page.getSubpage('<?php echo $option->getId(); ?>');
+
+        subpage.setCallback('willappear', function() {
+
+            <?php if ($mobiscroll == true) : ?>
+            $("select").mobiscroll().select({
+                lang: '<?php echo $this->_('en') ?>',
+                theme: '<?php echo $theme ?>',
+                display: 'bottom',
+                mode: 'scroller'
+            });
+
+            $(".datetime").mobiscroll().datetime({
+                lang: '<?php echo $this->_('en') ?>',
+                theme: '<?php echo $theme ?>',
+                display: 'bottom',
+                mode: 'scroller',
+                dateFormat: 'yy-mm-dd',
+                dateOrder: '<?php echo $this->_('ddMyy') ?>',
+                timeFormat: 'HH:ii',
+                timeWheels: '<?php echo $this->_('HHii') ?>'
+            });
+            <?php endif; ?>
+
+            <?php if ($icheck == true) : ?>
+//                    $('input').iCheck({
+//                        checkboxClass: 'icheckbox_flat-blue',
+//                        radioClass: 'iradio_flat-blue'
+//                    }).on('ifChecked', function(event) {
+//                        if ($(this).hasClass('geoloc')) {
+//                            loader.show();
+//                            navigator.geolocation.getCurrentPosition(showAddress, geolocationError);
+//                        }
+//                    }).on('ifUnchecked', function(event) {
+//                        if ($(this).hasClass('geoloc')) {
+//                            $(this).val('');
+//                        }
+//                    });
+            <?php endif; ?>
+
+            var scrollview = new iScroll('sections_<?php echo $option->getId(); ?>', {
+                hScroll: false
+            });
+
+            this.setScrollview(scrollview);
+        }).setCallback(function() {
+            $('#form_<?php echo $option->getId(); ?>').get(0).reset();
+        })
+
+        subpage.submitForm = function(form) {
+            var pattern = new RegExp(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i);
+            form = $(form);
+            if(!form.valid()) {
+                this.scrollview.refresh();
+                return false;
+            }
+
+            //loader.show();
+            $.ajax({
+                url: '<?php echo $this->getUrl('form/mobile/post'); ?>',
+                dataType: 'json',
+                data: form.serializeArray(),
+                type: 'post',
+                success: function(datas) {
+                    if (datas.success) {
+                        new Alert('<?php echo addslashes($this->_("We thank you for having filled out our form.")) ?>').show();
+                        form.get(0).reset();
+                    }
+                    else if (datas.error) {
+                        new Alert(datas.message, 'error').show();
+                    }
+                },
+                error: function() {
+                    new Alert('<?php echo addslashes($this->_("An error occurred while sending the form. Please, try again later.")) ?>', 'error').show();
+                },
+                complete: function() {
+                    loader.hide();
+                }
+            });
+
+        }.bind(subpage);
+
+        function askCurrentPosition(el) {
+            if(el.is(':checked')) {
+                var form_page = page.getSubpage('<?php echo $option->getId(); ?>');
+                navigator.geolocation.getCurrentPosition(form_page.showAddress, form_page.geolocationError);
+            }
+            else {
+                el.val('');
+            }
+        }
+
+
+        // Callback appelé lorsque la position de l'utilisateur est trouvée
+        subpage.showAddress = function(position) {
+
+            // Convertit la position en objet LatLng
+            var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+            if (typeof geocoder == 'undefined') {
+                var geocoder = new google.maps.Geocoder();
+            }
+
+            // Demande à Google de trouver l'adresse à partir de la latitude et de la longitude de l'utilisateur
+            geocoder.geocode({'latLng': latLng},
+            function(results, status) {
+                // S'il n'y a pas eu d'erreur
+                if (status == google.maps.GeocoderStatus.OK) {
+                    // Si une adresse a été trouvée
+                    if (results[0]) {
+                        // Adresse trouvée,  on la stock dans un champ caché
+                        $('#geoloc_'+this.id).val(results[0].formatted_address);
+                        loader.hide();
+                    }
+                    else {
+                        // Adresse introuvable
+                        $('#geoloc_'+this.id).val('<?php echo addslashes($this->_('An error occurred while retrieving the user location')); ?>');
+                        //new Alert('Introuvable', 'error').show();
+                    }
+                }
+                else {
+                    // Erreur lors de la récupération de l'adresse
+                    new Alert('<?php echo addslashes($this->_('An error occurred while retrieving your location')); ?>', 'error').show();
+                }
+            }
+            );
+        }.bind(subpage);
+
+        // Callback appelé lorsque la position de l'utilisateur est introuvable
+        subpage.geolocationError = function(error) {
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    // L'utilisateur a refusé l'accès à sa position
+//                            $('#geoloc_'+this.id).val('Refus utilisateur');
+                    $('#geoloc_'+this.id).prop('checked', false);
+                    new Alert('<?php echo addslashes($this->_('You have refused to share your location')); ?>', 'error').show();
+                    break;
+
+                case error.POSITION_UNAVAILABLE:
+                    // La position est introuvable
+                    $('#geoloc_'+this.id).val('An error occurred while retrieving the user location');
+                    new Alert('<?php echo addslashes($this->_('An error occurred while retrieving your location')); ?>', 'error').show();
+                    break;
+
+                case error.TIMEOUT:
+                    // Le temps de recherche de la position est dépassé
+                    $('#geoloc_'+this.id).val('An error occurred while retrieving the user location');
+                    new Alert('<?php echo addslashes($this->_('An error occurred while retrieving your location')); ?>', 'error').show();
+                    break;
+
+                case error.UNKNOWN_ERROR:
+                    // Erreur inconnue
+                    $('#geoloc_'+this.id).val('An error occurred while retrieving the user location');
+                    new Alert('<?php echo addslashes($this->_('An error occurred while retrieving your location')); ?>', 'error').show();
+                    break;
+
+                    default: break;
+            }
+
+            loader.hide();
+        }.bind(subpage);
+
+    </script>
+</div>

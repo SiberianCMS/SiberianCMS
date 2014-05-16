@@ -1,0 +1,84 @@
+<?php $notif = new Admin_Model_Notification(); ?>
+<?php $notifs = $notif->findAll(); ?>
+
+<div class="notifications application">
+    <div class="application_header app_name">
+        <?php echo $this->getPartialHtml('customization_header'); ?>
+    </div>
+    <div class="application_content inner_content">
+        <div class="title">
+            <i class="left icon-envelope"></i>
+            <h2 class="left f-rounded"><?php echo $this->_('Notifications'); ?></h2>
+            <div class="clear"></div>
+            <hr class="reverse" />
+        </div>
+        <div class="area">
+            <h3 class="title">
+                <span class="left area"><?php echo $this->_('My notifications list'); ?></span>
+                <hr class="reverse" />
+                <div class="clear"></div>
+            </h3>
+            <div>
+                <table class="border" width="100%">
+                    <col width="5%" />
+                    <col width="30%" />
+                    <col width="50%" />
+                    <col width="15%" />
+                    <tr class="bold a-left">
+                        <th></th>
+                        <th><?php echo $this->_('Title'); ?></th>
+                        <th><?php echo $this->_('Description'); ?></th>
+                        <th></th>
+                    </tr>
+                    <?php foreach($notifs as $notif) : ?>
+                    <tr>
+                        <?php $class = $notif->isHighPriority() ? 'red' : 'header no-background'?>
+                        <td><i class="icon-envelope-alt <?php echo $class ?>" id="notif_<?php echo $notif->getId(); ?>_is_read"<?php if($notif->isRead()) : ?> style="display:none;"<?php endif; ?>></i></td>
+                        <td><?php echo $notif->getTitle(); ?></td>
+                        <td><?php echo $notif->getDescription(); ?></td>
+                        <td>
+                            <a href="<?php echo $notif->getLink(); ?>" class="block" target="_blank"><?php echo $this->_("Details"); ?></a>
+                            <a href="javascript:(void)" class="mark_as_read" rel="<?php echo $notif->getId(); ?>"<?php if($notif->isRead()) : ?> style="display:none;"<?php endif; ?>><?php echo $this->_("Mark as read"); ?></a>
+                            <a href="javascript:(void)" class="mark_as_unread" rel="<?php echo $notif->getId(); ?>"<?php if(!$notif->isRead()) : ?> style="display:none;"<?php endif; ?>><?php echo $this->_("Mark as unread"); ?></a>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                </table>
+            </div>
+        </div>
+        <form id="notifForm" action="<?php echo $this->getUrl('admin/notification/markas'); ?>">
+            <input type="hidden" id="notif_id" name="notif_id" value="" />
+            <input type="hidden" id="is_read" name="is_read" value="" />
+        </form>
+    </div>
+    <script type="text/javascript">
+        $('.mark_as_read').click(function() {
+            var notif_id = $(this).attr('rel');
+            $('#notif_id').val(notif_id);
+            $('#is_read').val(1);
+            reload($('#notifForm'), $('#notifForm').attr('action'), true, function(datas) {
+                $(this).hide().next().show();
+                $('#badge_notif').html(datas.nbr_unread);
+                if(datas.nbr_unread > 0) notif.start();
+                else notif.stop();
+                $('#notif_'+notif_id+'_is_read').hide();
+            }.bind(this));
+
+            return false;
+        });
+        $('.mark_as_unread').click(function() {
+            var notif_id = $(this).attr('rel');
+            $('#notif_id').val(notif_id);
+            $('#is_read').val(0);
+            reload($('#notifForm'), $('#notifForm').attr('action'), true, function(datas) {
+                $(this).hide().prev().show();
+                $('#badge_notif').html(datas.nbr_unread);
+                if(datas.nbr_unread > 0) notif.start();
+                else notif.stop();
+                $('#notif_'+notif_id+'_is_read').show();
+            }.bind(this));
+
+            return false;
+        });
+    </script>
+</div>

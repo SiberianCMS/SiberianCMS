@@ -1,0 +1,139 @@
+<?php $application = $this->getApplication(); ?>
+<?php $option = $this->getCurrentOptionValue() ?>
+<?php $current_category = $this->getCurrentCategory() ?>
+<?php $subcategory = new Folder_Model_Category(); ?>
+<?php $subcategories = $subcategory->findAll(array('parent_id' => $current_category->getCategoryId()), array('pos ASC')); ?>
+<?php $option_values = array();?>
+<?php $products = array();?>
+<?php $color = $this->getBlock('background')->getColor(); ?>
+
+<?php if($option->getCode() == 'folder') : ?>
+<?php $category_option = new Application_Model_Option_Value(); ?>
+<?php $option_values = $category_option->findAll(array('folder_category_id' => $current_category->getCategoryId()), array('folder_category_position ASC')); ?>
+<?php $time = time(); ?>
+<?php elseif($option->getCode() == 'm_commerce') : ?>
+<?php $products = $current_category->getProducts(); ?>
+<?php endif; ?>
+
+<div id="folder_scrollview_<?php echo $current_category->getCategoryId() ?>" class="folder_scrollview relative" rel="<?php echo $this->getId(); ?>">
+    <ul id="folder_scrollview_categories_<?php echo $current_category->getCategoryId() ?>" class="folder_scrollview_categories">
+        <?php if($current_category->getPictureUrl()) : ?>
+        <li class="header_list subheader" style="height:200px;">
+            <?php if($current_category->getPictureUrl() != '') : ?>
+                <img src="<?php echo $current_category->getPictureUrl() ?>" width="100%" height="200px"/>
+            <?php endif; ?>
+            <?php if($current_category->getSubtitle()) : ?>
+                <p class="header_subtitle" style="<?php echo $current_category->getPictureUrl() != '' ? 'position:relative;top:-73px;' : '' ?>">
+                    <span class="subtitle auto_resize">
+                        <?php echo $current_category->getSubtitle(); ?>
+                    </span>
+                </p>
+            <?php endif; ?>
+        </li>
+        <?php endif; ?>
+
+        <?php foreach($subcategories as $subcategory) : ?>
+        <li class="element subcategory" id="subcategory_<?php echo $subcategory->getId(); ?>">
+            <a href="<?php echo $this->getUrl('folder/mobile/findchildren', array('category_id' => $subcategory->getId(), 'option_value_id' => $option->getId())); ?>" class="block is_ajax arrow_right" rel="subcategory_<?php echo $subcategory->getId(); ?>" onclick="page.showSubpage({a: this}); return false;">
+                <?php if($subcategory->getPictureUrl() != '') : ?>
+                <img src="<?php echo $subcategory->getPictureUrl() ?>" width="99px" height="63px"/>
+                <?php endif; ?>
+                <p class="text">
+                    <span class="title auto_resize">
+                        <?php echo $subcategory->getTitle(); ?>
+                    </span>
+                    <?php if($subcategory->getSubtitle()) : ?>
+                    <br />
+                    <span class="subtitle auto_resize">
+                        <?php echo $subcategory->getSubtitle(); ?>
+                    </span>
+                    <?php endif; ?>
+                </p>
+            </a>
+        </li>
+        <?php endforeach; ?>
+
+        <?php foreach($option_values as $option_value) : ?>
+        <?php if(!$option_value->getIsVisible()) continue; ?>
+        <li class="element option_value" rel="<?php echo $option_value->getId() ?>"<?php if(!$option_value->isActive()) : ?> style="display:none;"<?php endif; ?>>
+            <a id="tabbar_item_<?php echo $option_value->getId() ?>" href="<?php echo $option_value->getUrl('view', array('option_value_id' => $option_value->getId()), false); ?>" class="block <?php if($option_value->getIsAjax()) : ?> is_ajax<?php endif; ?> belongs_to_folder arrow_right" rel="<?php echo $option_value->getId(); ?>" onclick="page.showSubpage({a: this}); return false;">
+                <img id="icon_<?php echo $option_value->getId(); ?>" src="<?php echo $this->getColorizedImage($option_value->getIconId(), $color); ?>" alt="" title="" width="30" height="30" class="left" />
+                <p class="text title"><?php echo $option_value->getTabbarName(); ?></p>
+            </a>
+        </li>
+        <?php endforeach; ?>
+
+        <?php foreach($products as $product) : ?>
+
+        <li class="element">
+            <a href="<?php echo $this->getUrl('catalog/mobile_product/view', array('product_id' => $product->getId(), 'option_value_id' => $product->getValueId())); ?>" class="block is_ajax arrow_right" rel="product_view_<?php echo $product->getId(); ?>" onclick="page.showSubpage({a: this}); return false;">
+                <?php if($product->getPictureUrl() != '') : ?>
+                <img src="<?php echo $product->getPictureUrl() ?>" width="99px" height="63px"/>
+                <?php endif; ?>
+                <p class="text">
+                    <span class="title auto_resize">
+                        <?php echo $product->getName(); ?>
+                    </span>
+                    <?php if($product->getDescription()) : ?>
+                    <br />
+                    <span class="subtitle" style="display: block;width: auto;height: 16px;overflow: hidden;">
+                        <?php echo strip_tags($product->getDescription()); ?>
+                    </span>
+                    <?php endif; ?>
+                </p>
+            </a>
+        </li>
+        <?php endforeach; ?>
+
+    </ul>
+</div>
+<script type="text/javascript">
+
+    var subpage = page.getSubpage('<?php echo $this->getId(); ?>');
+    if(subpage) {
+        subpage.parent_id = null;
+        subpage.parent_id = '<?php echo $current_category->getId() == $option->getObject()->getRootCategoryId() ? '' : $current_category->getParentId() == $option->getObject()->getRootCategoryId() ? $option->getId() : 'subcategory_'.$current_category->getParentId() ?>';
+
+        <?php if($this->getRequest()->getParam('overview') AND $option->getObject()->getRootCategoryId() != $current_category->getId()) : ?>
+        subpage.setCallback('willappear', function() {
+
+            this.setBackButtonAction(function() {
+
+                var parent = page.getSubpage(this.parent_id);
+
+                if(!parent) {
+                    <?php $url = $this->getUrl('folder/mobile/findchildren', array('category_id' => $current_category->getParentId(), 'option_value_id' => $option->getId(), 'overview' => 1)); ?>
+                    loader.show();
+                    page.showSubpage({
+                        id: this.parent_id,
+                        url : '<?php echo $url; ?>',
+                        isAjax: true,
+                        callbacks: {
+                            didcreate: function() {
+                                loader.hide();
+                                page.slide(this, 'back');
+                            }
+                        }
+                    }, true);
+                }
+                else {
+                    page.slide(parent, 'back');
+                }
+
+            });
+        });
+        <?php endif; ?>
+        subpage.setCallback('didappear', function() {
+            this.setScrollview(new iScroll('folder_scrollview_<?php echo $current_category->getId(); ?>'));
+            <?php if($this->getRequest()->getParam('overview')) : ?>
+            this.setParent(page.getSubpage(this.parent_id));
+            <?php endif; ?>
+        });
+        <?php if($option->getCode() == 'm_commerce') : ?>
+        subpage.submit = function() {
+            page.showCart();
+        }
+        <?php endif; ?>
+    }
+
+</script>

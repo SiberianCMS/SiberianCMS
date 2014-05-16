@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <wordpress_mobile_view_l1>
+        <views>
+            <content class="wordpress_view_mobile_l1_wordpress" template="wordpress/l1/view.phtml" />
+        </views>
+    </wordpress_mobile_view_l1>
+
+</layout>

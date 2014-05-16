@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <installer_module_index>
+        <views>
+            <customization_header class="admin_view_default" template="application/customization/index/header.phtml" />
+            <content class="admin_view_default" template="installer/module/index.phtml" />
+        </views>
+        <actions>
+            <customization_header name="setCurrentLink"><code>module</code></customization_header>
+        </actions>
+    </installer_module_index>
+
+    <installer_module_install>
+        <views>
+            <customization_header class="admin_view_default" template="application/customization/index/header.phtml" />
+            <content class="admin_view_default" template="installer/module/install.phtml" />
+        </views>
+        <actions>
+            <customization_header name="setCurrentLink"><code>module</code></customization_header>
+        </actions>
+    </installer_module_install>
+
+</layout>

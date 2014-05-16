@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <social_mobile_facebook_view_l1>
+        <views>
+            <content class="social_view_mobile_l1_facebook" template="social/facebook/l1/view.phtml" />
+        </views>
+    </social_mobile_facebook_view_l1>
+
+</layout>

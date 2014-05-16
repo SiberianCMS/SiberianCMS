@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <game_mobile_pacman_view_l1>
+        <views>
+            <content class="core_view_mobile_default" template="game/l1/pacman/view.phtml" />
+        </views>
+    </game_mobile_pacman_view_l1>
+
+</layout>

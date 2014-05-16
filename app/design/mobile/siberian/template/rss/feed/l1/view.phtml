@@ -1,0 +1,156 @@
+<?php $application = $this->getApplication(); ?>
+<?php $option = $this->getCurrentOption(); ?>
+<?php $rss_feed = new Rss_Model_Feed(); ?>
+<?php $rss_feeds = $rss_feed->findAll(array('value_id' => $option->getId()), 'position ASC') ?>
+
+<div id="tab_<?php echo $option->getId(); ?>" class="rss_feed">
+    <?php if($rss_feeds->count() > 1) : ?>
+    <div id="header_scrollview_rssfeed_<?php echo $option->getId(); ?>" class="scroll_list header header relative">
+        <ul>
+        <?php foreach($rss_feeds as $k => $rss_feed) : ?>
+            <li>
+                <a href="javascript:void(0)"<?php if($k == 0) : ?> id="first_feeds_list_<?php echo $option->getId(); ?>"<?php endif ?> class="show_feeds show_feeds_<?php echo $option->getId(); ?> header" onclick="page.getSubpage('<?php echo $option->getId(); ?>').showFeeds(this); return false;" rel="<?php echo $rss_feed->getId(); ?>">
+                    <img width="16px" height="16px" class="favicon_feeds" src="https://getfavicon.appspot.com/<?php echo $rss_feed->getLink() ?>"/><?php echo $rss_feed->getTitle(); ?>
+                </a>
+            </li>
+        <?php endforeach; ?>
+        </ul>
+        <div class="separator"></div>
+    </div>
+    <?php endif; ?>
+    <div id="feeds_<?php echo $option->getId(); ?>" class="feeds feeds_<?php echo $option->getId() ?>">
+        <div id="feed_scrollview_<?php echo $option->getId(); ?>" class="relative">
+            <ul>
+                <?php foreach($rss_feeds as $rss_feed) : ?>
+                <?php $news = $rss_feed->getNews(); ?>
+                <?php foreach($news->getEntries() as $k => $entry) : ?>
+                <li id="feed_<?php echo $rss_feed->getId(); ?>_<?php echo $k; ?>" class="feed feed_<?php echo $option->getId() ?> feed_<?php echo $option->getId() ?>_<?php echo $rss_feed->getId(); ?>" rel="<?php echo $rss_feed->getId(); ?>" onclick="page.getSubpage('<?php echo $option->getId(); ?>').toggleFeed(this);" style="display:none;">
+
+                    <?php if($entry->getPicture()) : ?>
+                    <img class="feed_illus feed_illus_<?php echo $option->getId(); ?>" src="<?php echo $entry->getPicture() ?>" onload="if(this.naturalWidth < 50 || this.naturalHeight < 50) $(this).remove();"/>
+                    <?php endif; ?>
+                    <h3><?php echo $entry->getTitle(); ?></h3>
+
+                    <?php if(strlen($entry->getContent()) > 100) : ?>
+                    <div class="feed_extract toggle">
+                        <p class="feed_content_text"><?php echo $this->snippet($entry->getContent(), 100) ?></p>
+                    </div>
+                    <div class="feed_content toggle" style="display:none;">
+                        <p class="feed_content_text"><?php echo $entry->getContent(); ?></p>
+                    </div>
+                    <?php else : ?>
+                    <div class="feed_content">
+                        <p class="feed_content_text"><?php echo $entry->getContent(); ?></p>
+                    </div>
+                    <?php endif; ?>
+                    <span class="right feed_date"><?php echo $this->_('%s ago', $this->getUpdatedAt($entry));?></span>
+                </li>
+                <?php endforeach ?>
+                <?php endforeach ?>
+            </ul>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    var subpage = page.getSubpage('<?php echo $option->getId(); ?>');
+
+    subpage.setCallback('willappear', function() {
+        var scrollview = new iScroll('feed_scrollview_<?php echo $option->getId(); ?>');
+        this.setScrollview(scrollview)
+            .setContentSize()
+        ;
+
+        $('.feed').find('a').attr('href', 'javascript:void(0);');
+    }).setCallback('didappear', function() {
+
+        if($('#first_feeds_list_'+this.id).attr('id')) {
+
+            scrollviews.add('header_scrollview_rssfeed_<?php echo $option->getId(); ?>', new iScroll('header_scrollview_rssfeed_<?php echo $option->getId(); ?>', {
+                vScroll: false,
+                hScroll: true,
+                hScrollbar:false
+            }));
+
+            if(!$('.show_feeds_<?php echo $option->getId(); ?>.selected').length) {
+                $('#first_feeds_list_'+this.id).click();
+            }
+        }
+        else {
+            $('.feed_'+this.id).slideDown(300, function() {
+                this.scrollview.refresh();
+            }.bind(this));
+        }
+
+    }).setCallback('willdisappear', function() {
+        scrollviews.destroy('header_scrollview_rssfeed_<?php echo $option->getId(); ?>');
+    });
+
+    subpage.setContentSize = function() {
+
+        var scrollview = $('#header_scrollview_rssfeed_<?php echo $option->getId(); ?>');
+        var ul = scrollview.children('ul');
+        var total_width = 0;
+        ul.children('li').each(function() {total_width += $(this).outerWidth(true);});
+        ul.css({'min-width':this.container.width()+1, width: ++total_width});
+        scrollview.css('width', this.container.width());
+
+        scrollviews.refresh('header_scrollview_rssfeed_<?php echo $option->getId(); ?>');
+
+        return this;
+
+    }.bind(subpage);
+
+    subpage.refreshScrollview = function() {
+
+        var height = $(window).height() - $('#page_header_'+this.id).height();
+        if($('#header_scrollview_rssfeed_'+this.id).is(':visible')) {
+            height -= $('#header_scrollview_rssfeed_'+this.id).height();
+        }
+
+        $('#feed_scrollview_'+this.id).css('height', height);
+        $('#feed_scrollview_'+this.id).children('ul').css('min-height', height);
+
+        this.scrollview.refresh();
+
+        return this;
+
+    };
+
+    subpage.showFeeds = function(a) {
+
+        if(!$(a).hasClass('selected')) {
+            $('.feed_'+this.id).hide();
+            this.scrollview.scrollTo(0, 0, 0);
+            $('.feed_'+this.id+'_'+$(a).attr('rel')).slideDown(300, function() {
+                this.scrollview.refresh();
+            }.bind(this));
+
+            $('.show_feeds_'+this.id).removeClass('selected reverse');
+            $(a).addClass('selected reverse');
+        }
+
+    }
+
+    subpage.toggleFeed = function(li) {
+        var content = $(li).children('div.feed_content.toggle');
+        var extract = $(li).children('div.feed_extract.toggle');
+
+        if(extract.is(':visible')) {
+            extract.slideUp(300);
+            content.slideDown(300, function() {this.scrollview.refresh()}.bind(this));
+        } else {
+            content.slideUp(300);
+            extract.slideDown(300, function() {this.scrollview.refresh()}.bind(this));
+        }
+    }
+
+</script>
+<style type="text/css">
+    .feed_date {
+        border-top: solid 1px;
+        display: inline-block;
+        margin-top: 5px;
+        padding-top: 5px;
+    }
+</style>

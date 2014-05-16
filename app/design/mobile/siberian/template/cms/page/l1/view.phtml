@@ -1,0 +1,188 @@
+<?php $application = $this->getApplication(); ?>
+<?php $option = $this->getCurrentOption(); ?>
+<?php $page = new Cms_Model_Application_Page(); ?>
+<?php $page->find($option->getId(), 'value_id'); ?>
+<?php $blocks = $page->getBlocks(); ?>
+<?php $gallery = array(); ?>
+<?php $json_datas = array(); ?>
+<?php $has_gallery = false; ?>
+<div class="cms_page">
+    <div id="custom_scrollview_<?php echo $option->getId(); ?>" class="relative" rel="<?php echo $option->getId(); ?>">
+        <div class="scroll">
+            <div id="cms_page_content_<?php echo $option->getId(); ?>">
+                <?php foreach($blocks as $block) : ?>
+                <?php $template = sprintf($block->getMobileTemplate(), $this->getLayoutId()); ?>
+                <?php echo $this->getLayout()->addPartial('block_'.$block->getBlockId(), 'core_view_mobile_default', $template)->setOptionValue($option)->setCurrentBlock($block)->toHtml(); ?>
+                <?php endforeach ?>
+            </div>
+        </div>
+        <!--<div class="clear"></div>-->
+    </div>
+    <?php foreach($blocks as $block) : ?>
+        <?php if($block->getType() == 'image') : ?>
+            <?php $library = new Cms_Model_Application_Page_Block_Image_Library(); ?>
+            <?php $libraries = $library->findAll(array('library_id' => $block->getLibraryId()), 'image_id ASC', null); ?>
+            <?php foreach($libraries as $library) : ?>
+            <?php $gallery[$block->getPosition()][] = array('image' => $library->getImageFullSize(), 'title' => '', 'description' => '')?>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    <?php endforeach ?>
+
+    <?php if(!empty($gallery)) : ?>
+    <?php $json_datas = Zend_Json::encode($gallery) ?>
+    <?php
+        echo $this->getLayout()->addPartial('image_gallery', 'core_view_mobile_default', 'html/l1/image/gallery.phtml')
+            ->setOptionValue($option)
+            ->toHtml()
+        ;
+    ?>
+    <?php endif; ?>
+    <script type="text/javascript">
+
+        var subpage = page.getSubpage('<?php echo $option->getId(); ?>');
+
+        subpage.setCallback('willappear', function() {
+            $('#cms_page_content_'+this.id).find('div.image_cont').each(function() {
+                subpage.createCarousel(this.id);
+            });
+            $('.play_video').css({'width': $(window).width()-20, 'height': ($(window).width()-20) / 2});
+
+            this.setScrollview(new iScroll('custom_scrollview_'+this.id));
+
+        }).setCallback('didappear', function() {
+
+            this.refreshCarousels();
+            this.refreshScrollview();
+
+        }).setCallback('willdisappear', function() {
+            $('#cms_page_content_'+this.id).find('div.image_cont').each(function() {
+                scrollviews.destroy(this.id);
+            });
+        }).setCallback('didresize', function() {
+            $('.cms_scrollview_image_'+this.id).css('width', $(window).width());
+            this.refreshCarousels();
+        });
+
+        subpage.showGallery = function(id, idx) {
+
+            var gallery_page = this.getChild('gallery_'+this.id);
+            <?php if(!empty($gallery)) : ?>
+            if(!gallery_page.images_are_loaded) {
+                var images = <?php echo $json_datas ?>;
+                for(var i in images) {
+                    this.getChild('gallery_'+this.id).setImages(i, images[i]);
+                }
+                gallery_page.images_are_loaded = true;
+            }
+            <?php endif; ?>
+
+            $('.gallery_'+this.id).hide();
+            $('.gallery_'+this.id+'_'+id).show();
+            var gallery_page = this.getChild('gallery_'+this.id);
+            gallery_page.scrollview_page = idx;
+            page.slide(gallery_page, 'forth', false);
+        }
+
+        subpage.createCarousel = function(id) {
+            scrollviews.add(id, new iScroll(id, {
+                hScroll: true,
+                vScroll: false,
+                hScrollbar: false,
+                snap: true,
+                onScrollEnd: function() {
+                    var scrollView = this;// scrollviews.get('carousel_scrollview_'+id);
+                    var id = $(this.wrapper).attr('id');
+                    if(scrollView.currPageX == 0) $('#left_control_'+id).fadeOut();
+                    else $('#left_control_'+id).fadeIn();
+                    if(scrollView.currPageX >= $(this.wrapper).find('li').length - 1) $('#right_control_'+id).fadeOut();
+                    else $('#right_control_'+id).fadeIn();
+                }
+            }));
+
+            return this;
+        }
+
+        subpage.refreshCarousel = function(id) {
+
+            if(!scrollviews.get(id)) return this;
+            var max_width = $(window).width();
+            var container = $('#'+id);
+            container.find('li').css('width', max_width);//.css('height', $('#page_content').width()/2);
+            container.css('width', max_width);
+            var total_width = 0;
+            var current_page = 0;
+
+            if(container.is(':visible')) {
+                current_page = scrollviews.get(id).currPageX;
+            }
+
+            container.find('li.image_li').each(function() {
+                total_width += $(this).width();
+            });
+            container.children('ul').css('width', total_width);
+
+            scrollviews.refresh(id);
+            if(container.is(':visible')) {
+                scrollviews.scrollToPage(id, current_page);
+            }
+
+            return this;
+        }
+
+        subpage.refreshCarousels = function() {
+            $('#cms_page_content_'+this.id).find('div.image_cont').each(function(i, el) {
+                this.refreshCarousel(el.id);
+            }.bind(this));
+        }
+
+        subpage.destroyCarousel = function(id) {
+            scrollviews.destroy(id);
+        }
+
+        function prepareImage(loader, src) {
+
+            loader = $(loader);
+            loader.parent('a').css({'width': $(window).width(), 'height': $(window).width() / 2});
+            var img = loader.next('img');
+//            return this;
+            setImageSize(img);
+            img.load(function() {
+                $(this).parent().removeClass('loading');
+                $(this).addClass('cms_scrollview_image_'+subpage.id);
+                loader.hide();
+                loader.removeAttr('onload');
+                $(this).fadeIn();
+//                subpage.refreshScrollview();
+            });
+            img.attr('src', src);
+        }
+
+        function setImageSize(img) {
+            $(img).attr('width', $(window).width()).removeAttr('height');
+        }
+
+        subpage.onClose = function() {
+            page.destroySubpage(this);
+        }
+
+    </script>
+    <style>
+        div.gallery {height:100%;z-index:9999;display:none;position:absolute;top:0;background:black;}
+
+        .cms_block.picture li .loading, .gallery .loading {
+            position:relative;
+            width:100%;
+            height:100%;
+            background:rgba(0, 0, 0, 0.8);
+        }
+        .cms_block.picture li .loading img.loader, .gallery .loading img.loader {
+            position:absolute;
+            left: 50%;
+            top: 50%;
+            margin-top: -12px;
+            margin-left: -12px;
+        }
+
+        .cms_block button.button.icon_left img { border: none; }
+    </style>
+</div>

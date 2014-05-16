@@ -1,0 +1,27 @@
+<?php $option = $this->getCurrentOption(); ?>
+<div id="pad_view" class="background" >
+    <ul class="padding-bottom">
+        <li>
+            <div class="message header header">
+                <p id="pad_title"><?php echo $this->_("Please show your phone to the store person so that he enters his password") ?></p>
+            </div>
+            <div id="pad">
+                <div id="pad_subtitle"><?php echo $this->_("Please enter the password") ?></div>
+                <div id="pad_buttons">
+                    <input class="password" type="password" name="password" value="" disabled="disabled" />
+                    <?php $array = range(0, 9); ?>
+                    <?php shuffle($array); ?>
+                    <?php for($i=0; $i<count($array); $i++) : ?>
+                    <?php if($i == 9) : ?>
+                    <button class="pad_button cancel" onclick="pad.close()"><?php echo $this->_('Cancel'); ?></button>
+                    <?php endif; ?>
+                    <button class="pad_button" value="<?php echo $array[$i] ?>" onclick="pad.add(<?php echo $array[$i]; ?>)"><?php echo $array[$i]; ?></button>
+                    <?php if($i == 9) : ?>
+                    <button class="pad_button correct" onclick="pad.validate()"><?php echo $this->_('Validate'); ?></button>
+                    <?php endif; ?>
+                    <?php endfor; ?>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>

@@ -1,0 +1,56 @@
+<?php $option = $this->getCurrentOption(); ?>
+<div id="push_notifications">
+    <div class="push_notifications relative">
+        <div id="notifs_scrollview" class="scrollview relative" rel="<?php echo $option->getId(); ?>">
+            <ul id="notifs_list" class="notifs_list">
+            </ul>
+        </div>
+    </div>
+    <script type="text/javascript">
+
+        var subpage = page.getSubpage('<?php echo $option->getId(); ?>');
+
+        subpage.setCallback('willappear', function() {
+            this.setScrollview(new iScroll('notifs_scrollview'));
+        }).setCallback('didappear', function() {
+
+            var callback = function(datas) {
+
+                $('#notifs_list').html(datas.html);
+                this.refreshScrollview();
+
+                notif.deleteBadge();
+
+                <?php if(IS_APPLICATION) :?>
+                window.location = "app:notifsDidShow";
+                <?php endif; ?>
+
+            }.bind(this)
+
+            notif.load(callback);
+//            this.unsCallback('didappear');
+
+        });
+
+    </script>
+    <style>
+        .push_notifications ul.notifs_list li.notif {
+            padding: 10px 10px 10px 65px;
+            background: url('<?php echo $option->getImage()->getCanBeColorized() ? $this->getColorizedImage($option->getIconId(), $this->getApplication()->getDesignBlock('background')->getColor()) : $option->getIconUrl(); ?>') no-repeat 20px center;
+            background-size: 25px auto;
+        }
+        .push_notifications ul.notifs_list li.separator {padding:0;}
+        .push_notifications ul.notifs_list li h3 {
+            font-size:20px;
+        }
+        .push_notifications ul.notifs_list li p {
+            margin: 0;
+        }
+        .push_notifications ul.notifs_list li p.delivered_at {
+            margin-top:10px;
+            margin-bottom:0px;
+            font-size: 12px;
+        }
+    </style>
+</div>
+

@@ -1,0 +1,52 @@
+
+<?php $option = $this->getOptionValue(); ?>
+<?php $posts = $this->getRemotePosts(); ?>
+<?php $wordpress = $this->getCurrentWordpress(); ?>
+<?php $category_ids = $wordpress->getCategoryIds(); ?>
+<?php $show_all = $this->getShowAllPosts(); ?>
+<?php $header_post_is_shown = false; ?>
+
+<div id="wordpress_list_<?php echo $option->getId(); ?>" class="wordpress_scrollview relative" rel="<?php echo $option->getId(); ?>">
+    <ul class="scroll">
+        <?php foreach($posts as $k => $post) : ?>
+        <?php $isVisible = $show_all ? $show_all : array_intersect($category_ids, $post->getCategoryIds()); ?>
+        <li id="post_<?php echo $post->getId(); ?>" class="post <?php if(!$header_post_is_shown AND $isVisible) : if($post->getPicture()) : ?> header_post<?php endif; $header_post_is_shown = true; endif; ?><?php if($post->getPicture()) : ?> has_a_picture<?php endif; ?>"<?php if(!$isVisible) : ?> style="display:none;"<?php endif; ?>>
+            <div class="content_post">
+                <a href="javascript:void(0);" onclick="page.getSubpage('<?php echo $option->getId(); ?>').showPost('<?php echo $post->getId(); ?>');"<?php if($post->getPicture()) : ?> class="picture" style="background-image:url(<?php echo $post->getPicture(); ?>);"<?php endif; ?>>
+                    <h3 class="post_title">
+                        <span id="title_post_<?php echo $option->getId() ?>_<?php echo $post->getId(); ?>" class="block"><?php echo $post->getTitle(); ?></span>
+                        <span class="posted_at"><?php echo $post->getFormattedDate(); ?></span>
+                    </h3>
+                    <div class="post_description"><?php echo $post->getShortDescription(); ?></div>
+                </a>
+                <div class="clear"></div>
+            </div>
+        </li>
+        <?php endforeach ?>
+    </ul>
+</div>
+
+<div class="wordpress_content">
+    <div id="wordpress_view_<?php echo $option->getId(); ?>" class="wordpress_scrollview wordpress_view relative" rel="wordpress_view_<?php echo $option->getId(); ?>">
+        <div class="scroll">
+        <?php foreach($posts as $post) : ?>
+            <div id="post_view_<?php echo $post->getId(); ?>" class="post_view post_view_<?php echo $option->getId(); ?>" style="display:none;">
+                <div class="post<?php if($post->getPicture()) : ?> header_post<?php endif ?>">
+                    <div class="content_post">
+                        <div<?php if($post->getPicture()) : ?> class="picture" style="background-image:url(<?php echo $post->getPicture(); ?>);"<?php endif; ?>>
+                            <?php /*if($post->getPicture()) : ?>
+                            <img src="<?php echo $post->getPicture(); ?>"<?php if($k == 0) : ?> class="first_picture"<?php endif; ?> onload="setImageSize($(this), true)" />
+                            <?php endif*/ ?>
+                            <h3 class="post_title">
+                                <span class="block"><?php echo $post->getTitle(); ?></span>
+                                <span class="posted_at"><?php echo $post->getFormattedDate(); ?></span>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="post_description"><?php echo $post->getDescription(); ?></div>
+            </div>
+        <?php endforeach ?>
+        </div>
+    </div>
+</div>

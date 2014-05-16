@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <push_application_edit>
+        <views>
+            <content class="core_view_default" template="application/customization/features/edit/tabbar_editor.phtml" />
+            <content_editor class="core_view_default" template="push/application/edit.phtml" />
+        </views>
+    </push_application_edit>
+
+    <push_certificat_list>
+        <base>
+            <scripts>
+                <js>
+                    <jquery link="js/jquery.js" />
+                    <jquery_ui link="js/jquery-ui.js" />
+                    <object link="js/object.js" />
+                    <fileupload_iframe link="js/fileupload/jquery.iframe-transport.js" />
+                    <fileupload_transport link="js/fileupload/jquery.xdr-transport.js" />
+                    <fileupload link="js/fileupload/jquery.fileupload.js" />
+                </js>
+                <css>
+                    <jquery_ui link="css/jquery-ui.css" />
+                    <colorpicker link="css/colorpicker.css" />
+                    <prettyPhoto link="css/prettyPhoto.css" />
+                    <jcrop link="css/jquery.Jcrop.min.css" />
+                </css>
+            </scripts>
+        </base>
+        <views>
+            <customization_header class="admin_view_default" template="application/customization/index/header.phtml" />
+            <content class="core_view_default" template="push/certificat/list.phtml" />
+        </views>
+        <actions>
+            <customization_header name="setCurrentLink"><code>push</code></customization_header>
+        </actions>
+    </push_certificat_list>
+
+</layout>

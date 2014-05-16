@@ -1,0 +1,130 @@
+<?php $isLoggedIn = $this->getSession()->isLoggedIn('customer'); ?>
+<?php $customer = $this->getSession()->getCustomer(); ?>
+<div id="customer_account_edit" class="customer_account background">
+    <?php if($this->isMobileDevice()) : ?>
+    <div id="scrollview_account_edit" class="relative" rel="customer_account_edit">
+        <div class="login_content">
+            <form action="<?php echo $this->getUrl('customer/mobile_account/savepost') ?>" method="post" class="accountForm" id="createForm" name="createForm">
+                <div class="form padding">
+                    <div class="form_content align-center">
+                        <table class="no-collapse" width="100%" cellspacing="10">
+
+                            <tr class="align-left"><th class="label">
+                                    <div class="left">
+                                        <label for="customer_civility"><?php echo $this->_("Gender") ?></label>
+                                    </div>
+                                    <div class="right">
+                                        <?php $civility = $customer->getCivility(); ?>
+                                        <input type="radio" id="civility_mlle" class="civility" name="civility" rel="mlle" value="mlle"<?php if(empty($civility) || $civility == 'mlle') : ?> checked="checked"<?php endif; ?> style="display:none;" />
+                                        <input type="radio" id="civility_mme" class="civility" name="civility" rel="mme" value="mme"<?php if($civility == 'mme') : ?> checked="checked"<?php endif; ?>  style="display:none;" />
+                                        <input type="radio" id="civility_m" class="civility" name="civility" rel="m" value="m"<?php if($civility == 'm') : ?> checked="checked"<?php endif; ?>  style="display:none;" />
+                                        <div class="segmented_control">
+                                            <label for="civility_mlle" class="label_civility noclickdelay first background<?php if(empty($civility) || $civility == 'mlle') : ?> reverse selected<?php endif; ?>" onclick="toggleCivility($(this))"><?php echo $this->_("Miss") ?></label>
+                                            <label for="civility_mme" class="label_civility noclickdelay background<?php if($civility == 'mme') : ?> reverse selected<?php endif; ?>" onclick="toggleCivility($(this))"><?php echo $this->_("Mrs") ?></label>
+                                            <label for="civility_m" class="label_civility noclickdelay last background<?php if($civility == 'm') : ?> reverse selected<?php endif; ?>" onclick="toggleCivility($(this))"><?php echo $this->_("Mr") ?></label>
+                                        </div>
+                                    </div>
+                                </th>
+                            </tr>
+
+                            <tr class="align-left"><th class="label"><label for="customer_firstname" class="noclickdelay"><?php echo $this->_("First name") ?></label></th></tr>
+                            <tr><td><input type="text" id="customer_firstname" name="firstname" class="full_width required" value="<?php echo $customer->getFirstname() ?>" placeholder="<?php echo $this->_('First name'); ?>" /></td></tr>
+
+                            <tr class="align-left"><th class="label"><label for="customer_lastname" class="noclickdelay"><?php echo $this->_("Last Name") ?></label></th></tr>
+                            <tr><td><input type="text" id="customer_lastname" name="lastname" class="full_width required" value="<?php echo $customer->getLastname() ?>" placeholder="<?php echo $this->_('Last Name'); ?>" /></td></tr>
+
+                            <tr class="align-left"><th class="label"><label for="customer_email" class="noclickdelay"><?php echo $this->_("Email") ?></label></th></tr>
+                            <tr><td><input type="text" id="customer_email" name="email" class="full_width email required" value="<?php echo $customer->getEmail() ?>" placeholder="<?php echo $this->_('Email'); ?>" /></td></tr>
+
+                            <?php if(!$isLoggedIn) : ?>
+                            <tr class="align-left"><th class="label"><label for="customer_password" class="noclickdelay"><?php echo $this->_("Password") ?></label></th></tr>
+                            <tr><td><input type="password" id="customer_password" title="<?php echo $this->_("Password") ?>" placeholder="<?php echo $this->_("Password") ?>" class="full_width required" name="password" value="" /></td></tr>
+
+                            <?php else : ?>
+                            <tr class="align-left"><th class="label"><label for="customer_old_password" class="noclickdelay"><?php echo $this->_("Old") ?></label></th></tr>
+                            <tr><td><input type="password" id="customer_old_password" title="<?php echo $this->_("Current password") ?>" placeholder="<?php echo $this->_("Current password") ?>" class="full_width" name="old_password" value="" /></td></tr>
+
+                            <tr class="align-left"><th class="label"><div class="borders"><label for="password" class="noclickdelay"><?php echo $this->_("New") ?></label></div></th></tr>
+                            <tr><td><input type="password" id="password" title="<?php echo $this->_("Password") ?>" placeholder="<?php echo $this->_("New password") ?>" class="full_width" name="password" value="" /></td></tr>
+                            <?php endif; ?>
+
+                            <?php $canViewRanking = false; ?>
+                            <?php $fidelity_option = new Application_Model_Option(); ?>
+                            <?php $fidelity_option->find('fidelity', 'code'); ?>
+                            <?php if($this->getApplication()->getOption('fidelity')) $canViewRanking = true; ?>
+                            <?php if($fidelity_option->getId() AND $canViewRanking) : ?>
+                            <tr>
+                                <th>
+                                    <div class="left">
+                                    <label id="label_show_in_social_gaming" for="show_in_social_gaming"><?php echo $this->_("Show me in ranking") ?></label>
+                                    </div>
+                                    <div class="right">
+                                    <input type="checkbox" name="show_in_social_gaming" id="show_in_social_gaming" class="checkbox" value="1"<?php if($customer->getShowInSocialGaming()) : ?> checked="checked"<?php endif; ?> />
+                                    </div>
+                                </th>
+                            </tr>
+                            <?php endif; ?>
+                        </table>
+                        <div class="ui-hide-label">
+                            <input type="hidden" class="referer" name="redirect" value="<?php echo $this->getRedirectUrl() ?>"/>
+                            <?php foreach($this->getRequest()->getParam('add_to_session', array()) as $key => $value) : ?>
+                            <input type="hidden" name="add_to_session[<?php echo $key ?>]" value="<?php echo $value ?>"/>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" style="display:none;"></button>
+            </form>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+        var subpage = page.getSubpage('customer_account_edit');
+        subpage.setCallback('willappear', function() {
+            this.setScrollview(new iScroll('scrollview_account_edit'));
+            $('#createForm').submit(function() {
+
+                var form = $('#createForm');
+                if(!form.valid()) return false;
+
+                var xhr = this.getRequest('save_customer');
+                if(!xhr) {
+                    xhr = this.createRequest('save_customer', form.attr('action'));
+                    xhr.setOnSuccess(function(datas) {
+                        if(datas.success) {
+                            customer.customer_id = datas.customer_id
+                            page.destroySubpage('customer_account_edit', true);
+                        }
+                    });
+                }
+
+                xhr.setDatas(form.serializeArray()).send();
+
+                return false;
+
+            }.bind(this));
+        }).setCallback('willdisappear', function() {
+            $('#createForm').unbind('submit');
+        });
+
+        subpage.submit = function() {
+            $('#createForm').submit();
+        }
+
+        subpage.onClose = function() {
+            page.destroySubpage(this);
+        }
+
+        $('#login').css('height', $('#mobile_content').height());
+
+        function toggleCivility(newCivility) {
+            $('.label_civility').removeClass('reverse selected');
+            newCivility.addClass('reverse selected');
+        }
+
+    </script>
+    <?php else : ?>
+    <p><?php echo $this->_("Please log in with your mobile phone") ?></p>
+    <?php endif ?>
+</div>

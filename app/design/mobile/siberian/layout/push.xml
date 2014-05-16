@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <push_mobile_view_l1>
+        <views>
+            <content class="core_view_mobile_default" template="push/l1/view.phtml" />
+        </views>
+    </push_mobile_view_l1>
+
+    <push_mobile_list_l1>
+        <views>
+            <content class="core_view_mobile_default" template="push/l1/list.phtml" />
+        </views>
+    </push_mobile_list_l1>
+
+</layout>

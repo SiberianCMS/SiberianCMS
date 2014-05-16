@@ -1,0 +1,13 @@
+<?php if($this->canView()) : ?>
+<script type="text/javascript">
+    $(document).ready(function() {
+        page.homepage.setCallback('show_messages', function() {
+            <?php if($this->hasSuccess()) : ?>
+            new Alert('<?php echo addslashes(implode('<br />', $this->getSuccess())); ?>', 'success').show();
+            <?php elseif($this->hasError()) : ?>
+            new Alert('<?php echo addslashes(implode('<br />', $this->getError())); ?>', 'error').show();
+            <?php endif; ?>
+        });
+    });
+</script>
+<?php endif ?>

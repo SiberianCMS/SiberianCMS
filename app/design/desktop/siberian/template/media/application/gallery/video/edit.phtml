@@ -1,0 +1,209 @@
+<?php $application = $this->getApplication(); ?>
+<?php $option_value = $this->getOptionValue(); ?>
+<?php $video = new Media_Model_Gallery_Video(); ?>
+<?php //$video->setTypeId('youtube'); ?>
+<?php $videos = $video->findAll(array('value_id' => $option_value->getId()), 'gallery_id DESC'); ?>
+
+<div class="edit_page media videos">
+    <div class="form_content">
+        <div class="section">
+            <h4 class="subtitle">
+                <span class="left area"><?php echo $this->_('Add') ?></span>
+                <hr class="area reverse">
+                <span class="area right">
+                    <button type="button" class="default_button add right" onclick="$('#table_list_videos').fadeIn(); $('#choose_type').fadeIn(); $('#no_item').hide();" id="add_item">
+                        <i class="icon-plus"></i>
+                    </button>
+                </span>
+                <div class="clear"></div>
+            </h4>
+
+            <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
+
+            <div id=choose_type  class="a-center" style="display: none">
+                <div class="clear"></div>
+                <ul>
+                    <li class="picto left a-center video_select pointer" rel="youtube"">
+                        <img src="<?php echo $this->getImage('pictos/youtube.png'); ?>" title="<?php echo $this->_('Youtube'); ?>" alt="<?php echo $this->_('Youtube'); ?>" width="64" height="64" />
+                        <span><?php echo $this->_('Youtube') ?></span>
+                    </li>
+                    <li class="picto left a-center video_select pointer" rel="itunes">
+                        <img src="<?php echo $this->getImage('pictos/podcast.png'); ?>" title="<?php echo $this->_('Podcast'); ?>" alt="<?php echo $this->_('Podcast'); ?>" width="64" height="64" />
+                        <span><?php echo $this->_('Podcast') ?></span>
+                        <!--<img src="<?php echo $this->getImage('customization/pictos/itunes.png'); ?>" title="iTunes" alt="iTunes" height="30px" />-->
+                    </li>
+                    <li class="picto left a-center video_select pointer" rel="vimeo">
+                        <img src="<?php echo $this->getImage('pictos/vimeo.png'); ?>" title="<?php echo $this->_('Vimeo'); ?>" alt="<?php echo $this->_('Vimeo'); ?>" width="64" height="64" />
+                        <span><?php echo $this->_('Vimeo') ?></span>
+                    </li>
+                </ul>
+                <div class="clear"></div>
+            </div>
+
+            <?php echo $this->getLayout()->addPartial('row_'.$video->getId(), 'admin_view_default', 'media/application/gallery/video/edit/youtube.phtml')
+                ->setCurrentVideo(new Media_Model_Gallery_Video(array('id' => 'new', 'type_id' => 'youtube')))
+                ->setCurrentOptionValue($option_value)
+                ->setCurrentKey('-1')
+                ->toHtml()
+            ?>
+
+            <?php echo $this->getLayout()->addPartial('row_'.$video->getId(), 'admin_view_default', 'media/application/gallery/video/edit/itunes.phtml')
+                ->setCurrentVideo(new Media_Model_Gallery_Video(array('id' => 'new', 'type_id' => 'itunes')))
+                ->setCurrentOptionValue($option_value)
+                ->setCurrentKey('-1')
+                ->toHtml()
+            ?>
+
+            <?php echo $this->getLayout()->addPartial('row_'.$video->getId(), 'admin_view_default', 'media/application/gallery/video/edit/vimeo.phtml')
+                ->setCurrentVideo(new Media_Model_Gallery_Video(array('id' => 'new', 'type_id' => 'vimeo')))
+                ->setCurrentOptionValue($option_value)
+                ->setCurrentKey('-1')
+                ->toHtml()
+            ?>
+
+            <div class="section" id="existing_items_section"<?php if($videos->count() == 0) : ?> style="display:none"<?php endif; ?>>
+                <h4 class="subtitle">
+                    <span class="left area"><?php echo $this->_('Manage'); ?></span>
+                    <hr class="area reverse">
+                <span class="area right">
+                    <button type="button" class="default_button" id="toggle_existing_items">
+                        <i class="icon-chevron-down"></i>
+                    </button>
+                </span>
+                    <div class="clear"></div>
+                </h4>
+                <div id="existing_items">
+                    <table id="table_list_videos" class="no-collapse" cellspacing="5">
+                        <col width="82px" />
+                        <col width="175px" />
+                        <col width="175px" />
+                        <col width="145px" />
+                        <col width="45px" />
+                        <col width="45px" />
+                        <tr>
+                            <th></th>
+                            <th><div><?php echo $this->_('Gallery Name') ?> <span class="required-entry"> *</span> :</div></th>
+                            <th><div><?php echo $this->_('Search/Url') ?> <span data-tip="35" data-tip-left="55" class="required-entry"> *</span> :</div></th>
+                            <th><div><?php echo $this->_('Type') ?> <span data-tip="36" data-tip-right="0" class="required-entry"> *</span> :</div></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <?php foreach($videos as $key => $video) : ?>
+                            <?php echo $this->getLayout()->addPartial('row_'.$video->getId(), 'admin_view_default', 'media/application/gallery/video/edit/row.phtml')
+                                ->setCurrentVideo($video)
+                                ->setCurrentOptionValue($option_value)
+                                ->setCurrentKey($key)
+                                ->toHtml()
+                            ?>
+
+                        <?php endforeach; ?>
+                    </table>
+                </div>
+            </div>
+
+            <div class="section">
+                <?php
+                echo $this->getLayout()
+                    ->addPartial('background_image', 'Core_View_Default', 'application/customization/features/edit/background_image.phtml')
+                    ->setValueId($option_value->getId())
+                    ->toHtml()
+                ;
+                ?>
+            </div>
+
+        </div>
+        <script type="text/javascript">
+            page.setCallback('willappear', function() {
+
+                $('.video_select').click(function(){
+                    var type_id = '';
+                    type_id = $(this).attr('rel');
+                    console.log(type_id);
+                    var icon = $(this).children('img');
+                    var new_icon = $('#new_video_icon');
+
+                    new_icon.attr('src', icon.attr('src')).attr('title', icon.attr('title')).attr('alt', icon.attr('title'));
+                    $('#choose_type').hide();
+                    $('.new_gallery').hide();
+                    $('#new_gallery_'+type_id).fadeIn();
+                });
+
+                $('.save_video').click(function() {
+                    var tr = $(this.parentNode.parentNode);
+                    var error = false;
+                    tr.find('input.required, select.required').each(function() {
+                        if($(this).val().isEmpty()) {
+                            $(this).addClass('error');
+                            error = true;
+                        }
+                        else $(this).removeClass('error');
+                    });
+                    if(error) return false;
+                    reload(tr, '<?php echo $this->getUrl('media/application_gallery_video/editpost'); ?>', true, function(datas) {
+                        if(datas.success) {
+                            if(datas.is_new) page.reload();
+                            else iframe.f.page.reload();
+                        }
+                    });
+                });
+
+                $('.delete_video').click(function() {
+                    if($(this).attr('rel') == 'new') {
+                        $('.new_gallery').hide();
+                        $('#no_item').fadeIn();
+                    }
+                    else {
+                        if(confirm('<?php echo addslashes($this->_('Delete this gallery?')); ?>')) {
+                            var td = $(this.parentNode);
+                            var tr = $(this.parentNode.parentNode);
+                            $('<input />').attr('type', 'hidden').attr('name', 'is_deleted').val('1').appendTo(td);
+                            reload(tr, '<?php echo $this->getUrl('media/application_gallery_video/editpost'); ?>', true, function(datas) {
+                                if(datas.success) {
+                                    iframe.f.page.reload();
+                                    tr.css('background-color', '#C41313').css('color', 'white')
+                                        .animate({opacity: 0.3, height: 0}, 500, function() {
+                                            tr.remove();
+                                            if($('#table_list_videos').find('.row_video').length == 0) {
+                                                $('#existing_items_section').hide();
+                                            }
+                                        })
+                                    ;
+                                }
+                            });
+                        }
+                    }
+                });
+            });
+
+            page.setCallback('didappear', function() {
+                $('#toggle_existing_items').click(function() {
+                    $('#existing_items').stop().slideToggle(300, function() {
+                        if($(this).is(':visible')) $('#toggle_existing_items').children('i').removeClass('icon-chevron-down').addClass('icon-chevron-up');
+                        else $('#toggle_existing_items').children('i').removeClass('icon-chevron-up').addClass('icon-chevron-down');
+                    });
+                });
+
+                $('.youtube_type').each(function() {
+                    $(this).dropkick();
+                });
+            });
+
+            page.setCallback('willdisappear', function() {
+                $('#toggle_existing_items').unbind('click');
+                $('.save_video').unbind('click');
+                $('.delete_video').unbind('click');
+            });
+        </script>
+    </div>
+
+    <style type="text/css">
+        #choose_type{
+            margin: auto auto 50px;
+            padding-top: 10px;
+        }
+        .edit_page .section .row_video .full_td {
+            max-width: 295px;
+            width: 295px;
+        }
+    </style>
+</div>

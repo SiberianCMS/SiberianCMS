@@ -1,0 +1,11 @@
+<?php $image = $this->getCurrentImage(); ?>
+<?php $key = $this->getKey(); ?>
+<?php $link = $this->getLink(); ?>
+<li class="image image_<?php echo $image->getValueId() ?>_<?php echo $image->getId() ?> image_<?php echo $image->getValueId() ?> left" style="margin-left: 1px" data-offset="<?php echo $link->getOffset() ?>" data-type="<?php echo $image->getTypeId(); ?>" rel="<?php echo $image->getId(); ?>">
+    <a href="javascript:void(0)" class="left" onclick="javascript:page.getSubpage('<?php echo $image->getValueId(); ?>').showGallery($(this.parentNode)); return false;">
+        <p style="display: table-cell; text-align: center; vertical-align: middle; background-color: black;">
+            <img onload="page.getSubpage('<?php echo $image->getValueId(); ?>').resizeImage($(this), '<?php echo $link->getImage(); ?>')" src="<?php echo $this->getImage('loader/ajax.gif'); ?>" class="loader" width="24" />
+        </p>
+        <img class="image_preview image_preview_<?php echo $image->getValueId(); ?>" src="" style="display:none;" />
+    </a>
+</li>

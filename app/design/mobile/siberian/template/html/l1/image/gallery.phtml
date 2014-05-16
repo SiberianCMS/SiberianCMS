@@ -1,0 +1,131 @@
+<?php $option = $this->getCurrentOption(); ?>
+<div>
+    <div id="images_scrollview_gallery_<?php echo $option->getId(); ?>" style="background-color:black;">
+        <ul id="images_list_gallery_<?php echo $option->getId(); ?>">
+
+        </ul>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+
+    var images_gallery_page = page.getSubpage('gallery_<?php echo $option->getId(); ?>');
+    if(!images_gallery_page) {
+
+        var html = $('#images_scrollview_gallery_<?php echo $option->getId(); ?>').get(0).outerHTML;
+        $('#images_scrollview_gallery_<?php echo $option->getId(); ?>').parent('div').remove();
+
+        var datas = {
+            id: 'gallery_<?php echo $option->getId(); ?>',
+            html: html,
+            type: 'modal',
+            title: '',
+            back_button_title: '<?php echo $this->_('Close'); ?>'
+        }
+
+        images_gallery_page = page.createSubpage(datas);
+
+        images_gallery_page.setCallback('willappear', function() {
+            this.setScrollview(new iScroll('images_scrollview_'+this.id, {snap:true,vScroll:false}));
+            this.scrollview.scrollToPage(this.scrollview_page, 0, 0);
+        });
+        images_gallery_page.setCallback('didappear', function() {
+            this.setContentSize();
+        });
+
+        images_gallery_page.setImages = function(id, images) {
+
+            for(var i=0;i<images.length;i++) {
+                var data = images[i];
+                var dummy = '\
+                <li class="gallery_<?php echo $option->getId(); ?> gallery_<?php echo $option->getId(); ?>_#{image_id} left" style="position:relative;display:table-cell;text-align:center;vertical-align:middle;">';
+                if(data.title) {
+                dummy +='\
+                    <p class="title" style="position:absolute;top:0;left:0;width:100%;height:20px;margin:0;padding:4px 0;line-height:20px;background:rgba(255,255,255,0.5);overflow:hidden;">#{image_title}</p>';
+                }
+                dummy +='\
+                    <p style="display: table-cell; text-align: center; vertical-align: middle; background-color: black;">\n\
+                        <img onload="page.getSubpage(\'gallery_<?php echo $option->getId(); ?>\').resizeGallery($(this), \'#{image_link}\')" src="<?php echo $this->getImage('loader/ajax.gif'); ?>" class="loader" width="24" style="left: 50%; top: 50%; margin-left: -12px; margin-top: -12px; position: absolute;" />\n\
+                    </p>\n\
+                    <img class="image_gallery image_gallery_<?php echo $option->getId(); ?> image_gallery_<?php echo $option->getId(); ?>_#{image_id}" src="" style="display:none;" />';
+                if(data.description) {
+                dummy +='\
+                    <p class="description" style="position:absolute;bottom:0;left:0;width:100%;height:25px;margin:0;padding:5px 0;line-height:15px;background:rgba(255,255,255,0.5);">#{image_description}</p>';
+                }
+                dummy +='\
+                </li>';
+                var li = dummy.replaceAll('#{image_id}', id).replace('#{image_link}', data.image).replace('#{image_title}', data.title).replace('#{image_description}', data.description);
+                $('#images_list_'+this.id).append(li);
+            }
+            $('.gallery_<?php echo $option->getId(); ?>_'+id).css({width: $(window).width(), height: $('#pages').height() - $('#page_header_'+this.id).height()});
+
+        }
+
+        images_gallery_page.refreshScrollview = function() {
+
+            var width = $(window).width();
+            var height = $('#pages').height() - $('#page_header_'+this.id).height();
+            var total_width = width * $('#images_list_'+this.id).children('li:visible').length;
+
+            $('#images_scrollview_'+this.id).css({width: width, height: height});
+            $('#images_list_'+this.id).css('min-width', width+1).css('width', total_width);
+
+            this.scrollview.refresh();
+            return this;
+        }
+
+        images_gallery_page.setContentSize = function() {
+
+            $('.image_'+this.id+':visible').each(function(i, el) {
+                this.setImageSize(el);
+            }.bind(this));
+
+            this.scrollview.scrollToPage(this.scrollview.currPageX, 0, 0);
+
+            return this;
+        }
+
+        images_gallery_page.resizeGallery = function(img_loader, src) {
+
+//            var max_width = $(window).width();
+//            var max_height = $(window).height() - $('#page_header_'+this.id).height();
+            var p = $(img_loader).parent('p');
+            var img = p.next('img');
+//            p.css('width', max_width).css('height', max_height).fadeIn();
+            img.load(function() {
+                p.remove();
+                if(this.is_displayed) this.setImageSize(img.get(0));
+                img.show();
+            }.bind(this));
+
+            img.attr('src', src);
+
+            return this;
+        }
+
+        images_gallery_page.setImageSize = function(image) {
+
+            var max_width = $(window).width();
+            var max_height = $('#pages').height() - $('#page_header_'+this.id).outerHeight(true);
+            var height = max_width / image.width * image.height;
+            var width = max_height / image.height * image.width;
+
+            $(image).removeAttr('height').removeAttr('width');
+            if(height > max_height) {
+                $(image).removeAttr('style').css('width',width);
+            }
+            else {
+                $(image).removeAttr('style').css('height', height);
+            }
+            var paddingTop = (max_height-height) / 2;
+            paddingTop = Math.max(paddingTop, 0);
+            $(image).parent('li').css('width', max_width).css('height', max_height-paddingTop).css('padding-top', paddingTop);
+
+            return this;
+        }
+
+        page.getSubpage('<?php echo $option->getId(); ?>').addChild(images_gallery_page);
+    }
+
+</script>

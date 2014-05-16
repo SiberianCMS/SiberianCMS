@@ -1,0 +1,116 @@
+<div class="customization application">
+    <div class="application_header app_name">
+        <?php echo $this->getPartialHtml('customization_header'); ?>
+    </div>
+    <div class="application_content customization_content inner_content">
+        <div class="title">
+            <i class="left icon-cogs"></i>
+            <h2 class="left f-rounded"><?php echo $this->_('Editor'); ?></h2>
+            <div class="clear"></div>
+            <hr class="inner_content reverse" />
+        </div>
+        <div>
+            <?php echo $this->getPartialHtml('customization_menu'); ?>
+        </div>
+
+        <div id="customization_content_left" class="content_left">
+            <div>
+                <?php if($html = $this->getPartialHtml('content_editor')) : ?>
+                <?php echo $html; ?>
+                <?php endif; ?>
+            </div>
+            <div class="clear"></div>
+        </div>
+
+        <div id="overview" class="content_right">
+            <?php echo $this->getPartialHtml('overview'); ?>
+        </div>
+        <div class="clear"></div>
+
+
+    </div>
+
+</div>
+
+<script type="text/javascript">
+
+    var iframe = {
+        setHomepageImage: function(img) {
+            var logo = iframe.content.find('#homepage_background_image_link');
+            if(img != false) {
+                logo.attr('src', img);
+                logo.show();
+            } else {
+                logo.hide();
+            }
+        },
+        setBackgroundImage: function(url) {
+            this.content.find('style#background_image').replaceWith('<style id="background_image">'+'.background_image {background: url(%url);}'.replace('%url', url)+'</style>');
+        },
+
+        setFont: function(fontName) {
+            this.content.find('style#font').replaceWith('<style id="font">'+'.wrapper * {font-family: %ff;}'.replace('%ff', fontName)+'</style>');
+        },
+
+        setColor: function(to, color) {
+            this.content.find('style#color_'+to).replaceWith('<style id="color_'+to+'">.wrapper .'+to+', .wrapper .'+to+' *, .wrapper .'+to+', .wrapper a .'+to+', .wrapper a.'+to+' {color: '+color+' !important;}</style>');
+        },
+        setBackgroundColor: function(to, color) {
+            this.content.find('style#backgroundColor_'+to).replaceWith('<style id="backgroundColor_'+to+'">.wrapper .'+to+' {background-color: '+color+' !important;}</style>');
+        },
+
+        setTabbarColor: function(rgb) {
+            iframe.content.find('canvas').remove();
+            iframe.content.find('#tabbar').find('img').each(function() {
+                var newcanvas = $(this).colorize(rgb, true);
+                if(newcanvas) {
+                    $(newcanvas).insertBefore($(this));
+                    $(this).hide();
+                }
+            });
+        },
+
+        reload: function() {
+            this.object.attr("src", this.object.attr("src"));
+            this.load();
+        },
+
+        load: function() {
+            var mask_overview = $('<div />').attr('id', 'mask_overview').addClass('mask');
+            mask_overview.appendTo($('body'));
+            $('#mobile_overview').load(function() {
+
+                iframe.object = $('#mobile_overview');
+                iframe.content = iframe.object.contents();
+                iframe.f = iframe.object.get(0).contentWindow;
+
+                iframe.content.find('#tabbar').find('img').each(function() {
+                    $(this).attr('src', $(this).attr('src').replace('@2x', ''));
+                });
+                iframe.f.app.isOverview = true;
+
+                mask_overview.remove();
+
+                if(typeof this.iframeIsLoaded == 'function') this.iframeIsLoaded();
+            }.bind(this));
+        }
+    };
+
+    if($('#mobile_overview').attr('id')) {
+        iframe.load();
+    }
+
+    var originY;
+    var maxY;
+
+    $(document).ready(function() {
+        if($('#iphone').attr('id')) {
+            $('#iphone').scroller({
+                leader: $('#customization_content_left')
+            });
+        }
+    });
+
+//    customizator.init();
+
+</script>

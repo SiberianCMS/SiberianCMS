@@ -1,0 +1,52 @@
+"Last update";"Date de mise à jour"
+"My informations";"Mes informations"
+"Change my password";"Modifier mon mot de passe"
+"Current password";"Ancien mot de passe"
+"Confirm new password";"Confirmer le nouveau mot de passe"
+"Required fields";"Champs obligatoire"
+"My invoices";"Mes factures"
+"Billing date";"Date de facturation"
+"Total including VAT";"Total TTC"
+Action;Action
+See;Voir
+"Login here if you already own an account:";"Si vous avez déjà un compte, vous pouvez vous connecter ici :"
+"You don't already have an account? Register here for free!";"Vous n'avez pas de compte ? Créez en un gratuitement !"
+"Enter your credentials:";"Saisissez vos identifiants :"
+"Forgot your password? Don't worry! Simply enter your email address and we'll send you a new one right now.";"Vous avez oublié votre mot passe ? Ne vous inquiétez pas ! Saisissez votre adresse email, nous vous en renverrons un immédiatement."
+"Forgot your password ?";"Mot de passe oublié ?"
+"Log in";Connexion
+Sign-up;Création
+Send;Envoyer
+"Create a new application";"Créer une nouvelle application"
+"My applications";"Mes applications"
+"Created on";"Créée le"
+Manage;Gérer
+"White label admin panel";"Admin en marque blanche"
+"My domain name";"Mon nom de domaine"
+"Please enter a valid domain (e.g: http://www.mydomain.com)";"Veuillez saisir un nom de domaine valide (ex: http://www.domaine.com)"
+"Access to your white label admin panel";"Accès à votre backoffice en marque blanche"
+"Custom domain name";"Nom de domaine personnalisé"
+"Delete this application?";"Etes-vous sûr de vouloir supprimer cette application ?"
+"An error occurred while saving your account. Please try again later.";"Une erreur est survenue lors de la sauvegarde du compte. Merci de réessayer ultérieurement"
+"Your account has been successfully saved";"Votre compte a été sauvegardé avec succès"
+"Please enter the application name";"Veuillez saisir un nom pour votre nouvelle application"
+"An error occurred while generating your application.";"Une erreur est survenue lors de la génération de votre application."
+"An error occurred while deleting your application";"Une erreur s'est produite lors de la suppression de votre application"
+"An error occurred while saving your colors. Please try again later.";"Une erreur est survenue lors de la sauvegarde de votre couleur. Veuillez réessayer ultérieurement."
+"Login to your admin interface";"Connexion à votre interface d'administration"
+"My Invoices";"Mes factures"
+"My Hostings";"Mes hébergements"
+"Your email address";"Votre adresse email"
+"Your password";"Votre mot de passe"
+"Your lastname";"Votre nom"
+"Your firstname";"Votre prénom"
+"Welcome to Tiger";"Bienvenue chez Tiger"
+"Notifications";"Notifications"
+"My notifications";"Mes notifications"
+"My notifications list";"Liste de mes notifications"
+Details;Détails
+"Mark as unread";"Marquer comme non lu"
+"Mark as read";"Marquer comme lu"
+;
+banner_en.gif;banniere_fr.gif
+"Subscribe to our webinar and get 3 apps for free";"Inscrivez-vous à notre Webinar, nous vous offrons 3 apps"

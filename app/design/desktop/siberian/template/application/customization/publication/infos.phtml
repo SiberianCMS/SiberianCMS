@@ -1,0 +1,111 @@
+<?php $application = $this->getApplication() ?>
+<div class="application">
+    <div class="infos">
+        <div class="area">
+            <h3 class="title">
+                <span class="left area"><?php echo $this->_('General information'); ?></span>
+                <hr class="area reverse" />
+                <div class="clear"></div>
+            </h3>
+            <div class="area_content">
+                <table class="no-collapse" cellspacing="10" width="100%">
+                    <col width="33%"/>
+                    <col width="33%"/>
+                    <col width="34%"/>
+                    <tr>
+                        <td><div><label data-tip="44" data-tip-left="80" for="name"><?php echo $this->_('Application name'); ?> : </label></div></td>
+                        <td><input type="text" id="name" name="name" class="autosave input" value="<?php echo $application->getName() ? $application->getName() : ucfirst(mb_strtolower($this->getSession()->getAdmin()->getName())); ?>" maxlength="30" /></td>
+                        <td><img src="<?php echo $this->getImage('customization/ajax/spinner.gif'); ?>" id="loader_name" alt="Loading" title="Loading" width="24" style="display:none;" /></td>
+                    </tr>
+                    <tr>
+                        <td><div><label for="bundle_id"><?php echo $this->_('Bundle Id'); ?> : </label></div></td>
+                        <td><input type="text" id="bundle_id" name="bundle_id" class="autosave input" value="<?php echo $application->getBundleId(); ?>" placeholder="com.siberiancms.app" /></td>
+                        <td><img src="<?php echo $this->getImage('customization/ajax/spinner.gif'); ?>" id="loader_bundle_id" alt="Loading" title="Loading" width="24" style="display:none;" /></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="area">
+            <h3 class="title">
+                <span class="left area"><?php echo $this->_('Mobile source codes'); ?></span>
+                <hr class="area reverse" />
+                <div class="clear"></div>
+            </h3>
+            <div class="area_content">
+                <?php $errors = $this->getApplication()->isAvailableForPublishing(); ?>
+                <?php if(count($errors) > 0) : ?>
+                <p><?php echo $this->_('To be able to download source codes, please provide the following information:<br />'); ?></p>
+                <p>- <?php echo join('<br />- ', $errors); ?></p>
+                <?php else : ?>
+                <div>
+                    <p><?php echo $this->_('Click here to download the source code:'); ?></p>
+                    <table class="no-collapse" cellspacing="10" width="350px">
+                        <col width="60%"/>
+                        <col width="5%"/>
+                        <col width="30%"/>
+                        <tr>
+                            <td><?php echo $this->_('iPhone Version'); ?></td>
+                            <td>
+                                <a href="<?php echo $this->getUrl('application/customization_publication_infos/generate', array('device_id' => 1)) ?>"><i class="icon-download-alt"></i></a>
+                            </td>
+                            <td>
+                                <a href="<?php echo $this->getUrl('application/customization_publication_infos/generate', array('device_id' => 1)) ?>"><?php echo $this->_('Download'); ?></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><?php echo $this->_('Android Version'); ?></td>
+                            <td>
+                                <a href="<?php echo $this->getUrl('application/customization_publication_infos/generate', array('device_id' => 2)) ?>"><i class="icon-download-alt"></i></a>
+                            </td>
+                            <td>
+                                <a href="<?php echo $this->getUrl('application/customization_publication_infos/generate', array('device_id' => 2)) ?>"><?php echo $this->_('Download'); ?></a>
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+                <?php endif; ?>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+        setAppName($('#name').val());
+        //changement de nom appli
+        $('#name').keyup(function() {
+            setAppName($('#name').val());
+        });
+
+        function setAppName(name) {
+            if(!name) name = '';
+            var newName = '';
+            name = name.trim();
+            if(name.length > 12) newName = name.substring(0, 5).trim()+'...'+name.substring(name.length-5, name.length).trim();
+            else newName = name;
+            $('#app_name').html(newName);
+            $('#header_app_name').html(newName);
+        }
+
+        $('.autosave').change(function() {
+            var input_loader = $('#loader_'+$(this).attr('id'));
+            input_loader.show();
+                reload(this.parentNode, '<?php echo $this->getUrl('application/customization_publication_infos/save'); ?>', false, function(datas) {
+                input_loader.hide();
+            }, function() {
+                input_loader.hide();
+            });
+        });
+</script>
+
+<style type="text/css">
+    .application .infos .ask_if_has_account { padding: 5px; }
+    .application .infos input.has_account { min-width: 20px; width: 20px; }
+
+    /*homescreen*/
+    #mobile_homescreen {  }
+    /*#mobile_homescreen .touch_icon { position: absolute; top: 249px; left: 128px; height: 71px; }*/
+    #name:disabled { opacity:0.4 }
+    input#name.error { border: 1px dotted red !important }
+</style>

@@ -1,0 +1,136 @@
+<?php $option = $this->getCurrentOption(); ?>
+<?php $menu = new Catalog_Model_Product(); ?>
+<?php $menus = $menu->findAll(array('value_id' => $option->getId(), 'type' => 'menu')) ?>
+<div id="menus" class="menus">
+    <div id="menus_scrollview_<?php echo $option->getId(); ?>" class="scrollview list relative" rel="<?php echo $option->getId(); ?>">
+        <ul id="menus_list_<?php echo $option->getId(); ?>">
+            <?php foreach($menus as $menu) : ?>
+            <li id="menu_details_<?php echo $menu->getId() ?>" class="border menu_details menu_details_<?php echo $option->getId(); ?> relative" rel="<?php echo $menu->getId() ?>">
+                <div class="item parent">
+                    <a id="menu_<?php echo $option->getId(); ?>_<?php echo $menu->getId(); ?>" class="name toggle_description toggle_description_<?php echo $menu->getId(); ?> block" onclick="javascript:toggleMenuDescription('<?php echo $menu->getId() ?>', '<?php echo $option->getId(); ?>')" href="javascript:void(0);" rel="<?php echo $menu->getId(); ?>">
+                        <div class="picture logo left"<?php if(!$menu->getPictureUrl()) : ?> style="display:none;"<?php endif ?>>
+                            <img src="<?php echo $menu->getPictureUrl() ?>" id="picture_<?php echo $option->getId() ?>_<?php echo $menu->getId(); ?>" height="40" />
+                        </div>
+                        <span id="menu_name_<?php echo $menu->getId(); ?>" class="menu_name left block"><?php echo $menu->getName() ?></span>
+                        <span id="menu_price_<?php echo $menu->getId(); ?>" class="right price block right"><?php echo $menu->getPrice() > 0 ? $menu->getFormattedPrice() : '' ?></span>
+                        <div class="clear"></div>
+                        <span id="menu_conditions_<?php echo $menu->getId(); ?>"class="menu_conditions menu_conditions_<?php echo $menu->getId(); ?> block"><?php echo $menu->getConditions() ?></span>
+                    </a>
+                </div>
+            </li>
+            <li id="menu_description_<?php echo $menu->getId() ?>" class="menu_description border" style="display: none;">
+                <div class="separator"></div>
+                <p class="description align-left"><?php echo $menu->getDescription() ?></p>
+            </li>
+            <li class="separator" rel="<?php echo $menu->getId() ?>"></li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+    <script type="text/javascript">
+
+        var subpage = page.getSubpage('<?php echo $option->getId(); ?>');
+
+        subpage.setCallback('willappear', function() {
+            var scrollview = new iScroll('menus_scrollview_<?php echo $option->getId(); ?>');
+            this.setScrollview(scrollview)
+                .setContentSize()
+            ;
+        }).setCallback('diddisappear', function() {
+            var list = $('#menus_list_<?php echo $option->getId(); ?>');
+            list.children('li.menu_details').slideDown();
+            list.children('li.separator').show();
+        });
+
+        subpage.setContentSize = function() {
+
+            $('.toggle_description_<?php echo $menu->getId(); ?>').each(function(i, el) {
+                this.calcRowWidth($(el));
+            }.bind(this));
+
+            $('.menu_conditions_<?php echo $menu->getId(); ?>').each(function() {
+                var bottom = ((Math.round($(this).outerHeight(true) / 20) - 1) * 15) * -1;
+                $(this).css({bottom: bottom});
+            });
+
+            return this;
+
+        }
+
+        subpage.calcRowWidth = function(a) {
+            a = $(a);
+            var id = a.attr('rel');
+            var width = (a.width() - $('#menu_price_'+id).outerWidth(true));
+            if($('#picture_'+id).is(':visible')) {
+                width -= $('#picture_'+id).outerWidth(true);
+            }
+            width -= 10;
+            a.find('.menu_name').stop().animate({width: width});
+            this.refreshScrollview();
+        }
+
+        function toggleMenuDescription(id, option_id) {
+
+            var div = $('#menu_description_'+id);
+            var list = $('#menus_list_'+option_id);
+            var scrollview = page.getSubpage(option_id).scrollview;
+
+            if(div.is(':visible')) {
+                list.children('li.menu_details').slideDown();
+                list.children('li.separator').show();
+                $('#menu_details_'+id).animate({height: 70});
+                // Calcul le nombre de ligne, retire une ligne, multiplie par la hauteur d'une ligne, passe le tout en négatif
+                var nbr_of_lines = Math.round($('#menu_conditions_'+id).outerHeight(true) / 20);
+                var bottom = ((nbr_of_lines - 1) * 15) * -1;
+                $('#menu_conditions_'+id).animate({bottom: bottom});
+                $('#menu_price_'+id).animate({top: '50%'});
+
+                scrollview.scrollTo(0, 0, 300);
+                div.slideUp(300, function() {
+                    scrollview.refresh();
+                });
+            }
+            else {
+                list.children('li.menu_details').each(function() {
+                    if($(this).attr('rel') != id) {
+                        $(this).slideUp();
+                    }
+                    else {
+                        var height = $(this).find('.menu_name').outerHeight(true) + $(this).find('.price').outerHeight(true) + $('#menu_conditions_'+id).outerHeight(true) + 10;
+                        $(this).animate({height: Math.max(height, 70)});
+                        height -= $('#menu_conditions_'+id).height();
+                        $('#menu_conditions_'+id).animate({bottom: 0});
+                        $('#menu_price_'+id).animate({top: 20});
+                    }
+                });
+                list.children('li.separator').hide();
+
+                scrollview.scrollTo(0, 0, 300);
+                div.slideDown(300, function() {
+                    scrollview.refresh();
+                });
+            }
+
+        }
+    </script>
+    <style>
+        .menus .scrollview .menu_details {height:70px;margin:6px 10px;overflow:hidden;}
+        .menus .scrollview .menu_details div.item, .menus .scrollview .menu_details div.item a.toggle_description {height:100%;display: block}
+        .menus .scrollview .menu_details div.item div.picture {width:38px;height:38px;margin-right:10px;overflow:hidden;}
+/*        .menus .scrollview .menu_details div.item a.name span.menu_name, .menus .scrollview div.item a.name span.menu_conditions {width:85%;}
+        .menus .scrollview .menu_details div.item a.name.picture span.menu_name, .menus .scrollview div.item a.name.picture span.menu_conditions {width:65%;}*/
+        .menus .scrollview .menu_details div.item a.name span.menu_name { max-height: 37px; overflow: hidden; }
+        .menus .scrollview .menu_details div.item span.price {position:absolute;top:50%;right:0;margin-top:-15px;font-size:22px;}
+        .menus .scrollview .menu_details div.item span.menu_conditions {position:absolute;margin-top:10px;font-size:13px;line-height: 16px;text-align:justify;}
+        .menus .scrollview .menu_description * {margin:10px;}
+        .menus .scrollview .menu_description .separator {margin:0px;}
+
+        .menus .scrollview .menu_description h1,.menus .scrollview .menu_description h1 span,
+        .menus .scrollview .menu_description h2,.menus .scrollview .menu_description h2 span,
+        .menus .scrollview .menu_description h3,.menus .scrollview .menu_description h3 span {
+            font-family:Lobster !important;
+        }
+        .menus .scrollview .menu_description h1,.menus .scrollview .menu_description h1 span{font-size:32px !important}
+        .menus .scrollview .menu_description h2,.menus .scrollview .menu_description h2 span{margin-left: 10px;font-size:26px !important}
+        .menus .scrollview .menu_description h3,.menus .scrollview .menu_description h3 span{margin-left: 10px;font-size:20px !important}
+    </style>
+</div>

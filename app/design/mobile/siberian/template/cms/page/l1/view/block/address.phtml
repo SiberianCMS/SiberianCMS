@@ -1,0 +1,18 @@
+<?php $block = $this->getCurrentBlock(); ?>
+<div rel="<?php echo $block->getPosition() ?>" class="cms_block address padding">
+    <div class="full_width">
+        <div class="address">
+            <div id="cms_address_container_<?php echo $block->getPosition(); ?>"<?php if(!$block->getShowAddress()) : ?> style="display:none;"<?php endif; ?>>
+                <?php if($block->getLabel()) : ?>
+                <h4 id="cms_label_<?php echo $block->getPosition(); ?>"><?php echo $block->getLabel(); ?></h4>
+                <?php endif; ?>
+                <p id="cms_address_<?php echo $block->getPosition(); ?>"><?php echo nl2br($block->getAddress()); ?></p>
+            </div>
+
+            <button id="cms_geolocation_button_<?php echo $block->getPosition(); ?>" class="button full_width icon_left locate_us arrow_right"<?php if(!$block->getAddress()) : ?> style="display:none;"<?php else : ?> onclick="page.showGoogleMaps('<?php echo addslashes(preg_replace( "#\n|\r|\r\n#", ' ', $block->getAddress())); ?>');"<?php endif; ?><?php if(!$block->getShowGeolocationButton()) : ?> style="display:none;"<?php endif; ?>>
+                <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/marker.png', true), $this->getApplication()->getDesignBlock('button')->getColor()); ?>" width="21" height="21" />
+                <?php echo $this->_('Locate'); ?>
+            </button>
+        </div>
+    </div>
+</div>

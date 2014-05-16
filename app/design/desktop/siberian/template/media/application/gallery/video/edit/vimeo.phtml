@@ -1,0 +1,44 @@
+<?php $video = $this->getCurrentVideo(); ?>
+<?php $option_value = $this->getCurrentOptionValue(); ?>
+<?php $key = $this->getCurrentKey(); ?>
+
+<table id="new_gallery_<?php echo $video->getTypeId(); ?>" class="new_gallery no-collapse" cellspacing="5" style="display:none;">
+    <col width="82px" />
+    <col width="175px" />
+    <col width="175px" />
+    <col width="145px" />
+    <col width="45px" />
+    <col width="45px" />
+    <tr>
+        <th></th>
+        <th><div><?php echo $this->_('Gallery Name') ?> <span class="required-entry"> *</span> :</div></th>
+        <th><div><?php echo $this->_('Search') ?> <span data-tip="35" data-tip-left="55" class="required-entry"> *</span> :</div></th>
+        <th><div><?php echo $this->_('Type') ?> <span data-tip="36" data-tip-right="0" class="required-entry"> *</span> :</div></th>
+        <th></th>
+        <th></th>
+    </tr>
+    <tr id="row_<?php echo $video->getId(); ?>_<?php echo $video->getTypeId(); ?>" class="row_video">
+        <td><img src="<?php echo $this->getImage('pictos/vimeo.png'); ?>" title="<?php echo $this->_('Vimeo'); ?>" alt="<?php echo $this->_('Vimeo'); ?>" width="43" height="43" /></td>
+        <td><input type="text" name="name" value="<?php echo $video->getName(); ?>" placeholder="<?php echo $this->_('Gallery Name') ?>" class="required input" /></td>
+        <td><input type="text" name="param" value="<?php echo $video->getParam(); ?>" placeholder="<?php echo $this->_('Parameter') ?>" class="required input" /></td>
+        <td>
+            <select name="type" class="youtube_type required" id="video_type_<?php echo $video->getId() ?>_<?php echo $video->getTypeId(); ?>" tabindex="<?php echo $key; ?>">
+                <option value=""><?php echo $this->_('Type') ?></option>
+                <?php foreach($video->getAllTypes() as $type) : ?>
+                    <option value="<?php echo $type ?>"<?php if($video->getType() == $type) :?> selected="selected"<?php endif; ?>><?php echo ucfirst($type); ?></option>
+                <?php endforeach; ?>
+            </select>
+        </td>
+        <td>
+            <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>" />
+            <input type="hidden" name="type_id" value="<?php echo $video->getTypeId(); ?>" />
+            <?php if($video->getId() != 'new') : ?>
+                <input type="hidden" name="id" value="<?php echo $video->getId(); ?>" />
+            <?php endif; ?>
+            <button type="button" class="default_button save_video left"><?php echo $this->_('OK'); ?></button>
+        </td>
+        <td><button type="button" class="delete delete_video" rel="<?php echo $video->getId(); ?>"><i class="icon-remove"></i></button></td>
+    </tr>
+</table>
+
+

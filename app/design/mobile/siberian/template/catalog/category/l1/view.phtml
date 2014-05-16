@@ -1,0 +1,263 @@
+<?php $option = $this->getCurrentOption(); ?>
+<?php $categories = $this->getCategories(); ?>
+<?php $parents = array(); ?>
+<?php $hasSubcategories = array(); ?>
+<?php foreach($categories as $k => $category) : ?>
+<?php if($category->getChildren()->count() > 0) $hasSubcategories = true; ?>
+<?php endforeach ?>
+<div class="categories">
+    <?php if($categories->count() > 0) : ?>
+    <div id="scrollview_<?php echo $option->getId(); ?>" id="category_scrollview" class="category_scrollview scroll_list header header" style="position:relative;">
+        <ul>
+        <?php foreach($categories as $k => $category) : ?>
+            <li><a href="javascript:void(0)" onclick="category.show(this); return false;"<?php if($k == 0) : ?> id="first_subcategory_<?php echo $option->getId(); ?>"<?php endif; ?>class="show_subcategories" rel="<?php echo $category->getId(); ?>" category_id="<?php echo $category->getId(); ?>"><?php echo $category->getName(); ?></a></li>
+            <?php //if(!$hasSubcategories) : ?>
+            <?php $parents[$category->getId()] = $category; ?>
+            <?php //endif; ?>
+        <?php endforeach; ?>
+        </ul>
+        <div class="separator"></div>
+    </div>
+    <?php foreach($categories as $k => $category) : ?>
+    <?php if($category->getChildren()->count() > 0) : ?>
+        <div id="scrollview_subcategory_<?php echo $category->getId(); ?>" class="scroll_list subcategory_scrollview header" rel="<?php echo $category->getId(); ?>" style="display:none;position:relative;">
+            <ul>
+                <li><a href="javascript:void(0)" onclick="category.showProducts(this); return false;" class="show_products" rel="<?php echo $category->getId(); ?>"><?php echo $this->_("All") ?></a></li>
+            <?php foreach($category->getChildren() as $k => $subcategory) : ?>
+                <li><a href="javascript:void(0)" onclick="category.showProducts(this); return false;" class="show_products" rel="<?php echo $category->getId(); ?>" category_id="<?php echo $subcategory->getId(); ?>"><?php echo $subcategory->getName(); ?></a></li>
+                <?php //$parents[$subcategory->getParentId()] = $subcategory->getParent(); ?>
+            <?php endforeach; ?>
+            </ul>
+            <div class="separator"></div>
+        </div>
+    <?php endif; ?>
+    <?php endforeach; ?>
+    <?php endif; ?>
+    <div id="products_<?php echo $option->getId(); ?>" class="relative">
+        <?php foreach($parents as $category) : ?>
+        <div id="category_products_<?php echo $category->getId(); ?>">
+        <?php echo $this->drawProducts($category); ?>
+        </div>
+        <?php endforeach; ?>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    var subpage = page.getSubpage('<?php echo $option->getId(); ?>');
+    subpage.setCallback('willappear', function() {
+        <?php if($categories->count() > 0) : ?>
+        var scrollview = new iScroll('scrollview_<?php echo $option->getId(); ?>', {
+            vScroll: false,
+            hScroll: true,
+            hScrollbar: false,
+            vScrollbar: false
+        });
+        scrollviews.add('scrollview_category', scrollview);
+        this//.setScrollview(scrollview)
+            .setContentSize()
+        ;
+        <?php endif; ?>
+    }).setCallback('didappear', function() {
+        <?php if($categories->count() > 0) : ?>
+        $('#first_subcategory_<?php echo $option->getId(); ?>').click();
+        <?php endif; ?>
+    }).setCallback('willdisappear', function() {
+        scrollviews.destroy('scrollview_category');
+        for(var id in category.scrollviews) {
+            if(category.scrollviews[id]) category.scrollviews[id].destroy();
+        }
+    }).setCallback('didresize', function() {
+        this.setContentSize();
+    });
+
+    subpage.setContentSize = function() {
+
+        // Categories
+        var total_width = 0;
+        var scrollview = $('#scrollview_<?php echo $option->getId(); ?>');
+        var height = $('body').height() - $('#products_<?php echo $option->getId(); ?>').offset().top;
+        var ul = scrollview.children('ul');
+        ul.find('li').each(function() {
+            total_width += $(this).outerWidth(true);
+        });
+        scrollview.children('ul').css('min-width', $(window).width()+1).css('width', total_width+1);
+        scrollview.css('width', $(window).width())
+        scrollviews.refresh('scrollview_category');
+
+        // Subcategories
+        $('#products_<?php echo $option->getId(); ?>').find('.subcategory_scrollview').each(function() {
+
+            var scrollview = $(this);
+            var id = scrollview.attr('rel');
+            var ul = scrollview.children('ul');
+            var total_width = 0;
+            ul.find('li').each(function() {
+                total_width += $(this).outerWidth(true);
+            });
+
+            scrollview.children('ul').css('width', total_width + 5);
+            scrollview.css('width', $('body').width())
+            if(category.scrollviews[id]) category.scrollviews[id].refresh();
+        });
+
+        // Products
+        $('#products_<?php echo $option->getId(); ?>').find('.scrollview_products').each(function() {
+
+            var scrollview = $(this);
+            var id = scrollview.attr('rel');
+            var ul = scrollview.children('ul');
+            ul.css('min-height', height + 5);
+            scrollview.css('height', height);
+            if(category.scrollviews['product_'+id]) category.scrollviews['product_'+id].refresh();
+
+        });
+
+        return this;
+
+    }
+
+    category = {
+        scrollviews: new Array(),
+        show: function(a) {
+            a = $(a);
+            var id = a.attr('rel');
+
+            $('.subcategory_scrollview').hide();
+            $('.scrollview_products').hide();
+            $('.show_subcategories').removeClass('selected header reverse');
+            $('.show_products').removeClass('selected header reverse');
+            a.addClass('selected header reverse');
+
+            if($('#scrollview_subcategory_'+id).attr('id')) {
+
+                var subcategory_scrollview = null;
+
+                var scrollview = $('#scrollview_subcategory_'+id);
+
+                if(scrollview.attr('id')) {
+
+                    $('#scrollview_subcategory_'+id).show();
+
+                    if(typeof this.scrollviews[id] == 'undefined') {
+
+                        scrollview.css('width', $('body').width())
+                        var total_width = 0;
+                        var ul = scrollview.children('ul');
+                        ul.css('width', $('body').width());
+
+                        ul.find('li').each(function() {
+                            total_width += $(this).outerWidth(true);
+                        });
+
+                        ul.css('width', total_width + 5);
+
+                        subcategory_scrollview = new iScroll('scrollview_subcategory_'+id, {
+                            vScroll: false,
+                            hScroll: true,
+                            hScrollbar: false,
+                            vScrollbar: false
+                        });
+
+                        this.scrollviews[id] = subcategory_scrollview;
+
+                    }
+
+                    scrollview.find('a.show_products:first').addClass('selected header reverse');
+                }
+            }
+
+            if(!$('#scrollview_products_'+id).is(':visible')) {
+                $('.scrollview_products').hide();
+                $('#scrollview_products_'+id).fadeIn();
+            }
+            $('#scrollview_products_'+id).find('li').fadeIn();
+
+            this.setProductsContentSize(id);
+
+        },
+        showProducts: function(a) {
+            a = $(a);
+            var id = a.attr('rel');
+            var category_id = a.attr('category_id');
+            $('#scrollview_products_'+id).find('li').each(function() {
+                if(!category_id || $(this).attr('category_id') == category_id) $(this).fadeIn();
+                else $(this).hide();
+            });
+
+            $('.show_products').removeClass('selected header reverse');
+            a.addClass('selected header reverse');
+
+            this.setProductsContentSize(id);
+
+        },
+
+        setProductsContentSize: function(id) {
+
+            var product_scrollview = null;
+            var total_height = 0;
+            var scrollview = $('#scrollview_products_'+id);
+
+            if(scrollview.attr('id')) {
+
+                var ul = scrollview.children('ul');
+                ul.find('li:visible').each(function() {
+                    total_height += $(this).outerHeight(true);
+                });
+
+                var scrollview_height = $(window).height() - $('#category_products_'+id).offset().top;
+                scrollview.children('ul').css({height: total_height + 10, 'min-height': scrollview_height});
+                scrollview.css('height', scrollview_height);
+
+                if(typeof this.scrollviews['product_'+id] == 'undefined') {
+                    product_scrollview = new iScroll('scrollview_products_'+id, {
+                        vScroll: true,
+                        hScroll: false,
+                        hScrollbar: false,
+                        vScrollbar: false
+                    });
+
+                    this.scrollviews['product_'+id] = product_scrollview;
+                }
+                else {
+                    this.scrollviews['product_'+id].refresh();
+                }
+            }
+
+        }
+    }
+
+    function toggleProductDetails(li) {
+        li = $(li);
+        var product_formats = li.find('div.product_formats');
+        if(li.hasClass('open')) {
+            li.find('p.product_name').removeAttr('style');
+            li.find('p.product_description').removeAttr('style');
+            li.removeClass('open');
+            if(product_formats.length) {
+                li.find('div.product_formats').slideUp(300, function() {
+                    category.setProductsContentSize(li.attr('rel'));
+                });
+            }
+            li.find('button.show_formats').fadeIn();
+        }
+        else {
+            li.find('p.product_name').css({height: 'auto', overflow: 'visible'});
+            li.find('p.product_description').css('height', 'auto');
+            li.addClass('open');
+            if(product_formats.length) {
+                li.find('div.product_formats').slideDown(300, function() {
+                    category.setProductsContentSize(li.attr('rel'));
+                });
+            }
+            li.find('button.show_formats').fadeOut();
+        }
+
+        if(!product_formats.length) {
+            category.setProductsContentSize(li.attr('rel'));
+        }
+
+//        scrollviews.refresh('scrollview_products_'+li.attr('rel'));
+    }
+
+</script>

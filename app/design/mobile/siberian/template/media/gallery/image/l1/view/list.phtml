@@ -1,0 +1,19 @@
+<?php $image = $this->getCurrentImage(); ?>
+<?php $images = $image->getImages(); ?>
+
+<?php if (count($images) > 0) : ?>
+    <?php foreach ($images as $key => $link) : ?>
+        <?php echo $this->getLayout()->addPartial('row', 'core_view_default', 'media/gallery/image/l1/view/list/li.phtml')->setCurrentImage($image)->setKey($key)->setLink($link)->toHtml() ?>
+    <?php endforeach ?>
+
+        <li id="load_more_<?php echo $image->getValueId(); ?>_<?php echo $image->getId(); ?>" class="load_more padding clear align-center image_<?php echo $image->getValueId() ?> image_<?php echo $image->getValueId() ?>_<?php echo $image->getId() ?>" data-type="<?php echo $image->getTypeId(); ?>">
+            <button class="button" onclick="page.getSubpage('<?php echo $image->getValueId(); ?>').loadMore(<?php echo $image->getId(); ?>);"<?php if (count($images) < Media_Model_Gallery_Image_Abstract::MAX_RESULTS) : ?> style="display:none;"<?php endif; ?>>
+                <?php echo $this->_("More pictures") ?>
+            </button>
+        </li>
+
+<?php else : ?>
+    <li class="padding align-center image_<?php echo $image->getValueId() ?> image_<?php echo $image->getValueId() ?>_<?php echo $image->getId() ?>" data-type="<?php echo $image->getTypeId(); ?>">
+        <?php echo $this->_("No pictures matching your selection") ?>
+    </li>
+<?php endif; ?>

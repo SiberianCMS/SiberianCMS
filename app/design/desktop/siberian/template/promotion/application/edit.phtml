@@ -1,0 +1,400 @@
+<?php $application = $this->getApplication(); ?>
+<?php $option_value = $this->getOptionValue() ?>
+<?php $promotion = new Promotion_Model_Promotion() ?>
+<?php $promotions = $promotion->findAll(array('value_id' => $option_value->getId()), 'promotion_id DESC'); ?>
+<?php $old_promotions = array() ?>
+<div class="edit_page promotion">
+    <div id="promotion_tabs" class="tabs">
+        <div id="list">
+            <div class="clear"></div>
+            <div class="section">
+                <h4 class="subtitle">
+                    <span class="left area"><?php echo $this->_('Add'); ?></span>
+                    <hr class="area reverse">
+                    <span class="area right">
+                        <button type="button" class="default_button new_promotion add" id="add_item">
+                            <i class="icon-plus"></i>
+                        </button>
+                    </span>
+                    <div class="clear"></div>
+                </h4>
+                <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
+            </div>
+
+            <?php if($promotions->count()) : ?>
+            <div class="section">
+                <h4 class="subtitle">
+                    <span class="left area"><?php echo $this->_('Manage'); ?></span>
+                    <hr class="area reverse">
+                    <span class="area right">
+                        <button type="button" class="default_button" id="toggle_existing_items">
+                            <i class="icon-chevron-down"></i>
+                        </button>
+                    </span>
+                    <div class="clear"></div>
+                </h4>
+                <div id="existing_items" style="display:none;">
+                    <ul class="list">
+                        <?php foreach($promotions as $promotion) : ?>
+                        <?php if($promotion->getEndAt() AND $promotion->getEndAt() < Zend_Date::now()->toString('yyyy-MM-dd')) { $old_promotions[] = $promotion; continue; } ?>
+                        <?php if($promotion->getConditionType()) continue; ?>
+                        <li class="promotion_actions" rel="<?php echo $promotion->getId(); ?>">
+                            <p class="title left">
+                                <?php echo $promotion->getTitle(); ?>
+                            </p>
+                            <div class="icons right" id="promotion_icons_<?php echo $promotion->getId(); ?>">
+                                <a href="javascript:void(0)" onclick="var div = $('#details_promo_<?php echo $promotion->getId(); ?>'); if(div.is(':visible')) {div.slideUp();} else {div.slideDown();} return false;" class="icon more" >
+                                    <i class="icon-search"></i>
+                                </a>
+                                <a href="javascript:void(0)" rel="<?php echo $promotion->getId() ?>" class="icon edit edit_promotion">
+                                    <i class="icon-edit"></i>
+                                </a>
+                                <a href="<?php echo $this->getUrl('promotion/application/deletepost', array('id' => $promotion->getId())); ?>" class="icon del del_promotion">
+                                    <i class="icon-remove"></i>
+                                </a>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="clear"></div>
+                            <div id="details_promo_<?php echo $promotion->getId(); ?>" style="display: none;">
+
+                                <table class="list list-label">
+                                    <tr class="first">
+                                        <td class="label"><?php echo $this->_('Details'); ?></td>
+                                        <td><span class="bold"><?php echo $promotion->getDescription() ?></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label"><?php echo $this->_('Conditions'); ?></td>
+                                        <td><span class="bold"><?php echo $promotion->getConditions() ?></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label"><?php echo $this->_('End at'); ?></td>
+                                        <td><span class="bold"><?php echo !$promotion->getEndAt() ? $this->_('Never') : $this->_('On'). ' '.$promotion->getFormattedEndAt() ?></span></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </li>
+                        <li class="separator area reverse"></li>
+                        <?php endforeach; ?>
+                    </ul>
+                    <?php if(count($old_promotions) > 0) : ?>
+                    <div class="clear"></div>
+                    <h4 class="subtitle">
+                        <span class="left area"><?php echo $this->_('Closed discounts'); ?></span>
+                        <hr class="area reverse">
+                        <div class="clear"></div>
+                    </h4>
+                    <ul class="list">
+                        <?php foreach($old_promotions as $promotion) : ?>
+                        <li class="promotion_actions" rel="<?php echo $promotion->getId(); ?>">
+                            <p class="title left">
+                                <?php echo $promotion->getTitle(); ?>
+                            </p>
+                            <div class="icons right" id="promotion_icons_<?php echo $promotion->getId(); ?>">
+                                <a href="javascript:void(0)" onclick="var div = $('#details_promo_<?php echo $promotion->getId(); ?>'); if(div.is(':visible')) {div.slideUp();} else {div.slideDown();} return false;" class="icon more" >
+                                    <i class="icon-search"></i>
+                                </a>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="clear"></div>
+                            <div id="details_promo_<?php echo $promotion->getId(); ?>" style="display: none;">
+
+                                <table class="list list-label">
+                                    <tr class="first">
+                                        <td class="label"><?php echo $this->_('Details'); ?></td>
+                                        <td><span class="bold"><?php echo $promotion->getDescription() ?></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label"><?php echo $this->_('Conditions'); ?></td>
+                                        <td><span class="bold"><?php echo $promotion->getConditions() ?></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label"><?php echo $this->_('End at'); ?></td>
+                                        <td><span class="bold"><?php echo !$promotion->getEndAt() ? $this->_('Never') : $this->_('On'). ' '.$promotion->getFormattedEndAt() ?></span></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </li>
+                        <li class="separator area reverse"></li>
+                        <?php endforeach; ?>
+                    </ul>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <?php endif; ?>
+
+            <div class="section">
+                <?php
+                    echo $this->getLayout()
+                        ->addPartial('background_image', 'Core_View_Default', 'application/customization/features/edit/background_image.phtml')
+                        ->setValueId($option_value->getId())
+                        ->toHtml()
+                    ;
+                ?>
+            </div>
+
+        </div>
+        <div id="edit" style="display:none"></div>
+    </div>
+    <script type="text/javascript">
+
+        promotion = {
+            id: 'new_<?php echo $option_value->getId(); ?>',
+            number_of_children : 0,
+            processEvents: function() {
+                //Par défaut, on en crée une nouvelle
+
+                if($('#promotion_id').length > 0) {
+                    this.id = '<?php echo $option_value->getId(); ?>_'+$('#promotion_id').val();
+                }
+
+                $('#end_at').unbind('keypress');
+                $('#end_at').keypress(function() {return false;});
+                $.datepicker.setDefaults( $.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguage() ?>']);
+                $('#end_at').datepicker({
+                    showAnim: 'clip',
+                    dateFormat: 'yy-mm-dd',
+                    onClose: function(date, obj) {
+                        var newdate = '';
+                        if(date.length > 0) {
+                            //fuck ie
+                            var d=date.split("-");
+                            date = new Date(d[0],(d[1]-1),d[2]);
+                            var newdate = $.datepicker.formatDate('<?php echo $this->_('MM,d yy'); ?>', date, {
+                                dayNames: $.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguage() ?>'].dayNames,
+                                monthNamesShort: $.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguage() ?>'].monthNamesShort,
+                                monthNames: $.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguage() ?>'].monthNames
+                            });
+//                            var dates = newdate.split(' ');
+//                            days = dates[1];
+//                            if(days.length > 1) {
+//                                doubledigit = days.substr(1,1);
+//                            } else {
+//                                doubledigit = days;
+//                            }
+//                            if(doubledigit == 1) {
+//                                doubledigit = doubledigit+'st';
+//                            } else if(days == 2) {
+//                                doubledigit = doubledigit+'nd';
+//                            } else if(days == 3) {
+//                                doubledigit = doubledigit+'rd';
+//                            } else {
+//                                doubledigit = doubledigit+'th';
+//                            }
+//                            if(days.length > 1) {
+//                                newdate = dates[0]+' '+days.substr(0,1)+doubledigit+' '+dates[2];
+//                            } else {
+//                                newdate = dates[0]+' '+doubledigit+' '+dates[2];
+//                            }
+                        }
+                        promotion.setEndAt(newdate);
+                    }
+                });
+
+                $('#title').unbind('keyup');
+                $('#title').keyup(function() {
+                    promotion.setTitle($(this).val());
+                });
+                $('#description').unbind('keyup');
+                $('#description').keyup(function() {
+                    promotion.setDescription($(this).val().nl2br());
+                });
+                $('#conditions').unbind('keyup');
+                $('#conditions').keyup(function() {
+                    promotion.setConditions($(this).val());
+                });
+                $('#is_unique').unbind('change');
+                $('#is_unique').change(function() {
+                    promotion.setIsUnique($(this).is(':checked'));
+                });
+                $('#is_illimited').unbind('change');
+                $('#is_illimited').change(function() {
+                    promotion.setIsIllimited($(this).is(':checked'));
+                    var checked = $('#is_illimited').is(':checked');
+                    if(checked == true) {
+                        $('#end_at').attr('disabled', 'disabled');
+                    } else {
+                        $('#end_at').removeAttr('disabled');
+                    }
+                });
+                promotion.number_of_children = iframe.content.find('#promotions_list_<?php echo $option_value->getId(); ?>').children('li').length;
+                $('#promotionEditForm').unbind('submit');
+                $('#promotionEditForm').submit(function() {
+                    $('input#is_illimited').hide();
+                    $('input#is_unique').hide();
+                    if(!$(this).valid()) return false;
+                    reload(this, this.action, true, function(datas) {
+                        if(datas.promotion_id) {
+                            page.reload();
+                        }
+                    });
+                    return false;
+                });
+            },
+
+            setTitle: function(text) {
+                iframe.content.find('#title_'+this.id).html('<h4>'+text+'</h4>');
+                text.length > 0 ? iframe.content.find('#title_'+this.id).show() : iframe.content.find('#title_'+this.id).hide();
+                iframe.f.page.getSubpage('<?php echo $option_value->getId(); ?>').refreshPromotionScrollview('promotion_'+this.id);
+            },
+            setDescription: function(text, etat) {
+                iframe.content.find('#description_'+this.id).html(text);
+                text.length > 0 ? iframe.content.find('#description_'+this.id).show() : iframe.content.find('#description_'+this.id).hide();
+                iframe.f.page.getSubpage('<?php echo $option_value->getId(); ?>').refreshPromotionScrollview('promotion_'+this.id);
+            },
+            setConditions: function(text, etat) {
+                iframe.content.find('#conditions_'+this.id).html(text);
+                text.length > 0 ? iframe.content.find('#conditions_'+this.id).show() : iframe.content.find('#conditions_'+this.id).hide();
+                iframe.f.page.getSubpage('<?php echo $option_value->getId(); ?>').refreshPromotionScrollview('promotion_'+this.id);
+            },
+            setEndAt: function(text, etat) {
+                var html = text.length > 0 ? '<?php echo addslashes($this->_("Valid until")); ?> '+ text : '';
+                iframe.content.find('#end_at_'+this.id).html('<?php echo addslashes($this->_("Valid until")); ?> '+ text);
+                text.length > 0 ? iframe.content.find('#end_at_'+this.id).show() : iframe.content.find('#end_at_'+this.id).hide();
+                iframe.f.page.getSubpage('<?php echo $option_value->getId(); ?>').refreshPromotionScrollview('promotion_'+this.id);
+            },
+            setIsUnique: function(is_unique, etat) {
+
+                if(is_unique) {
+                    if(!iframe.content.find('#use_promotion_'+this.id).length) {
+                        iframe.content.find('#promotion_'+this.id).children('.scroll')
+                            .append('\n\
+                                <div class="use_discount" id="use_promotion_'+this.id+'">\n\
+                                    <a class="discount reverse" onclick="return false;" href="javascript:void(0)"><?php echo $this->_('Use this coupon'); ?></a>\n\
+                                </div>\n\
+                            ');
+                    }
+                    iframe.content.find('#use_promotion_'+this.id).show();
+                }
+                else {
+                    iframe.content.find('#use_promotion_'+this.id).hide();
+                }
+
+                iframe.f.page.getSubpage('<?php echo $option_value->getId(); ?>').refreshPromotionScrollview('promotion_'+this.id);
+
+            },
+            setIsIllimited: function(is_illimited, etat) {
+                if(!is_illimited && $('#end_at').val().length > 0) iframe.content.find('#end_at_'+this.id).show();
+                else iframe.content.find('#end_at_'+this.id).hide();
+                iframe.f.page.getSubpage('<?php echo $option_value->getId(); ?>').refreshPromotionScrollview('promotion_'+this.id);
+            },
+            prepareDummy: function() {
+                if(!iframe.content.find('#promotion_new').attr('id')) {
+                    var list = iframe.content.find('#promotions_list_<?php echo $option_value->getId(); ?>');
+                    list.prepend(this.getDummy());
+                    promotion.number_of_children++;
+                    if(!iframe.f.scrollviews.get('promotion_'+this.id)) {
+                        iframe.f.page.getSubpage('<?php echo $option_value->getId(); ?>').createPromotionScrollview('promotion_'+this.id);
+                    }
+                    iframe.f.page.getSubpage('<?php echo $option_value->getId(); ?>').setContentSize().refreshScrollview();
+                }
+            },
+            removeDummy: function() {
+                var promotion_new = iframe.content.find('#promotion_new_<?php echo $option_value->getId(); ?>');
+                if(promotion_new.attr('id')) {
+                    iframe.f.scrollviews.destroy('promotion_'+this.id);
+                    var list = iframe.content.find('#promotions_list_<?php echo $option_value->getId(); ?>');
+                    promotion_new.parent().remove();
+                    promotion.number_of_children--;
+
+                    iframe.f.page.getSubpage('<?php echo $option_value->getId(); ?>').setContentSize();
+                }
+            },
+            getDummy: function() {
+                return '<li class="relative">\n\
+                    <div id="promotion_new_<?php echo $option_value->getId(); ?>" class="details promotion_scrollview_details">\n\
+                        <div class="scroll" style="min-height: 197px;">\n\
+                            <div class="padding"></div>\n\
+                            <div id="title_new_<?php echo $option_value->getId(); ?>" class="title promotion none"><h4></h4></div>\n\
+                            <p id="description_new_<?php echo $option_value->getId(); ?>" class="none"></p>\n\
+                            <p id="conditions_new_<?php echo $option_value->getId(); ?>" class="none"></p>\n\
+                            <p id="end_at_new_<?php echo $option_value->getId(); ?>" class="end_at none"></p>\n\
+                            <div id="use_promotion_new_<?php echo $option_value->getId(); ?>" class="use_discount none">\n\
+                                <a class="discount reverse" onclick="return false;" href="javascript:void(0)"><?php echo addslashes($this->_('Use this coupon')); ?></a>\n\
+                            </div>\n\
+                        </div>\n\
+                    </div>\n\
+                </li>';
+            }
+        }
+
+        page.setCallback('didappear', function() {
+            promotion.processEvents();
+
+            $('#toggle_existing_items').click(function() {
+                $('#existing_items').stop().slideToggle(300, function() {
+                    if($(this).is(':visible')) $('#toggle_existing_items').children('i').removeClass('icon-chevron-down').addClass('icon-chevron-up');
+                    else $('#toggle_existing_items').children('i').removeClass('icon-chevron-up').addClass('icon-chevron-down')
+                });
+            });
+
+            $('#add_item.new_promotion').click(function() {
+                var url = '<?php echo $this->getUrl('promotion/application/form', array('option_value_id' => $option_value->getId())); ?>';
+                reload(this, url, true, function(datas) {
+                    $('#edit').html(datas.form);
+                    feature.edit();
+                    promotion.prepareDummy();
+                    iframe.f.page.getSubpage('<?php echo $option_value->getId(); ?>').scrollview.scrollToPage(0,0,0);
+//                    iframe.f.scrollviews.destroy('promotion_scrollview');
+                    <?php //foreach($promotions as $promotion) : ?>
+//                    iframe.f.scrollviews.destroy('promotion_<?php echo $promotion->getPromotionId(); ?>');
+                    <?php //endforeach; ?>
+                    promotion.processEvents();
+                    createCustomUI();
+                });
+                return false;
+            });
+            $('.edit_promotion').click(function() {
+                var id = $(this).attr('rel');
+                var url = '<?php echo $this->getUrl('promotion/application/form', array('option_value_id' => $option_value->getId())); ?>/id/'+id;
+                var position = iframe.content.find('#promotion_'+id).parent().index();
+                reload(this, url, true, function(datas) {
+                    $('#edit').html(datas.form);
+                    feature.edit();
+
+                    if(position > -1) iframe.f.page.getSubpage('<?php echo $option_value->getId(); ?>').scrollview.scrollToPage(position, 0, 0);
+//                    iframe.f.scrollviews.destroy('promotion_scrollview');
+                    <?php //foreach($promotions as $promotion) : ?>
+//                    iframe.f.scrollviews.destroy('promotion_<?php echo $promotion->getPromotionId(); ?>');
+                    <?php //endforeach; ?>
+                    promotion.processEvents();
+                    createCustomUI();
+                });
+                return false;
+            });
+            $('.del_promotion').click(function() {
+                if(confirm('<?php echo $this->_('Delete this discount?'); ?>')) {
+                    reload(this, $(this).attr('href'), true, function(datas) {
+                        if(datas.promotion_id) {
+                            $('.promotion_actions[rel="'+datas.promotion_id+'"]').slideUp();
+                            page.reload();
+                        }
+                    });
+                }
+                return false;
+            });
+        });
+
+        page.setCallback('willdisappear', function() {
+            $('#toggle_existing_items').unbind('click');
+            $('.new_promotion').unbind('click');
+            $('.edit_promotion').unbind('click');
+            $('.del_promotion').unbind('click');
+            $('#promotionEditForm').unbind('submit');
+            $('#title').unbind('keyup');
+            $('#description').unbind('keyup');
+            $('#conditions').unbind('keyup');
+            $('#is_unique').unbind('change');
+            $('#is_illimited').unbind('change');
+            $(".promotion_actions").unbind('mouseenter mouseout');
+            promotion.removeDummy();
+        });
+    </script>
+    <style type="text/css">
+        .promotion_actions {
+            padding: 10px 0;
+        }
+        .promotion_actions .title {
+            width: 86% !important;
+        }
+    </style>
+</div>

@@ -1,0 +1,683 @@
+<?php $application = $this->getApplication(); ?>
+<?php $isOverview = $this->getRequest()->getParam('overview', 0); ?>
+<?php $time = time(); ?>
+<?php echo $this->doctype() ?>
+<html>
+    <head>
+        <title><?php echo $application->getName() ?></title>
+        <?php foreach($this->getMetas() as $meta) : ?>
+        <meta <?php echo $meta->getTag() ?>="<?php echo $meta->getKey(); ?>" content="<?php echo $this->_($meta->getContent()); ?>" />
+        <?php endforeach ?>
+        <?php //echo $this->headMeta() ?>
+        <meta http-equiv="X-UA-Compatible" content="IE=8" />
+        <?php //if($application->getStartupImage()) : ?>
+            <link href="<?php echo $application->getStartupImageUrl(); ?>?<?php echo $time; ?>" media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 1)" rel="apple-touch-startup-image">
+            <link href="<?php echo $application->getStartupImageUrl(); ?>?<?php echo $time; ?>" media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
+            <link href="<?php echo $application->getStartupImageUrl('retina4'); ?>?<?php echo $time; ?>" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
+        <?php //endif; ?>
+
+        <link rel="icon" type="image/png" href="<?php echo $application->getIcon(32); ?>" />
+        <link rel="shortcut icon" id="favicon" type="image/x-icon" href="<?php echo $application->getIcon(32); ?>" />
+
+        <link rel="apple-touch-icon" sizes="114x114" href="<?php echo $application->getIcon(114) ?>" />
+        <link rel="apple-touch-icon" href="<?php echo $application->getIcon(57) ?>" />
+
+        <?php echo $this->headLink() ?>
+
+        <?php $notImportant = array('background'); ?>
+        <?php if($isOverview) : ?>
+        <?php $notImportant = array('background', 'news', 'comments'); ?>
+        <?php foreach($application->getDesignBlocks() as $block) : ?>
+            <?php $important = !in_array($block->getCode(), $notImportant) ? ' !important' : '' ?>
+                <style id="backgroundColor_<?php echo $block->getCode(); ?>">
+                .wrapper .<?php echo $block->getCode() ?> {
+                    background-color: <?php echo $block->getBackgroundColor(); ?> <?php echo $important; ?>;
+                }
+                .wrapper .<?php echo $block->getCode() ?> .no-background, .wrapper .<?php echo $block->getCode() ?>.no-background {
+                    background-color: transparent <?php echo $important; ?>;
+                }
+                <?php /*.wrapper .<?php echo $block->getCode() ?>.reverse, .wrapper .<?php echo $block->getCode() ?>.reverse *, .wrapper a .<?php echo $block->getCode() ?>.reverse, .wrapper a.<?php echo $block->getCode() ?>.reverse {*/ ?>
+                .wrapper .<?php echo $block->getCode() ?>.reverse, .wrapper a .<?php echo $block->getCode() ?>.reverse, .wrapper a.<?php echo $block->getCode() ?>.reverse {
+                    color: <?php echo $block->getBackgroundColor(); ?> <?php echo $important; ?>;
+                }
+                </style>
+                <style id="color_<?php echo $block->getCode(); ?>">
+                <?php /*.wrapper .<?php echo $block->getCode() ?>, .wrapper .<?php echo $block->getCode() ?> *, .wrapper a .<?php echo $block->getCode() ?>, .wrapper a.<?php echo $block->getCode() ?> {*/ ?>
+                .wrapper .<?php echo $block->getCode() ?>, .wrapper a .<?php echo $block->getCode() ?>, .wrapper a.<?php echo $block->getCode() ?> {
+                    color: <?php echo $block->getColor(); ?> <?php echo $important; ?>;
+                }
+                .wrapper .<?php echo $block->getCode() ?>.reverse {
+                    background-color: <?php echo $block->getColor(); ?> <?php echo $important; ?>;
+                }
+                <?php if($block->getCode() == 'background') : ?>
+                .icheckbox_flat,
+                .iradio_flat {
+                    background-image: url(<?php echo $this->getUrl('template/block/colorize', array('color' => str_replace('#', '', $block->getColor()), 'path' => base64_encode($this->getImage('buttons/checkbox.png')))); ?>)
+                }
+                <?php endif; ?>
+                </style>
+            <?php if($block->getCode() == 'tabbar') : ?>
+                <style id="imageColor_<?php echo $block->getCode(); ?>">
+                .wrapper .border-color {
+                    border-color: <?php echo $block->getImageColor(); ?> !important;
+                }
+                </style>
+            <?php endif; ?>
+        <?php endforeach; ?>
+        <?php else : ?>
+        <style id="default_style">
+        <?php foreach($application->getDesignBlocks() as $block) : ?>
+            <?php $important = !in_array($block->getCode(), $notImportant) ? ' !important' : '' ?>
+                .wrapper .<?php echo $block->getCode() ?> {
+                    <?php if($block->getBackgroundColor()) : ?>background-color: <?php echo $block->getBackgroundColor(); ?><?php echo $important; ?>;<?php endif; ?>
+                    <?php if($block->getColor()) : ?>color: <?php echo $block->getColor(); ?><?php echo $important; ?>;<?php endif;?>
+                }
+                <?php if($block->getColor()) : ?>
+                .wrapper .<?php echo $block->getCode() ?>.border { border-color: <?php echo $block->getColor() ?> }
+                .wrapper .<?php echo $block->getCode() ?>.reverse.border { border-color: <?php echo $block->getBackgroundColor() ?> }
+                <?php endif; ?>
+
+                .wrapper .<?php echo $block->getCode() ?>.reverse {
+                    <?php if($block->getBackgroundColor()) : ?>color: <?php echo $block->getBackgroundColor(); ?><?php echo $important; ?>;<?php endif; ?>
+                    <?php if($block->getColor()) : ?>background-color: <?php echo $block->getColor(); ?><?php echo $important; ?>;<?php endif;?>
+                }
+                <?php if($block->getBackgroundColor()) : ?>
+                .wrapper .<?php echo $block->getCode() ?> .no-background, .wrapper .<?php echo $block->getCode() ?>.no-background {
+                    background-color: transparent <?php echo $important; ?>;
+                }
+                <?php endif; ?>
+
+
+            <?php if($block->getCode() == 'background') : ?>
+            .icheckbox_flat,
+            .iradio_flat {
+                background-image: url(<?php echo $this->getUrl('template/block/colorize', array('color' => str_replace('#', '', $block->getColor()), 'path' => base64_encode($this->getImage('buttons/checkbox.png')))); ?>)
+            }
+            <?php endif; ?>
+            <?php if($block->getCode() == 'tabbar') : ?>
+            .wrapper .border-color {
+                border-color: <?php echo $block->getImageColor(); ?> !important;
+            }
+            <?php endif; ?>
+        <?php endforeach; ?>
+        </style>
+        <?php endif; // if($isOverview) : ?>
+
+        <?php $background_image = $application->getBackgroundImageUrl('retina4').'?time='.time(); ?>
+        <style id="background_image">
+            .background_image {
+                background: url("<?php echo $background_image ?>") fixed;
+            }
+        </style>
+        <style id="font">
+            .wrapper * {
+            <?php if($application->getFontFamily()) : ?>
+                    font-family: <?php echo $application->getFontFamily(); ?>;
+            <?php endif; ?>
+            }
+        </style>
+        <style>
+            <?php $block_header = $application->getDesignBlock('header'); ?>
+            .alert .alert_content.success {
+                background-color: <?php echo $block_header->getBackgroundColor(); ?>;
+                color: <?php echo $block_header->getColor(); ?>;
+            }
+            .alert .alert_content.confirm {
+                background-color: <?php echo $block_header->getBackgroundColor(); ?>;
+                color: <?php echo $block_header->getColor(); ?>;
+            }
+
+
+            button.button.arrow_right, a.arrow_right {
+                background-image: url("<?php echo $this->getColorizedImage($this->getImage('pictos/right_arrow.png', true), $application->getDesignBlock('button')->getColor()); ?>");
+            }
+            button.connect_button.arrow_right {
+                background-image: url("<?php echo $this->getColorizedImage($this->getImage('pictos/right_arrow.png', true), $application->getDesignBlock('connect_button')->getColor()); ?>");
+            }
+            .news .image {
+                background-image: url("<?php echo $this->getColorizedImage($this->getImage('pictos/pictures.png', true), $application->getDesignBlock('news')->getColor()); ?>");
+                background-repeat:no-repeat;
+                background-position: 0 0;
+                background-size: 19px 19px;
+            }
+
+            .back_arrow, .next_arrow {
+                position:absolute;
+                top: 0;
+                width: 21px;
+                height: 42px;
+                background: url('<?php echo $this->getColorizedImage($this->getImage('buttons/arrow_left.png', true), $block_header->getColor()); ?>') no-repeat right center;
+                background-size: 12px 20px;
+                z-index: 20;
+            }
+
+        </style>
+    </head>
+    <body onresize="javascript:page.resize()" onorientationchange="page.resize();">
+        <div id="fb-root"></div>
+        <?php //echo $this->getPartialHtml('facebook'); ?>
+        <div id="wrapper" class="wrapper" id="<?php echo $this->default_class_name ?>">
+            <div id="pages"></div>
+            <div id="mask"></div>
+        </div>
+        <div id="loader">
+            <img src="<?php echo $this->getImage('loader/ajax.gif'); ?>" width="24" height="24" />
+        </div>
+        <?php echo $this->headScript() ?>
+        <script>
+
+            var contact_address = '';
+            var contact_name = '';
+            if(!window.google) window.google = {};
+            new NoClickDelay('mask');
+            $('#mask').click(function() {return false;})
+
+            var labels = {
+                ok: '<?php echo addslashes($this->_('ok')); ?>',
+                validate: '<?php echo addslashes($this->_('Validate')); ?>',
+                cancel: '<?php echo addslashes($this->_('Cancel')); ?>',
+                back: '<?php echo addslashes($this->_('Back')); ?>',
+                close: '<?php echo addslashes($this->_('Close')); ?>',
+                loading: '<?php echo addslashes($this->_('Loading')); ?>',
+                use_discount_confirmation: '<?php echo addslashes($this->_('If you use this discount now, you\'ll be no longer able to use it later')); ?>',
+                use_discount_error: '<?php echo addslashes($this->_('An error occurred while using your discount')); ?>',
+                loading_page_error: '<?php echo addslashes($this->_('An error occurred while loading the page')); ?>',
+                error_during_process: '<?php echo addslashes($this->_('An error occurred during process. Please try again later.')); ?>',
+                close_preview: '<?php echo addslashes($this->_('Hit the background image to close the preview')); ?>',
+            }
+
+            if (window.location.hash == "#_=_")
+                window.location.hash = "";
+
+            app.device_type = '<?php echo $this->getDevice()->getDeviceName(); ?>';
+            app.base_url = '<?php echo $this->getCurrentUrl(false); ?>';
+            app.orig_title = "<?php echo $application->getName(); ?>";
+            app.isOverview = <?php echo $isOverview ?> == 1;
+            window.screen.frame.size.height = app.isOverview ? $(window).height() : $(document).height(); //window.screen.availHeight;
+            window.screen.frame.size.width = app.isOverview ? $(window).width() : $(document).width(); //window.screen.availWidth;
+            app.prepare();
+            app.excluded_urls = [
+                'www.facebook.com/connect/ping',
+                's-static.ak.facebook.com/connect/xd_arbiter',
+                'static.ak.facebook.com/connect/xd_arbiter',
+                'www.youtube.com/embed',
+                'fast.wistia.net/embed/iframe'
+            ];
+
+            <?php if(IS_APPLICATION) : ?>
+                window.close = function() {
+                    window.location='app:close';
+                }
+                window.open = function(url) {
+                    var t=document.createElement('a');
+                    t.setAttribute('href',url);
+                    var e=document.createEvent('MouseEvent');
+                    e.initMouseEvent('click');
+                    t.dispatchEvent(e);
+                }
+            <?php endif; ?>
+
+            $(document).ready(function() {
+                $.getScript('//connect.facebook.net/en_US/all.js', facebook.init.bind(facebook));
+            });
+
+            var facebook = {
+                id: '<?php echo $this->getApplication()->getFacebookId(); ?>',
+                scope: '<?php echo Customer_Model_Customer_Type_Facebook::getScope() ?>',
+                callbacks: [],
+                is_initialized: false,
+                is_logged_in: false,
+                customer: {},
+                init: function() {
+                    if(this.id) {
+                        if(!this.is_initialized) {
+                            FB.Event.subscribe('auth.statusChange', function(response) {
+                                console.log('statusChange');
+                                console.log(response);
+                                if(response.authResponse && response.authResponse.accessToken) {
+                                    this.fireCallback('isauthorized');
+                                }
+                                else {
+                                    console.log('logged out');
+                                }
+                            }.bind(this));
+                            FB.Event.subscribe('auth.authResponseChange', function(response) {
+                                console.log('authResponseChange');
+                                console.log(response);
+                                if(response.status == 'not_authorized') {
+                                    facebook.go();
+                                }
+                            }.bind(this));
+
+                            this.is_initialized = true;
+                        }
+
+                        FB.init({appId: this.id, status: true, cookie: true, xfbml: true});
+                    }
+                    return this;
+                },
+                login: function() {
+
+                    this.setCallback('isauthorized', function() {
+
+                        FB.getLoginStatus(function(response) {
+                            var token = response.authResponse.accessToken;
+                            $.ajax({
+                                url: '<?php echo $this->getUrl('customer/mobile_account/loginwithfacebook'); ?>',
+                                dataType: 'json',
+                                data: [{name:'token', value:token}],
+                                type: 'post',
+                                success: function(datas) {
+                                    if(datas.customer_id) {
+
+                                        customer.customer_id = datas.customer_id;
+                                        customer.closeLoginForm();
+                                        page.current_page.fireCallback('customerdidlogin');
+
+                                        $('.connect_button').parent('div.connect').hide();
+                                    }
+                                   else if(datas.message) {
+                                        new Alert(datas.message, 'error').show();
+                                    }
+                                    else {
+                                        new Alert('<?php echo $this->_("An error occurred while logging in. Please try again later") ?>', 'error').show();
+                                    }
+                                }.bind(this),
+                                complete: function() {
+                                    loader.hide();
+                                }
+                            });
+
+                        });
+                        this.unsCallback('isauthorized');
+                    });
+
+                    this.go();
+
+                },
+                get: function(object_id) {
+                    $.get('https://graph.facebook.com/'+object_id+'/', function(user) {
+                        this.getCallback('datasdidretrieve').call(this, user);
+                    }.bind(this));
+                },
+                post: function(post_id, message) {
+                    if(this.is_initialized) {
+                        FB.api('/'+post_id+'/comments', 'post', {message: message}, function(response) {
+                            loader.hide();
+                            if(response.id) {
+                                this.fireCallback('didpost');
+                                new Alert('The comment has been successfully posted', 'success').show();
+                            } else {
+                                facebook.fireCallback('didnotpost');
+                                console.log(response);
+                            }
+                        }.bind(this));
+                    }
+                },
+                like: function(object_id) {
+                    if(this.is_initialized) {
+                        FB.api('/'+object_id+'/likes/', 'post', function(response) {
+                            loader.hide();
+                            if(response === true) {
+                                this.fireCallback('didlike');
+                                new Alert('The comment has been successfully liked', 'success').show();
+                            } else {
+                                facebook.fireCallback('didnotlike');
+                                console.log(response);
+                            }
+                        }.bind(this));
+                    }
+                },
+                unlike: function(object_id) {
+                    if(this.is_initialized) {
+                        FB.api('/'+object_id+'/likes/', 'delete', function(response) {
+                            loader.hide();
+                            if(response === true) {
+                                this.fireCallback('didunlike');
+                                new Alert('The comment has been successfully unliked', 'success').show();
+                            } else {
+                                facebook.fireCallback('didnotunlike');
+                                console.log(response);
+                            }
+                        }.bind(this));
+                    }
+                },
+                isLiked: function(post_id) {
+                    if(this.is_initialized) {
+                        if(this.is_logged_in) {
+                            FB.api('fql', {q: 'select user_id from like where post_id="'+post_id+'" AND user_id=me()'}, function(response) {
+                                if(response.data && response.data.length) {
+                                    this.fireCallback('didlike');
+                                }
+                            }.bind(this));
+                        }
+                    }
+                },
+                go: function() {
+                    if(this.is_initialized) {
+                        FB.getLoginStatus(function(response) {
+                            loader.show();
+                            if(response.status == 'connected' && response.authResponse.accessToken) {
+                                this.fireCallback('isauthorized');
+                            }
+                            else {
+                                FB.login(function(response) {
+                                    if (response.authResponse) {
+                                        this.fireCallback('isauthorized');
+                                    } else {
+                                        facebook.fireCallback('isnotauthorized');
+    //                                    alert('User cancelled login or did not fully authorize.');
+                                    }
+                                }.bind(this), {scope: this.scope});
+                            }
+                        }.bind(this));
+                    }
+                    return this;
+                },
+
+                setCallback: function(id, callback) {
+                    this.callbacks[id] = callback;
+                    return this;
+                },
+                unsCallback: function(id) {
+                    this.callbacks[id] = null;
+                    return this;
+                },
+                getCallback: function(id) {
+
+                    var callback = function() {};
+                    if(typeof this.callbacks[id] == 'function') {
+                        callback = this.callbacks[id].bind(this);
+                    }
+                    return callback;
+                },
+                fireCallback: function(id) {
+                    this.getCallback(id).call(this);
+                    if(id == 'isauthorized') this.is_logged_in = true;
+                    this.unsCallback(id);
+                    return this;
+                },
+
+            };
+
+            $('#mask').click(function() {return false;});
+
+            var customer = {
+                device_uid: '0',
+                isLoggedIn: function() {
+                    return !isNaN(this.customer_id) && this.customer_id > 0;
+                },
+                <?php if($application->usesUserAccount() OR $isOverview) : ?>
+                customer_id: '<?php echo $this->getSession()->getCustomerId() ?>',
+                datas: '<?php echo mysql_escape_string($this->getSession()->getCustomer()->toJSON()) ?>',
+
+                openLoginForm: function(callback) {
+
+                    <?php if(DEVICE_TYPE != 'mobile') : ?>
+                        new Alert('<?php echo $this->_("This section is unlocked for mobile users only") ?>', 'error').show();
+                    <?php else : ?>
+                    if(typeof callback == 'undefined') callback = function() {}
+
+                    var callbacks = {
+                        diddisappear: function() {
+                            if(customer.isLoggedIn()) {
+                                callback();
+                            }
+                        }
+                    }
+                    if(!this.isLoggedIn()) {
+                        page.showSubpage({id:'customer_account_login',url:'<?php echo $this->getUrl('customer/mobile_account/view'); ?>',isAjax:true, callbacks: callbacks});
+                    } else {
+                        page.showSubpage({id:'customer_account_edit',url:'<?php echo $this->getUrl('customer/mobile_account/edit'); ?>',isAjax:true});
+                    }
+                    <?php endif; ?>
+                },
+
+                closeLoginForm: function() {
+                    <?php //if(!IS_APPLICATION) : ?>
+                    page.goBack();
+                    <?php //endif; ?>
+//                    this.callback_after_login = null;
+                },
+
+                editAccount: function() {
+                    <?php //if(!IS_APPLICATION) : ?>
+                        $('#mobile_content').hide();
+                        $('#customer_account').fadeIn();
+                    <?php // endif; ?>
+                },
+
+                loginFromApp: function(id, key) {
+                    this.login({id: id, key: key});
+                },
+                login: function(datas, form) {
+
+                    loader.show();
+
+                    var url = '<?php echo $this->getUrl('customer/mobile_account/loginpost'); ?>';
+                    var post = datas;
+                    if(form) url = form.action;
+//                    if(datas.key) {
+//                        url = '<?php echo $this->getUrl('customer/mobile_account/autoconnect'); ?>/id/'+datas.id+'/key/'+datas.key;
+//                        post = [{name: 'id', value: datas.id}, {name: 'key', value: datas.key}];
+//                    }
+
+                    $.ajax({
+                        url: url,
+                        dataType: 'json',
+                        data: post,
+                        type: 'post',
+                        success: function(datas) {
+                            if(datas.customer_id) {
+
+                                this.customer_id = datas.customer_id;
+                                this.closeLoginForm();
+                                page.current_page.fireCallback('customerdidlogin');
+
+                                $('.connect_button').parent('div.connect').hide();
+                            }
+                            else if(datas.message) {
+                                new Alert(datas.message, 'error').show();
+                            }
+                            else {
+                                new Alert('<?php echo $this->_("An error occurred while logging in. Please try again later") ?>', 'error').show();
+                            }
+                        }.bind(this),
+                        complete: function() {
+                            loader.hide();
+                        }
+                    });
+                },
+                logout: function(forceAjax) {
+
+                    <?php // if(IS_APPLICATION) : ?>
+//                    if(!forceAjax) window.location = '<?php echo $this->getUrl('customer/mobile_account/logout'); ?>';
+                    <?php // endif; ?>
+                    loader.show();
+                    $.ajax({
+                        url: '<?php echo $this->getUrl('customer/mobile_account/logout'); ?>',
+                        dataType: 'json',
+                        success: function(data) {
+                            if(data.success) {
+                                this.customer_id = null;
+                                this.datas = {};
+                                this.closeLoginForm();
+                                tabbar.hideAllItems();
+                            }
+                        }.bind(this),
+                        complete: function() {
+                            loader.hide();
+                        }
+                    });
+                },
+                reloadImage: function(url) {
+                    $('img.customer_image_'+this.customer_id).attr('src', url);
+                    return this;
+                },
+                <?php endif; ?>
+                end: ''
+            };
+
+            var notif = {
+                unread: 0,
+                load: function(callback) {
+                    loader.show();
+                    $.ajax({
+                        url: '<?php echo $this->getUrl('push/mobile/list'); ?>/device_uid/'+customer.device_uid,
+                        dataType: 'json',
+                        success: callback,
+                        complete: function() {
+                            loader.hide();
+                        }
+                    });
+                },
+                loadBadge: function() {
+                    $.ajax({
+                        url: '<?php echo $this->getUrl('push/mobile/count'); ?>/device_uid/'+customer.device_uid,
+                        dataType: 'json',
+                        success: function(datas) {
+                            if(datas.count && datas.count > 0) {
+                                this.createBadge(datas.count);
+                            }
+                        }.bind(this)
+                    });
+                },
+                createBadge: function(nbr) {
+                    this.deleteBadge();
+                    var div = $('<p />').addClass('badge').html(nbr);
+                    div.appendTo($('.item_push_notification'));
+                    this.unread = nbr;
+                },
+
+                deleteBadge: function() {
+                    if($('.badge').length > 0) {
+                        $('.badge').remove();
+                    }
+                    this.unread = 0;
+                }
+            }
+
+            var admin = {
+                admin_id: <?php echo $application->getId() ?>,
+                name: "<?php echo mysql_escape_string($application->getName()); ?>"
+            };
+
+            <?php $params = $isOverview ? array('overview' => 1) : array(); ?>
+            <?php if($this->getRequest()->getParam('colors_overview')) $params['colors_overview'] = 1 ?>
+            <?php if($this->getRequest()->getParam('preview')) $params['preview'] = 1 ?>
+            page.homepage_url = '<?php echo $this->getUrl('front/mobile_home/view', $params); ?>';
+            page.is_capture = <?php echo $this->getRequest()->getParam('capture', 0) ?>;
+            page.is_overview = <?php echo $this->getRequest()->getParam('overview', 0) ?>;
+
+            var homepage_retina4 = '<?php echo $application->getHomepageBackgroundImageUrl('retina4'); ?>';
+            var homepage_normal = '<?php echo $application->getHomepageBackgroundImageUrl(); ?>';
+
+            <?php if($this->getRequest()->getParam('colors_overview')) : ?>
+            page.homepage.setCallback('didappear', function() {
+                $.ajax({
+                    url: '<?php echo $this->getApplication()->getUrl('application/mobile_customization/colors', array('overview' => 1), true) ?>',
+                    dataType: 'json',
+                    success: function(datas) {
+                        var datas = {
+                            id: 'colors',
+                            title: '<?php echo $this->_('News'); ?>',
+                            html: datas.html
+                        }
+
+                        colors_page = page.createSubpage(datas);
+                        colors_page.container.prepend('<div id="mask_colors" style="display: none; background: black; width:100%; height:100%; position: absolute; opacity: 0.9; z-index: 99999998"></div>');
+                        colors_page.setBackButtonAction(function() {});
+                        $('#btn_back_arrow_'+colors_page.id).attr('rel', '<?php echo base64_encode($this->getImage('buttons/arrow_left.png', false)) ?>');
+                        <?php if($this->isOldBrowser()) : ?>
+                        $('button').addClass('ie');
+                        <?php endif ?>
+                    }
+                });
+                page.load = function() {};
+                page.reload = function() {};
+                tabbar.showAllItems = function() {};
+                $('#default_style').remove();
+                page.homepage.unsCallback('didappear');
+            });
+            <?php elseif($this->getRequest()->getParam('preview') AND IS_APPLICATION) : ?>
+            page.homepage.setCallback('didappear', function() {
+                new NoClickDelay('homepage_content');
+                $('#homepage_content').click(function(e) {
+                    window.location = 'app:closepreview';
+                });
+                this.unsCallback('didappear');
+            });
+            <?php endif; ?>
+
+            page.unavailable_datas = {
+                url: null,
+                isAjax: false,
+                title: '<?php echo addslashes($this->_('Unavailable')); ?>',
+                html: '<div class="padding"><p><?php echo addslashes($this->_($isOverview ? "This page is viewable only on mobile" : "This page is unavailable")); ?></p></div>'
+            }
+
+            page.loadHomePage();
+
+            page.showCart = function(refresh) {
+                var datas = {
+                    id: 'cart',
+                    url: '<?php echo $this->getUrl('mcommerce/mobile_cart/view') ?>',
+                    isAjax: 1
+                }
+                var cart_page = this.getSubpage(datas.id);
+                if(cart_page && refresh) {
+                    if(!cart_page.is_displayed) page.destroySubpage(cart_page);
+                    else cart_page.refresh();
+                }
+                this.showSubpage(datas);
+            }
+
+            page.showGoogleMaps = function(address, name) {
+
+                contact_name = name
+                if(typeof contact_name == "undefined") contact_name = '<?php echo addslashes($application->getName()); ?>';
+
+                <?php if(IS_APPLICATION AND DEVICE_IS_IPHONE) : ?>
+                contact_address = address;
+                window.location = 'maps:show';
+                <?php else : ?>
+
+                var gmaps_didappear = function() {
+                    this.updateMaps(address, contact_name);
+                    this.unsCallback('didappear');
+                }
+
+                var gmaps_subpage = page.getSubpage('gmaps');
+
+                if(!gmaps_subpage) {
+                    var datas = {
+                        id: 'gmaps',
+                        url:'<?php echo $this->getUrl('front/mobile_gmaps/view'); ?>',
+                        isAjax: 1,
+                        type: 'modal',
+                        back_button_title: labels.close,
+                        title: address,
+                        callbacks: {
+                            didappear:gmaps_didappear
+                        }
+                    }
+
+                    this.showSubpage(datas);
+                }
+                else {
+                    gmaps_subpage.setTitle(address).setAddress(address, contact_name);
+                    this.showSubpage({id:'gmaps'});
+                }
+
+                <?php endif; ?>
+
+            }
+
+            document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+
+            $.ajaxSetup({dataType: "json", cache: true});
+
+        </script>
+        <?php echo $this->getPartialHtml('messages'); ?>
+    </body>
+</html>

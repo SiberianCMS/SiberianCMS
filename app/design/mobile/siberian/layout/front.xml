@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <default>
+        <base>
+            <template>base</template>
+            <class>core_view_default</class>
+            <scripts>
+                <js>
+                    <jquery link="js/jquery.js" />
+                    <iscroll link="js/iscroll.js" />
+                    <object link="js/object.js" />
+                    <validateform link="js/jquery.validate.js" />
+                    <currency link="js/jquery.formatCurrency.min.js" />
+                    <!--<google_maps href="//maps.google.com/maps/api/js?sensor=false" />-->
+                    <google_maps href="http://maps.google.com/maps/api/js?sensor=false&amp;v=3&amp;libraries=geometry" />
+                    <soundcloud href="http://connect.soundcloud.com/sdk.js" />
+                    <html2canvas link="js/html2canvas.js" />
+                    <icheck link="js/icheck.min.js" />
+                    <!--<google_geocoding link="js/google.geocoding.js" />-->
+                    <!--<facebook link="js/facebook.js" />-->
+                </js>
+                <css>
+                    <style link="css/style.css" />
+                    <!--<signika href="//fonts.googleapis.com/css?family=Signika:400,300,600" />-->
+                    <lobster href="//fonts.googleapis.com/css?family=Lobster" />
+                    <mobiscroll_core link="css/mobiscroll.core-2.5.4.css" />
+                    <mobiscroll_animation link="css/mobiscroll.animation-2.5.4.css" />
+                    <mobiscroll_ios link="css/mobiscroll.ios-2.5.4.css" />
+                    <mobiscroll_android_ics link="css/mobiscroll.android-ics-2.5.4.css" />
+                    <opensans href="//fonts.googleapis.com/css?family=Open+Sans" />
+                    <icheck link="css/icheck.css" />
+                </css>
+            </scripts>
+            <metas>
+                <Content-Type value="text/html; charset=utf-8" type="http-equiv" />
+                <!--<keywords value="" type="name" />-->
+                <apple-mobile-web-app-capable value="yes" type="name" />
+                <viewport value="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0" type="name" />
+                <apple-mobile-web-app-status-bar-style value="black" type="name" />
+            </metas>
+        </base>
+    </default>
+
+    <front_index_index>
+        <views>
+            <messages class="front_view_html_messages" template="html/l1/messages.phtml" />
+            <facebook class="core_view_mobile_default" template="customer/social/facebook.phtml" />
+        </views>
+    </front_index_index>
+
+    <front_mobile_gmaps_view>
+        <views>
+            <content class="core_view_mobile_default" template="html/l1/gmaps/view.phtml" />
+        </views>
+    </front_mobile_gmaps_view>
+
+    <front_mobile_player_view>
+        <views>
+            <content class="core_view_mobile_default" template="html/l1/player/view.phtml" />
+        </views>
+    </front_mobile_player_view>
+
+    <front_index_noroute>
+        <views>
+            <content class="core_view_default" template="error/404.phtml" />
+        </views>
+    </front_index_noroute>
+
+    <front_index_error>
+        <views>
+            <content class="core_view_default" template="error/503.phtml" />
+        </views>
+    </front_index_error>
+
+</layout>

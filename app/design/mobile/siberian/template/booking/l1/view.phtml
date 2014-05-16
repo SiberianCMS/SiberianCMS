@@ -1,0 +1,158 @@
+<?php $application = $this->getApplication(); ?>
+<?php $option = $this->getCurrentOption(); ?>
+<?php $booking = new Booking_Model_Booking(); ?>
+<?php $booking->find($option->getId(), 'value_id'); ?>
+<?php $store = new Booking_Model_Store(); ?>
+<?php $stores = $store->findAll(array('booking_id' => $booking->getId())); ?>
+
+<script type="text/javascript" src="<?php echo $this->getJs('mobiscroll.core-2.5.4.js') ?>"></script>
+<?php
+    if(DEVICE_IS_IPHONE || DEVICE_TYPE == 'desktop') :
+        $theme = 'ios' ;
+        $script_src = 'mobiscroll.ios-2.5.4.js';
+    else :
+        $theme = 'android-ics' ;
+        $script_src = 'mobiscroll.android-ics-2.5.4.js';
+    endif;
+?>
+<script type="text/javascript" src="<?php echo $this->getJs($script_src) ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getJs('mobiscroll.core-2.5.4-fr.js') ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getJs('mobiscroll.datetime-2.5.4.js') ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getJs('mobiscroll.select-2.5.4.js') ?>"></script>
+
+<div class="booking">
+    <div id="booking_<?php echo $option->getId(); ?>" class="relative" rel="<?php echo $option->getId(); ?>">
+        <div class="scroll relative">
+            <div class="padding form">
+                <form id="bookingForm_<?php echo $option->getId(); ?>" action="<?php echo $this->getUrl('booking/mobile/post'); ?>" onsubmit="submitBookingForm('<?php echo $option->getId(); ?>'); return false;">
+                    <ul>
+                        <li><input type="text" id="booking_name_<?php echo $option->getId(); ?>" name="name" placeholder="<?php echo $this->_('First name / Last name') ?>" class="booking_field input"/></li>
+                        <li><input type="tel" id="booking_phone_<?php echo $option->getId(); ?>" name="phone" placeholder="<?php echo $this->_('Phone') ?>" class="booking_field input"/></li>
+                        <li><input type="email" id="booking_email_<?php echo $option->getId(); ?>" name="email" placeholder="<?php echo $this->_('Email') ?>" class="booking_field input email"/></li>
+                        <li>
+                            <label class="left" style="margin-top:8px;margin-left:5px;" for="booking_people_<?php echo $option->getId(); ?>"><?php echo $this->_('People number:') ?></label>
+                            <select id="booking_people_<?php echo $option->getId(); ?>" name="people">
+                            <?php for($i = 1; $i < 21; $i++) : ?>
+                                <option value="<?php echo $i ?>"><?php echo $i ?></option>
+                            <?php endfor; ?>
+                            </select>
+                            <p class="clear"></p>
+                        </li>
+                        <li>
+                            <label class="left" style="margin-top:5px;margin-left:5px;" for="booking_store_<?php echo $option->getId(); ?>"><?php echo $this->_('Location:') ?></label>
+                            <select id="booking_store_<?php echo $option->getId(); ?>" name="store">
+                                <option value=""></option>
+                            <?php foreach($stores as $store) : ?>
+                                <option value="<?php echo $store->getId() ?>"><?php echo $store->getStoreName() ?></option>
+                            <?php endforeach; ?>
+                            </select>
+                            <p class="clear"></p>
+                        </li>
+                        <li>
+                            <input id="booking_date_<?php echo $option->getId(); ?>" placeholder="<?php echo $this->_('Date and time') ?>" name="date"/>
+                        </li>
+                        <li>
+                            <textarea id="booking_prestation_<?php echo $option->getId(); ?>" placeholder="<?php echo $this->_("Booking details") ?>" name="prestation" rows="4"></textarea>
+                        </li>
+                        <li>
+                            <textarea id="booking_comment_<?php echo $option->getId(); ?>" placeholder="<?php echo $this->_("Comment") ?>" name="comment" rows="4"></textarea>
+                        </li>
+                    </ul>
+                    <button type="submit" class="button right"><?php echo $this->_("SEND") ?></button>
+                    <div class="clear"></div>
+                    <input type="hidden" name="option_value_id" value="<?php echo $option->getId(); ?>" />
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+
+        var subpage = page.getSubpage('<?php echo $option->getId(); ?>');
+
+        subpage.setCallback('didappear', function() {
+            $("#booking_store_<?php echo $option->getId(); ?>").mobiscroll().select({
+                lang: '<?php echo $this->_('en') ?>',
+                theme: '<?php echo $theme ?>',
+                display: 'bottom',
+                mode: 'scroller'
+            });
+            $("#booking_people_<?php echo $option->getId(); ?>").mobiscroll().select({
+                lang: '<?php echo $this->_('en') ?>',
+                theme: '<?php echo $theme ?>',
+                display: 'bottom',
+                mode: 'scroller'
+            });
+            $("#booking_date_<?php echo $option->getId(); ?>").mobiscroll().datetime({
+                lang: '<?php echo $this->_('en') ?>',
+                theme: '<?php echo $theme ?>',
+                display: 'bottom',
+                mode: 'scroller',
+                dateFormat: '<?php echo $this->_('MM dd yy') ?>',
+                dateOrder: '<?php echo $this->_('Mddyy') ?>',
+                timeFormat: '<?php echo $this->_('hh:ii A') ?>',
+                timeWheels: '<?php echo $this->_('hhiiA') ?>',
+                minDate: new Date()
+            });
+
+            var scrollview = new iScroll('booking_<?php echo $option->getId(); ?>', {
+                hScroll: false
+            });
+
+            this.setScrollview(scrollview)
+                .setContentSize()
+            ;
+        }).setCallback('willdisappear', function() {
+            if($('#booking_people_<?php echo $option->getId(); ?>').mobiscroll('getInst') != undefined) {
+                $('#booking_people_<?php echo $option->getId(); ?>').mobiscroll('getInst').cancel();
+            }
+            if($('#booking_date_<?php echo $option->getId(); ?>').mobiscroll('getInst') != undefined) {
+                $('#booking_date_<?php echo $option->getId(); ?>').mobiscroll('getInst').cancel();
+            }
+            if($('#booking_store_<?php echo $option->getId(); ?>').mobiscroll('getInst') != undefined) {
+                $('#booking_store_<?php echo $option->getId(); ?>').mobiscroll('getInst').cancel();
+            }
+
+        }).setCallback('diddisappear', function() {
+            $('#bookingForm_<?php echo $option->getId(); ?>').get(0).reset();
+        });
+
+        function submitBookingForm(id) {
+
+            var errors = new Array();
+            if($('#booking_name_'+id).val().isEmpty()) errors[errors.length] = '<?php echo addslashes($this->_("Your name")) ?>';
+            if($('#booking_store_'+id).val().isEmpty()) errors[errors.length] = '<?php echo addslashes($this->_("Your chosen location")) ?>';
+            if($('#booking_phone_'+id).val().isEmpty() && $('#booking_email_'+id).val().isEmpty()) errors[errors.length] = '<?php echo addslashes($this->_("Your phone number or email address")) ?>';
+            if($('#booking_people_'+id).val().isEmpty()) errors[errors.length] = '<?php echo addslashes($this->_("The number of people")) ?>';
+            if($('#booking_date_'+id).val().isEmpty()) errors[errors.length] = '<?php echo addslashes($this->_("The date and time of the booking")) ?>';
+            if($('#booking_prestation_'+id).val().isEmpty()) errors[errors.length] = '<?php echo addslashes($this->_("The booking informations")) ?>';
+
+            if(errors.length > 0) {
+                new Alert('<?php echo addslashes($this->_("Please fill in the following fields:")) ?> <br />' + errors.join('<br />'), 'error').show();
+            }
+            else {
+                loader.show();
+                $.ajax({
+                    url: '<?php echo $this->getUrl('booking/mobile/post'); ?>',
+                    dataType: 'json',
+                    data: $('#bookingForm_'+id).serializeArray(),
+                    type: 'post',
+                    success: function(datas) {
+                        if(datas.success) {
+                            new Alert('<?php echo addslashes($this->_("Thank you for your request. We\'ll answer you as soon as possible.")) ?>').show();
+                            $('#bookingForm_'+id)[0].reset();
+                        }
+                        else if(datas.error) {
+                            new Alert(datas.message, 'error').show();
+                        }
+                    },
+                    error: function() {
+                        new Alert('<?php echo addslashes($this->_("An error occurred while sending your message. We apologize and ask you to try later.")) ?>', 'error').show();
+                    },
+                    complete: function() {
+                        loader.hide();
+                    }
+                });
+            }
+        }
+    </script>
+</div>

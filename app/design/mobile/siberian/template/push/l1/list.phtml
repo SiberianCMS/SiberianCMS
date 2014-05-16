@@ -1,0 +1,16 @@
+<?php $option = $this->getCurrentOption(); ?>
+<?php $notifs = $this->getNotifs(); ?>
+<?php if(count($notifs)) : ?>
+<?php foreach($notifs as $notif) : ?>
+    <li class="notif">
+        <div class="<?php echo $notif->getIsRead() ? 'read' : 'overlay_20' ?> overlay_20">
+            <h3><?php echo $notif->getTitle(); ?></h3>
+            <p><?php echo $notif->getText(); ?></p>
+            <p class="delivered_at"><?php echo $notif->getFormattedDeliveredAt($this->_("MMMM dd y \'at\' hh:mm")); ?></p>
+        </div>
+    </li>
+    <li class="separator"></li>
+<?php endforeach ?>
+<?php else : ?>
+    <li><p class="padding"><?php echo $this->_("You don\'t have any push notifications") ?></p></li>
+<?php endif; ?>

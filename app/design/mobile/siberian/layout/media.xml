@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <media_mobile_gallery_video_view_l1>
+        <views>
+            <content class="core_view_mobile_default" template="media/gallery/video/l1/view.phtml" />
+        </views>
+    </media_mobile_gallery_video_view_l1>
+
+    <media_mobile_gallery_video_list_l1>
+        <views>
+            <content class="core_view_mobile_default" template="media/gallery/video/l1/view/list.phtml" />
+        </views>
+    </media_mobile_gallery_video_list_l1>
+
+    <media_mobile_gallery_image_view_l1>
+        <views>
+            <content class="core_view_mobile_default" template="media/gallery/image/l1/view.phtml" />
+        </views>
+    </media_mobile_gallery_image_view_l1>
+
+    <media_mobile_gallery_image_list_l1>
+        <views>
+            <content class="core_view_mobile_default" template="media/gallery/image/l1/view/list.phtml" />
+        </views>
+    </media_mobile_gallery_image_list_l1>
+
+</layout>

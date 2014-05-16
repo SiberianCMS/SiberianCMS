@@ -1,0 +1,28 @@
+<?php $current = $this->getCurrentLink(); ?>
+<?php $notif = new Admin_Model_Notification(); ?>
+<?php $unread_notifs = $notif->countUnread(); ?>
+<div class="menu header">
+    <div class="content navigation">
+        <div class="right">
+            <ul class="">
+                <li class="">
+                    <span class="hey left"><?php echo $this->_('Hey %s!', $this->getSession()->getAdmin()->getEmail()) ?></span>
+
+                    <a href="<?php echo $this->getUrl('admin/account/logout'); ?>" class="logout">
+                        <span class="header reverse rounded">
+                            <i class="left icon-off"></i>
+                        </span>
+                    </a>
+                </li>
+                <li class="">
+                    <a href="<?php echo $this->getUrl('admin/notification/list'); ?>" class="">
+                        <span class="header reverse rounded relative">
+                            <span id="badge_notif" class="badge bold red<?php if($unread_notifs == 0) : ?> invisible<?php endif; ?>"><?php echo $unread_notifs; ?></span>
+                            <i id="icon_notif" class="left icon-envelope badge<?php if($unread_notifs > 0) : ?> invisible<?php endif; ?>"></i>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,31 @@
+<?php $product = $this->getProduct(); ?>
+<div class="product_details">
+    <?php if($url = $product->getPictureUrl()) : ?>
+    <div class="left picture">
+        <img src="<?php echo $url ?>" class="logo" width="50" />
+    </div>
+    <?php endif; ?>
+    <div class="details<?php if($url) : ?> has_picture left<?php endif; ?>">
+        <p class="product_name"><?php echo $product->getName(); ?></p>
+        <?php if($product->getData('type') == 'simple') : ?>
+        <span class="price"><?php echo $product->getPrice() ? $product->getFormattedPrice() : ''; ?></span>
+        <p class="product_description"><?php echo $product->getDescription(); ?></p>
+        <?php else : ?>
+        <?php $category_id = $this->getCategory() ? $this->getCategory()->getId() : 0; ?>
+        <button type="button" class="show_formats">
+            <img src="<?php echo $this->getColorizedImage($this->getImage('buttons/more.png', true), $this->getApplication()->getDesignBlock('background')->getColor()); ?>" alt="<?php echo $this->_("More") ?>" title="<?php echo $this->_("More") ?>" width="32" />
+        </button>
+        <div id="product_formats_<?php echo $product->getId(); ?>" class="product_formats">
+            <?php foreach($product->getType()->getOptions() as $option) : ?>
+            <div class="format left">
+                <p><?php echo $option->getTitle() ?></p>
+                <p><?php echo $option->getFormattedPrice() ?></p>
+            </div>
+            <?php endforeach ?>
+            <div class="clear"></div>
+        </div>
+        <p id="product_description_<?php echo $product->getId(); ?>" class="product_description"><?php echo $product->getDescription(); ?></p>
+        <?php endif ?>
+    </div>
+    <div class="clear"></div>
+</div>

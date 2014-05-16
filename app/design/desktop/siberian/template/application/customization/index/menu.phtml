@@ -1,0 +1,35 @@
+<?php $level1 = $this->getCurrentMenu(); ?>
+<?php $level2 = $this->getCurrentSubmenu(); ?>
+<div class="menu list level1">
+    <ul>
+        <li class="first<?php if($level1 == 'design') : ?> f-bold active<?php endif; ?>" data-image="335" data-style="editor_menu" data-color="background_color<?php if($level1 == 'design') : ?>_on_active<?php endif; ?>">
+            <a href="<?php echo $this->getUrl('application/customization_design_style/edit'); ?>" class="editor_menu no-background<?php if($level1 == 'design') : ?> active<?php endif; ?>"><?php echo $this->_('Design'); ?></a>
+        </li>
+        <li class="<?php if($level1 == 'colors') : ?>f-bold active<?php endif; ?>" data-image="337" data-style="editor_menu" data-color="background_color<?php if($level1 == 'colors') : ?>_on_active<?php endif; ?>">
+            <a href="<?php echo $this->getUrl('application/customization_design_colors/edit'); ?>" class="editor_menu no-background<?php if($level2 == 'colors') : ?> active<?php endif; ?>"><?php echo $this->_('Colors'); ?></a>
+        </li>
+        <li class="<?php if($level1 == 'features') : ?>f-bold active<?php endif; ?>" data-image="337" data-style="editor_menu" data-color="background_color<?php if($level1 == 'features') : ?>_on_active<?php endif; ?>">
+            <a href="<?php echo $this->getUrl('application/customization_features/list'); ?>" class="editor_menu no-background<?php if($level1 == 'features') : ?> active<?php endif; ?>"><?php echo $this->_('Features'); ?></a>
+        </li>
+        <li class="<?php if($level1 == 'publication_app') : ?>f-bold active <?php endif; ?>wl_panel">
+            <a href="<?php echo $this->getUrl('application/customization_publication_app'); ?>" class="editor_menu no-background<?php if($level1 == 'publication_app') : ?> active<?php endif; ?>"><?php echo $this->_('Application'); ?></a>
+        </li>
+        <li class="<?php if($level1 == 'publication_infos') : ?>f-bold active <?php endif; ?>wl_panel">
+            <a href="<?php echo $this->getUrl('application/customization_publication_infos'); ?>" class="editor_menu no-background<?php if($level2 == 'publication_infos') : ?> active<?php endif; ?>"><?php echo $this->_('Publication'); ?></a>
+        </li>
+    </ul>
+    <button id="preview_on_mobile" class="default_button reverse right"><?php echo $this->_('Live preview on your mobile'); ?></button>
+</div>
+<script type="text/javascript">
+    var modal_previewer = new Modal({id: 'app_previewer', url: '<?php echo $this->getUrl('application/previewer/modal'); ?>', is_retain: false, width: 850, height: 'auto'});
+    $('#preview_on_mobile').click(function() {
+        modal_previewer.show();
+    });
+</script>
+<style type="text/css">
+    #preview_on_mobile {
+        width: auto;
+        margin-top: 5px;
+        padding: 10px;
+    }
+</style>

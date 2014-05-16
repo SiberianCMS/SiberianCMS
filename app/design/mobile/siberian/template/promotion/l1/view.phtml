@@ -1,0 +1,230 @@
+<?php $option = $this->getCurrentOption(); ?>
+<?php $isLoggedIn = $this->getSession()->isLoggedIn('customer'); ?>
+<?php $promotion_customer = new Promotion_Model_Customer(); ?>
+<?php $promotion_customers = $promotion_customer->findAllByValue($option->getId(), $this->getSession()->getCustomerId() | 0) ?>
+<?php $isOverview = (bool) $this->getRequest()->getParam('overview', false); ?>
+
+<div id="promotions_<?php echo $option->getId(); ?>">
+    <div class="clear"></div>
+    <?php if(!$this->getSession()->isLoggedIn('customer')) : ?>
+    <div id="promotion_customer_connect_<?php echo $option->getId(); ?>" class="connect">
+        <button type="button" onclick="customer.openLoginForm(page.reload.bind(page)); return false" class="connect_button icon_left arrow_right">
+            <?php echo $this->_("Please log in.") ?>
+        </button>
+    </div>
+    <?php endif; ?>
+    <div class="padding">
+        <div class="promotions empty relative discount">
+            <div id="scrollview_go_back_<?php echo $option->getId(); ?>" class="scroll_control scroll_back" style="display:none;">
+                <a href="javascript:void(0);" onclick="scrollviews.scrollToPage('promotion_scrollview', 'prev');"></a>
+            </div>
+            <div id="promotion_scrollview_<?php echo $option->getId() ?>" class="scrollview relative">
+                <ul id="promotions_list_<?php echo $option->getId(); ?>">
+                <?php foreach($promotion_customers as $promotion) : ?>
+                <?php //if($isLoggedIn AND $promotion_customer->findLast($promotion->getPromotionId(), $this->getSession()->getCustomerId())->isLocked()) continue; ?>
+                <?php if($isLoggedIn AND $promotion->isLocked()) continue; ?>
+                    <li style="height: 100%" class="relative">
+                        <div id="promotion_<?php echo $promotion->getPromotionId() ?>" class="details promotion_scrollview_details_<?php echo $option->getId(); ?>">
+                            <div class="scroll">
+                                <div class="padding">
+                                    <div class="title<?php if(!$promotion->getTitle()) : ?> none<?php endif; ?>" id="title_<?php echo $option->getId(); ?>_<?php echo $promotion->getPromotionId(); ?>"><h4><?php echo $promotion->getTitle() ?></h4></div>
+
+                                    <p id="description_<?php echo $option->getId(); ?>_<?php echo $promotion->getPromotionId(); ?>"<?php if(!$promotion->getDescription()) : ?> class="none"<?php endif; ?>><?php echo $promotion->getDescription() ?></p>
+
+                                    <p id="conditions_<?php echo $option->getId(); ?>_<?php echo $promotion->getPromotionId(); ?>"<?php if(!$promotion->getConditions()) : ?> class="none"<?php endif; ?>><?php echo $promotion->getConditions() ?></p>
+                                    <?php if($promotion->getIsUnique() OR $isOverview) : ?>
+                                    <p id="is_unique_<?php echo $option->getId(); ?>_<?php echo $promotion->getPromotionId(); ?>"<?php if(!$promotion->getIsUnique()) : ?> class="none"<?php endif; ?>><?php echo $this->_("Can only be used once") ?></p>
+                                    <?php endif ?>
+
+                                    <?php if($promotion->getEndAt() OR $isOverview) : ?>
+                                    <p id="end_at_<?php echo $option->getId(); ?>_<?php echo $promotion->getPromotionId(); ?>" class="end_at<?php if(!$promotion->getEndAt()) : ?> none<?php endif; ?>"><?php echo $this->_("Valid until") ?> <?php echo $promotion->getFormattedEndAt($this->_('MMMM dd y')) ?></p>
+                                    <?php endif ?>
+
+                                    <?php if($promotion->getIsUnique() OR $promotion->getForceValidation() OR $isOverview) : ?>
+                                    <div id="use_promotion_<?php echo $option->getId(); ?>_<?php echo $promotion->getPromotionId() ?>" class="use_discount<?php if(!$promotion->getIsUnique() AND !$promotion->getForceValidation()) : ?> none<?php endif; ?>">
+                                        <a href="javascript:void(0)" class="discount reverse" onclick="
+                                            preparePromotion('<?php echo $promotion->getPromotionId(); ?>', '<?php echo $promotion->getIsUnique(); ?>');">
+                                            <?php echo $this->_("Use this coupon") ?></a>
+                                    </div>
+                                    <?php endif ?>
+                                    <div class="clear"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                <?php endforeach ?>
+                </ul>
+            </div>
+            <div id="scrollview_go_forth_<?php echo $option->getId(); ?>" class="scroll_control scroll_forth" style="display:none;">
+                <a href="javascript:void(0);" onclick="scrollviews.scrollToPage('promotion_scrollview', 'next');"></a>
+            </div>
+            <form id="promotionForm" action="<?php echo $this->getUrl('promotion/mobile/validate'); ?>" method="post">
+                <input type="hidden" id="promotion_id" name="promotion_id" value="" />
+                <input type="hidden" name="option_value_id" value="<?php echo $option->getId(); ?>" />
+            </form>
+            <script type="text/javascript">
+                function preparePromotion(id, is_unique) {
+                    if(is_unique && !customer.isLoggedIn()) {
+                        customer.openLoginForm(usePromotion.bind($, id));
+                    }
+                    else {
+                        usePromotion(id);
+                    }
+                    <?php /*if(!$isLoggedIn) : ?>
+                    customer.openLoginForm(page.reload.bind(page));
+                    <?php else : ?>
+                    usePromotion(id);
+                    <?php endif;*/ ?>
+                }
+            </script>
+        </div>
+    </div>
+</div>
+
+<style>
+    .scroll_control {
+        position:absolute;
+        top: 50%;
+        left:-25px;
+        height:30px;
+        width:25px;
+        margin-top:-15px;
+    }
+    .scroll_control.scroll_forth {
+        left:auto;
+        right:-25px;
+        width:25px;
+    }
+
+    .scroll_control a {
+        display: block;
+        height: 100%;
+        width: 100%;
+        background:transparent;
+    }
+
+    .scroll_control.scroll_back a:before, .scroll_control.scroll_forth a:before {
+        border-image: none;
+        border-style: solid;
+        border-width: 15px;
+        clear: both;
+        content: ".";
+        height: 0;
+        position: absolute;
+    }
+
+    .scroll_control.scroll_back a:before {
+        border-color: transparent <?php echo $this->getApplication()->getDesignBlock('button')->getBackgroundColor(); ?> transparent transparent;
+        right: 2px;
+    }
+
+    .scroll_control.scroll_forth a:before {
+        border-color: transparent transparent transparent <?php echo $this->getApplication()->getDesignBlock('button')->getBackgroundColor(); ?>;
+        left: 2px;
+    }
+
+</style>
+
+<script type="text/javascript">
+
+    var subpage = page.getSubpage('<?php echo $option->getId(); ?>');
+
+    subpage.setCallback('willappear', function() {
+        var cpt = 0;
+
+        $('.promotion_scrollview_details_<?php echo $option->getId(); ?>').each(function(i, el) {
+            this.createPromotionScrollview(el.id);
+            cpt++;
+        }.bind(this));
+
+        if(cpt > 1) $('#scrollview_go_forth_<?php echo $option->getId(); ?>').fadeIn();
+
+        var scrollview = new iScroll('promotion_scrollview_<?php echo $option->getId() ?>', {
+            snap: true,
+            onScrollEnd: function() {
+                if($('.promotion_scrollview_details_<?php echo $option->getId(); ?>').length > 1) {
+                    var scrollView = this;
+                    if(scrollView.currPageX == 0) $('#scrollview_go_back_<?php echo $option->getId(); ?>').fadeOut();
+                    else $('#scrollview_go_back_<?php echo $option->getId(); ?>').fadeIn();
+
+                    if(scrollView.currPageX == $('#promotions_list_<?php echo $option->getId(); ?>').find('li').length - 1) $('#scrollview_go_forth_<?php echo $option->getId(); ?>').fadeOut();
+                    else $('#scrollview_go_forth_<?php echo $option->getId(); ?>').fadeIn();
+                }
+            }
+        });
+
+        this.setScrollview(scrollview)
+            .setContentSize()
+        ;
+        this.scrollview.refresh();
+        $('.scroll_control').each(function() {
+            new NoClickDelay($(this).get(0));
+        });
+    }).setCallback('willdisappear', function() {
+        <?php foreach($promotion_customers as $promotion) : ?>
+        scrollviews.destroy('promotion_<?php echo $promotion->getPromotionId(); ?>');
+        <?php endforeach; ?>
+    }).setCallback('didresize', function() {
+        this.scrollview.scrollToPage(this.scrollview.currPageX, 0);
+    });
+
+    subpage.createPromotionScrollview = function(id) {
+        scrollviews.add(id, new iScroll(id, {vScroll: true}));
+    }
+
+    subpage.refreshPromotionScrollview = function(id) {
+
+        var height = $('#promotion_scrollview_'+this.id).height();
+        var current_scroll = $('#'+id);
+
+        current_scroll.css('height', height);
+
+        var div = current_scroll.children('div.scroll');
+        div.css('min-height', height);
+
+
+//        var scroll_height = 0;
+//        div.children(':visible').each(function() {
+//            scroll_height += $(this).outerHeight(true);
+//        });
+
+//            scroll_height+=10;
+//        var max_height = current_scroll.height();
+//        div.css('height', Math.max(max_height, scroll_height));
+
+        scrollviews.refresh(id);
+
+    }
+
+    subpage.setContentSize = function() {
+
+        var height = $('#promotion_scrollview_'+this.id).height();
+        var lis = $('#promotions_list_'+this.id).find('li');
+        var nbrLi = lis.length;
+        var ulWidth = nbrLi * $('#promotion_scrollview_<?php echo $option->getId() ?>').width();
+        $('#promotions_list_'+this.id).css('min-height', height);
+        $('#promotions_list_'+this.id).css('width', ulWidth+'px');
+        lis.css('width', $('#promotion_scrollview_<?php echo $option->getId() ?>').width());
+
+        $('.promotion_scrollview_details_<?php echo $option->getId(); ?>').each(function(i, el) {
+            this.refreshPromotionScrollview(el.id);
+        }.bind(this));
+
+        return this;
+//        scrollviews.refresh('promotion_scrollview_<?php echo $option->getId() ?>');
+
+    }.bind(subpage);
+
+    subpage.refreshScrollview = function() {
+
+        var height = $(window).height() - $('#page_header_'+this.id).height() - 20;
+        if($('#promotion_customer_connect_'+this.id).length) {
+            height -= $('#promotion_customer_connect_'+this.id).outerHeight(true);
+        }
+        $('#promotion_scrollview_'+this.id).css('height', height);
+        this.scrollview.refresh();
+
+        return this;
+    }.bind(subpage);
+
+</script>

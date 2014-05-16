@@ -1,0 +1,15 @@
+<div class="header_content">
+    <div class="left">
+        <a href="<?php echo $this->getUrl(''); ?>">
+            <img src="<?php echo $this->getImage('header/logo.png'); ?>" id="logo" alt="Siberian CMS" title="Siberian CMS" />
+        </a>
+    </div>
+    <div class="right">
+        <select id="change_language" tabindex="1">
+            <?php foreach (Core_Model_Language::getLanguages() as $language) : ?>
+            <option value="<?php echo $this->getCurrentUrl(true, $language->getCode()); ?>"<?php if(Core_Model_Language::getCurrentLanguage() == $language->getCode()) : ?> selected="selected"<?php endif; ?>><?php echo $language->getName(); ?></option>
+            <?php endforeach ?>
+        </select>
+    </div>
+    <div class="clear"></div>
+</div>

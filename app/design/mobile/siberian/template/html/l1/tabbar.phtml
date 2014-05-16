@@ -1,0 +1,36 @@
+<?php $time = time(); ?>
+<?php $is_overview = $this->getRequest()->getParam('overview'); ?>
+<?php $isLoggedIn = $this->getSession()->isLoggedIn('customer'); ?>
+<?php $option_values = $this->getOptionValues(); ?>
+<?php $icon_color = $this->getApplication()->getDesignBlock('tabbar')->getImageColor(); ?>
+<div id="scrollview_tabbar_items" class="tabbar animated toBottom" style="display:none;">
+    <ul>
+        <?php foreach($option_values as $k => $option_value) : ?>
+        <?php if($option_value->getFolderCategoryId()) continue; ?>
+        <?php if(!$option_value->isActive() AND !$is_overview) continue; ?>
+        <li<?php if(!$option_value->isActive()) : ?> style="display:none;"<?php endif; ?>>
+            <a href="<?php echo $option_value->getUrl('view', array('option_value_id' => $option_value->getId()), false); ?>" id="tabbar_item_<?php echo $option_value->getId(); ?>" rel="<?php echo $option_value->getId(); ?>" class="item item_<?php echo $option_value->getCode(); ?><?php if($option_value->getIsAjax()) : ?> is_ajax<?php endif; ?>" onclick="page.showSubpage({a:this}); return false;">
+                <img id="icon_<?php echo $option_value->getId(); ?>" src="<?php echo $this->getColorizedImage($option_value->getIconId(), $icon_color); ?>" alt="" title="" width="30" height="30" class="left" />
+                <span id="tabbar_name_<?php echo $option_value->getId(); ?>" class="tabbar_name_<?php echo $option_value->getId(); ?> block left"><?php echo $option_value->getTabbarName(); ?></span>
+                <div class="clear"></div>
+            </a>
+        </li>
+        <?php endforeach; ?>
+        <?php if($this->getApplication()->usesUserAccount()) : ?>
+        <?php $option_value = new Application_Model_Option_Value(); ?>
+        <?php $option_value->findTabbarAccount(); ?>
+        <li>
+            <a href="javascript:void(0)" class="item" onclick="customer.openLoginForm();">
+                <img src="<?php echo $this->getColorizedImage($option_value->getBaseIconUrl(), $icon_color); ?>" alt="" title="" width="30" height="30" class="left" />
+                <span id="tabbar_name_customer_account" class="tabbar_name_customer_account block left"><?php echo $this->getApplication()->getTabbarAccountName() ?></span>
+                <div class="clear"></div>
+            </a>
+        </li>
+        <?php endif; ?>
+        <li>
+            <a href="javascript:void(0)" class="item" onclick="tabbar.hideAllItems()">
+                <span id="tabbar_name_close" class="block"><?php echo $this->_("Close") ?></span>
+            </a>
+        </li>
+    </ul>
+</div>

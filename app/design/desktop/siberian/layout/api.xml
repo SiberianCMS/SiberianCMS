@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <api_settings_key_list>
+        <base>
+            <title>Your APIs list</title>
+        </base>
+        <views>
+            <content class="core_view_default" template="api/settings/key/list.phtml" />
+            <customization_header class="admin_view_default" template="application/customization/index/header.phtml" />
+        </views>
+        <actions>
+            <customization_header name="setCurrentLink"><code>api_keys</code></customization_header>
+        </actions>
+    </api_settings_key_list>
+</layout>

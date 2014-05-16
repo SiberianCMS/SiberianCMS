@@ -1,0 +1,29 @@
+<?php $application = $this->getApplication() ?>
+<div id="iphone">
+    <div class="iphone_content">
+        <div id="mobile_homescreen">
+            <p class="iphone_header toolbar_overview a-center"><?php echo date('H:m'); ?></p>
+            <img src="<?php echo $this->getImage('customization/overview/homescreen.jpg'); ?>" alt="" title="" />
+            <div id="overview_icon" class="overview mobile_view right touch_icon">
+                <div class="icon" style="background-color: <?php echo $application->getBackgroundImageColor() ? $application->getBackgroundImageColor() : '#000'?>">
+                    <img src="<?php echo $application->getIcon(); ?>" id="preview_icon" width="62" height="62" />
+                </div>
+                <p id="app_name" class="no-margin"><?php echo $application->getShortName(); ?></p>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="mobile_startup" class="area" style="display: none;">
+    <h3 class="title" style="margin-bottom: 20px;">
+        <div><span class="left area"><?php echo $this->_('Startup image') ?></span></div>
+        <hr class="area reverse">
+        <div class="clear"></div>
+    </h3>
+    <div class="left" style="width:160px; height:274px; overflow:hidden;" id="startupimage_retina_cont">
+        <img id="startupimage_retina" width="160px" height="274px" style="display:block; background:black" src="<?php echo $application->getStartupImageUrl('retina4') ?>" data-image="<?php echo $application->getStartupImageUrl('retina4') ?>" />
+    </div>
+    <div class="right" style="width:160px; height:235px; overflow:hidden;" id="startupimage_cont">
+        <img id="startupimage" width="160px" height="235px" style="display:block; background:black" src="<?php echo $application->getStartupImageUrl() ?>" data-image="<?php echo $application->getStartupImageUrl() ?>" />
+    </div>
+    <div class="clear"></div>
+</div>

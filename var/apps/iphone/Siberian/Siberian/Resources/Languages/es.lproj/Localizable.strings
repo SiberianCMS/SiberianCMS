@@ -1,0 +1,32 @@
+/*
+  Localizable.strings
+  TigerCreator
+
+  Created by Adrien Sala on 22/07/13.
+
+*/
+
+
+"Error" = "Error";
+"OK" = "OK";
+"Cancel" = "Cancelar";
+"Validate" = "Validar";
+"Close" = "Cerrar";
+"Done" = "Cerrar";
+"Back" = "Volver";
+
+
+/* youtubePlayerViewController */
+"The video you're requesting is not valid or doesn't exist anymore" = "El video que está solicitando no es válido o no existe";
+
+
+/* mapViewController*/
+"Locate Us" = "Encontrarnos";
+"An error occured while retrieving our address. We're really sorry and encourage you to come back later." = "Ha ocurrido un error al recuperar nuestra dirección. Lo sentimos mucho. Por favor, vuelves más tarde.";
+
+
+/* mainViewController */
+"We are sorry but our address can't be found in Plans" = "Lo sentimos pero nuestra dirección no se puede encontrar en Mapas";
+
+
+

@@ -1,0 +1,28 @@
+<?php $block = $this->getCurrentBlock(); ?>
+<?php $library = new Cms_Model_Application_Page_Block_Image_Library(); ?>
+<?php $libraries = $library->findAll(array('library_id' => $block->getLibraryId()), 'image_id ASC', null); ?>
+<?php $application = $this->getApplication(); ?>
+
+<div rel="<?php echo $block->getPosition() ?>" class="cms_block picture" >
+    <div id="carousel_scrollview_<?php echo $block->getPosition() ?>" rel="<?php echo $block->getPosition() ?>" class="image_cont relative" style="overflow:hidden;">
+        <ul rel="<?php echo $block->getPosition() ?>" class="image_ul">
+            <?php foreach($libraries as $k => $library) : ?>
+                <li class="left image_li">
+                    <a style="display:block;overflow:hidden;" onclick="page.getSubpage('<?php echo $this->getOptionValue()->getValueId(); ?>').showGallery('<?php echo $block->getPosition(); ?>', <?php echo $k; ?>); return false;" class="loading" href="javascript:void(0)">
+                        <img onload="prepareImage(this, '<?php echo $library->getImage(); ?>');" src="<?php echo $this->getImage('loader/ajax.gif'); ?>" width="24" class="loader" />
+                        <img rel="<?php echo $library->getImageId() ?>" src="" style="display:none;" width="100%" />
+                    </a>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+        <?php if (count($libraries) > 1) : ?>
+            <button id="left_control_carousel_scrollview_<?php echo $block->getPosition(); ?>" type="button" class="controls left relative" onclick="scrollviews.scrollToPage('carousel_scrollview_<?php echo $block->getPosition(); ?>', 'prev')" style="display:none;">
+                <img src="<?php echo $this->getImage('pictos/arrow_left.png'); ?>" width="15" height="15" />
+            </button>
+            <button id="right_control_carousel_scrollview_<?php echo $block->getPosition(); ?>" type="button" class="controls right relative" onclick="scrollviews.scrollToPage('carousel_scrollview_<?php echo $block->getPosition(); ?>', 'next')">
+                <img src="<?php echo $this->getImage('pictos/arrow_right.png'); ?>" width="15" height="15" />
+            </button>
+        <?php endif; ?>
+    </div>
+    <p class="description" rel="<?php echo $block->getPosition() ?>"><?php echo $block->getDescription(); ?></p>
+</div>

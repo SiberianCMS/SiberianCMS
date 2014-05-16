@@ -1,0 +1,57 @@
+<?php $application = $this->getApplication(); ?>
+<?php $option = $this->getCurrentOption(); ?>
+<?php $weblink = $option->getObject(); ?>
+<?php $customer = $this->getSession()->isLoggedIn('customer') ? $this->getSession()->getCustomer() : new Customer_Model_Customer(); ?>
+
+<div class="weblink multi">
+
+    <div id="weblink_multi_<?php echo $option->getId(); ?>" class="relative" rel="<?php echo $option->getId(); ?>">
+        <div class="scroll" class="relative" style="position:relative !important">
+            <div class="padding">
+                <div id="weblink_cover_<?php echo $option->getId(); ?>" style="<?php if(!$weblink->getCover()) : ?> display:none;<?php endif; ?>">
+                    <img id="weblink_cover_img_<?php echo $option->getId(); ?>" src="<?php echo $weblink->getCoverUrl() ?>" width="100%" onload="page.getSubpage('<?php echo $option->getId(); ?>').refreshScrollview();" />
+                </div>
+
+                <div class="buttons">
+                    <?php foreach($weblink->getLinks() as $link) : ?>
+                    <a href="<?php echo $link; ?>" id="link_button_<?php echo $link->getId(); ?>" class="links link_<?php echo $option->getId(); ?> button full_width icon_left block arrow_right">
+                        <?php if($link->getPicto()) : ?>
+                        <img src="<?php echo $link->getPictoUrl(); ?>" width="21" height="21" />
+                        <?php endif; ?>
+                        <?php echo $link->getTitle(); ?>
+                    </a>
+                    <?php endforeach ?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+
+        var subpage = page.getSubpage('<?php echo $option->getId(); ?>');
+
+        subpage.setCallback('willappear', function() {
+
+            var scrollview = new iScroll('weblink_multi_<?php echo $option->getId(); ?>', {
+                hScroll: false
+            });
+            subpage.setScrollview(scrollview);
+
+            $('.link_<?php echo $option->getId(); ?>').each(function() {
+                var href = $(this).attr('href');
+                href += href.contains("?") ? "&" : "?";
+                href += "webview=1";
+                $(this).attr('href', href);
+            });
+
+            <?php if($this->getRequest()->getParam('overview')) : ?>
+            $('.link_<?php echo $option->getId(); ?>').attr('href', 'javascript:void(0)');
+            <?php endif ?>
+        });
+        subpage.setCallback('willdisappear', function() {
+            <?php if($this->getRequest()->getParam('overview')) : ?>
+            $('.link_<?php echo $option->getId(); ?>').unbind('click');
+            <?php endif ?>
+        });
+
+    </script>
+</div>

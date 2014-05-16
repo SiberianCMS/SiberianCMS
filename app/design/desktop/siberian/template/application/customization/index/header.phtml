@@ -1,0 +1,79 @@
+<?php $current_link = $this->getCurrentLink() ?>
+<?php $settings_links = array('push', 'url', 'api_keys', 'module'); ?>
+<div class="content">
+    <div class="application_name left">
+        <img src="<?php echo $this->getApplication()->getIcon(); ?>" width="94" height="94" class="icon" />
+        <span id="header_app_name" class="f-rounded"><?php echo $this->getApplication()->getShortName(); ?></span>
+    </div>
+    <div class="links submenu a-center right">
+        <ul>
+            <li>
+                <a href="<?php echo $this->getUrl('application/customization_design_style/edit'); ?>" class="block edit header no-background<?php if($current_link == 'edit'): ?> active<?php endif; ?>">
+                    <i class="icon-cogs"></i>
+                    <span class="block f-bold toupper"><?php echo $this->_('Editor'); ?></span>
+                </a>
+            </li>
+            <li>
+                <a href="<?php echo $this->getUrl('application/promote'); ?>" class="block promote header no-background<?php if($current_link == 'promote'): ?> active<?php endif; ?>">
+                    <i class="icon-qrcode"></i>
+                    <span class="block f-bold toupper"><?php echo $this->_('Promote'); ?></span>
+                </a>
+            </li>
+            <li>
+                <a href="<?php echo $this->getUrl('application/analytics'); ?>" class="block analytics header no-background<?php if($current_link == 'analytics'): ?> active<?php endif; ?>">
+                    <i class="icon-bar-chart"></i>
+                    <span class="block f-bold toupper"><?php echo $this->_('Analytics'); ?></span>
+                </a>
+            </li>
+            <li>
+                <a href="<?php echo $this->getUrl('application/settings'); ?>" class="block settings header no-background<?php if(in_array($current_link, $settings_links)) : ?> active<?php endif; ?>" onclick="$('#settings_submenu').stop().slideToggle(); return false;">
+                    <i class="icon-wrench"></i>
+                    <span class="block f-bold toupper"><?php echo $this->_('Settings'); ?></span>
+                </a>
+            </li>
+            <li>
+                <?php if(!$this->getSession()->getAdmin()->getParentId()) : ?>
+                <a href="<?php echo $this->getUrl('admin/account/list'); ?>" class="block settings header no-background<?php if($current_link == 'my_account'): ?> active<?php endif; ?>">
+                    <i class="icon-user"></i>
+                    <span class="block f-bold toupper"><?php echo $this->_('Accounts'); ?></span>
+                </a>
+                <?php else : ?>
+                <a href="<?php echo $this->getUrl('admin/account/edit'); ?>" class="block settings header no-background<?php if($current_link == 'my_account'): ?> active<?php endif; ?>">
+                    <i class="icon-user"></i>
+                    <span class="block f-bold toupper"><?php echo $this->_('My account'); ?></span>
+                </a>
+                <?php endif; ?>
+            </li>
+        </ul>
+    </div>
+    <div id="settings_submenu" class="links submenu a-center right<?php if(!in_array($current_link, $settings_links)) : ?> none<?php endif; ?>">
+        <ul>
+            <li>
+                <a href="<?php echo $this->getUrl('push/certificat/list'); ?>" class="block push header no-background<?php if($current_link == 'push'): ?> active<?php endif; ?>">
+                    <i class="icon-comment"></i>
+                    <span class="block f-bold toupper"><?php echo $this->_('Push'); ?></span>
+                </a>
+            </li>
+            <li>
+                <a href="<?php echo $this->getUrl('application/settings'); ?>" class="block url header no-background<?php if($current_link == 'url'): ?> active<?php endif; ?>">
+                    <i class="icon-info"></i>
+                    <span class="block f-bold toupper"><?php echo $this->_('Domain'); ?></span>
+                </a>
+            </li>
+            <li>
+                <a href="<?php echo $this->getUrl('api/settings_key/list'); ?>" class="block api_keys header no-background<?php if($current_link == 'api_keys'): ?> active<?php endif; ?>">
+                    <i class="icon-key"></i>
+                    <span class="block f-bold toupper"><?php echo $this->_('Api Keys'); ?></span>
+                </a>
+            </li>
+            <li>
+                <a href="<?php echo $this->getUrl('installer/module'); ?>" class="block module header no-background<?php if($current_link == 'module'): ?> active<?php endif; ?>">
+                    <i class="icon-download-alt"></i>
+                    <span class="block f-bold toupper"><?php echo $this->_('Module'); ?></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="clear"></div>
+</div>

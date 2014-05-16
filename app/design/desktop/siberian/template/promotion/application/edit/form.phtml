@@ -1,0 +1,75 @@
+<?php
+    $value_id = $this->getValue();
+    if ($this->getPromotion()->getId() != null) {
+        $promotion = $this->getPromotion();
+    } else {
+        $promotion =  new Promotion_Model_Promotion();
+        $promotion->setPosIds(array());
+    }
+    $application = $this->getApplication();
+?>
+
+<h4 class="subtitle">
+    <span class="left area"><?php echo $this->_('Création'); ?></span>
+    <hr class="area reverse">
+    <div class="clear"></div>
+</h4>
+<form id="promotionEditForm" method="post" action="<?php echo $this->getUrl('promotion/application/editpost', array('id' => $promotion->getId())); ?>">
+    <div class="buttons">
+        <button type="button" onclick="page.reload();" class="delete left"><i class="icon-arrow-left"></i></button>
+        <button type="submit" class="default_button right">OK</button>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+    <fieldset>
+        <table class="list list-input">
+            <tr>
+                <td class="label"><div><label data-tip="12" data-tip-left="60" for="title"><?php echo $this->_('Intitulé'); ?> : <span class="input-required">*</span></label></div></td>
+                <td><input type="text" id="title" name="title" class="required" value="<?php echo $promotion->getTitle(); ?>" /></td>
+            </tr>
+            <tr>
+                <td class="label"><div><label data-tip="13" data-tip-left="60" for="description"><?php echo $this->_('Description'); ?> : <span class="input-required">*</span></label></div></td>
+                <td><textarea type="textarea" rows="4" id="description" name="description" class="required"><?php echo $promotion->getDescription(); ?></textarea></td>
+            </tr>
+            <tr>
+                <td class="label"><div><label data-tip="14" data-tip-left="60" for="conditions"><?php echo $this->_('Conditions'); ?> : <span class="input-required">*</span></label></div></td>
+                <td>
+                    <input type="text" id="conditions" name="conditions" class="required" value="<?php echo $promotion->getConditions(); ?>" />
+                    <div class="block"></div>
+                    <div class="notice">
+                        <label data-tip="15" for="is_unique" class="checkbox <?php if ($promotion->getIsUnique() == 1) echo 'checked' ?>">
+                            <input id="is_unique" type="checkbox" class="" value="1" name="is_unique" <?php if ($promotion->getIsUnique() == 1) echo 'checked="checked"' ?> />
+                            <?php echo $this->_('utilisable une seule fois'); ?> ?
+                        </label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="label"><label for="end_at"><?php echo $this->_('Date de fin'); ?> :</label></td>
+                <td><input type="text" id="end_at" name="end_at" class="calendar required" <?php if ($promotion->getId() AND !$promotion->getEndAt()) echo 'disabled="disabled"' ?> value="<?php if ($promotion->getEndAt()) echo $promotion->getEndAt(); ?>" autocomplete="off" /></td>
+            </tr>
+            <tr>
+                <td class="label"><div><label data-tip="16" data-tip-left="60" for="is_illimited"><?php echo $this->_('ou Illimitée'); ?> :</label></div></td>
+                <td>
+                    <div class="notice">
+                        <label for="is_illimited" class="checkbox  <?php if ($promotion->getId() AND !$promotion->getEndAt()) echo 'checked' ?>">
+                            <input type="checkbox" id="is_illimited" <?php if ($promotion->getId() AND !$promotion->getEndAt()) echo 'checked="checked"' ?> name="is_illimited" value="1" />
+                            (<?php echo $this->_('vous pourrez supprimer cette promo plus tard'); ?>)
+                        </label>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </fieldset>
+    <input type="hidden" name="value_id" value="<?php echo $value_id ?>" />
+    <?php if($promotion->getId()) : ?>
+        <input type="hidden" name="id" id="promotion_id" value="<?php echo $promotion->getId() ?>" />
+    <?php endif; ?>
+
+</form>
+<style>
+    .details_condition select {font-size: 14px;}
+    #promotion_condition_edit {padding: 10px;}
+    #promotion_condition_edit div {margin-left: 20px;}
+    #promotionEditForm .notice {margin-top: 10px;}
+</style>

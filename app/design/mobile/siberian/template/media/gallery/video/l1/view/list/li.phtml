@@ -1,0 +1,41 @@
+<?php $video = $this->getCurrentVideo(); ?>
+<?php $key = $this->getKey(); ?>
+<?php $link = $this->getLink(); ?>
+
+<li class="video list_videos video_<?php echo $video->getValueId(); ?> video_<?php echo $video->getValueId(); ?>_<?php echo $video->getId(); ?>">
+    <div class="relative">
+
+        <?php if(IS_APPLICATION AND DEVICE_IS_IPHONE AND in_array($video->getTypeId(), array('youtube', 'itunes', 'vimeo'))) : ?>
+            <?php if($video->getTypeId() == 'youtube') :?>
+            <a href="<?php echo "youtube:{$link->getVideoId()}"; ?>" class="play_video">
+                <div class="sprite"></div>
+                <img class="youtube_preview cover" src="<?php echo $link->getImage(); ?>" onload="page.getSubpage('<?php echo $video->getValueId() ?>').resizeYoutubeImage('scrollview_videos_<?php echo $video->getId() ?>', $(this))" style="display: none;" />
+            </a>
+            <?php elseif($video->getTypeId() == 'vimeo') : ?>
+            <a href="<?php echo Media_Model_Gallery_Video_Vimeo::PLAYER_URL.$link->getVideoId(); ?>" class="play_video">
+                <div class="sprite"></div>
+                <img class="youtube_preview cover" src="<?php echo $link->getImage(); ?>" onload="page.getSubpage('<?php echo $video->getValueId() ?>').resizeYoutubeImage('scrollview_videos_<?php echo $video->getId() ?>', $(this))" style="display: none;" />
+            </a>
+            <?php else : ?>
+            <a href="video:<?php echo $link->getLink(); ?>" class="play_video">
+                <div class="sprite"></div>
+                <img src="<?php echo $link->getImage() ?>" width="100%" onload="page.getSubpage('<?php echo $video->getValueId() ?>').scrollview.refresh(); $(this).removeAttr('onload')" />
+            </a>
+            <?php endif; ?>
+        <?php else : ?>
+            <a href="javascript:void(0);" onclick="page.getSubpage('<?php echo $video->getValueId() ?>').showVideo('<?php echo $link->getVideoId() ?>', '<?php echo $video->getTypeId() ?>');" class="play_video">
+                <div class="sprite"></div>
+                <img class="youtube_preview cover" src="<?php echo $link->getImage(); ?>" onload="page.getSubpage('<?php echo $video->getValueId() ?>').resizeYoutubeImage('scrollview_videos_<?php echo $video->getId() ?>', $(this))" style="display: none;" />
+            </a>
+        <?php endif; ?>
+        <div class="background title" style="">
+            <div>
+            <img src="<?php echo $this->getColorizedImage($this->getCurrentOption()->getIconId(), $this->getApplication()->getDesignBlock('background')->getColor()); ?>" width="20" class="icon left" />
+            <p class="title_video">
+                <?php echo $link->getTitle(); ?>
+            </p>
+            </div>
+        </div>
+    </div>
+</li>
+<li class="separator video_<?php echo $video->getValueId(); ?>"></li>

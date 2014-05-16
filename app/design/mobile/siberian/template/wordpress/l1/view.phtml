@@ -1,0 +1,241 @@
+<?php $application = $this->getApplication(); ?>
+<?php $option = $this->getCurrentOption(); ?>
+<?php $wordpress = $option->getObject(); ?>
+<?php $header_post_is_shown = false; ?>
+
+<div id="wordpress_content_<?php echo $option->getId(); ?>" class="wordpress_content">
+
+</div>
+
+<script type="text/javascript">
+
+    var subpage = page.getSubpage('<?php echo $option->getId(); ?>');
+    subpage.isLoaded = false;
+    subpage.wordpress_url = '<?php echo $wordpress->getData('url'); ?>';
+
+    <?php //if($wordpress->checkModule()) : ?>
+    subpage.setCallback('didappear', function() {
+        this.loadPosts(0);
+        this.unsCallback('didappear');
+    });
+    <?php //endif ?>
+
+    function setImageSize(img, deactivate) {
+        img.removeAttr('height').attr('width', '100%')
+        if(deactivate) img.click(function() {return false;})
+    }
+
+    subpage.loadPosts = function(showAll) {
+
+        loader.show();
+
+        var datas = [
+            {name: 'option_value_id', value: '<?php echo $option->getId() ?>'},
+            {name: 'wordpress_url', value: subpage.wordpress_url},
+            {name: 'show_all', value: showAll}
+        ];
+
+        $.ajax({
+                url: '<?php echo $this->getUrl('wordpress/mobile/loadposts', array('overview' => $this->getRequest()->getParam('overview'))); ?>',
+                type: 'POST',
+                data: datas,
+                success: function(datas) {
+
+                    if(datas.posts_html) {
+                        $('#wordpress_content_'+this.id).html(datas.posts_html);
+
+                        var wordpress_view_page = page.getSubpage('wordpress_view_'+this.id);
+
+                        if(!wordpress_view_page) {
+
+                            var html = $('#wordpress_view_'+this.id).get(0).parentNode.outerHTML;
+                            $('#wordpress_view_<?php echo $option->getId(); ?>').parent('div').remove();
+
+                            wordpress_view_page = page.createSubpage({
+                                id: 'wordpress_view_<?php echo $option->getId(); ?>',
+                                title: 'View',
+                                html: html
+                            });
+                            wordpress_view_page.setCallback('willappear', function() {
+                                this.setScrollview(new iScroll(this.id));
+                            }).setCallback('diddisappear', function() {
+                                this.setScrollviewPosition(0, 0);
+                            });
+
+                            this.addChild(wordpress_view_page);
+                        }
+
+                        this.setScrollview(new iScroll('wordpress_list_'+this.id));
+
+                        subpage.unsCallback('willappear');
+                        subpage.setCallback('willappear', function() {
+                            this.setScrollview(new iScroll('wordpress_list_'+this.id));
+                        });
+                    }
+
+                    this.isLoaded = true;
+
+                }.bind(this),
+                complete: function() {
+                    loader.hide();
+                },
+                dataType: 'json'
+            }
+        )
+
+    }
+
+    subpage.showPost = function(id) {
+        var page_view = page.getSubpage('wordpress_view_<?php echo $option->getId(); ?>');
+        var title = $('#title_post_<?php echo $option->getId() ?>_'+id).html().trim();
+        page_view.setTitle(!title.isEmpty() ? title : this.title);
+        $('.post_view_'+this.id).hide();
+        $('#post_view_'+id).show();
+        page.slide(page_view);
+    }
+
+</script>
+
+<style>
+
+    .wordpress_list {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        display: none;
+    }
+
+    .wordpress_list li {
+        padding: 0px 10px;
+        border-bottom: 1px solid;
+    }
+
+    .category_title {
+        display: block;
+        height: 25px;
+        padding: 7px 0 0;
+        line-height: 25px;
+        font-size: 20px;
+        overflow: hidden;
+    }
+
+    .wordpress_content .post {
+        border-bottom: 1px solid black;
+    }
+
+    .wordpress_content .post.header_post {
+        position: relative;
+        height: 200px;
+        border-bottom: none;
+    }
+
+    .wordpress_content .post.header_post .content_post {
+        height: 100%;
+        padding: 0;
+        width: 100%;
+    }
+    .wordpress_content .post .content_post {
+        height: 90px;
+        overflow: hidden;
+        padding: 7px 10px;
+    }
+
+    .wordpress_content .post .content_post a {
+        display: block;
+        height: 100%;
+        padding: 0;
+    }
+
+    .wordpress_content .post.header_post .content_post .picture {
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        background-size: 100% auto;
+        background-position: center center;
+    }
+
+    .wordpress_content .post .content_post a.picture {
+        padding-left: 130px;
+        background-size: 120px 90px;
+        background-position: center left;
+        background-repeat: no-repeat;
+    }
+
+    .wordpress_content .post.header_post .content_post .post_title {
+        color: black;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 70px;
+        display: block;
+        margin-top: 10px;
+        padding: 0;
+        background: rgba(255, 255, 255, 0.85);
+    }
+    .wordpress_content .post .content_post .post_title {
+        height: 16px;
+        font-size: 16px;
+        overflow: hidden;
+    }
+
+    .wordpress_content .post.header_post .content_post .post_title span.block {
+        height: 35px;
+        padding: 7px;
+        font-size: 15px;
+        font-weight: bold;
+        line-height: 20px;
+        overflow: hidden;
+    }
+
+    .wordpress_content .post .content_post .post_title span.block {
+        height: 53pxpx;
+        font-size: 13px;
+        font-weight: bold;
+        line-height: 1.2em;
+        overflow: hidden;
+    }
+
+    .wordpress_content .post.header_post .content_post .post_title span.posted_at {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        display: block;
+        padding: 7px;
+        font-size: 11px;
+        font-weight: normal;
+        overflow: hidden;
+    }
+
+    .wordpress_content .post.header_post .content_post .post_description {
+        display:none;
+    }
+
+
+    .wordpress_content .post .content_post .post_description {
+        height: 50px;
+        margin-top: 10px;
+        font-size: 12px;
+        font-weight: normal;
+        line-height: 1.1em;
+        overflow: hidden;
+        /*text-align: justify;*/
+    }
+    .wordpress_content .post_view .post_description {
+        padding: 10px;
+    }
+    .wordpress_content .post_view .post_description * {
+        font-size: 13px;
+    }
+
+/*    #view_post .post {
+        padding: 10px;
+    }*/
+    #view_post .post .post_title, #view_post .post .post_description {
+        margin-top: 10px;
+    }
+
+
+</style>

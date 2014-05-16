@@ -1,0 +1,36 @@
+<?php $application = $this->getApplication(); ?>
+<?php $option = $this->getCurrentOption(); ?>
+<?php $events = $this->getEvents() ?>
+<?php $date = new Zend_Date(); ?>
+<?php $format = 'y-MM-dd HH:mm:ss'; ?>
+
+<?php foreach($events as $k => $event) : ?>
+<?php $date->set($event['start_at'], $format); ?>
+<div id="event_view_<?php echo $option->getId() ?>_<?php echo $k; ?>" class="event_view_<?php echo $option->getId() ?>">
+    <?php echo $this->getLayout()->addPartial('cover', 'core_view_mobile_default', 'html/l1/cover.phtml')
+            ->setTitle(!is_null($event['name']) ? $event['name'] : $application->getName())
+            ->setSubtitle(strtolower($date->toString($this->_("MM/dd/y hh:mm a")).' - '.$date->set($event['end_at'], $format)->toString($this->_("MM/dd/y hh:mm a"))))
+            ->setCoverImage($event['picture'])
+            ->toHtml()
+
+    ; ?>
+    <div class="padding">
+        <div class="description bold" id="event_description">
+            <span><?php echo $event['description']; ?></span>
+        </div>
+        <div class="buttons">
+            <button class="button icon_left locate_us arrow_right" id="event_gmaps"<?php if(empty($event['location'])) : ?> style="display:none;"<?php else : ?> onclick="page.showGoogleMaps('<?php echo addslashes($event['location']); ?>');"<?php endif; ?>>
+                <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/marker.png', true), $application->getDesignBlock('button')->getColor()); ?>" width="21" height="21" />
+                <?php echo $this->_('Locate'); ?>
+            </button>
+            <br />
+            <button id="rsvp"<?php if(!$this->getRequest()->getParam('overview')) : ?> onclick="javascript:window.location='<?php echo $event['rsvp']; ?>';" <?php endif; ?> class="arrow_right contact_links button icon_left contact_us block"<?php if(empty($event['rsvp'])) : ?> style="display:none;"<?php endif; ?>>
+                <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/world.png', true), $application->getDesignBlock('button')->getColor()); ?>" width="21" height="21" />
+                <?php echo $this->_('RSVP'); ?>
+            </button>
+        </div>
+    </div>
+    <!--</div>-->
+
+</div>
+<?php endforeach; ?>

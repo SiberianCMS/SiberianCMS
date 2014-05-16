@@ -1,0 +1,71 @@
+<?php $option_value = $this->getOptionValue(); ?>
+<?php $application = $this->getApplication(); ?>
+<?php $weblink = $option_value->getObject(); ?>
+<div class="form_content">
+    <div id="list" class="edit_page weblink weblink_mono">
+        <div class="section form_content">
+            <form id="weblinkForm" name="weblinkForm" method="post" action="<?php echo $this->getUrl('weblink/application_mono/editpost') ?>">
+                <h4 class="subtitle">
+                    <span class="left area"><?php echo $this->_('Informations') ?></span>
+                    <hr class="area reverse">
+                    <div class="clear"></div>
+                </h4>
+                <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>" />
+                <div class="form_content">
+                    <div class="infos">
+                        <div id="weblink_content">
+                            <table class="no-collapse" cellspacing="10">
+                                <tr>
+                                    <td class="label"><label for="link"><?php echo $this->_('Link:') ?></label></td>
+                                    <td><input type="text" id="weblink" name="link" class="input url" value="<?php echo $weblink->getLink()->getUrl() ?>"/></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="save right">
+                        <button class="default_button btn-block" type="submit">
+                            <?php echo $this->_('Save'); ?>
+                        </button>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </form>
+        </div>
+        <div class="section">
+            <?php
+                echo $this->getLayout()
+                    ->addPartial('background_image', 'Core_View_Default', 'application/customization/features/edit/background_image.phtml')
+                    ->setValueId($option_value->getId())
+                    ->toHtml()
+                ;
+            ?>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    page.setCallback('didappear', function() {
+
+        $('#weblink').change(function() {
+            if(!$(this).val().isEmpty() && !$(this).val().startsWith('http://') && !$(this).val().startsWith('https://')) {
+                $(this).val('http://'+$(this).val());
+            }
+        });
+        $('#weblinkForm').submit(function() {
+            if(!$(this).valid()) return false;
+            reload(this, this.action, true, function(datas) {
+                if(datas.success) {
+                    iframe.content.find('#tabbar_item_<?php echo $option_value->getId(); ?>').attr('href', datas.link);
+                }
+            });
+            return false;
+        });
+
+    });
+
+    page.setCallback('willdisappear', function() {
+        $('#weblink').unbind('change');
+        $('#weblinkForm').unbind('submit');
+    });
+
+</script>

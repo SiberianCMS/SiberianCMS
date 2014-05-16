@@ -1,0 +1,143 @@
+<?php $option = $this->getCurrentOption(); ?>
+<?php $application = $this->getApplication(); ?>
+<?php $comment = new Comment_Model_Comment(); ?>
+
+<?php $comments = $comment->findLastFive($option->getId()); ?>
+
+<div>
+    <div id="comments_scrollview_<?php echo $option->getId(); ?>" class="comments_scrollview scrollview relative list" rel="<?php echo $option->getId(); ?>">
+        <ul id="list_<?php echo $option->getId(); ?>">
+            <?php foreach($comments as $comment) : ?>
+                <?php echo $this->getLayout()->addPartial('view_item', 'core_view_mobile_default', 'comment/l1/view/item.phtml')->setCurrentComment($comment)->toHtml(); ?>
+            <?php endforeach ?>
+            <li id="pull_up_<?php echo $option->getId(); ?>" class="list_news news _no-background align-center">
+                <p id="pull_up_label_<?php echo $option->getId(); ?>"><?php echo $this->_("Pull up to display more") ?></p>
+            </li>
+        </ul>
+    </div>
+</div>
+<script type="text/javascript">
+
+    var subpage = page.getSubpage('<?php echo $option->getId(); ?>');
+
+    subpage.setCallback('willappear', function() {
+
+        var scrollview = new iScroll('comments_scrollview_<?php echo $option->getId(); ?>', {
+            hScroll: false,
+            onScrollMove: function () {
+                var pullUpEl = $('#pull_up_<?php echo $option->getId(); ?>');
+                if (this.y < (this.maxScrollY - 5) && !pullUpEl.hasClass('flip')) {
+                    pullUpEl.addClass('flip');
+                    $('#pull_up_label_<?php echo $option->getId(); ?>').html('<?php echo addslashes($this->_("Release to refresh...")); ?>');
+                } else if (this.y > (this.maxScrollY + 5) && pullUpEl.addClass('flip')) {
+                    pullUpEl.removeClass('flip loading');
+                    $('#pull_up_label_<?php echo $option->getId(); ?>').html('<?php echo addslashes($this->_("Pull up to display more")); ?>');
+                }
+            },
+            onScrollEnd: function () {
+                var pullUpEl = $('#pull_up_<?php echo $option->getId(); ?>');
+                if (pullUpEl.hasClass('flip')) {
+                    pullUpEl.addClass('loading');
+                    $('#pull_up_label_<?php echo $option->getId(); ?>').html('<?php echo addslashes($this->_("Loading...")); ?>');
+                    this.pullUpAction('<?php echo $option->getId(); ?>');
+                }
+            }.bind(this)
+        });
+        this.setScrollview(scrollview)
+            .setContentSize()
+        ;
+        <?php if($this->getRequest()->getParam('overview')) : ?>
+        if(!page.getSubpage('news_details_<?php echo $option->getId(); ?>_new')) {
+            page.showSubpage({id: 'news_details_<?php echo $option->getId(); ?>_new', url: '<?php echo $this->getUrl('comment/mobile/details', array('option_value_id' => $option->getId(), 'comment_id' => 'new')); ?>', isAjax:true}, true);
+        }
+        <?php endif; ?>
+    });
+
+    function addLike(id) {
+        var ip = '<?php echo md5($_SERVER['REMOTE_ADDR']) ?>';
+        var ua = '<?php echo md5($_SERVER['HTTP_USER_AGENT']) ?>';
+        var value_id = '<?php echo $option->getId(); ?>';
+        loader.show();
+        $.ajax({
+            url:'<?php echo $this->getUrl('comment/mobile/addlike'); ?>/option_value_id/'+value_id+'/id/'+id+'/ip/'+ip+'/ua/'+ua,
+            type: 'POST',
+            dataType: 'json',
+            success: function(datas) {
+                if(datas.message) {
+                    if(datas.success) {
+                        new Alert(datas.message, 'success').show();
+                    } else {
+                        new Alert(datas.message, 'error').show()
+                    }
+                }
+                if(datas.success) {
+                    page.reload();
+                }
+            },
+            error: function(datas) {
+                if(datas.error_message) new Alert(datas.error_message, 'error').show();
+            },
+            complete: function() {
+                loader.hide();
+            }
+        });
+    }
+
+    function validateComment(id) {
+
+        if($('#input_comment_'+id).val() == '') {
+            new Alert('<?php echo addslashes($this->_("Please, enter a comment")); ?>', 'error').show();
+            return;
+        }
+        loader.show();
+
+        $.ajax({
+            url:'<?php echo $this->getUrl('comment/mobile/add'); ?>',
+            data: $('#commentForm_'+id).serializeArray(),
+            dataType: 'json',
+            type: 'POST',
+            success: function(datas) {
+                if(datas.message) {
+                    new Alert(datas.message, 'success').show();
+                }
+                if(datas.success) {
+                    page.reload();
+                }
+            },
+            error: function(datas) {
+                if(datas.error_message) new Alert(datas.error_message, 'error').show();
+            },
+            complete: function() {
+                loader.hide();
+            }
+        });
+    }
+
+    subpage.pullUpAction = function() {
+
+        var pos_id = '0';
+        var last_id = $('#pull_up_<?php echo $option->getId(); ?>').prev().attr('rel');
+        $.ajax({
+            url:'<?php echo $this->getUrl('comment/mobile/pullmore', array('option_value_id' => $option->getId())); ?>/pos_id/'+pos_id+'/from/'+last_id,
+            type: 'POST',
+            dataType: 'json',
+            success: function(datas) {
+                if(datas.comments) {
+                    $('#pull_up_<?php echo $option->getId(); ?>').before(datas.comments);
+                    this.refreshScrollview();
+                    $('#pull_up_label_<?php echo $option->getId(); ?>').html('<?php echo addslashes($this->_("Pull up to display more")); ?>');
+                } else {
+                    $('#pull_up_label_<?php echo $option->getId(); ?>').html('<?php echo addslashes($this->_("Nothing more to display")); ?>');
+                }
+            }.bind(this),
+            error: function(datas) {
+                if(datas.error_message) new Alert(datas.error_message, 'error').show();
+            },
+            complete: function() {
+                $('#pull_up_<?php echo $option->getId(); ?>').removeClass('flip loading');
+            }
+        });
+    }
+
+
+</script>

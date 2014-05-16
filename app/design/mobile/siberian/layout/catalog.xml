@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <catalog_mobile_category_view_l1>
+        <views>
+            <content class="catalog_view_mobile_category_view" template="catalog/category/l1/view.phtml" />
+        </views>
+    </catalog_mobile_category_view_l1>
+
+    <catalog_mobile_menu_view_l1>
+        <views>
+            <content class="core_view_mobile_default" template="catalog/menu/l1/view.phtml" />
+        </views>
+    </catalog_mobile_menu_view_l1>
+
+    <catalog_mobile_product_view_l1>
+        <views>
+            <content class="core_view_mobile_default" template="catalog/product/l1/view.phtml" />
+        </views>
+    </catalog_mobile_product_view_l1>
+
+</layout>

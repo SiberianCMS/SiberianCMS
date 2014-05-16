@@ -1,0 +1,277 @@
+<?php $application = $this->getApplication() ?>
+<div class="style">
+
+    <div id="template_container" class="area">
+        <h3 class="title">
+            <div><span class="left area">1. <?php echo $this->_("Choose your template"); ?></span></div>
+            <hr class="area reverse" />
+            <div class="clear"></div>
+        </h3>
+        <div id="templates" class="templates">
+            <?php if($application->getDesign()->getId()) : ?>
+            <p><img id="design_overview" src="<?php echo $application->getDesign()->getOverview(); ?>" width="140" height="210"/></p>
+            <button type="button" id="show_templates" class="show_templates default_button btn-block"><?php echo $this->_('Change your template'); ?></button>
+            <?php else : ?>
+            <p>
+                <img id="design_overview" src="<?php echo $application->getDesign()->getOverview(); ?>" width="140" height="210" style="display:none;" />
+                <span><?php echo $this->_('You haven\'t chosen any template yet'); ?></span>
+            </p>
+            <button type="button" id="show_templates" class="show_templates default_button btn-block"><?php echo $this->_('Choisissez votre thème'); ?></button>
+            <?php endif; ?>
+            <div class="clear"></div>
+        </div>
+    </div>
+
+    <div id="layout_conteneur" class="area">
+        <h3 class="title">
+            <div><span data-tip="5" class="left area">2. <?php echo $this->_('Choose your layout'); ?></span></div>
+            <hr class="area reverse" />
+            <div class="clear"></div>
+        </h3>
+        <div id="layouts" class="layouts">
+            <?php $layout = new Application_Model_Layout_Homepage(); ?>
+            <?php foreach($layout->findAll() as $layout) : ?>
+            <div class="left">
+                <a href="<?php echo $this->getUrl('application/customization_design_style/changelayout'); ?>" class="change_layout">
+                    <img src="<?php echo $this->getImage($layout->getPreview()); ?>" title="<?php echo $layout->getName(); ?>" alt="<?php echo $layout->getName(); ?>" />
+                    <input type="hidden" name="layout_id" value="<?php echo $layout->getId(); ?>" />
+                </a>
+            </div>
+            <?php endforeach ?>
+            <div class="clear"></div>
+        </div>
+    </div>
+
+    <div id="homepage_conteneur" class="area">
+        <h3 class="title">
+            <div><span data-tip="4" class="left area">3. <?php echo $this->_("Choose your homepage image"); ?></span></div>
+            <hr class="area reverse" />
+            <div class="clear"></div>
+        </h3>
+        <div class="icon_color">
+            <input type="hidden" id="homepage_image_name" name="homepage_image" value="" />
+            <input type="hidden" id="homepage_image_has_changed" name="homepage_image_has_changed" value="0" />
+            <div class="clear"></div>
+        </div>
+        <?php echo $this->createPartialHtml('homepage_create', 'admin_view_default', 'application/customization/design/style/homepage.phtml'); ?>
+    </div>
+
+    <div id="countries_container" class="area">
+        <h3 class="title">
+            <div><span class="left area">4. <?php echo $this->_('Choose your country'); ?></span></div>
+            <hr class="area reverse" />
+            <div class="clear"></div>
+        </h3>
+        <div id="countries" class="countries">
+            <p><?php echo $this->_("This option enables you to set the currency used in your app"); ?></p>
+            <table width="100%" cellspacing="10" class="no-collapse">
+                <col width="40%">
+                <col width="40%">
+                <col width="20%">
+                <tr>
+                    <td><label for="select_locale" class="inlineblock"><?php echo $this->_('Choose a country'); ?> : </label></td>
+                    <td>
+                        <select id="select_locale" name="locale" class="span3" tabindex="2">
+                        <?php foreach(Core_Model_Language::getCountriesList() as $country) : ?>
+                            <option value="<?php echo $country->getCode() ?>"<?php if($application->getLocale() == $country->getCode()) : ?> selected="selected"<?php endif; ?>><?php echo $country->getName().' ('.$country->getSymbol().')' ?></option>
+                        <?php endforeach; ?>
+                        </select>
+                    </td>
+                    <td><img id="select_locale_loader" src="<?php echo $this->getImage('customization/ajax/spinner.gif'); ?>" alt="<?php echo $this->_("Loading"); ?>" title="<?php echo $this->_("Loading"); ?>" width="24" height="24" style="display:none;"/></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div id="font_conteneur" class="area">
+        <h3 class="title">
+            <div><span data-tip="6" class="left area">5. <?php echo $this->_('Choose your font style'); ?></span></div>
+            <hr class="area reverse" />
+            <div class="clear"></div>
+        </h3>
+        <div id="fonts" class="fonts">
+            <?php $fontFamilies = Core_Model_Lib_Fonts::getFonts(); ?>
+            <table width="100%" cellspacing="10" class="no-collapse">
+                <col width="40%">
+                <col width="40%">
+                <col width="20%">
+                <tr>
+                    <td><label for="icon_text_font" class="inlineblock mountain"><?php echo $this->_('Choose a font family'); ?> : </label></td>
+                    <td>
+                        <select id="font_family" name="font_family" class="span3" tabindex="1">
+                        <?php foreach($fontFamilies as $fontFamily) : ?>
+                            <option value="<?php echo $fontFamily ?>"<?php if($application->getFontFamily() == $fontFamily OR !$application->getFontFamily() AND $fontFamily == 'Signika') : ?> selected="selected"<?php endif; ?>><?php echo $fontFamily ?></option>
+                        <?php endforeach; ?>
+                        </select>
+                    </td>
+                    <td><img id="font_family_loader" src="<?php echo $this->getImage('customization/ajax/spinner.gif'); ?>" alt="<?php echo $this->_("Loading"); ?>" title="<?php echo $this->_("Loading"); ?>" width="24" height="24" style="display:none;"/></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <script type="text/javascript">
+
+        var modal_preview;
+        $(document).ready(function(){
+
+            $('#font_family').change(function() {
+                var font_loader = $('#'+this.id+'_loader');
+                font_loader.show();
+                iframe.setFont($(this).val());
+                reload(this.parentNode, '<?php echo $this->getUrl('application/customization_design_style/savefont'); ?>', false, function() {
+                    font_loader.fadeOut();
+                }, function() {
+                    font_loader.fadeOut();
+                });
+            }).keyup(function() {
+                iframe.setFont($(this).val());
+            });
+
+            $('#select_locale').change(function() {
+                var countries_loader = $('#'+this.id+'_loader');
+                countries_loader.show();
+                reload(this.parentNode, '<?php echo $this->getUrl('application/customization_design_style/savelocale'); ?>', false, function(datas) {
+                    if(datas.success) {
+                        iframe.f.page.reload();
+                    }
+                    countries_loader.fadeOut();
+                }, function() {
+                    countries_loader.fadeOut();
+                });
+            });
+
+            modal_preview = new Modal({
+                id:'preview',
+                url: '<?php echo $this->getUrl('template/design/list'); ?>', is_retain: false,
+                callbacks: {
+                    didload: function() {
+                        $('.change_design').click(function() {
+                            <?php if($application->getDesignId()) : ?>
+                            if(!confirm('<?php echo addslashes($this->_('If you validate, your app\'s colors and background image will be replaced')); ?>')) return false;
+                            <?php endif ?>
+
+                            reload(this, '<?php echo $this->getUrl('template/design/save'); ?>', true, function(datas) {
+                                if(datas.success) {
+                                    $('#design_overview').next('span').remove();
+                                    $('#design_overview').hide().attr('src', datas.overview_src).load(function() {
+                                        $(this).fadeIn();
+                                    });
+                                    modal_preview.hide();
+                                    $('#homepage_standard').attr('src', datas.homepage_normal);
+                                    $('#homepage_retina').attr('src', datas.homepage_retina4);
+                                    iframe.f.tabbar.hideAllItems(true);
+                                    iframe.f.tabbar.hide(false);
+                                    iframe.reload();
+                                }
+                            });
+                            return false;
+                        });
+                    },
+                    willdestroy: function() {
+                        $('.change_design').unbind('click');
+                    }
+                }
+            });
+
+            $('#show_templates').click(function() {
+                modal_preview.show();
+            });
+
+            $('.change_layout').click(function() {
+                reload(this, this.href, true, function(response) {
+                    if(response.reload) {
+                        iframe.f.tabbar.hideAllItems(true);
+                        iframe.f.tabbar.hide(false);
+                        iframe.f.page.loadHomePage();
+                    }
+                    else {
+                        iframe.f.tabbar.hideAllItems();
+                    }
+                });
+                return false;
+            });
+
+            $('#homepage_conteneur').hover(function() {
+                $('#iphone').stop().hide();
+                $('#homepage').stop().show();
+            }, function(){
+                $('#homepage').stop().hide();
+                $('#iphone').stop().show();
+            });
+            $('#layout_conteneur').hover(function() {
+                $('#homepage').stop().hide();
+                $('#iphone').stop().show();
+            });
+            $('#font_conteneur').hover(function() {
+                $('#homepage').stop().hide();
+                $('#iphone').stop().show();
+            });
+
+            <?php if($this->getSession()->showTemplates) : ?>
+            $('#show_templates').click();
+            <?php $this->getSession()->showTemplates = null; ?>
+            <?php endif ?>
+
+        });
+
+    </script>
+    <style>
+        div.style div#layouts {
+            margin-top: 20px;
+        }
+        .customization .style .area .fonts .dk_container, .customization .style .area .countries .dk_container {
+            margin: 0;
+        }
+        .customization .style .area .fonts, .customization .style .area .countries {
+            padding: 10px;
+        }
+        .bar {
+            height: 18px;
+            background: #7DCFFF;
+        }
+        button.blue {
+            width: 260px;
+            padding: 10px 0;
+            border-top: 1px solid white;
+            border-bottom: 1px solid black;
+            border-radius: 7px;
+            font-size: 17px;
+            background-image: url("<?php echo $this->getImage('customization/pictos/camera.png'); ?>");
+            background-repeat: no-repeat;
+        }
+        button.blue:active {
+            border-top: 1px solid black;
+            border-bottom: 1px solid white;
+        }
+        button.image_left {
+            background-position: 11px center;
+        }
+
+        table tr td.separator {
+            width: 1px;
+            background: transparent;
+            border-left: 1px solid #016cab;
+            border-right: 1px solid #96c2dc;
+        }
+
+        .style table tr td span.or {
+            position:absolute;
+            right: 50%;
+            margin-right: -9px;
+        }
+        .conteneur_home_bg {
+            text-align: center;
+            vertical-align: top;
+        }
+        .change_layout {
+            display: block;
+            margin-left: 10px;
+        }
+        .conteneur_home_bg img {
+            border: solid 1px #fff;
+        }
+
+        .custom_modal .modal_content .modal_details .checked { position:absolute;top:0;left:0; }
+    </style>
+
+    <div class="clear"></div>
+</div>

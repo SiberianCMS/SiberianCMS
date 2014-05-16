@@ -1,0 +1,11 @@
+<?php $option = $this->getCurrentOption(); ?>
+<?php $notifs = $this->getNotifs(); ?>
+<ul id="notifs_list">
+<?php foreach($notifs as $notif) : ?>
+    <li style="height: 100%">
+        <div>
+            <div class="title"><h4><?php echo $notif->getMessage(); ?></h4></div>
+        </div>
+    </li>
+<?php endforeach ?>
+</ul>

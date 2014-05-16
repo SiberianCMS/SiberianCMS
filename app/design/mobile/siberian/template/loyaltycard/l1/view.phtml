@@ -1,0 +1,268 @@
+
+<?php $option = $this->getCurrentOption(); ?>
+<?php $cards = $this->getLoyaltyCards(); ?>
+<?php $current_card = null; ?>
+<?php $done_cards = array(); ?>
+<?php $hasCard = false; ?>
+<?php $hasDoneCard = false; ?>
+<?php $cardIsLocked = false; ?>
+
+<?php foreach($cards as $card) : ?>
+    <?php if($card->getIsLocked()) : ?>
+    <?php $cardIsLocked = true; ?>
+    <?php elseif($card->getNumberOfPoints() == $card->getMaxNumberOfPoints()) : ?>
+    <?php $done_cards[] = $card; ?>
+    <?php elseif($card->getNumberOfPoints() < $card->getMaxNumberOfPoints()) : ?>
+    <?php $current_card = $card; ?>
+    <?php $hasCard = true; ?>
+    <?php endif; ?>
+<?php endforeach; ?>
+
+<div id="loyaltycard" class="v-hidden">
+    <?php if($cardIsLocked) : ?>
+        <div>
+            <p><?php echo $this->_("We are sorry but this card is temporarily blocked") ?></p>
+        </div>
+    <?php else : ?>
+        <?php if(!$hasCard) $current_card = new LoyaltyCard_Model_Customer(); ?>
+        <div id="card">
+            <form id="loyaltycardForm" action="<?php echo $this->getUrl('loyaltycard/mobile/validate'); ?>">
+                <input type="hidden" id="customer_card_id" name="customer_card_id" value="<?php echo $current_card->getId() ? $current_card->getId() : '-1' ?>" />
+                <input type="hidden" id="input_number_of_points" name="number_of_points" value="1" />
+                <input type="hidden" name="option_value_id" value="<?php echo $option->getId(); ?>" />
+            </form>
+            <div id="points" rel="<?php echo $option->getId(); ?>">
+                <div class="scroll">
+                    <div class="subheader relative">
+                        <div class="no-margin a-center">
+                            <img class="gift" src="<?php echo $this->getColorizedImage($this->getImage('pictos/gift.png', true), $this->getApplication()->getDesignBlock('subheader')->getColor()); ?>" alt="" title="" width="30" />
+                            <h3 id="card_short_advantage" class="auto_resize" tolerance="90"><?php echo $current_card->getAdvantage() ?></h3>
+                            <button type="button" onclick="$('#more_details').slideToggle();" class="more"><img src="<?php echo $this->getColorizedImage($this->getImage('pictos/more.png', true), $this->getApplication()->getDesignBlock('subheader')->getColor()); ?>" alt="<?php echo $this->_("More") ?>" title="<?php echo $this->_("More") ?>" width="30" /></button>
+                        </div>
+                        <div id="more_details" class="subheader" style="display: none; height:auto;">
+                            <p class="details_advantage"><span id="number_of_points_for_advantage"><?php echo $this->_($current_card->getMaxNumberOfPoints() > 1 ? '%d validated points = ' : '1 validated point = ', $current_card->getMaxNumberOfPoints()) ?></span> <span id="card_advantage"><?php echo $current_card->getAdvantage() ?></span></p>
+                            <p id="card_conditions" class="details_conditions block"><?php echo $this->_("1 loyalty point ="); echo ' '.$current_card->getConditions() ?></p>
+                        </div>
+                    </div>
+                    <div class="padding">
+                        <?php if(!$this->getSession()->isLoggedIn('customer')) : ?>
+                        <div class="connect">
+                            <button type="button" onclick="customer.openLoginForm(page.reload.bind(page)); return false" class="connect_button icon_left arrow_right">
+                                <?php echo $this->_("Please log in.") ?>
+                            </button>
+                        </div>
+                        <?php endif; ?>
+
+                        <?php if(count($done_cards) > 0) : ?>
+                        <div id="discount_<?php echo $option->getId(); ?>" class="discount relative">
+                            <div class="padding">
+                                <div class="title" id="discount_title_<?php echo $option->getId(); ?>"><h4><?php echo $this->_("Congratulations") ?> <?php echo $this->getSession()->getCustomer()->getFirstname(); ?></h4></div>
+                                <div id="loyaltycard_discount_container_<?php echo $option->getId(); ?>" class="discounts">
+                                    <p id="discount_details_<?php echo $option->getId(); ?>">
+                                        <?php echo $this->_('You have unlocked %d loyalty card%s', count($done_cards), count($done_cards) > 1 ? 's' : ''); ?>.
+                                        <?php echo $this->_('You own:'); ?>
+                                    </p>
+                                    <div id="loyaltycard_promotion_scrollview" class="scrollview relative">
+                                        <ul id="loyaltycard_promotions_list">
+                                            <?php foreach($done_cards as $card) : ?>
+                                                <li class="relative">
+                                                    <div id="loyaltycard_promotion_<?php echo $card->getId() ?>" class="details">
+                                                        <div class="scroll">
+                                                            <p class="gift"><?php echo $card->getAdvantage() ?></p>
+                                                            <div class="use_discount">
+                                                                <a href="javascript:void(0);" onclick="pad.prepareLoyaltyCard(<?php echo $card->getId(); ?>).open();"><?php echo $this->_("Use this discount") ?></a>
+                                                                <input type="hidden" name="card_id" value="<?php echo $card->getId(); ?>" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <?php endif; ?>
+                        <div class="clear"></div>
+                        <div class="points">
+                        <?php if(count($cards) > 0) : ?>
+                        <?php foreach($cards as $card) : ?>
+
+                            <?php $nbr = $card->getNumberOfPoints() ?>
+                            <?php $max_nbr = $card->getMaxNumberOfPoints() ?>
+                            <?php $remaining = $max_nbr - $nbr ?>
+
+                            <?php if($nbr < $max_nbr) : ?>
+
+                            <?php for($i=1;$i<=$max_nbr;$i++) : ?>
+                                <a id="point<?php echo $i ?>" href="javascript:void(0);"
+                                   onclick="
+                                       if(customer.isLoggedIn()) pad.prepareLoyaltyCard(<?php echo $card->getId(); ?>, <?php echo $remaining; ?>).open();
+                                       else customer.openLoginForm();"
+                                   class="point loyaltycard">
+                                    <img src="<?php echo $i <= $nbr ? $this->getColorizedImage($this->getImage('buttons/point_validated.png', true), $this->getApplication()->getDesignBlock('connect_button')->getBackgroundColor()) : $this->getImage('buttons/point.png'); ?>" width="85px" />
+                                </a>
+                            <?php endfor; ?>
+
+                            <?php endif ?>
+
+                        <?php endforeach; ?>
+                        </div>
+
+                        <?php endif ?>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--<div id="pad">-->
+            <?php echo $this->createPartialHtml('pad', 'core_view_mobile_default', 'html/l1/pad.phtml'); ?>
+        <!--</div>-->
+
+    <?php /*else : ?>
+        <p id="no_card">Nous sommes désolé, nous n'avons pas encore de carte de fidélité</p>
+    <?php*/ endif ?>
+</div>
+
+<?php //if(count($cards) > 0 AND $current_card) : ?>
+<?php if(!$cardIsLocked) : ?>
+<script type="text/javascript">
+    var pad;
+
+    var subpage = page.getSubpage('<?php echo $option->getId(); ?>');
+
+    subpage.setCallback('willappear', function() {
+
+        pad = new Pad();
+
+        pad.prepareLoyaltyCard = function(card_id, points_remaining) {
+
+            this.form = $('#loyaltycardForm');
+            $('#customer_card_id').val(card_id);
+
+            if(points_remaining) {
+                this.points_remaining = points_remaining;
+                this.title.html("<?php echo addslashes($this->_("Please show your phone to the store person so that he enters his password")); ?>");
+
+                var a = $('<a />').css({
+                    display: 'block',
+                    position: 'relative',
+                    boxShadow: '0 1px 5px rgba(0, 0, 0, 1)',
+                    height: $('#pad_subtitle').height(),
+                    'z-index': 100
+                })
+                .attr('onclick', 'pad.showNumberOfPointsView();')
+                .html('<?php echo addslashes($this->_('You\'re gonna validate <span id="number_of_points">1 point</span>')); ?>');
+
+                this.number_of_points_view = $('<div />').css({
+                        display: 'none',
+                        position: 'relative',
+                        zIndex: 99,
+                        backgroundColor: $('#pad').css('background-color'),
+                        height: $('#pad').height() - $('#pad_subtitle').height(),
+                        borderRadius: '0 0 5px 5px'
+                    })
+                    .attr('id', 'number_of_points_view')
+                ;
+
+                var ul = $('<ul />').appendTo(this.number_of_points_view);
+                for(var i=1; i<=points_remaining; i++) {
+                    var s = i > 1 ? 's' : '';
+                    $('<li><a href="javascript:void(0);" onclick="pad.setNumberOfPoints('+i+')" class="block">'+i+' point'+s+'</a></li>').appendTo(ul);
+                }
+
+                this.subtitle.html(a);
+                this.subtitle.append(this.number_of_points_view);
+
+                $('#input_number_of_points').val(1);
+            }
+            else {
+                this.title.html("<?php echo addslashes($this->_("Please show your phone to the store person so that he enters his password")); ?>");
+                this.subtitle.html("<?php echo addslashes($this->_("Please enter the password")); ?>");
+            }
+
+            this.title.parent('div').removeClass('error');
+
+            return this;
+        }
+
+        pad.prepapreSpecials = function() {
+            this.url = app.base_url+'/loyaltycard/customer/validate';
+            this.title.html("<?php echo $this->_("Please show your phone to the store person so that he enters his password"); ?>");
+            this.subtitle.html("<?php echo $this->_("Please enter the password"); ?>");
+            return this;
+        }
+
+        pad.setNumberOfPoints = function(nbr) {
+            var result = nbr + ' <?php echo $this->_('point'); ?>';
+            if(nbr>1) result+='s';
+            $('#number_of_points').html(result);
+            $('#input_number_of_points').val(nbr);
+            this.number_of_points_view.slideUp(300, function() {
+                if(this.number_of_points_scrollview) {
+                    this.number_of_points_scrollview.destroy();
+                    this.number_of_points_scrollview = null;
+                }
+            }.bind(this));
+        }
+
+        <?php if(count($done_cards) > 0) : ?>
+        var promotionsLoyaltyCardScroll = new iScroll('loyaltycard_promotion_scrollview', {
+            snap: true,
+            vScroll: false
+        });
+        scrollviews.add('loyaltycard_promotion_scrollview', promotionsLoyaltyCardScroll);
+        <?php endif; ?>
+
+        this.setContentSize()
+            .setScrollview(new iScroll('points'))
+        ;
+
+    }).setCallback('willdisappear', function() {
+        pad.destroy();
+        <?php if(count($done_cards) > 0) : ?>
+        scrollviews.destroy('loyaltycard_promotion_scrollview');
+        <?php endif; ?>
+        scrollviews.destroy('points');
+    }).setCallback('customerdidlogin', function() {
+        page.refreshSubpage(this);
+    });
+
+    subpage.setContentSize = function() {
+
+        <?php if(count($done_cards) > 0) : ?>
+        var lis = $('#loyaltycard_promotions_list').find('li');
+        var nbrLi = lis.length;
+        var li_width = $('#loyaltycard_promotion_scrollview').width();
+        var ulWidth = nbrLi * li_width;
+
+        lis.css('width', li_width).css('min-height', li_min_height);
+        $('#loyaltycard_promotions_list').css('width', ulWidth);
+
+        var li_min_height = $('#loyaltycard_promotion_scrollview').height();
+        $('#loyaltycard_promotions_list').css('min-height', li_min_height);
+
+        scrollviews.refresh('loyaltycard_promotion_scrollview');
+        var current_page = scrollviews.get('loyaltycard_promotion_scrollview').currPageX;
+        scrollviews.get('loyaltycard_promotion_scrollview').scrollToPage(current_page, 0, 0);
+        <?php endif; ?>
+
+        return this;
+    }
+
+    function toggleDetails() {
+        var div = $('#fidelity_details');
+        var height = $('#card').height();
+        if(!div.is(':visible')) height -= div.height();
+        else height += div.height();
+
+        $('#card').css('height', height);
+        $('#fidelity_details').slideToggle();
+        scrollLoyaltyCard.refresh();
+    }
+
+</script>
+<?php endif; ?>
+<?php //endif; ?>

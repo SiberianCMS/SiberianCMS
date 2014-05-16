@@ -1,0 +1,14 @@
+<div id="<?php echo $this->getId(); ?>" class="post cover<?php if($this->getCoverImage()) : ?> has_a_picture<?php endif; ?>"<?php if($this->getIsInvisible()) : ?> style="display:none;"<?php endif; ?>>
+    <div class="content">
+        <div <?php if($this->getAction()) : ?> onclick="<?php echo $this->getAction(); ?>"<?php endif; ?> class="picture"<?php if($this->getCoverImage()) : ?> style="background-image:url(<?php echo $this->getCoverImage(); ?>);"<?php endif; ?>>
+        <?php /*<a href="javascript:void(0);"<?php if($this->getAction()) : ?> onclick="<?php echo $this->getAction(); ?>"<?php endif; ?> class="picture"<?php if($this->getCoverImage()) : ?> style="background-image:url(<?php echo $this->getCoverImage(); ?>);"<?php endif; ?>>*/ ?>
+            <div class="padding none"></div>
+            <h3>
+                <span class="title block" data-rows="1"><?php echo $this->getTitle(); ?></span>
+                <span class="subtitle" data-rows="1"><?php echo $this->getSubtitle(); ?></span>
+            </h3>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="description"><?php echo $this->getDescription(); ?></div>
+</div>

@@ -1,0 +1,92 @@
+<?php echo $this->doctype() ?>
+<?php //echo $this->getCurrentUrl(true, 'en'); ?>
+<html>
+    <head>
+        <title><?php echo $this->_($this->getTitle()) ?></title>
+        <?php foreach($this->getMetas() as $meta) : ?>
+        <meta <?php echo $meta->getTag() ?>="<?php echo $meta->getKey(); ?>" content="<?php echo $this->_($meta->getContent()); ?>" />
+        <?php endforeach ?>
+        <?php foreach(Core_Model_Language::getLanguages() as $language) : ?>
+        <?php if(Core_Model_Language::getCurrentLanguage() == $language->getCode()) continue;?>
+        <link rel="alternate" href="<?php echo $this->getCurrentUrl(true, $language->getCode()); ?>" hreflang="<?php echo $language->getCode() ?>" />
+        <?php endforeach ?>
+
+        <?php echo $this->headLink() ?>
+        <?php echo $this->headScript() ?>
+
+        <link rel="icon" type="image/png" href="/favicon.png" />
+        <link rel="shortcut icon" id="favicon" type="image/x-icon" href="/favicon.ico" />
+        <script type="text/javascript">var login_urls = {};</script>
+    </head>
+    <body class="<?php echo $this->default_class_name ?> general">
+
+        <div class="wrapper">
+            <div class="top">
+                <?php echo $this->getPartialHtml('header') ?>
+            </div>
+            <?php echo $this->getPartialHtml('messages') ?>
+            <?php echo $this->getPartialHtml('menu'); ?>
+            <div>
+                <?php echo $this->getPartialHtml('content') ?>
+            </div>
+
+            <div class="footer">
+                <?php echo $this->getPartialHtml('footer') ?>
+            </div>
+            <div id="up">
+                <a href="javascript:void(0)" class="header active no-background" data-image="341" data-style="header" data-color="background_color">UP</a>
+            </div>
+        </div>
+        <div id="mask" class="mask" style="display:none;">
+            <button id="hide_mask" class="default_button reverse" style="display:none;"><i class="icon-remove"></i></button>
+            <div class="loader"></div>
+        </div>
+        <div id="alert" class="header">
+            <div id="alert_message"></div>
+            <button type="button" class="default_button" id="close_alert_message">OK</button>
+        </div>
+
+        <script type="text/javascript">
+
+            $.validator.messages = validatorMessages['<?php echo Core_Model_Language::getCurrentLanguage(); ?>'];
+
+            $(document).ready(function() {
+
+                loader.init();
+
+                $('#change_language').change(function() {
+                    $('#loader').show();
+                    window.location = $(this).val();
+                });
+
+                $("input, textarea").placeholder();
+                $("select").each(function() {
+                    var select = $(this);
+                    select.dropkick({
+                        change: function() {
+                            select.change();
+                        }
+                    });
+                });
+                $(document).scroll(function() {
+                    if($(document).scrollTop() > 60) {
+                        if(!$('#up').is(':visible')) $('#up').stop().fadeIn();
+                    }
+                    else if($('#up').is(':visible')) $('#up').stop().fadeOut();
+                });
+                $('#up').children('a').click(function() {
+                    var d = (navigator.userAgent && navigator.userAgent.indexOf('WebKit')) != -1 ? document.body : document.documentElement;
+                    $(d).animate({scrollTop: $('body').offset().top});
+                    return false;
+                });
+            });
+
+            function apiKeyMissing() {
+                new AlertMessage('<?php echo addslashes($this->_('An API Key is required to use this feature. Please, <a href="%s">click here</a> to provide it', $this->getUrl('api/settings_key/list'))); ?>', true)
+                    .isError(true)
+                    .show()
+                ;
+            }
+        </script>
+    </body>
+</html>

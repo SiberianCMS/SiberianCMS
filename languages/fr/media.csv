@@ -1,0 +1,86 @@
+"Choose a gallery type";"Choisissez un type de galerie"
+"Search on Picasa";"Recherche Picasa"
+Parameter;Paramètre
+"Send your pictures";"Envoyez vos images"
+User;Utilisateur
+"Choose an album";"Sélectionnez un album"
+"Maximum size : 2000*2000 px - Allowed filetypes : jpg and png";"Taille maximum : 2000x2000px - formats autorisés : jpg et png"
+Description:;"Description :"
+"Required field";"Ce champs est obligatoire"
+"The entered name is not a valid Instagram user.";"Nous sommes désolé mais l'utilisateur saisi n'existe pas chez Instagram."
+"Delete this gallery?";"Etes-vous sûr de vouloir supprimer cette galerie ?"
+"More pictures";"Plus d'images"
+"No pictures matching your selection";"Aucune image ne correspond à votre sélection"
+"An error occurred while loading pictures. Please try later.";"Une erreur est survenue lors du chargement des images. Merci de réessayer ultérieurement."
+"More videos";"Plus de vidéos"
+"No videos matching your selection";"Aucune vidéo ne correspond à votre sélection"No videos matching your selection
+"An error occurred while loading videos. Please try later.";"Une erreur est survenue lors du chargement des vidéos. Merci de réessayer ultérieurement."
+"An error occurred while saving your images gallery. Please try again later.";"Une erreur est survenue lors de la sauvegarde de votre galerie d'images. Merci de réessayer ultérieurement."
+"Images gallery has been saved successfully";"Galerie d'images sauvegardée avec succès"
+"An error occurred while deleting you images gallery. Please try again later.";"Une erreur est survenue lors de la sauvegarde de votre galerie d'images. Merci de réessayer ultérieurement."
+"An error occurred while saving your videos gallery. Please try again later.";"Une erreur est survenue lors de la sauvegarde de votre galerie vidéos. Merci de réessayer ultérieurement."
+"Videos gallery has been saved successfully";"Galerie vidéo sauvegardée avec succès"
+"Search/Url";"Recherche/Url"
+"Parameter/Feed Url";"Paramètre/Url du flux"
+"Gallery Name";"Nom de la galerie"
+"Gallery Name <span class=""required-entry"">*</span> :";"Nom de la galerie <span class=""required-entry"">*</span> :"
+"Feed URL";"Url de votre flux"
+"Feed URL <span class=""required-entry"">*</span> :";"Url de votre flux <span class=""required-entry"">*</span> :"
+" Audio";Audio
+Title:;"Titre :"
+"+ Add a track";"+ Ajouter un titre"
+"from";"de"
+"Add albums and tracks to the playlist:";"Ajouter des titres et albums à la playlist :"
+track;titre
+tracks;titres
+Track;Titre
+Tracks;Titres
+track;chanson
+tracks;chansons
+Track;Chanson
+Tracks;Chansons
+"I'm listening to";"Je suis en train d'écouter"
+"Are you sure you want to delete this playlist?";"Etes-vous sûr de vouloir supprimer cette playlist ?"
+"Are you sure you want to delete this album?";"Etes-vous sûr de vouloir supprimer cet album ?"
+"Are you sure you want to delete this track?";"Etes-vous sûr de vouloir supprimer ce titre ?"
+"Playlist title";"Titre de la playlist :"
+"Add a";"Ajoutez une"
+Login;Connexion
+Search;Recherche
+"Logged in as";"Connecté en tant que"
+Search;Rechercher
+"Select all";"Tout sélectionner"
+"Podcast URL (iTunes format)";"Adresse du podcast (format iTunes)"
+Title:;"Titre :"
+Description:;"Description :"
+"Last update:";"Dernière mise à jour :"
+Artist;Artiste
+Album;Album
+Albums;Albums
+Artist:;"Artiste :"
+Album:;"Album :"
+"No artist found";"Aucun artiste trouvé"
+"No album found";"Aucun album trouvé"
+"No track found";"Aucun titre trouvé"
+"Are you sure you want to delete this element?";"Etes-vous sûr de vouloir supprimer cet élément ?"
+"+ Add a track";"+ Ajouter une chanson"
+"URL (.mp3):";"Adresse (.mp3) :"
+"URL (.mp3)";"Adresse (.mp3)"
+"No file found.";"Fichier introuvable."
+"Incorrect filetype.";"Type de fichier incorrect."
+"Podcast type is invalid or can't be found";"Le podcast est dans un format invalide ou ne peut pas être trouvé."
+"Are you sure you want to delete this album (this won't delete tracks)?";"Etes-vous sûr de vouloir supprimer cet album (cela ne supprimera pas les titres) ?"
+"Are you sure you don't want to create an album for these tracks?";"Etes-vous sûr de ne pas vouloir créer d'album pour ces titres ?"
+"Are you sure you don't want to create an album for this track?";"Etes-vous sûr de ne pas vouloir créer d'album pour ce titre ?"
+"Read all";"Tout lire"
+"An error occurred. Thanks for trying later.";"Une erreur est survenue lors du chargement. Merci de réessayer ultérieurement."
+"An error occurred while saving your playlist. Thanks for trying later.";"Une erreur est survenue lors de la sauvegarde de votre playlist. Merci de réessayer ultérieurement."
+"Playlist successfully saved.";"Playlist sauvegardée avec succès"
+"An error occurred while deleting your playlist. Thanks for trying later.";"Une erreur est survenue lors de la suppression de votre playlist d'images. Merci de réessayer ultérieurement."
+"An error occurred while deleting your album. Thanks for trying later.";"Une erreur est survenue lors de la suppression de votre album. Merci de réessayer ultérieurement."
+"An error occurred while deleting your track. Thanks for trying later.";"Une erreur est survenue lors de la suppression de votre titre. Merci de réessayer ultérieurement."
+"An error occurred while saving. Thanks for trying later.";"Une erreur est survenue lors de la sauvegarde. Merci de réessayer ultérieurement."
+"An error occurred while loading. Thanks for trying later";"Une erreur est survenue lors du chargement. Merci de réessayer ultérieurement."
+Custom;Perso
+Save;Sauvegarder
+"Element successfully saved";"Sauvegarde effectuée avec succès"

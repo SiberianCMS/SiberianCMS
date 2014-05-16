@@ -1,0 +1,43 @@
+<?php $option = $this->getCurrentOption(); ?>
+<?php $application = $this->getApplication(); ?>
+<?php $comment = $this->getCurrentComment(); ?>
+
+<li id="status_<?php echo $comment->getId() ?>" rel="<?php echo $comment->getId() ?>" class="list_news news<?php if($option->getBackgroundImage()) : ?> _no-background<?php endif; ?>" onclick="page.showSubpage({id: 'news_details_<?php echo $option->getId(); ?>_<?php echo $comment->getId(); ?>', url: '<?php echo $this->getUrl('comment/mobile/details', array('option_value_id' => $option->getId(), 'comment_id' => $comment->getId())); ?>', isAjax:true});">
+    <div>
+        <div class="logo left" style="width:37px; height:37px; overflow:hidden" id="logo_cont">
+            <img width="37" height="37" id="logo_src" class="logo_src" src="<?php echo $application->getLogo() ?>" data-default="<?php echo $application->getLogo() ?>" />
+        </div>
+        <p class="text">
+            <span class="name bold"><?php echo $application->getName(); ?>.</span>
+            <span>
+                <?php echo Core_Model_Lib_String::truncate($comment->getText(), 88); ?>
+            </span>
+        </p>
+        <div class="clear"></div>
+    </div>
+    <?php if($img_src = $comment->getImageUrl()) : ?>
+    <div class="image right">
+        <div>
+            <img src="<?php echo $img_src ?>" alt="<?php echo $application->getName() ?>" title="<?php echo $application->getName() ?>" width="183" />
+        </div>
+    </div>
+    <div class="clear"></div>
+    <?php endif; ?>
+    <div class="comment_metas">
+        <span class="comments_date left">
+            <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/pencil.png', true), $this->getApplication()->getDesignBlock('news')->getColor()); ?>" alt="" style="vertical-align:bottom" width="13" height="10px"/>
+            <?php echo $comment->getFormattedCreatedAt($this->_('MM/dd/y')) ?>
+        </span>
+        <span class="comments_count right ">
+            <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/comment.png', true), $this->getApplication()->getDesignBlock('news')->getColor()); ?>" alt="" style="vertical-align:bottom" width="13" />
+            <?php $answers = $comment->getAnswers(); ?>
+            <?php echo count($answers) ?>
+        </span>
+        <span class="likes_count right">
+            <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/like.png', true), $this->getApplication()->getDesignBlock('news')->getColor()); ?>" alt="<?php echo $this->_('Likes') ?>" style="vertical-align:bottom" width="13" height="12px" />
+            <?php $likes = $comment->getLikes(); ?>
+            <?php echo count($likes) ?>
+        </span>
+        <div class="clear"></div>
+    </div>
+</li>

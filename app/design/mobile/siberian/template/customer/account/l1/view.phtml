@@ -1,0 +1,95 @@
+<?php $isLoggedIn = $this->getSession()->isLoggedIn('customer'); ?>
+<?php $customer = $this->getSession()->getCustomer(); ?>
+<div id="customer_account" class="customer_account background">
+    <div class="login" id="login">
+        <?php if($this->isMobileDevice()) : ?>
+        <div id="account_login">
+            <div class="login_content padding">
+                <div id="customer_account_scrollview">
+                    <div>
+                        <form action="<?php echo $this->getUrl('customer/mobile_account/loginpost') ?>" method="post" class="accountForm" id="loginForm" name="loginForm">
+                            <div class="form">
+                                <div class="form_content align-center">
+                                    <?php if($this->getApplication()->getFacebookId() AND $this->getApplication()->getFacebookKey()) : ?>
+                                    <div id="fbButton" class="align-center">
+                                        <a class="fb_login block" id="facebook" href="javascript:void(0);" onclick="javascript:facebook.login(); return false;">
+                                            <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/facebook.png', true), $this->getApplication()->getDesignBlock('background')->getColor()); ?>" width="64" height="64" />
+                                        </a>
+                                    </div>
+                                    <br />
+                                    <p class="bold align-left"><?php echo $this->_("Or with your account") ?> :</p>
+                                    <br />
+                                    <?php endif; ?>
+                                    <div>
+                                        <div class="align-left">
+                                            <div>
+                                                <label for="login_email" class="block"><?php echo $this->_("Email") ?></label>
+                                                <input type="email" id="login_email" name="email" title="<?php echo $this->_("Email") ?>" class="required email" value="" placeholder="<?php echo $this->_("Email") ?>" />
+                                            </div>
+                                            <br />
+                                            <div>
+                                                <label for="login_password" class="block"><?php echo $this->_('Password'); ?></label>
+                                                <input type="password" id="login_password" title="<?php echo $this->_("Password") ?>" class="required" name="password" value="" placeholder="<?php echo $this->_("Password") ?>" />
+                                            </div>
+                                            <div class="clear"></div>
+                                            <br />
+                                            <p><a href="#" id="btn_forgot_password" class="noclickdelay"><?php echo $this->_("Forgot your password?") ?></a></p>
+                                            <p><a href="#" id="btn_create_account" class="noclickdelay"><?php echo $this->_("Create an account") ?></a></p>
+                                            <div class="clear"></div>
+                                        </div>
+                                        <input type="hidden" class="referer" name="redirect" value="<?php echo $this->getRedirectUrl() ?>"/>
+                                        <?php foreach($this->getRequest()->getParam('add_to_session', array()) as $key => $value) : ?>
+                                        <input type="hidden" name="add_to_session[<?php echo $key ?>]" value="<?php echo $value ?>"/>
+                                        <?php endforeach; ?>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                            </div>
+                            <button type="submit" style="display:none;"></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+
+            var subpage = page.getSubpage('customer_account_login');
+            subpage.setCallback('willappear', function() {
+                $('#loginForm').submit(function() {
+                    customer.login($(this).serializeArray(), this);
+                    return false;
+                });
+                $('#btn_forgot_password').click(function() {
+                    page.showSubpage({
+                        id:'customer_account_forgotpassword',
+                        url:'<?php echo $this->getUrl('customer/mobile_account/forgotpassword'); ?>',
+                        isAjax:true
+                    });
+                });
+                $('#btn_create_account').click(function() {
+                    page.showSubpage({
+                        id:'customer_account_edit',
+                        url:'<?php echo $this->getUrl('customer/mobile_account/edit'); ?>',
+                        isAjax:true
+                    });
+                });
+            }).setCallback('willdisappear', function() {
+                $('#loginForm').unbind('submit');
+                $('#btn_forgot_password').unbind('click');
+                $('#btn_create_account').unbind('click');
+            });
+            subpage.submit = function() {
+                $('#loginForm').submit();
+            }
+            page.getSubpage('customer_account_login').onClose = function() {
+                page.destroySubpage(this, true);
+            }
+
+        </script>
+        <?php else : ?>
+        <p><?php echo $this->_("Please log in with your mobile phone") ?></p>
+        <?php endif ?>
+    </div>
+
+</div>

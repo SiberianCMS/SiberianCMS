@@ -1,0 +1,164 @@
+<?php $application = $this->getApplication(); ?>
+<?php $option = $this->getCurrentOption(); ?>
+<?php $facebook = $option->getObject(); ?>
+<?php $color = $this->getBlock('news')->getColor(); ?>
+
+<div class="social facebook">
+
+    <div id="facebook_<?php echo $option->getId(); ?>" class="facebook_scrollview relative" rel="<?php echo $option->getId(); ?>">
+        <ul class="scroll" class="relative">
+            <li id="facebook_cover_<?php echo $option->getId(); ?>" class="facebook_cover social_facebook_<?php echo $option->getId(); ?> list_news news<?php if($option->getBackgroundImage()) : ?> _no-background<?php endif; ?>"></li>
+            <li class="social_facebook_1220 list_news news cover relative<?php if($option->getBackgroundImage()) : ?> _no-background<?php endif; ?>">
+                <div class="infos">
+                    <div class="logo left">
+                        <img width="100" height="100" id="facebook_icon_<?php echo $option->getId(); ?>" class="logo_src" src="" />
+                    </div>
+                    <div class="comment_metas">
+                        <span class="count block">
+                            <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/comment.png', true), $color); ?>" alt="<?php echo $this->_('Likes') ?>" style="vertical-align:bottom" width="13" height="12px" />
+                            <span id="facebook_talks_about_<?php echo $option->getId(); ?>"></span>
+                        </span>
+                        <span class="count block">
+                            <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/like.png', true), $color); ?>" alt="<?php echo $this->_('Likes') ?>" style="vertical-align:bottom" width="13" height="12px" />
+                            <span id="facebook_likes_<?php echo $option->getId(); ?>"></span>
+                        </span>
+
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <p class="text">
+                    <span id="facebook_name_<?php echo $option->getId(); ?>" class="name bold"></span>
+                    <span id="facebook_about_<?php echo $option->getId(); ?>" class="name"></span><br /><br />
+                    <span id="facebook_category_<?php echo $option->getId(); ?>" class="name"></span>
+                </p>
+                <div class="clear"></div>
+
+            </li>
+            <?php foreach($facebook->getPosts() as $post) : ?>
+            <?php echo $this->getLayout()->addPartial('view_item', 'core_view_mobile_default', 'social/facebook/l1/view/item.phtml')->setCurrentPost($post)->toHtml(); ?>
+            <?php endforeach ?>
+            <li id="load_more_<?php echo $facebook->getId(); ?>" class="load_more twitter_<?php echo $facebook->getValueId(); ?> twitter_<?php echo $facebook->getValueId(); ?>_<?php echo $facebook->getId(); ?> clear align-center ">
+                <div class="padding">
+                    <button class="button" onclick="page.getSubpage('<?php echo $facebook->getValueId(); ?>').loadMore(<?php echo $facebook->getId(); ?>);"<?php if(count($facebook->getPosts()) < Social_Model_Facebook::MAX_RESULTS) : ?> style="display:none;"<?php endif; ?>>
+                        <?php echo $this->_("More Posts") ?>
+                    </button>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <script type="text/javascript">
+
+        var subpage = page.getSubpage('<?php echo $option->getId(); ?>');
+
+        subpage.setCallback('willappear', function() {
+            this.getUserDatas();
+            var scrollview = new iScroll('facebook_<?php echo $option->getId(); ?>', {
+                hScroll: false
+            });
+
+            this.setScrollview(scrollview)
+                .setContentSize()
+            ;
+        }).setCallback('didappear', function() {
+            this.prepareDatas();
+        });
+
+        subpage.loadMore = function(id) {
+
+            var offset = $('.social_facebook_<?php echo $option->getId(); ?>').length;
+
+            loader.show();
+            $.ajax({
+                url: '<?php echo $this->getUrl('social/mobile_facebook/loadmore'); ?>',
+                dataType: 'json',
+                data: [{name:'facebook_id', value:id}, {name:'offset', value:offset}, {name:'option_value_id', value:'<?php echo $option->getId(); ?>'}],
+                type: 'post',
+                success: function(datas) {
+                    if(datas.html) {
+                        $('#load_more_'+id).before(datas.html);
+                        this.prepareDatas();
+                        this.refreshScrollview();
+                    }
+                }.bind(this),
+                error: function() {
+                    new Alert('<?php echo $this->_("An error occurred the during process. Please try again later.") ?>').show();
+                },
+                complete: function() {
+                    loader.hide();
+                }
+            });
+
+        }
+
+        subpage.getUserDatas = function() {
+
+            var id = this.id;
+            facebook.setCallback('datasdidretrieve', function(user) {
+
+                if(user.cover) {
+                    $('#facebook_cover_'+id).css('background-image', 'url('+user.cover.source+')');
+                    $('#facebook_cover_'+id).addClass('no-background');
+                }
+                $('#facebook_icon_'+id).attr('src', 'https://graph.facebook.com/<?php echo $facebook->getFbUser(); ?>/picture?width=200');
+                $('#facebook_name_'+id).html(user.name);
+                $('#facebook_username_'+id).html(user.username);
+                $('#facebook_about_'+id).html(user.about);
+                $('#facebook_category_'+id).html(user.category);
+                $('#facebook_likes_'+id).html((user.likes ? user.likes : 0) + ' <?php echo addslashes($this->_('like it')); ?>');
+                $('#facebook_talks_about_'+id).html((user.talking_about_count ? user.talking_about_count : 0) + ' <?php echo addslashes($this->_('talk about it')); ?>');
+
+            });
+            facebook.get('<?php echo $facebook->getFbUser(); ?>');
+        }
+        subpage.prepareDatas = function() {
+            <?php if(!IS_APPLICATION) : ?>
+            $('#social_facebook_'+this.id).find('a').attr('href', 'javascript:void(0);');
+            <?php endif ?>
+        }
+    </script>
+    <style>
+
+        .facebook .cover .infos {
+            position:absolute;
+            top:-55px;
+            left:25px;
+            width:100%;
+        }
+        .facebook .cover .infos .logo {
+            height: 100px;
+            width: 100px;
+        }
+        .facebook .cover .infos .logo img {
+            border-radius: 4px;
+        }
+        .facebook .cover .infos .comment_metas {
+            position: absolute;
+            right: 45px;
+            bottom: 4px;
+            margin-left: 0;
+            margin-top: 0;
+            padding:4px;
+        }
+        .facebook .cover .infos .comment_metas span {
+            margin:0;
+        }
+        .facebook .cover .infos .comment_metas span.count {
+            margin-left:5px;
+            padding: 2px;
+            line-height: 11px;
+        }
+        .facebook .cover .text {
+            margin-top:60px;
+            margin-left:0;
+            width:auto;
+        }
+
+        .facebook_cover {
+            height:100px;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
+
+</div>

@@ -1,0 +1,28 @@
+<?php $option = $this->getCurrentOption(); ?>
+<?php $events = $this->getEvents() ?>
+<?php $date = new Zend_Date(); ?>
+<?php $format = 'y-MM-dd HH:mm:ss'; ?>
+
+<?php foreach($events as $key => $event): ?>
+<div class="event_line relative" onclick="page.getSubpage('<?php echo $option->getId(); ?>').showDetails('<?php echo $key; ?>', '<?php echo addslashes($event['name']); ?>');">
+    <div class="event_element background reverse">
+        <div class="month">
+            <span class="title background reverse">
+                <?php echo $date->set($event['start_at'], $format)->toString(Zend_Date::MONTH_NAME_SHORT) ?>
+            </span>
+        </div>
+        <div class="day background">
+            <span class="background"><?php echo $date->toString('dd'); ?></span>
+        </div>
+    </div>
+    <div class="left">
+        <div class="name top">
+            <span class="auto_resize" data-rows="1"><?php echo $event['name'] ?></span>
+        </div>
+        <div class="hour bottom">
+            <span class="auto_resize" data-rows="1"><?php echo $date->toString($this->_("MM/dd/y hh:mm a")); ?> - <?php echo $date->set($event['end_at'], $format)->toString($this->_("MM/dd/y hh:mm a")); ?></span>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<?php endforeach; ?>

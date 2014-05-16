@@ -1,0 +1,42 @@
+<?php $application = $this->getApplication(); ?>
+<?php $option = $this->getCurrentOption(); ?>
+<?php $events = $this->getEvents() ?>
+<?php $date = new Zend_Date(); ?>
+<?php $format = 'y-MM-dd HH:mm:ss'; ?>
+
+<div>
+    <div id="scrollview_event_details_<?php echo $option->getId(); ?>" class="event_view relative" rel="event_view_<?php echo $option->getId(); ?>" rel="scrollview_event_details_<?php echo $option->getId(); ?>">
+        <div id="event_details_<?php echo $option->getId(); ?>" class="scroll relative">
+            <?php
+                echo $this->getLayout()->addPartial('events_list', 'admin_view_default', 'event/l1/view/details/list.phtml')
+                    ->setCurrentOption($option)
+                    ->setEvents($events)
+                    ->toHtml()
+                ;
+            ?>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+        var html = $('#scrollview_event_details_<?php echo $option->getId(); ?>').get(0).outerHTML;
+        $('#scrollview_event_details_<?php echo $option->getId(); ?>').parent().remove();
+
+        var event_details_datas = {
+            id: 'event_view_<?php echo $option->getId(); ?>',
+            title: 'Agenda',
+            html: html,
+            is_ajax: false
+        }
+
+        var event_details_subpage = page.createSubpage(event_details_datas);
+        event_details_subpage.setCallback('willappear', function() {
+            this.setScrollview(new iScroll('scrollview_event_details_<?php echo $option->getId(); ?>'))
+                .setContentSize()
+            ;
+        });
+
+        event_details_subpage.setParent(page.getSubpage('<?php echo $option->getId(); ?>'));
+
+    </script>
+</div>

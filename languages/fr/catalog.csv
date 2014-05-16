@@ -1,0 +1,44 @@
+"Edit the product";"Modifier le produit"
+Description;Description
+Category;Catégorie
+Picture;Illustration
+picture;illustration
+"Product formats";"Formats du produit"
+Format;Format
+"Add a format";"Ajouter un format"
+"Edit the";"Modifiez l'"
+"Add a";"Ajoutez une"
+st;er
+nd;ème
+en;fr
+"Qty";"Qté"
+"All points of sale";"Tous les points de vente"
+"Some points of sale";"Certains points de vente"
+"Choose points of sale";"Choisissez les points de ventes"
+sub-category;sous-catégorie
+Rules;Condition
+"Click on a category to display sub-categories";"Cliquez sur une catégorie pour afficher les sous-catégories"
+"Add a category";"Ajouter une catégorie"
+Product;Produit
+All;Tous
+All;Toutes
+Sub-category;Sous-catégorie
+"Does this product have many formats?";"Ce produit a-t-il plusieurs formats ?"
+"Choose a category";"Choisissez une catégorie"
+"Choose a subcategory";"Choisissez une sous-catégorie"
+"Create a new product";"Créer un nouveau produit"
+Description;Descriptif
+"Product name";"Nom du produit"
+"Main category";"Catégorie principale"
+More;"Plus d'infos"
+"An error occurred while saving the category. Please try again later.";"Une erreur est survenue lors de la sauvegarde de votre catégorie. Merci de réessayer ultérieurement."
+"An error occurred while saving. One of your categories could not be identified.";"Une erreur est survenue lors de la sauvegarde. Une catégorie n'a pas pu être identifiée."
+"Set meal successfully saved.";"Menu sauvegardé avec succès."
+"Set meal successfully deleted.";"Menu supprimé avec succès."
+"An error occurred while saving the set meal. Please try again later.";"Une erreur est survenue lors de la sauvegarde du menu. Merci de réessayer ultérieurement."
+"An error occurred while loading your product.";"Une erreur est survenue lors du chargement de votre produit."
+"An error occurred while saving the product. Please try again later.";"Une erreur est survenue lors de la sauvegarde du produit. Merci de réessayer ultérieurement."
+"An error occurred while saving. One of your products could not be identified.";"Une erreur est survenue lors de la sauvegarde. Un produit n'a pas pu être identifiée."
+"Add to cart";"Ajouter au panier"
+"<span id=""price_from_%s"">From:<br /></span><span id=""current_price_%s"">%s</span>";"<span id=""price_from_%s"">À partir de :<br /></span><span id=""current_price_%s"">%s</span>"
+Price;Prix

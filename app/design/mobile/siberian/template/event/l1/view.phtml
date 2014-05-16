@@ -1,0 +1,180 @@
+<?php $option = $this->getCurrentOption(); ?>
+<?php $events = $option->getObject()->getEvents() ?>
+<?php $date = new Zend_Date(); ?>
+<?php $format = 'y-MM-dd HH:mm:ss'; ?>
+<div>
+    <div id="event_scrollview_<?php echo $option->getId(); ?>" class="relative event_scrollview" rel="<?php echo $option->getId(); ?>">
+        <div class="scroll">
+            <div class="padding">
+                <?php
+                    echo $this->getLayout()->addPartial('events_list', 'admin_view_default', 'event/l1/view/list.phtml')
+                        ->setCurrentOption($option)
+                        ->setEvents($events)
+                        ->toHtml()
+                    ;
+                ?>
+
+                <div id="more_events_<?php echo $option->getId(); ?>" class="padding">
+                    <button class="button" onclick="page.getSubpage('<?php echo $option->getId(); ?>').loadMore();"<?php if(count($events) < Event_Model_Event::MAX_RESULTS) : ?> style="display:none;"<?php endif; ?>>
+                        <?php echo $this->_("More events") ?>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <?php
+        echo $this->getLayout()->addPartial('events_details', get_class($this), 'event/l1/view/details.phtml')
+            ->setEvents($events)
+            ->toHtml()
+        ;
+    ?>
+    <script type="text/javascript">
+        var subpage = page.getSubpage('<?php echo $option->getId(); ?>');
+
+        subpage.setCallback('didcreate', function() {
+            $('#event_scrollview_'+this.id).find('.event_line:first').addClass('first');
+        }).setCallback('willappear', function() {
+            this.setScrollview(new iScroll('event_scrollview_<?php echo $option->getId(); ?>'))
+                .setContentSize()
+            ;
+        });
+
+        subpage.showDetails = function(id, title) {
+            $('.event_view_<?php echo $option->getId() ?>').hide();
+            $('#event_view_<?php echo $option->getId() ?>_'+id).show();
+            var event_view_subpage = page.getSubpage('event_view_<?php echo $option->getId() ?>');
+            event_view_subpage.setTitle(title);
+            page.slide(event_view_subpage);
+        }
+
+        subpage.loadMore = function() {
+
+            loader.show();
+            var offset = $('#event_scrollview_<?php echo $option->getId(); ?>').find('.event_line').length;
+            $.ajax({
+                url: '<?php echo $this->getUrl('event/mobile/list'); ?>',
+                dataType: 'json',
+                data: [{name:'option_value_id',value:this.id}, {name:'offset',value:offset}],
+                type: 'post',
+                success: function(datas) {
+                    if(datas.events_list_html) {
+                        $('#more_events_<?php echo $option->getId(); ?>').before(datas.events_list_html);
+                        this.scrollview.refresh();
+                        this.collectAutoresizeLabels().resizeLabels();
+                    }
+                    if(datas.events_details_html) {
+                        $('#event_details_<?php echo $option->getId(); ?>').append(datas.events_details_html);
+                    }
+
+                }.bind(this),
+                complete: function() {
+                    loader.hide();
+                }
+            });
+
+        }
+    </script>
+
+    <style type="text/css">
+
+        .event_line {margin-top:15px;padding:10px;background-color:rgba(255,255,255,0.3);border-radius:5px;}
+        .event_line.first {margin-top:0;}
+        .event_line .left {margin-left:10px;}
+        .event_line .left .name {position:absolute;top:10px;padding-right:10px;font-size:15px;font-weight:bold;text-transform:uppercase;}
+        .event_line .left .hour {position:absolute;top:30px;padding-right:10px;}
+        .event_line .left .hour span {font-size:14px;text-transform:lowercase;}
+
+        .event_scrollview .padding {padding: 15;}
+        /*.event_line{margin: 10px;}*/
+        .event_element{border-radius: 3px 3px 0 0;float: left;height: 90px;width: 80px;}
+        .month{height: 26px;padding-top: 4px;text-align: center;}
+        .month span{font-size: 16px;font-weight: bold;}
+        .day{height: 46px;margin-left: 3px;margin-top: 1px;padding-top: 10px;text-align: center;width: 74px;}
+        .day span{font-size: 30px;font-weight: bold;}
+        /*.event_line .left {margin-left: 4px;}*/
+        .name.top {/*padding: 26px;*/}
+        /*.event_line .left .name {position: absolute;top: 5px;font-size: 15px;}*/
+        /*.event_line .left .hour {position: absolute;bottom: 4px;text-transform:lowercase;}*/
+        .event_picture{position: relative;}
+        .event_picture img{/*padding: 0 5%;*/}
+        .time {padding: 10px 0;font-size: 12px;}
+        .time.has_picture {padding: 10px; position: absolute;bottom: 3px;background-color:rgba(255, 255, 255, 0.85);color: #404040;}
+        .buttons .link {width: auto;margin: 10px 0;}
+        .event_view .event_name { margin-bottom:10px; }
+        .event_view .description {margin:10px 0;}
+        .event_view .description span {line-height:17px;}
+        .event_view .event_name .name { font-size:15px; text-transform:uppercase; }
+        .event_view .buttons {margin-top:20px;}
+
+        .cover {}
+        .cover.has_a_picture {}
+        .cover .content {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .cover .content .picture {
+            display: block;
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            background-position: center center;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .cover .content .picture .padding {
+            padding: 75px;
+        }
+        .cover.has_a_picture .content .picture .padding {
+            display:block;
+        }
+
+        .cover .content h3 {
+            display: block;
+            width: 100%;
+            padding: 0;
+            font-size: 16px;
+            overflow: hidden;
+        }
+
+        .cover.has_a_picture .content h3 {
+            color: #000000;
+            background: none repeat scroll 0 0 rgba(255, 255, 255, 0.85);
+        }
+
+        .cover .content h3 span.title {
+            padding: 7px;
+            font-size: 15px;
+            font-weight: bold;
+            line-height: 20px;
+            text-transform: uppercase;
+            overflow: hidden;
+        }
+
+        .cover .content h3 span.subtitle {
+            display: block;
+            margin-top: 10px;
+            padding: 7px;
+            font-size: 11px;
+            font-weight: normal;
+            overflow: hidden;
+        }
+
+        .cover .content .description {
+            display: none;
+            font-size: 12px;
+            font-weight: normal;
+            height: 50px;
+            line-height: 1.1em;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+
+    </style>
+</div>

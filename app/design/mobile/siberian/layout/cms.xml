@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <cms_mobile_page_view_l1>
+        <views>
+            <content class="core_view_mobile_default" template="cms/page/l1/view.phtml" />
+        </views>
+    </cms_mobile_page_view_l1>
+
+</layout>

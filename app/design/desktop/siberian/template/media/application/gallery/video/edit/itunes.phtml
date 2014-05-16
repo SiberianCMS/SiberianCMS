@@ -1,0 +1,32 @@
+<?php $video = $this->getCurrentVideo(); ?>
+<?php $option_value = $this->getCurrentOptionValue(); ?>
+<?php $key = $this->getCurrentKey(); ?>
+
+<table id="new_gallery_<?php echo $video->getTypeId(); ?>" class="new_gallery no-collapse" cellspacing="5" style="display:none;">
+    <col width="82px" />
+    <col width="175px" />
+    <col width="175px" />
+    <col width="145px" />
+    <col width="45px" />
+    <tr>
+        <th></th>
+        <th><?php echo $this->_('Gallery Name <span class="required-entry">*</span> :') ?></th>
+        <th colspan="2"><?php echo $this->_('Feed URL <span class="required-entry">*</span> :') ?></th>
+        <th></th>
+    </tr>
+    <tr id="row_<?php echo $video->getId(); ?>_<?php echo $video->getTypeId(); ?>" class="row_video">
+        <td><img src="<?php echo $this->getImage('pictos/podcast.png'); ?>" title="<?php echo $this->_('Podcast'); ?>" alt="<?php echo $this->_('Podcast'); ?>" width="43" height="43" /></td>
+        <td><input type="text" name="name" value="<?php echo $video->getName(); ?>" placeholder="<?php echo $this->_('Gallery Name') ?>" class="required input" /></td>
+        <td colspan="2"><input type="text" name="param" value="<?php echo $video->getParam(); ?>" placeholder="<?php echo $this->_('Feed URL') ?>" class="required input full_td" /></td>
+
+        <td>
+            <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>" />
+            <input type="hidden" name="type_id" value="<?php echo $video->getTypeId(); ?>" />
+            <?php if($video->getId() != 'new') : ?>
+                <input type="hidden" name="id" value="<?php echo $video->getId(); ?>" />
+            <?php endif; ?>
+            <button type="button" class="default_button save_video left"><?php echo $this->_('OK'); ?></button>
+        </td>
+        <td><button type="button" class="delete delete_video" rel="<?php echo $video->getId(); ?>"><i class="icon-remove"></i></button></td>
+    </tr>
+</table>
