@@ -1,0 +1,6 @@
+/nbproject
+/app/configs/app.ini
+/var/tmp/*
+/var/cache/*
+/var/session/*
+.DS_Store
