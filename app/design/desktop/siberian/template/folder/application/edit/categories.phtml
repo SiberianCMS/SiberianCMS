@@ -493,15 +493,16 @@
                             }
                         }
 
-                        $.each(datas.deleted_categories, function(index, category) {
-                            $.each(category, function(index, option_value) {
+                        $.each(datas.value_ids, function(i, value_id) {
+                            if($('#option_value_'+value_id).attr('data-folder-id')) {
                                 // Met à jour le slider
-                                options.resetElement(option_value);
+                                options.resetElement(value_id);
 
                                 //Réaffiche l'élément dans le formulaire
-                                $('#add_page_'+option_value).fadeIn();
-                            });
+                                $('#add_page_'+value_id).fadeIn();
+                            }
                         });
+
 
                         iframe.f.page.destroySubpage('subcategory_'+cat_id);
                         iframe.content.find('#subcategory_'+cat_id).remove();

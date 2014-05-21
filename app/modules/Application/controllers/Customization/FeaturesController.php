@@ -6,7 +6,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
         $this->loadPartials();
         if($this->getRequest()->isXmlHttpRequest()) {
             $html = array('html' => $this->getLayout()->getPartial('content_editor')->toHtml());
-            $this->getLayout()->setHtml(Zend_Json::encode($html));
+            $this->_sendHtml($html);
         }
     }
 
@@ -15,8 +15,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
         if($type = $this->getRequest()->getParam('type')) {
             $this->getLayout()->setBaseRender('content', sprintf('application/customization/page/edit/%s.phtml', $type), 'admin_view_default');
             $html = array('html' => $this->getLayout()->render());
-            $this->getLayout()->setHtml(Zend_Json::encode($html));
-
+            $this->_sendHtml($html);
         }
 
     }
@@ -85,7 +84,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
                 );
             }
 
-            $this->getLayout()->setHtml(Zend_Json::encode($html));
+            $this->_sendHtml($html);
         }
 
     }
@@ -95,88 +94,56 @@ class Application_Customization_FeaturesController extends Application_Controlle
         if($datas = $this->getRequest()->getPost()) {
 
             try {
+
                 if(empty($datas['value_id'])) throw new Exception($this->_('An error occurred while deleting the option'));
 
                 // Récupère les données de l'application pour cette option
                 $option_value = new Application_Model_Option_Value();
                 $option_value->find($datas['value_id']);
 
+                $html = array(
+                    'success' => 1,
+                    'value_id' => $datas['value_id'],
+                    'was_folder' => false,
+                    'was_category' => false,
+                    'was_feature' => false
+                );
+
                 // Option folder
                 if(isset($datas['category_id'])) {
 
-                    // Récupère l'option_value en cours
-                    $category_option_value = new Application_Model_Option_Value();
-                    $category_option_value->find($datas['value_id']);
-
-                    $category_option_value
+                    $option_value->setFolderId(null)
                         ->setFolderCategoryId(null)
                         ->setFolderCategoryPosition(null)
-                        ->save();
+                        ->save()
+                    ;
 
-                    foreach(Core_View_Default::getBlocks() as $block) {
-                        if($block->getCode() == 'area') {
-                            $colorized_block = $block;
-                        }
-                    }
-                    $icon_url = $category_option_value->getImage()->getCanBeColorized() ? Siberian_View::getColorizedImage($category_option_value->getIconId(), $colorized_block->getColor()) : $category_option_value->getIconUrl();
-
-                    $html['folder'] = array(
-                        'id' => $category_option_value->getId(),
-                        'name' => $category_option_value->getShortTabbarName(),
-                        'icon_url' => $icon_url,
-                        'value_id' => $datas['value_id'],
-                        'category_id' => $datas['category_id'],
-                    );
+                    $html['was_category'] = true;
+                    $html['category'] = array('id' => $datas['category_id']);
 
                 } else {
-                    // Récupère l'id
-                    $id = $option_value->getId();
+
                     // Récupère l'option
                     $option = new Application_Model_Option();
                     $option->find($option_value->getOptionId());
 
-                    $option_folder = new Application_Model_Option();
-                    $option_folder->find(array('code' => 'folder'));
+                    $html['was_feature'] = true;
+                    $html['use_user_account'] = $this->getApplication()->usesUserAccount();
 
-                    $was_folder = 0;
-                    //Folder, supprime les cat id des options
-                    if($option_value->getOptionId() == $option_folder->getOptionId()) {
-                        $folder = new Folder_Model_Folder();
-                        $folder->find($id, 'value_id');
-                        $root_category = new Folder_Model_Category();
-                        $root_category->find($folder->getRootCategoryId());
-                        $categories_options = $root_category->deleteChildren($folder->getRootCategoryId());
-
-                        $category_option = new Application_Model_Option_Value();
-                        $option_values = $category_option->findAll(array('folder_category_id' => $folder->getRootCategoryId()));
-                        $categories_options[$folder->getRootCategoryId()] = array();
-                        foreach($option_values as $ov) {
-                            $ov->setFolderCategoryId(null)
-                                ->setFolderCategoryPosition(null)
-                                ->save();
-                            $categories_options[$folder->getRootCategoryId()][] = $ov->getValueId();
-                        }
-                        $folder->delete();
-                        $was_folder = 1;
+                    if($option_value->getCode() == "folder") {
+                        $html['was_folder'] = true;
                     }
 
                     // Supprime l'option de l'application
                     $option_value->delete();
 
-                    // Renvoi le nouveau code HTML
-                    $this->getLayout()->setBaseRender('content', 'application/customization/page/list.phtml', 'admin_view_default');
-                    $html = array(
-                        'success' => 1,
-                        'option_id' => $id,
-                        'use_user_account' => $this->getApplication()->usesUserAccount()
-                    );
                     if($option->onlyOnce()) {
                         $html['page'] = array('id' => $option->getId(), 'name' => $option->getName(), 'icon_url' => $option->getIconUrl());
                     }
-                    if($was_folder == 1) {
-                        $html['was_folder'] = 1;
-                        $html['categories_options'] = $categories_options;
-                    }
+
+                    // Renvoi le nouveau code HTML
+                    $this->getLayout()->setBaseRender('content', 'application/customization/page/list.phtml', 'admin_view_default');
+
                 }
             }
             catch(Exception $e) {
@@ -187,7 +154,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
                 );
             }
 
-            $this->getLayout()->setHtml(Zend_Json::encode($html));
+            $this->_sendHtml($html);
         }
 
     }
@@ -216,7 +183,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
                 );
             }
 
-            $this->getLayout()->setHtml(Zend_Json::encode($html));
+            $this->_sendHtml($html);
         }
 
     }
@@ -264,7 +231,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
                 );
             }
 
-            $this->getLayout()->setHtml(Zend_Json::encode($html));
+            $this->_sendHtml($html);
 
         }
 
@@ -341,7 +308,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
                 );
             }
 
-            $this->getLayout()->setHtml(Zend_Json::encode($html));
+            $this->_sendHtml($html);
 
         }
 
@@ -383,7 +350,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
                 );
             }
 
-            $this->getLayout()->setHtml(Zend_Json::encode($html));
+            $this->_sendHtml($html);
 
         }
 
@@ -444,7 +411,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
                 );
             }
 
-            $this->getLayout()->setHtml(Zend_Json::encode($html));
+            $this->_sendHtml($html);
 
         }
 
@@ -520,7 +487,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
                 );
             }
 
-            $this->getLayout()->setHtml(Zend_Json::encode($html));
+            $this->_sendHtml($html);
 
         }
     }
@@ -560,7 +527,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
                 );
             }
 
-            $this->getLayout()->setHtml(Zend_Json::encode($datas));
+            $this->_sendHtml($html);
         }
     }
 
@@ -585,7 +552,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
                 );
             }
 
-            $this->getLayout()->setHtml(Zend_Json::encode($datas));
+            $this->_sendHtml($html);
         }
     }
 

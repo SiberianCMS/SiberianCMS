@@ -215,6 +215,13 @@ class Core_Controller_Default extends Zend_Controller_Action
         return $url;
     }
 
+    protected function _sendHtml($html) {
+        if(!empty($html['error'])) {
+            $this->getResponse()->setHttpResponseCode(400);
+        }
+        $this->getLayout()->setHtml(Zend_Json::encode($html));
+    }
+
     protected function _download($file, $filename, $content_type = 'application/vnd.ms-excel') {
 
         if(file_exists($file)) $content = file_get_contents($file);
@@ -234,7 +241,6 @@ class Core_Controller_Default extends Zend_Controller_Action
         die;
 
     }
-
 
     protected function _setBaseLayout($layout) {
         $this->_helper->layout()->setLayout($layout);

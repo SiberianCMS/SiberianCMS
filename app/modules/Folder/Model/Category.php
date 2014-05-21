@@ -61,32 +61,25 @@ class Folder_Model_Category extends Core_Model_Default {
         return ++$lastPosition;
     }
 
-    public function deleteChildren($cat_id) {
-        $categories_options = array();
-        $categories_deleted = $this->resursiveDelete($cat_id, $categories_options);
-        return $categories_deleted;
-    }
+    public function delete() {
 
-    private function resursiveDelete($cat_id, $categories_options) {
-        $category_children = new Folder_Model_Category();
-        $category_childrens = $category_children->findAll(array('parent_id' => $cat_id));
-        foreach($category_childrens as $children) {
-            $categories_options = $this->resursiveDelete($children->getId(), $categories_options);
-            $category_option = new Application_Model_Option_Value();
-            $option_values = $category_option->findAll(array('folder_category_id' => $children->getCategoryId()));
-            if($option_values->count()) {
-                $categories_options[$children->getCategoryId()] = array();
-                foreach($option_values as $option_value) {
-                    $categories_options[$children->getCategoryId()][] = $option_value->getValueId();
-                    $option_value
-                        ->setFolderCategoryId(null)
-                        ->setFolderCategoryPosition(null)
-                        ->save();
-                }
+        $category_option = new Application_Model_Option_Value();
+        $option_values = $category_option->findAll(array('folder_category_id' => $this->getId()));
+        if($option_values->count()) {
+            foreach($option_values as $option_value) {
+                $option_value->setFolderId(null)
+                    ->setFolderCategoryId(null)
+                    ->setFolderCategoryPosition(null)
+                    ->save();
             }
-            $children->delete();
         }
-        return $categories_options;
+
+        foreach($this->getChildren() as $child) {
+            $child->delete();
+        }
+
+        return parent::delete();
+
     }
 
 }

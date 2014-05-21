@@ -166,7 +166,7 @@ class Folder_ApplicationController extends Application_Controller_Default
 
                 // Récupère l'option_value en cours
                 $category_option_value = new Application_Model_Option_Value();
-                $category_option_value->find($datas['option_id']);
+                $category_option_value->find($datas['category_value_id']);
 
                 $next_positon = $category_option_value->getNextFolderCategoryPosition($datas['category_id']);
 
@@ -181,11 +181,12 @@ class Folder_ApplicationController extends Application_Controller_Default
                 }
 
                 $category_option_value
+                    ->setFolderId($datas['value_id'])
                     ->setFolderCategoryPosition($next_positon)
                     ->setFolderCategoryId($category->getCategoryId())
                     ->save();
 
-                $html = array('success' => 1);
+                $html = array('success' => 1, 'folder_id' => $datas['value_id']);
 
             } catch(Exception $e) {
                 $html = array('message' => $e->getMessage());
@@ -291,36 +292,22 @@ class Folder_ApplicationController extends Application_Controller_Default
 
                 $category = new Folder_Model_Category();
                 $category->find($datas['category_id']);
-                $deleted_categories = $category->deleteChildren($datas['category_id']);
-
-                $category_option = new Application_Model_Option_Value();
-                $option_values = $category_option->findAll(array('folder_category_id' => $datas['category_id']), array('folder_category_position ASC'));
-                $deleted_categories[$datas['category_id']] = array();
-                foreach($option_values as $option_value) {
-                    $option_value
-                        ->setFolderCategoryId(null)
-                        ->setFolderCategoryPosition(null)
-                        ->save();
-                    $deleted_categories[$datas['category_id']][] = $option_value->getValueId();
-                }
-
-//                ??
-                // Récupère l'option_value en cours
-//                $category_option_value = new Application_Model_Option_Value();
-//                $category_option_value->find($datas['value_id']);
-//
-//                $category_option_value
-//                    ->setFolderCategoryId(null)
-//                    ->setFolderCategoryPosition(null)
-//                    ->save();
 
                 $parent_id = $category->getParentId();
                 $category->delete();
 
+                $value_ids = array();
+                $option_value = new Application_Model_Option_Value();
+                $option_values = $option_value->findAll(array('a.app_id' => $this->getApplication()->getId()), 'position ASC');
+                foreach($option_values as $option_value) {
+                    if($option_value->getFolderId() OR $option_value->getCode() == "folder") continue;
+                    $value_ids[] = $option_value->getId();
+                }
+
                 $html = array(
                     'success' => 1,
                     'parent_id' => $parent_id,
-                    'deleted_categories' => $deleted_categories
+                    'value_ids' => $value_ids
                 );
             }
             catch(Exception $e) {

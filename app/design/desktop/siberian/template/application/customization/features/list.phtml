@@ -133,6 +133,7 @@
 
             var li = $('#option_value_'+option_value_id);
             var new_li = li.clone().hide().attr('rel', '');
+            new_li.removeAttr("data-folder-id");
             new_li.find('input[name="category_id"]').remove();
             li.remove();
             var current_position = parseInt(new_li.attr('data-pos')) | 0;
@@ -274,17 +275,17 @@
                     reload($(this).parent(), '<?php echo $this->getUrl('application/customization_features/delete'); ?>', true, function(datas) {
 
                         //Cas folder
-                        if(datas.folder) {
+                        if(datas.was_category) {
 
                             // Dans tous les cas, on met à jour le slider
-                            options.resetElement(datas.folder.id);
+                            options.resetElement(datas.value_id);
 
                             // Calcul le nombre de fonctionnalités restantes dans cette catégorie
                             var feature_count = $('#option_values').find('li:visible').length;
-                            $('.button_handler[rel="'+datas.folder.category_id+'"]').find('.features_number').html('('+feature_count+')');
+                            $('.button_handler[rel="'+datas.category.id+'"]').find('.features_number').html('('+feature_count+')');
 
                             // Supprime de l'élément dans l'iframe
-                            iframe.content.find('#tabbar_item_'+datas.folder.id+'.belongs_to_folder').fadeOut(300, function() {
+                            iframe.content.find('#tabbar_item_'+datas.value_id+'.belongs_to_folder').fadeOut(300, function() {
                                 $(this).parent().remove();
                                 if(iframe.f.page.getSubpage(folder.getPageId())) {
                                     iframe.f.page.getSubpage(folder.getPageId()).refreshScrollview();
@@ -294,34 +295,28 @@
                             // Cas aucune feature n'est ouverte -> Le folder est ouvert
                             if(!folder.current_option_id) {
                                 //Réaffiche l'élément dans le formulaire
-                                $('#add_page_'+datas.folder.value_id).fadeIn();
+                                $('#add_page_'+datas.value_id).fadeIn();
                             }
                             // Cas la feature ouverte vient d'être supprimée
-                            else if(folder.current_option_id == datas.folder.id) {
+                            else if(folder.current_option_id == datas.value_id) {
                                 // Ferme la feature en cours, réouvre le folder
                                 folder.current_option_id = null;
                                 page.close(false);
-                            }
-                            // Cas la feature ouverte n'est pas celle venant de se faire supprimée
-                            else {
-                                // Rien à faire pour le moment
                             }
 
                             //Met à jour la home pour récupérer les options assignées
                             iframe.f.page.loadHomePage();
 
-                        }
-
-                        if(datas.option_id) {
+                        } else if(datas.was_feature) {
                             // Si la fonctionnalité était un folder ET le folder en cours
                             if(datas.was_folder) {
-                                if(folder.id == datas.option_id) {
+                                if(folder.id == datas.value_id) {
                                     folder.reset();
                                 }
                                 var select = $('select#primary_category_id');
                                 if(select.length) {
                                     select.children('option').each(function() {
-                                        if($(this).val() == datas.option_id) {
+                                        if($(this).val() == datas.value_id) {
                                             $(this).remove();
                                             return false;
                                         }
@@ -329,25 +324,31 @@
                                     select.dropkick('reload');
                                 }
                             }
-                            if(page.current && page.current.attr('rel') == datas.option_id) {
+
+                            if(page.current && page.current.attr('rel') == datas.value_id) {
                                 page.close(true);
                             }
 
-                            $('#option_value_'+datas.option_id).remove();
+                            $('#option_value_'+datas.value_id).remove();
                             if(!datas.use_admin_account) $('#option_value_customer_account').hide();
                             carousel.update();
 
-                            iframe.f.page.destroySubpage(datas.option_id, true);
+                            iframe.f.page.destroySubpage(datas.value_id, true);
                             iframe.f.page.loadHomePage();
 
                             if(datas.was_folder) {
-                                // Rajoute toutes les fonctionnalités du folder dans le slider
-                                $.each(datas.categories_options, function(category_id, option_values) {
-                                    $.each(option_values, function(index, option) {
-                                        // Met à jour le slider
-                                        options.resetElement(option);
-                                    });
+                                $('#option_values > .option_value').each(function() {
+                                    if($(this).attr('data-folder-id') == datas.value_id) {
+                                        options.resetElement($(this).attr('data-value-id'));
+                                    }
                                 });
+//                                // Rajoute toutes les fonctionnalités du folder dans le slider
+//                                $.each(datas.categories_options, function(category_id, option_values) {
+//                                    $.each(option_values, function(index, option) {
+//                                        // Met à jour le slider
+//                                        options.resetElement(option);
+//                                    });
+//                                });
                                 if(!folder.id) {
                                     options.loadNewSlider('default');
                                 }
@@ -1237,6 +1238,7 @@
                     $clone.attr('rel', cat_id);
                     $clone.find('.actions').append('<input type="hidden" value="'+cat_id+'" name="category_id">');
                     $clone.find('canvas').remove();
+                    $clone.attr('data-folder-id', datas.folder_id);
                     $clone.find('img').show();
                     $clone.fadeIn(400);
                     carousel.update().slideToItem($clone);

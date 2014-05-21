@@ -4,7 +4,6 @@ $this->query("
     CREATE TABLE `contact` (
         `contact_id` int(11) NOT NULL AUTO_INCREMENT,
         `value_id` int(11) unsigned NOT NULL,
-        `pos_id` int(11) unsigned DEFAULT NULL,
         `name` longtext COLLATE utf8_unicode_ci,
         `description` longtext COLLATE utf8_unicode_ci,
         `facebook` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
