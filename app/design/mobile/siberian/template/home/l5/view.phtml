@@ -64,7 +64,8 @@
         if(typeof Android != "undefined") {
             $('#tabbar').find('a.item[attr-link]').each(function() {
                 var href = $(this).attr('href');
-                $(this).attr('href', href+'?webview=1');
+                href += /\?/.test(this.search) ? "&webview=1" : "?webivew=1";
+                $(this).attr('href', href);
             });
         }
 
