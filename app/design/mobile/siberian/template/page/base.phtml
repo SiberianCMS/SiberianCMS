@@ -27,7 +27,7 @@
         <?php $notImportant = array('background'); ?>
         <?php if($isOverview) : ?>
         <?php $notImportant = array('background', 'news', 'comments'); ?>
-        <?php foreach($application->getDesignBlocks() as $block) : ?>
+        <?php foreach($application->getBlocks() as $block) : ?>
             <?php $important = !in_array($block->getCode(), $notImportant) ? ' !important' : '' ?>
                 <style id="backgroundColor_<?php echo $block->getCode(); ?>">
                 .wrapper .<?php echo $block->getCode() ?> {
@@ -66,7 +66,7 @@
         <?php endforeach; ?>
         <?php else : ?>
         <style id="default_style">
-        <?php foreach($application->getDesignBlocks() as $block) : ?>
+        <?php foreach($application->getBlocks() as $block) : ?>
             <?php $important = !in_array($block->getCode(), $notImportant) ? ' !important' : '' ?>
                 .wrapper .<?php echo $block->getCode() ?> {
                     <?php if($block->getBackgroundColor()) : ?>background-color: <?php echo $block->getBackgroundColor(); ?><?php echo $important; ?>;<?php endif; ?>
@@ -117,7 +117,7 @@
             }
         </style>
         <style>
-            <?php $block_header = $application->getDesignBlock('header'); ?>
+            <?php $block_header = $application->getBlock('header'); ?>
             .alert .alert_content.success {
                 background-color: <?php echo $block_header->getBackgroundColor(); ?>;
                 color: <?php echo $block_header->getColor(); ?>;
@@ -129,13 +129,13 @@
 
 
             button.button.arrow_right, a.arrow_right {
-                background-image: url("<?php echo $this->getColorizedImage($this->getImage('pictos/right_arrow.png', true), $application->getDesignBlock('button')->getColor()); ?>");
+                background-image: url("<?php echo $this->getColorizedImage($this->getImage('pictos/right_arrow.png', true), $application->getBlock('button')->getColor()); ?>");
             }
             button.connect_button.arrow_right {
-                background-image: url("<?php echo $this->getColorizedImage($this->getImage('pictos/right_arrow.png', true), $application->getDesignBlock('connect_button')->getColor()); ?>");
+                background-image: url("<?php echo $this->getColorizedImage($this->getImage('pictos/right_arrow.png', true), $application->getBlock('connect_button')->getColor()); ?>");
             }
             .news .image {
-                background-image: url("<?php echo $this->getColorizedImage($this->getImage('pictos/pictures.png', true), $application->getDesignBlock('news')->getColor()); ?>");
+                background-image: url("<?php echo $this->getColorizedImage($this->getImage('pictos/pictures.png', true), $application->getBlock('news')->getColor()); ?>");
                 background-repeat:no-repeat;
                 background-position: 0 0;
                 background-size: 19px 19px;

@@ -27,27 +27,27 @@
                 </div>
                 <div class="buttons">
                     <a href="tel:<?php echo $contact->getPhone(); ?>" id="contact_phone_<?php echo $option->getId(); ?>" class="contact_links button full_width icon_left contact_us block arrow_right"<?php if(!$contact->getPhone()) : ?> style="display:none;"<?php endif; ?>>
-                        <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/phone.png', true), $application->getDesignBlock('button')->getColor()); ?>" width="21" height="21" />
+                        <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/phone.png', true), $application->getBlock('button')->getColor()); ?>" width="21" height="21" />
                         <?php echo $this->_('Phone'); ?>
                     </a>
                     <button class="button full_width icon_left locate_us arrow_right" id="contact_gmaps_<?php echo $option->getId(); ?>"<?php if(!$contact->getStreet() OR !$contact->getPostcode() OR !$contact->getCity()) : ?> style="display:none;"<?php else : ?> onclick="page.getSubpage('<?php echo $option->getId() ?>').showGoogleMaps();"<?php endif; ?>>
-                        <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/marker.png', true), $application->getDesignBlock('button')->getColor()); ?>" width="21" height="21" />
+                        <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/marker.png', true), $application->getBlock('button')->getColor()); ?>" width="21" height="21" />
                         <?php echo $this->_('Locate'); ?>
                     </button>
                     <button class="button full_width icon_left email_us arrow_right" id="contact_email_<?php echo $option->getId(); ?>"<?php if(!$contact->getEmail()) : ?> style="display:none;"<?php else : ?> onclick="showContacForm('contact_form_<?php echo $option->getId() ?>');"<?php endif; ?>>
-                        <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/envelope.png', true), $application->getDesignBlock('button')->getColor()); ?>" width="21" height="21" />
+                        <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/envelope.png', true), $application->getBlock('button')->getColor()); ?>" width="21" height="21" />
                         <?php echo $this->_('Email'); ?>
                     </button>
                     <a href="<?php echo $contact->getWebsite(); ?>" id="contact_website_<?php echo $option->getId(); ?>" class="arrow_right contact_links button full_width icon_left contact_us block"<?php if(!$contact->getWebsite()) : ?> style="display:none;"<?php endif; ?>>
-                        <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/world.png', true), $application->getDesignBlock('button')->getColor()); ?>" width="21" height="21" />
+                        <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/world.png', true), $application->getBlock('button')->getColor()); ?>" width="21" height="21" />
                         <?php echo $this->_('Website'); ?>
                     </a>
                     <a href="<?php echo $contact->getFacebook(); ?>" id="contact_facebook_<?php echo $option->getId(); ?>" class="arrow_right contact_links button full_width icon_left contact_us block"<?php if(!$contact->getFacebook()) : ?> style="display:none;"<?php endif; ?>>
-                        <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/facebook_alt.png', true), $application->getDesignBlock('button')->getColor()); ?>" width="21" height="21" />
+                        <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/facebook_alt.png', true), $application->getBlock('button')->getColor()); ?>" width="21" height="21" />
                         <?php echo $this->_('Facebook'); ?>
                     </a>
                     <a href="<?php echo $contact->getTwitter(); ?>" id="contact_twitter_<?php echo $option->getId(); ?>" class="arrow_right contact_links button full_width icon_left contact_us block"<?php if(!$contact->getTwitter()) : ?> style="display:none;"<?php endif; ?>>
-                        <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/twitter.png', true), $application->getDesignBlock('button')->getColor()); ?>" width="21" height="21" />
+                        <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/twitter.png', true), $application->getBlock('button')->getColor()); ?>" width="21" height="21" />
                         <?php echo $this->_('Twitter'); ?>
                     </a>
                 </div>

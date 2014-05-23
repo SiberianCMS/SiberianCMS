@@ -35,9 +35,9 @@
                 <div class="scroll">
                     <div class="subheader relative">
                         <div class="no-margin a-center">
-                            <img class="gift" src="<?php echo $this->getColorizedImage($this->getImage('pictos/gift.png', true), $this->getApplication()->getDesignBlock('subheader')->getColor()); ?>" alt="" title="" width="30" />
+                            <img class="gift" src="<?php echo $this->getColorizedImage($this->getImage('pictos/gift.png', true), $this->getApplication()->getBlock('subheader')->getColor()); ?>" alt="" title="" width="30" />
                             <h3 id="card_short_advantage" class="auto_resize" tolerance="90"><?php echo $current_card->getAdvantage() ?></h3>
-                            <button type="button" onclick="$('#more_details').slideToggle();" class="more"><img src="<?php echo $this->getColorizedImage($this->getImage('pictos/more.png', true), $this->getApplication()->getDesignBlock('subheader')->getColor()); ?>" alt="<?php echo $this->_("More") ?>" title="<?php echo $this->_("More") ?>" width="30" /></button>
+                            <button type="button" onclick="$('#more_details').slideToggle();" class="more"><img src="<?php echo $this->getColorizedImage($this->getImage('pictos/more.png', true), $this->getApplication()->getBlock('subheader')->getColor()); ?>" alt="<?php echo $this->_("More") ?>" title="<?php echo $this->_("More") ?>" width="30" /></button>
                         </div>
                         <div id="more_details" class="subheader" style="display: none; height:auto;">
                             <p class="details_advantage"><span id="number_of_points_for_advantage"><?php echo $this->_($current_card->getMaxNumberOfPoints() > 1 ? '%d validated points = ' : '1 validated point = ', $current_card->getMaxNumberOfPoints()) ?></span> <span id="card_advantage"><?php echo $current_card->getAdvantage() ?></span></p>
@@ -101,7 +101,7 @@
                                        if(customer.isLoggedIn()) pad.prepareLoyaltyCard(<?php echo $card->getId(); ?>, <?php echo $remaining; ?>).open();
                                        else customer.openLoginForm();"
                                    class="point loyaltycard">
-                                    <img src="<?php echo $i <= $nbr ? $this->getColorizedImage($this->getImage('buttons/point_validated.png', true), $this->getApplication()->getDesignBlock('connect_button')->getBackgroundColor()) : $this->getImage('buttons/point.png'); ?>" width="85px" />
+                                    <img src="<?php echo $i <= $nbr ? $this->getColorizedImage($this->getImage('buttons/point_validated.png', true), $this->getApplication()->getBlock('connect_button')->getBackgroundColor()) : $this->getImage('buttons/point.png'); ?>" width="85px" />
                                 </a>
                             <?php endfor; ?>
 

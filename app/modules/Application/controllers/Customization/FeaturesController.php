@@ -208,7 +208,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
                     // Charge l'option_value
                     $option_value = new Application_Model_Option_Value();
                     $option_value->find($datas['option_value_id']);
-                    $icon_color = $this->getApplication()->getDesignBlock('tabbar')->getImageColor();
+                    $icon_color = $this->getApplication()->getBlock('tabbar')->getImageColor();
 
                     $html = array(
                         'success' => 1,
@@ -265,7 +265,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
             $icon_url = $option_value->resetIconUrl()->getIconUrl(true);
             $colored_header_icon_url = $icon_url;
             if($option_value->getImage()->getCanBeColorized()) {
-                $header_color = $application->getDesignBlock('header')->getColor();
+                $header_color = $application->getBlock('header')->getColor();
                 $colored_header_icon_url = $this->getUrl('template/block/colorize', array('id' => $option_value->getIconId(), 'color' => str_replace('#', '', $header_color)));
             }
 
@@ -462,7 +462,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
                         // Charge l'option_value
                         $option_value = new Application_Model_Option_Value();
                         $option_value->find($datas['option_id']);
-                        $icon_color = $this->getApplication()->getDesignBlock('tabbar')->getImageColor();
+                        $icon_color = $this->getApplication()->getBlock('tabbar')->getImageColor();
 
                         $html = array (
                             'success' => 1,

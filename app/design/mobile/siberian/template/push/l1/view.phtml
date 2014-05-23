@@ -36,7 +36,7 @@
     <style>
         .push_notifications ul.notifs_list li.notif {
             padding: 10px 10px 10px 65px;
-            background: url('<?php echo $option->getImage()->getCanBeColorized() ? $this->getColorizedImage($option->getIconId(), $this->getApplication()->getDesignBlock('background')->getColor()) : $option->getIconUrl(); ?>') no-repeat 20px center;
+            background: url('<?php echo $option->getImage()->getCanBeColorized() ? $this->getColorizedImage($option->getIconId(), $this->getApplication()->getBlock('background')->getColor()) : $option->getIconUrl(); ?>') no-repeat 20px center;
             background-size: 25px auto;
         }
         .push_notifications ul.notifs_list li.separator {padding:0;}

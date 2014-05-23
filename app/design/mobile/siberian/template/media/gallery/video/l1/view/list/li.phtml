@@ -30,7 +30,7 @@
         <?php endif; ?>
         <div class="background title" style="">
             <div>
-            <img src="<?php echo $this->getColorizedImage($this->getCurrentOption()->getIconId(), $this->getApplication()->getDesignBlock('background')->getColor()); ?>" width="20" class="icon left" />
+            <img src="<?php echo $this->getColorizedImage($this->getCurrentOption()->getIconId(), $this->getApplication()->getBlock('background')->getColor()); ?>" width="20" class="icon left" />
             <p class="title_video">
                 <?php echo $link->getTitle(); ?>
             </p>

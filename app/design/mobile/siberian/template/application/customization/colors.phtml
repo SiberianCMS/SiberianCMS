@@ -2,10 +2,10 @@
 <div id="customize_colors" class="general">
     <div class="relative">
         <div class="subheader relative">
-            <img id="subheader_gift" class="gift" src="<?php echo $this->getColorizedImage($this->getImage('pictos/gift.png', true), $application->getDesignBlock('subheader')->getColor()); ?>" alt="" title="" width="30" height="30" />
+            <img id="subheader_gift" class="gift" src="<?php echo $this->getColorizedImage($this->getImage('pictos/gift.png', true), $application->getBlock('subheader')->getColor()); ?>" alt="" title="" width="30" height="30" />
             <div class="no-margin a-center">
                 <h3><?php echo $this->_('One free coffee') ?></h3>
-                <button type="button" class="more"><img id="subheader_more" src="<?php echo $this->getColorizedImage($this->getImage('pictos/more.png', true), $application->getDesignBlock('subheader')->getColor()); ?>" alt="<?php echo $this->_("More infos") ?>" title="<?php echo $this->_("More infos") ?>" width="35" height="35" /></button>
+                <button type="button" class="more"><img id="subheader_more" src="<?php echo $this->getColorizedImage($this->getImage('pictos/more.png', true), $application->getBlock('subheader')->getColor()); ?>" alt="<?php echo $this->_("More infos") ?>" title="<?php echo $this->_("More infos") ?>" width="35" height="35" /></button>
                 <div class="clear"></div>
             </div>
         </div>
@@ -76,15 +76,15 @@
                     <div class="clear"></div>
                     <div class="comment_metas">
                         <span class="comments_date left">
-                            <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/pencil.png', true), $this->getApplication()->getDesignBlock('subheader')->getColor()); ?>" id="picto_date" alt="" style="vertical-align:bottom" width="13px" height="10px"/>
+                            <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/pencil.png', true), $this->getApplication()->getBlock('subheader')->getColor()); ?>" id="picto_date" alt="" style="vertical-align:bottom" width="13px" height="10px"/>
                             <?php echo Zend_Date::now()->toString($this->_('MM/dd/y')) ?>
                         </span>
                         <span class="comments_count right">
-                            <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/comment.png', true), $this->getApplication()->getDesignBlock('subheader')->getColor()); ?>" id="picto_comment" alt="<?php echo $this->_('Coms') ?>" style="vertical-align:bottom" width="13px" height="10px" />
+                            <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/comment.png', true), $this->getApplication()->getBlock('subheader')->getColor()); ?>" id="picto_comment" alt="<?php echo $this->_('Coms') ?>" style="vertical-align:bottom" width="13px" height="10px" />
                             1
                         </span>
                         <span class="likes_count right">
-                            <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/like.png', true), $this->getApplication()->getDesignBlock('subheader')->getColor()); ?>" id="picto_like" alt="<?php echo $this->_('Likes') ?>" style="vertical-align:bottom" width="13px" height="12px" />
+                            <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/like.png', true), $this->getApplication()->getBlock('subheader')->getColor()); ?>" id="picto_like" alt="<?php echo $this->_('Likes') ?>" style="vertical-align:bottom" width="13px" height="12px" />
                             12
                         </span>
                         <div class="clear"></div>
@@ -99,11 +99,11 @@
                     </p>
                     <div class="a-center add_comment">
                         <button type="button" class="button icon_left">
-                            <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/comment.png', true), $application->getDesignBlock('button')->getColor()); ?>" id="button_comment" width="25" height="20" />
+                            <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/comment.png', true), $application->getBlock('button')->getColor()); ?>" id="button_comment" width="25" height="20" />
                             <?php echo $this->_('Comment'); ?>
                         </button>
                         <button type="button" class="button icon_left">
-                            <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/like.png', true), $application->getDesignBlock('button')->getColor()); ?>" id="button_like" width="25" height="20" />
+                            <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/like.png', true), $application->getBlock('button')->getColor()); ?>" id="button_like" width="25" height="20" />
                             <?php echo $this->_('Like'); ?>
                         </button>
                     </div>

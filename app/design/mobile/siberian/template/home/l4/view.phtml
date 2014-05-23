@@ -37,7 +37,7 @@
             <a href="javascript:void(0)" id="tabbar_item_customer_account" class="item" onclick="customer.openLoginForm();" rel="customer_account">
                 <div class="relative">
                     <div class="tabbar border-color">
-                        <img src="<?php echo $this->getColorizedImage($option_value->getBaseIconUrl(), $application->getDesignBlock('tabbar')->getImageColor()); ?>" class="colorable" alt="" title="" width="45" height="45" />
+                        <img src="<?php echo $this->getColorizedImage($option_value->getBaseIconUrl(), $application->getBlock('tabbar')->getImageColor()); ?>" class="colorable" alt="" title="" width="45" height="45" />
                     </div>
                     <span id="tabbar_name_customer_account" class="tabbar no-background tabbar_name_customer_account block"><?php echo $application->getShortTabbarAccountName() ?></span>
                 </div>
@@ -60,7 +60,8 @@
         if(typeof Android != "undefined") {
             $('#tabbar').find('a.item[attr-link]').each(function() {
                 var href = $(this).attr('href');
-                $(this).attr('href', href+'?webview=1');
+                href += /\?/.test(this.search) ? "&webview=1" : "?webivew=1";
+                $(this).attr('href', href);
             });
         }
 

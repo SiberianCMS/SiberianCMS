@@ -147,7 +147,7 @@
         if($('#colorize_picture').is(':checked')) {
             old_image = $('#picture_cont > img').attr('src');
             var image_url = '<?php echo $this->getPicture() ?>';
-            var color = '<?php echo $this->getApplication()->getDesignBlock('tabbar')->getImageColor(); ?>';
+            var color = '<?php echo $this->getApplication()->getBlock('tabbar')->getImageColor(); ?>';
             color = color.replace('#','');
             var colorized_image = '<?php echo $this->getUrl("template/block/colorize") ?>/option_value_id/'+'<?php echo $this->getOptionId(); ?>'+'/url/'+image_url+'/color/'+color;
             jcrop_api.destroy();

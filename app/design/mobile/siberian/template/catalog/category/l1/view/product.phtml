@@ -13,7 +13,7 @@
         <?php else : ?>
         <?php $category_id = $this->getCategory() ? $this->getCategory()->getId() : 0; ?>
         <button type="button" class="show_formats">
-            <img src="<?php echo $this->getColorizedImage($this->getImage('buttons/more.png', true), $this->getApplication()->getDesignBlock('background')->getColor()); ?>" alt="<?php echo $this->_("More") ?>" title="<?php echo $this->_("More") ?>" width="32" />
+            <img src="<?php echo $this->getColorizedImage($this->getImage('buttons/more.png', true), $this->getApplication()->getBlock('background')->getColor()); ?>" alt="<?php echo $this->_("More") ?>" title="<?php echo $this->_("More") ?>" width="32" />
         </button>
         <div id="product_formats_<?php echo $product->getId(); ?>" class="product_formats">
             <?php foreach($product->getType()->getOptions() as $option) : ?>

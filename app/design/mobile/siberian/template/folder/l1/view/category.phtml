@@ -91,6 +91,15 @@
 
     var subpage = page.getSubpage('<?php echo $this->getId(); ?>');
     if(subpage) {
+        
+        if(typeof Android != "undefined") {
+            $('#multipage_scrollview_<?php echo $current_category->getCategoryId() ?>').find('a[attr-link]').each(function() {
+                var href = $(this).attr('href');
+                href += /\?/.test(this.search) ? "&webview=1" : "?webivew=1";
+                $(this).attr('href', href);
+            });
+        }
+
         subpage.parent_id = null;
         subpage.parent_id = '<?php echo $current_category->getId() == $option->getObject()->getRootCategoryId() ? '' : $current_category->getParentId() == $option->getObject()->getRootCategoryId() ? $option->getId() : 'subcategory_'.$current_category->getParentId() ?>';
 

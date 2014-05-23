@@ -11,7 +11,7 @@
     <?php endif; ?>
 </div>
 <div id="tabbar_items" class="tabbar_items tabbar l1 animated toBottom">
-    <?php $block = $application->getDesignBlock('tabbar'); ?>
+    <?php $block = $application->getBlock('tabbar'); ?>
     <?php $base_path_image_link = Core_Model_Directory::getBasePathTo($block->getImageLink()) ?>
     <?php $url = $block->getImageLink() != '' && is_dir($base_path_image_link) && glob($base_path_image_link.'/*') ? $block->getImageLink() : $this->getImage('tabs') ?>
     <ul id="tabbar" class="tabbar_l1">
@@ -38,7 +38,7 @@
         <?php $option_value->findTabbarMore(); ?>
         <li id="more_items" style="display:none;">
             <a href="javascript:void(0)" id="tabbar_item_more_items" class="item" onclick="javascript:tabbar.showAllItems(); return false;" rel="more_items">
-                <img id="icon_more" src="<?php echo $this->getColorizedImage($option_value->getBaseIconUrl(), $application->getDesignBlock('tabbar')->getImageColor()); ?>" class="colorable" alt="" title="" width="30" height="30" />
+                <img id="icon_more" src="<?php echo $this->getColorizedImage($option_value->getBaseIconUrl(), $application->getBlock('tabbar')->getImageColor()); ?>" class="colorable" alt="" title="" width="30" height="30" />
                 <span id="tabbar_name_more_items" class="tabbar_name_more_items block"><?php echo $application->getShortTabbarMoreName() ?></span>
             </a>
         </li>
@@ -53,7 +53,8 @@
         if(typeof Android != "undefined") {
             $('#tabbar').find('a.item[attr-link]').each(function() {
                 var href = $(this).attr('href');
-                $(this).attr('href', href+'?webview=1');
+                href += /\?/.test(this.search) ? "&webview=1" : "?webivew=1";
+                $(this).attr('href', href);
             });
         }
 

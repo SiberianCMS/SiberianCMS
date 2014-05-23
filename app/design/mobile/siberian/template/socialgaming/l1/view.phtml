@@ -9,7 +9,7 @@
 
 <div id="socialgaming" class="socialgaming">
     <div id="game_scrollview" class="relative" rel="<?php echo $option->getId(); ?>">
-        <?php $block = $app->getDesignBlock('header'); ?>
+        <?php $block = $app->getBlock('header'); ?>
         <ul id="players_list">
             <li class="header header"><span><?php echo $periodName ?></span></li>
             <li class="separator"></li>
@@ -29,7 +29,7 @@
                     <p class="challenger_name left"><?php echo $team_leader->getFirstname(). ' ' . substr($team_leader->getLastname(), 0, 1) . '.'; ?></p>
                     <p class="number_of_points right">
                         <span class="left"><?php echo sprintf($team_leader->getNumberOfPoints() . ' point%s', $team_leader->getNumberOfPoints() > 1 ? 's' : ''); ?></span>
-                        <img src="<?php echo $this->getColorizedImage($option->getIconId(), $this->getApplication()->getDesignBlock('background')->getColor()); ?>" class="right" width="24" />
+                        <img src="<?php echo $this->getColorizedImage($option->getIconId(), $this->getApplication()->getBlock('background')->getColor()); ?>" class="right" width="24" />
                     </p>
                     <div class="clear"></div>
                 </div>

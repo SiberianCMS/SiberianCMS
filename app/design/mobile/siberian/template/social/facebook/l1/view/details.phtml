@@ -1,8 +1,8 @@
 <?php $option = $this->getCurrentOptionValue(); ?>
 <?php $application = $this->getApplication(); ?>
 <?php $post = $this->getCurrentPost(); ?>
-<?php $block_subheader = $application->getDesignBlock('subheader'); ?>
-<?php $block_button = $application->getDesignBlock('button'); ?>
+<?php $block_subheader = $application->getBlock('subheader'); ?>
+<?php $block_button = $application->getBlock('button'); ?>
 
 <div>
     <div id="scrolview_facebook_post_<?php echo $post->getId() ?>" class="new_details relative comment_details_<?php echo $option->getId(); ?> news<?php if($option->getBackgroundImage()) : ?> _no-background<?php endif; ?>" rel="facebook_post_<?php echo $option->getId(); ?>_<?php echo $post->getId(); ?>">

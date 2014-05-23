@@ -10,7 +10,7 @@
             </div>
 
             <button id="cms_geolocation_button_<?php echo $block->getPosition(); ?>" class="button full_width icon_left locate_us arrow_right"<?php if(!$block->getAddress()) : ?> style="display:none;"<?php else : ?> onclick="page.showGoogleMaps('<?php echo addslashes(preg_replace( "#\n|\r|\r\n#", ' ', $block->getAddress())); ?>');"<?php endif; ?><?php if(!$block->getShowGeolocationButton()) : ?> style="display:none;"<?php endif; ?>>
-                <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/marker.png', true), $this->getApplication()->getDesignBlock('button')->getColor()); ?>" width="21" height="21" />
+                <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/marker.png', true), $this->getApplication()->getBlock('button')->getColor()); ?>" width="21" height="21" />
                 <?php echo $this->_('Locate'); ?>
             </button>
         </div>

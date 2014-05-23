@@ -20,12 +20,12 @@
         </div>
         <div class="buttons">
             <button class="button icon_left locate_us arrow_right" id="event_gmaps"<?php if(empty($event['location'])) : ?> style="display:none;"<?php else : ?> onclick="page.showGoogleMaps('<?php echo addslashes($event['location']); ?>');"<?php endif; ?>>
-                <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/marker.png', true), $application->getDesignBlock('button')->getColor()); ?>" width="21" height="21" />
+                <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/marker.png', true), $application->getBlock('button')->getColor()); ?>" width="21" height="21" />
                 <?php echo $this->_('Locate'); ?>
             </button>
             <br />
             <button id="rsvp"<?php if(!$this->getRequest()->getParam('overview')) : ?> onclick="javascript:window.location='<?php echo $event['rsvp']; ?>';" <?php endif; ?> class="arrow_right contact_links button icon_left contact_us block"<?php if(empty($event['rsvp'])) : ?> style="display:none;"<?php endif; ?>>
-                <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/world.png', true), $application->getDesignBlock('button')->getColor()); ?>" width="21" height="21" />
+                <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/world.png', true), $application->getBlock('button')->getColor()); ?>" width="21" height="21" />
                 <?php echo $this->_('RSVP'); ?>
             </button>
         </div>

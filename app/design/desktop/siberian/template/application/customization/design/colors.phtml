@@ -1,5 +1,5 @@
-<?php $blocks = $this->getApplication()->getDesignBlocks(); ?>
-<?php $tabbar_block = $this->getApplication()->getDesignBlock('tabbar'); ?>
+<?php $blocks = $this->getApplication()->getBlocks(); ?>
+<?php $tabbar_block = $this->getApplication()->getBlock('tabbar'); ?>
 <div class="colors">
     <form id="colorsForm" action="<?php echo $this->getUrl('application/customization_design_colors/save'); ?>" method="post">
         <div id="colors">

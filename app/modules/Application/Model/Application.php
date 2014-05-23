@@ -119,7 +119,7 @@ class Application_Model_Application extends Core_Model_Default {
 
     }
 
-    public function getDesignBlocks() {
+    public function getBlocks() {
 
         $block = new Template_Model_Block();
         if(empty($this->_design_blocks)) {
@@ -135,9 +135,9 @@ class Application_Model_Application extends Core_Model_Default {
         return $this->_design_blocks;
     }
 
-    public function getDesignBlock($code) {
+    public function getBlock($code) {
 
-        $blocks = $this->getDesignBlocks();
+        $blocks = $this->getBlocks();
 
         foreach($blocks as $block) {
             if($block->getCode() == $code) return $block;
@@ -146,7 +146,7 @@ class Application_Model_Application extends Core_Model_Default {
         return;
     }
 
-    public function setDesignBlocks($blocks) {
+    public function setBlocks($blocks) {
         $this->_design_blocks = $blocks;
         return $this;
     }
@@ -205,7 +205,7 @@ class Application_Model_Application extends Core_Model_Default {
             $this->_pages = $option->findAll(array('remove_folder' => new Zend_Db_Expr('folder_category_id IS NULL'), 'is_visible' => 1/*, '`aov`.`is_active`' => 1*/));
         }
         if($this->_pages->count() == 0 AND $samples > 0) {
-            $color = str_replace('#', '', $this->getDesignBlock('tabbar')->getImageColor());
+            $color = str_replace('#', '', $this->getBlock('tabbar')->getImageColor());
             $dummy = new Application_Model_Option();
             $dummy->find('newswall', 'code');
             $dummy->setTabbarName('Sample')

@@ -25,16 +25,16 @@
     <?php endif; ?>
     <div class="comment_metas">
         <span class="comments_date left">
-            <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/pencil.png', true), $this->getApplication()->getDesignBlock('news')->getColor()); ?>" alt="" style="vertical-align:bottom" width="13" height="10px"/>
+            <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/pencil.png', true), $this->getApplication()->getBlock('news')->getColor()); ?>" alt="" style="vertical-align:bottom" width="13" height="10px"/>
             <?php echo $comment->getFormattedCreatedAt($this->_('MM/dd/y')) ?>
         </span>
         <span class="comments_count right ">
-            <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/comment.png', true), $this->getApplication()->getDesignBlock('news')->getColor()); ?>" alt="" style="vertical-align:bottom" width="13" />
+            <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/comment.png', true), $this->getApplication()->getBlock('news')->getColor()); ?>" alt="" style="vertical-align:bottom" width="13" />
             <?php $answers = $comment->getAnswers(); ?>
             <?php echo count($answers) ?>
         </span>
         <span class="likes_count right">
-            <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/like.png', true), $this->getApplication()->getDesignBlock('news')->getColor()); ?>" alt="<?php echo $this->_('Likes') ?>" style="vertical-align:bottom" width="13" height="12px" />
+            <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/like.png', true), $this->getApplication()->getBlock('news')->getColor()); ?>" alt="<?php echo $this->_('Likes') ?>" style="vertical-align:bottom" width="13" height="12px" />
             <?php $likes = $comment->getLikes(); ?>
             <?php echo count($likes) ?>
         </span>

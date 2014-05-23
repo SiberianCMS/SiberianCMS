@@ -2,7 +2,7 @@
 <?php $is_overview = $this->getRequest()->getParam('overview'); ?>
 <?php $isLoggedIn = $this->getSession()->isLoggedIn('customer'); ?>
 <?php $option_values = $this->getOptionValues(); ?>
-<?php $icon_color = $this->getApplication()->getDesignBlock('tabbar')->getImageColor(); ?>
+<?php $icon_color = $this->getApplication()->getBlock('tabbar')->getImageColor(); ?>
 <div id="scrollview_tabbar_items" class="tabbar animated toBottom" style="display:none;">
     <ul>
         <?php foreach($option_values as $k => $option_value) : ?>

@@ -13,7 +13,7 @@
                                     <?php if($this->getApplication()->getFacebookId() AND $this->getApplication()->getFacebookKey()) : ?>
                                     <div id="fbButton" class="align-center">
                                         <a class="fb_login block" id="facebook" href="javascript:void(0);" onclick="javascript:facebook.login(); return false;">
-                                            <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/facebook.png', true), $this->getApplication()->getDesignBlock('background')->getColor()); ?>" width="64" height="64" />
+                                            <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/facebook.png', true), $this->getApplication()->getBlock('background')->getColor()); ?>" width="64" height="64" />
                                         </a>
                                     </div>
                                     <br />

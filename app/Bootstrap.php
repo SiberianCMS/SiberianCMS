@@ -248,7 +248,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
     protected function _prepareBlocks() {
         if($this->_request->isApplication()) {
-            Core_View_Mobile_Default::setBlocks(Application_Model_Application::getInstance()->getDesignBlocks());
+            Core_View_Mobile_Default::setBlocks(Application_Model_Application::getInstance()->getBlocks());
         }
     }
 
