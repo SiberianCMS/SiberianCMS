@@ -75,7 +75,8 @@ class Media_Model_Gallery_Image_Picasa extends Media_Model_Gallery_Image_Abstrac
 
             try {
                 if(empty($offset)) $offset = 0;
-                $orig_offset = $offset;
+                else $offset += 1;
+//                $orig_offset = $offset;
                 $this->_setPicasaUrl($offset);
                 $feed = Zend_Feed_Reader::import($this->getLink());
             }
@@ -88,7 +89,7 @@ class Media_Model_Gallery_Image_Picasa extends Media_Model_Gallery_Image_Abstrac
                 /**
                 * @bug Solution provisoire en attendant que Google règle le problème du start-index
                 */
-                if($key < $offset) continue;
+//                if($key < $offset) continue;
                 $author = $entry->getAuthor();
                 $image = '';
                 foreach($entry->getElement()->getElementsByTagName('content') as $content) {
@@ -107,7 +108,7 @@ class Media_Model_Gallery_Image_Picasa extends Media_Model_Gallery_Image_Abstrac
                 /**
                 * @bug Solution provisoire en attendant que Google règle le problème du start-index
                 */
-                if($offset >= $orig_offset + self::MAX_RESULTS) break;
+//                if($offset >= $orig_offset + self::MAX_RESULTS) break;
             }
 
         }
@@ -120,8 +121,8 @@ class Media_Model_Gallery_Image_Picasa extends Media_Model_Gallery_Image_Abstrac
         $url = str_replace('%s', $this->getParam(), $this->_flux[$this->getType()]);
         $url = str_replace('%ai', $this->getAlbumId() ? 'albumid/'.$this->getAlbumId().'/' : '', $url);
         $url = str_replace('%d1', $offset, $url);
-//        $url = str_replace('%d2', self::MAX_RESULTS, $url);
-        $url = str_replace('%d2', 100, $url);
+        $url = str_replace('%d2', self::MAX_RESULTS, $url);
+//        $url = str_replace('%d2', 100, $url);
         $this->setLink($url);
         return $this;
     }
