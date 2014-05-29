@@ -4,3 +4,8 @@
 /var/cache/*
 /var/session/*
 .DS_Store
+/.htaccess
+/.gitignore
+/index.php
+/images/application
+/var/apps/iphone/certificates/
