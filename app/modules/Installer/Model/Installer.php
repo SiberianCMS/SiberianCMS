@@ -8,13 +8,18 @@ class Installer_Model_Installer extends Core_Model_Default {
     }
 
     public static function isInstalled() {
-        $ini = new Zend_Config_Ini(APPLICATION_PATH . '/configs/app.ini', APPLICATION_ENV);
+
         $isInstalled = false;
         try {
-            $isInstalled = !empty($ini->resources->db->params->host) && Application_Model_Application::getInstance()->getId() && is_file(Core_Model_Directory::getBasePathTo('.htaccess'));
+            if(!file_exists(APPLICATION_PATH . '/configs/app.ini')) {
+                throw new Exception('');
+            }
+            $ini = new Zend_Config_Ini(APPLICATION_PATH . '/configs/app.ini', APPLICATION_ENV);
+            $isInstalled = (bool) $ini->isInstalled;
         } catch (Exception $e) {
             $isInstalled = false;
         }
+
         return $isInstalled;
     }
 
@@ -64,7 +69,7 @@ class Installer_Model_Installer extends Core_Model_Default {
             "app/design/email",
             "images",
             "app/configs",
-            "app/configs/app.ini"
+            "app/configs/app.sample.ini"
         );
 
         foreach($paths as $path) {
@@ -82,6 +87,32 @@ class Installer_Model_Installer extends Core_Model_Default {
             ->install()
         ;
         return $this;
+    }
+
+    public static function setIsInstalled() {
+
+        if(self::isInstalled()) {
+            return;
+        }
+
+        try {
+
+            $writer = new Zend_Config_Writer_Ini();
+
+            $config = new Zend_Config_Ini(APPLICATION_PATH . '/configs/app.ini', null, array('skipExtends' => true, 'allowModifications' => true));
+            $config->production->isInstalled = "1";
+
+            $writer->setConfig($config)
+                ->setFilename(APPLICATION_PATH . '/configs/app.ini')
+                ->write()
+            ;
+
+            return true;
+
+        } catch (Exception $e) {
+            return false;
+        }
+
     }
 
 }

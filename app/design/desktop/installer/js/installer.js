@@ -168,9 +168,13 @@ var installer = {
         for(var i=1;i<this.current_step_id;i++) delete this.steps[i];
 //        this.checkButtons();
         $('#installation_progress').hide();
-        $('#installation_successful').fadeIn();
-        this.is_installed = true;
-        setTimeout(this.nextStep.bind(this), 3000);
+        $('#installation_ending').fadeIn();
+        $.get('installer/installation/end', function() {
+            this.is_installed = true;
+            $('#installation_ending').hide();
+            $('#installation_successful').fadeIn();
+            setTimeout(this.nextStep.bind(this), 3000);
+        }.bind(this));
     },
     createAdmin: function() {
 

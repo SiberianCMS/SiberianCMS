@@ -70,6 +70,8 @@ class Installer_ModuleController extends Admin_Controller_Default {
                 if($parser->setFile($file['module']['tmp_name'])->check()) {
                     $infos = pathinfo($file['module']['tmp_name']);
                     $filename = $infos['filename'];
+                    // Backward compatibility
+                    Installer_Model_Installer::setIsInstalled();
                     $this->_redirect('installer/module/install', array('module_name' => $filename));
                 } else {
                     $messages = $parser->getErrors();

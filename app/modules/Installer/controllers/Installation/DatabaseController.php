@@ -84,6 +84,10 @@ class Installer_Installation_DatabaseController extends Installer_Controller_Ins
 
             try {
                 $writer = new Zend_Config_Writer_Ini();
+
+                if(!@copy(APPLICATION_PATH . '/configs/app.sample.ini', APPLICATION_PATH . '/configs/app.ini')) {
+                    throw new Exception("The file /app/configs/app.ini is not writable. Please check the write permissions of the /app/configs folder and try again.");
+                }
                 $config = new Zend_Config_Ini(APPLICATION_PATH . '/configs/app.ini', null, array('skipExtends' => true, 'allowModifications' => true));
                 $config->production->resources->db->params->host = $params['host'];
                 $config->production->resources->db->params->dbname = $params['dbname'];
