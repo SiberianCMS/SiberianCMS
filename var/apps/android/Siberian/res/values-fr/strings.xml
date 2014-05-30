@@ -22,8 +22,8 @@
     <string name="options_exit">Exit</string>
     <string name="ok">Ok</string>
     <string name="load_message">Chargement. Veuillez patienter...</string>
-	<string name="quit_message">Etes-vous sûr de vouloir quitter l\'application ?</string>
-	<string name="yes">Oui</string>
-	<string name="no">Non</string>
-	<string name="no_internet_connection">Merci de vous connecter à internet afin d\'accéder à l\'application</string>
+    <string name="quit_message">Etes-vous sûr de vouloir quitter l\'application ?</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
+    <string name="no_internet_connection">Merci de vous connecter à internet afin d\'accéder à l\'application</string>
 </resources>

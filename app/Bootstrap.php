@@ -26,13 +26,12 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
         $old_htaccess = Core_Model_Directory::getBasePathTo('htaccess.txt');
         $new_htaccess = Core_Model_Directory::getBasePathTo('.htaccess');
-        if(is_file($old_htaccess) AND is_writable($old_htaccess) AND is_writable(Core_Model_Directory::getBasePathTo())) {
+        if(!file_exists($new_htaccess) AND is_readable($old_htaccess) AND is_writable(Core_Model_Directory::getBasePathTo())) {
             $content = file_get_contents($old_htaccess);
             $content = str_replace('# ${RewriteBase}', 'RewriteBase '.Core_Model_Directory::getPathTo(), $content);
             $htaccess = fopen($new_htaccess, 'w');
             fputs($htaccess, $content);
             fclose($htaccess);
-            unlink($old_htaccess);
         }
 
     }
