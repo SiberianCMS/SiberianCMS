@@ -167,7 +167,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             $locale = Application_Model_Application::getInstance()->getLocale();
         }
         if(empty($locale)) {
-            $locale = Core_Model_Language::DEFAULT_LOCALE;
+            $locale = Core_Model_Language::getCurrentLanguage();
         }
 
         Zend_Registry::set('Zend_Locale', new Zend_Locale($locale));
