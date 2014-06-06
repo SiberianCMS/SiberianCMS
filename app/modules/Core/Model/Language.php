@@ -18,9 +18,11 @@ class Core_Model_Language extends Core_Model_Default {
         foreach($directories as $directory) {
             $dir_name = $directory->getFileName();
             if(!$directory->isDot() AND isset($territories[$dir_name])) {
+                $locale = Zend_Locale::getLocaleToTerritory($dir_name);
                 self::$_languages[$directory->getFileName()] = new Core_Model_Default(array(
                     'code' => $directory->getFileName(),
                     'name' => ucfirst($territories[$dir_name]),
+                    'locale' => $locale,
                 ));
                 self::$_language_codes[] = $directory->getFileName();
             }
@@ -28,7 +30,9 @@ class Core_Model_Language extends Core_Model_Default {
         self::$_languages[self::DEFAULT_LANGUAGE] = new Core_Model_Default(array(
             'code' => self::DEFAULT_LANGUAGE,
             'name' => ucfirst($territories[self::DEFAULT_LANGUAGE]),
+            'locale' => self::DEFAULT_LOCALE
         ));
+
         self::$_language_codes[] = self::DEFAULT_LANGUAGE;
 
         asort(self::$_languages);
@@ -47,12 +51,20 @@ class Core_Model_Language extends Core_Model_Default {
         return self::$_languages;
     }
 
+    public static function getLanguage($language_code) {
+        return isset(self::$_languages[$language_code]) ? self::$_languages[$language_code] : array();
+    }
+
     public static function getLanguageCodes() {
         return self::$_language_codes;
     }
 
     public static function getDefaultLanguage() {
         return self::DEFAULT_LANGUAGE;
+    }
+
+    public static function getDefaultLocale() {
+        return self::DEFAULT_LOCALE;
     }
 
     public static function setCurrentLanguage($territory) {
@@ -68,6 +80,11 @@ class Core_Model_Language extends Core_Model_Default {
         }
 
         return $current_language;
+    }
+
+    public static function getCurrentLocale() {
+        $language = self::getLanguage(self::getCurrentLanguage());
+        return $language->getLocale() ? $language->getLocale() : self::getDefaultLocale();
     }
 
     public static function getCurrentLocaleCode() {

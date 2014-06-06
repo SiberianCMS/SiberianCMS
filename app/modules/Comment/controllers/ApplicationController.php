@@ -86,7 +86,7 @@ class Comment_ApplicationController extends Application_Controller_Default
                 $comment->find($id)->setisVisible(0)->save();
                 $html = array(
                     'success' => '1',
-                    'success_message' => $this->_('Information successfully showed'),
+                    'success_message' => $this->_('Information successfully hidden'),
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0
@@ -109,7 +109,7 @@ class Comment_ApplicationController extends Application_Controller_Default
                 $comment->find($id)->setisVisible(1)->save();
                 $html = array(
                     'success' => '1',
-                    'success_message' => $this->_('Information successfully hidden'),
+                    'success_message' => $this->_('Information successfully shown'),
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0

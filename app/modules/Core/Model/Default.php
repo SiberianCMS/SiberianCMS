@@ -170,6 +170,8 @@ class Core_Model_Default
             $this->setData($this->getTable()->getPrimaryKey(), $id)
                 ->setData('id', $id)
             ;
+        } else {
+            $this->addData('id', $id);
         }
 
         return $this;
@@ -214,6 +216,7 @@ class Core_Model_Default
     public function delete() {
         if($row = $this->_createRow() AND $row->getId()) {
             $row->delete();
+            $this->unsData();
         }
         return $this;
     }
