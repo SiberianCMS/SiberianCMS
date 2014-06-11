@@ -64,10 +64,10 @@ class Application_Model_Device_Android extends Core_Model_Default {
         // Renomme le dossier
         $src = $this->_dst.'/src/com/siberian';
         $dst = $this->_dst.'/src/com/'.$this->_formatted_bundle_name;
-        shell_exec('mv "'.$src.'" "'.$dst.'"');
+        rename($src, $dst);
         $dst1 = $this->_dst.'/src/com/'.$this->_formatted_bundle_name.'/app';
         $dst2 = $this->_dst.'/src/com/'.$this->_formatted_bundle_name.'/'.$this->_formatted_name;
-        shell_exec('mv "'.$dst1.'" "'.$dst2.'"');
+        rename($dst1, $dst2);
 
         return $this;
 
@@ -136,7 +136,7 @@ class Application_Model_Device_Android extends Core_Model_Default {
             $application->getIcon(50, null, true)  => $this->_dst .'/res/drawable-xhdpi/push_icon.png',
             $application->getIcon(512, null, true) => $this->_dst .'/app_icon.png',
         );
-        
+
         foreach($icons as $icon_src => $icon_dst) {
             if(!@copy($icon_src, $icon_dst)) {
                 throw new Exception($this->_('An error occured while copying your app icon. Please check the icon, try to send it again and try again.'));
