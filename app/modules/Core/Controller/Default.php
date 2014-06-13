@@ -8,6 +8,11 @@ class Core_Controller_Default extends Zend_Controller_Action
 
     public function init() {
 
+        $this->_initSession();
+
+        $this->_initLanguage();
+        $this->_initLocale();
+
         if($url = $this->_needToBeRedirected()) {
             $this->_redirect($url, $this->getRequest()->getParams());
             return $this;
@@ -54,7 +59,7 @@ class Core_Controller_Default extends Zend_Controller_Action
     }
 
     public function getSession($type = 'front') {
-        return self::$_session[$type];
+        return isset(self::$_session[$type]) ? self::$_session[$type] : null;
     }
 
     public static function setSession($session, $type = 'front') {
