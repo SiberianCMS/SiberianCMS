@@ -19,6 +19,8 @@
 		<dict>
 			<key>CFBundleIconFiles</key>
 			<array>
+				<string>SpotlightIcon-iOS7</string>
+				<string>SpotlightIcon</string>
 				<string>TouchIcon-iOS7</string>
 				<string>Touch</string>
 				<string>Default</string>

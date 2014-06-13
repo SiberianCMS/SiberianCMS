@@ -70,17 +70,20 @@ class Core_Model_Directory
 
     public static function move($src, $dst) {
 
-        $src = new DirectoryIterator($src);
+        $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($src), RecursiveIteratorIterator::SELF_FIRST);
 
-        foreach($src as $file) {
-            if($file->isDot()) continue;
-            else if($file->isDir()) {
-                mkdir($dst.'/'.$file->getFileName());
-                self::move($file->getRealPath(), $dst.'/'.$file->getFileName());
-            } else if($file->isFile()) {
-                rename($file->getRealPath(), $dst.'/'.$file->getFileName());
+        foreach($files as $file) {
+
+            $basepath = $dst.str_replace($src, '', $file->getPath());
+            if(!is_dir($basepath)) {
+                mkdir($basepath, 0775, true);
             }
+
+            copy($file->getRealpath(), $basepath.'/'.$file->getFilename());
+
         }
+
+        self::delete($src);
 
     }
 
@@ -97,6 +100,35 @@ class Core_Model_Directory
                 copy($file->getRealPath(), $dst.'/'.$file->getFileName());
             }
         }
+
+    }
+
+    public static function zip($source, $destination) {
+
+        $zip = new ZipArchive();
+        if (!$zip->open($destination, ZIPARCHIVE::CREATE)) {
+            return false;
+        }
+
+        if (is_dir($source) === true) {
+
+            $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source), RecursiveIteratorIterator::SELF_FIRST);
+            foreach ($files as $file) {
+
+                $basepath = $file->getRealpath();
+                $path = str_replace($source.'/', '', $basepath);
+                if ($file->isDir()) {
+                    $zip->addEmptyDir($path);
+                }
+                else if($file->isFile()) {
+                    $zip->addFromString($path, file_get_contents($basepath));
+                }
+            }
+        }
+
+        $zip->close();
+
+        return $zip;
 
     }
 

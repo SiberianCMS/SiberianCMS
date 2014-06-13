@@ -38,6 +38,9 @@
 		F5A52FBA179D59F60099BFF4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F5A52FB8179D59F60099BFF4 /* Localizable.strings */; };
 		F5A52FE3179D7B8E0099BFF4 /* mapsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F5A52FE2179D7B8E0099BFF4 /* mapsViewController.xib */; };
 		F5A882E61896AB1A004834A4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F5A882E41896AB1A004834A4 /* Localizable.strings */; };
+		F5BE12FD194A0BD400A2B81D /* SpotlightIcon-iOS7.png in Resources */ = {isa = PBXBuildFile; fileRef = F5BE12FA194A0BD400A2B81D /* SpotlightIcon-iOS7.png */; };
+		F5BE12FE194A0BD400A2B81D /* SpotlightIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = F5BE12FB194A0BD400A2B81D /* SpotlightIcon.png */; };
+		F5BE12FF194A0BD400A2B81D /* SpotlightIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5BE12FC194A0BD400A2B81D /* SpotlightIcon@2x.png */; };
 		F5BEB8661602357E00DA0F29 /* mapsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5BEB8641602357E00DA0F29 /* mapsViewController.m */; };
 		F5CEB4AC1612E67F00FBABCD /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5CEB4AB1612E67F00FBABCD /* Accounts.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		F5D18EF718965F03004CBA06 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5D18EF618965F03004CBA06 /* CoreAudio.framework */; };
@@ -105,6 +108,9 @@
 		F5A52FE2179D7B8E0099BFF4 /* mapsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = mapsViewController.xib; path = Modals/Restaurant/mapsViewController.xib; sourceTree = "<group>"; };
 		F5A882E51896AB1A004834A4 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = Localizable.strings; sourceTree = "<group>"; };
 		F5B6A432163EBE0D00ECCE5A /* PassKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PassKit.framework; path = System/Library/Frameworks/PassKit.framework; sourceTree = SDKROOT; };
+		F5BE12FA194A0BD400A2B81D /* SpotlightIcon-iOS7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "SpotlightIcon-iOS7.png"; path = "TouchIcon/SpotlightIcon-iOS7.png"; sourceTree = "<group>"; };
+		F5BE12FB194A0BD400A2B81D /* SpotlightIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SpotlightIcon.png; path = TouchIcon/SpotlightIcon.png; sourceTree = "<group>"; };
+		F5BE12FC194A0BD400A2B81D /* SpotlightIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "SpotlightIcon@2x.png"; path = "TouchIcon/SpotlightIcon@2x.png"; sourceTree = "<group>"; };
 		F5BEB8631602357E00DA0F29 /* mapsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mapsViewController.h; path = Modals/Restaurant/mapsViewController.h; sourceTree = "<group>"; };
 		F5BEB8641602357E00DA0F29 /* mapsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = mapsViewController.m; path = Modals/Restaurant/mapsViewController.m; sourceTree = "<group>"; };
 		F5CEB4AB1612E67F00FBABCD /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
@@ -302,6 +308,9 @@
 		F57D22F215778BFA00C97916 /* TouchIcon */ = {
 			isa = PBXGroup;
 			children = (
+				F5BE12FA194A0BD400A2B81D /* SpotlightIcon-iOS7.png */,
+				F5BE12FB194A0BD400A2B81D /* SpotlightIcon.png */,
+				F5BE12FC194A0BD400A2B81D /* SpotlightIcon@2x.png */,
 				F52BD9691816D107007C2F15 /* TouchIcon-iOS7.png */,
 				F57D22F715778CB700C97916 /* TouchIcon.png */,
 				F57D22F815778CB700C97916 /* TouchIcon@2x.png */,
@@ -445,15 +454,18 @@
 				F50D7B571611B41C001FAC61 /* Default-568h@2x.png in Resources */,
 				F50D7B581611B41C001FAC61 /* Default.png in Resources */,
 				F50D7B591611B41C001FAC61 /* Default@2x.png in Resources */,
+				F5BE12FF194A0BD400A2B81D /* SpotlightIcon@2x.png in Resources */,
 				F584C5A2165BE1CA007E9DC6 /* mainViewController.xib in Resources */,
 				F5622FD2174F505700944FC8 /* webViewController.xib in Resources */,
 				F5E6486E177AED540099C1AB /* ajax.gif in Resources */,
+				F5BE12FD194A0BD400A2B81D /* SpotlightIcon-iOS7.png in Resources */,
 				F5A52FB2179D596F0099BFF4 /* Localizable.strings in Resources */,
 				F5A52FB6179D59BB0099BFF4 /* Localizable.strings in Resources */,
 				F5A52FBA179D59F60099BFF4 /* Localizable.strings in Resources */,
 				F5A52FE3179D7B8E0099BFF4 /* mapsViewController.xib in Resources */,
 				F50E395D17A152D200CDC2AD /* youtubePlayerViewController.xib in Resources */,
 				F50E396217A15D9500CDC2AD /* moviePlayerViewController.xib in Resources */,
+				F5BE12FE194A0BD400A2B81D /* SpotlightIcon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -598,7 +610,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Siberian/Siberian-Prefix.pch";
 				INFOPLIST_FILE = "Siberian/Siberian-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SDKROOT)/usr/lib/system\"",
@@ -624,7 +636,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Siberian/Siberian-Prefix.pch";
 				INFOPLIST_FILE = "Siberian/Siberian-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SDKROOT)/usr/lib/system\"",
@@ -682,7 +694,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Siberian/Siberian-Prefix.pch";
 				INFOPLIST_FILE = "Siberian/Siberian-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SDKROOT)/usr/lib/system\"",

@@ -82,21 +82,25 @@ class Application_Model_Device_Iphone extends Core_Model_Default {
 
     }
 
-    protected function _parsePList($node, $newNode, $parent) {
+    protected function _parsePList($node, $newNode) {
+
         $lastValue = '';
         foreach($node->children() as $key => $child) {
 
             $value = (string) $child;
+            if(count($child->children()) > 0) {
+                $this->_parsePList($child, $newNode->addChild($key));
+            } else {
+                if($lastValue == 'CFBundleDisplayName') {
+                    $value = $this->getApplication()->getName();
+                }
+                else if($lastValue == 'CFBundleIdentifier') {
+                    $value = $this->getApplication()->getBundleId();
+                }
 
-            if($lastValue == 'CFBundleDisplayName') {
-                $value = $this->getApplication()->getName();
+                $newNode->addChild($key, $value);
+                $lastValue = $value;
             }
-            else if($lastValue == 'CFBundleIdentifier') {
-                $value = $this->getApplication()->getBundleId();
-            }
-
-            $newNode->addChild($key, $value);
-            $lastValue = $value;
         }
 
     }
@@ -124,11 +128,11 @@ class Application_Model_Device_Iphone extends Core_Model_Default {
 
         while($data = fgets($common, 1024)) {
             if(stripos($data, 'scheme = @"') !== false)      $newContent .= '        scheme = @"'.$scheme.'";
-                ';
+';
             else if(stripos($data, 'domain = @"') !== false) $newContent .= '        domain = @"'.$domain.'";
-                ';
+';
             else if(stripos($data, 'path = @"') !== false)   $newContent .= '        path = @"'.$path.'";
-                ';
+';
             else $newContent .= $data;
         }
 
@@ -150,62 +154,24 @@ class Application_Model_Device_Iphone extends Core_Model_Default {
         $application = $this->getApplication();
 
         // Touch Icon
-        $icon_src = $application->getIcon(57, null, true);
-        $icon2_src = $application->getIcon(114, null, true);
-        $icon_iOS7_src = $application->getIcon(120, null, true);
-        $icon_apple_src = $application->getAppStoreIcon(true);
-        $icon_dst = $this->_dst .'/Resources/Images/TouchIcon/TouchIcon.png';
-        $icon2_dst = $this->_dst .'/Resources/Images/TouchIcon/TouchIcon@2x.png';
-        $icon_iOS7_dst = $this->_dst .'/Resources/Images/TouchIcon/TouchIcon-iOS7.png';
-        $icon_apple_dst = $this->_dst .'/../TouchIcon.png';
-
         $icons = array(
+            $application->getIcon(29, null, true)   => $this->_dst.'/Resources/Images/TouchIcon/SpotlightIcon.png',
+            $application->getIcon(58, null, true)   => $this->_dst.'/Resources/Images/TouchIcon/SpotlightIcon@2x.png',
+            $application->getIcon(80, null, true)   => $this->_dst.'/Resources/Images/TouchIcon/SpotlightIcon-iOS7.png',
             $application->getIcon(57, null, true)   => $this->_dst.'/Resources/Images/TouchIcon/TouchIcon.png',
             $application->getIcon(114, null, true)  => $this->_dst.'/Resources/Images/TouchIcon/TouchIcon@2x.png',
             $application->getIcon(120, null, true)  => $this->_dst.'/Resources/Images/TouchIcon/TouchIcon-iOS7.png',
             $application->getAppStoreIcon(true)     => $this->_dst.'/../TouchIcon.png',
         );
+
         foreach($icons as $icon_src => $icon_dst) {
-            if(!copy($icon_src, $icon_dst)) {
+            if(!@rename($icon_src, $icon_dst)) {
                 throw new Exception($this->_('An error occured while copying your app icon. Please check the icon, try to send it again and try again.'));
             }
         }
-//
-//        if(!Thumbnailer_CreateThumb::createThumbnail($icon_src, $icon_dst, 57, 57, 'PNG', false)) {
-//            throw new Exception('Une erreur est survenue lors de la copie de l\'icône en 57px');
-//        }
-//
-//        if(!Thumbnailer_CreateThumb::createThumbnail($icon_src, $icon2_dst, 114, 114, 'PNG', false)) {
-//            throw new Exception('Une erreur est survenue lors de la copie de l\'icône en 114px');
-//        }
-//
-//        try {
-//            // Créé l'icône en 120x120px
-//            list($width, $height) = getimagesize($icon_src);
-//            $newIcon = imagecreatetruecolor(120, 120);
-//            imagealphablending($newIcon, false);
-//            imagecopyresized($newIcon, imagecreatefrompng($icon_src), 0, 0, 0, 0, 120, 120, $width, $height);
-//            imagesavealpha($newIcon, true);
-//            imagepng($newIcon, $icon_iOS7_dst);
-//        }
-//        catch(Exception $e) {
-//            throw new Exception('Une erreur est survenue lors de la copie de l\'icône en 120px');
-//        }
-//
-//        try {
-//            // Créé l'icône en 1024x1024px
-//            list($width, $height) = getimagesize($icon_src);
-//            $newIcon = imagecreatetruecolor(1024, 1024);
-//            imagealphablending($newIcon, false);
-//            imagecopyresized($newIcon, imagecreatefrompng($icon_src), 0, 0, 0, 0, 1024, 1024, $width, $height);
-//            imagesavealpha($newIcon, true);
-//            imagepng($newIcon, $icon_apple_dst);
-//        }
-//        catch(Exception $e) {
-//            throw new Exception('Une erreur est survenue lors de la copie de l\'icône en 1024px');
-//        }
 
-        // Startup Image
+
+        // Startup Images
         $startup_src_normal = $application->getStartupImageUrl('normal', true);
         $startup_src_retina = $application->getStartupImageUrl('retina', true);
         $startup_dst = $this->_dst .'/Resources/Images/Startup/Default.png';
@@ -253,11 +219,12 @@ class Application_Model_Device_Iphone extends Core_Model_Default {
         $src = $this->_base_dst;
         $name = $this->_zipname;
 
-        shell_exec('cd "'.$src.'"; zip -r ./'.$name.'.zip ./*');
-
-        if(!file_exists($src.'/'.$name.'.zip')) {
-            throw new Exception('An error occured while creating the archive ('.$src.'/'.$name.'.zip)');
-        }
+        Core_Model_Directory::zip($this->_base_dst, $src.'/'.$this->_zipname.'.zip');
+//        shell_exec('cd "'.$src.'"; zip -r ./'.$name.'.zip ./*');
+//
+//        if(!file_exists($src.'/'.$name.'.zip')) {
+//            throw new Exception('An error occured while creating the archive ('.$src.'/'.$name.'.zip)');
+//        }
 
         return $src.'/'.$name.'.zip';
 

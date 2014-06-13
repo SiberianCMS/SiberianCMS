@@ -57,17 +57,14 @@ class Application_Model_Device_Android extends Core_Model_Default {
         // Copie les sources
         Core_Model_Directory::duplicate($src, $dst);
 
-        $this->_zipname = $this->_formatted_name;
+        $this->_zipname = 'android_source';
 
         $this->_dst = $dst;
 
-        // Renomme le dossier
-        $src = $this->_dst.'/src/com/siberian';
-        $dst = $this->_dst.'/src/com/'.$this->_formatted_bundle_name;
-        rename($src, $dst);
-        $dst1 = $this->_dst.'/src/com/'.$this->_formatted_bundle_name.'/app';
-        $dst2 = $this->_dst.'/src/com/'.$this->_formatted_bundle_name.'/'.$this->_formatted_name;
-        rename($dst1, $dst2);
+        $src = $this->_dst.'/src/com/siberian/app';
+        $dst = $this->_dst.'/src/com/'.$this->_formatted_bundle_name.'/'.$this->_formatted_name;
+        Core_Model_Directory::move($src, $dst);
+        Core_Model_Directory::delete($this->_dst.'/src/com/siberian');
 
         return $this;
 
@@ -149,15 +146,14 @@ class Application_Model_Device_Android extends Core_Model_Default {
     protected function _zipFolder() {
 
         $src = $this->_dst;
-        $name = 'android_source';
 
-        shell_exec('cd "'.$src.'"; zip -r ./'.$name.'.zip ./');
+        Core_Model_Directory::zip($src, $src.'/'.$this->_zipname.'.zip');
 
-        if(!file_exists($src.'/'.$name.'.zip')) {
-            throw new Exception('Une erreur est survenue lors de la création de l\'archive ('.$src.'/'.$name.'.zip)');
+        if(!file_exists($src.'/'.$this->_zipname.'.zip')) {
+            throw new Exception('Une erreur est survenue lors de la création de l\'archive ('.$src.'/'.$this->_zipname.'.zip)');
         }
 
-        return $src.'/'.$name.'.zip';
+        return $src.'/'.$this->_zipname.'.zip';
 
     }
 
