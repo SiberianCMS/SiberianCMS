@@ -60,8 +60,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         Core_Model_Language::prepare();
         $frontController = $this->_front_controller;
         $this->_request = new Siberian_Controller_Request_Http();
-//        $this->_request->setBaseUrl($this->_request->getScheme().'://'.$this->_request->getHttpHost());
-//        $this->_request->setMediaUrl($this->_request->getScheme().'://'.$this->_request->getHttpHost());
         $this->_request->isInstalling(!Installer_Model_Installer::isInstalled());
         $this->_request->setPathInfo();
         $baseUrl = $this->_request->getScheme().'://'.$this->_request->getHttpHost().$this->_request->getBaseUrl();
@@ -80,101 +78,101 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
     }
 
-    protected function _initSession() {
-
-        $configSession = new Zend_Config_Ini(APPLICATION_PATH . '/configs/session.ini', APPLICATION_ENV);
-
-        if(!$this->_request->isInstalling()) {
-            $config = array(
-                'name'           => 'session',
-                'primary'        => 'session_id',
-                'modifiedColumn' => 'modified',
-                'dataColumn'     => 'data',
-                'lifetimeColumn' => 'lifetime',
-                'lifetime'       => $configSession->gc_maxlifetime
-            );
-
-            Zend_Session::setSaveHandler(new Zend_Session_SaveHandler_DbTable($config));
-        }
-
-        if(!$this->_request->isInstalling() OR is_writable(Core_Model_Directory::getSessionDirectory(true))) {
-            $types = array();
-            $options = $configSession->toArray();
-
-            if(isset($options['types'])) {
-                $types = $options['types'];
-                unset($options['types']);
-            }
-
-            Zend_Session::start($options);
-
-            $session_type = $this->_request->isApplication() ? 'mobile' : 'front';
-            $session = new Core_Model_Session($session_type);
-
-            foreach($types as $type => $class) {
-                $session->addType($type, $class);
-            }
-
-            $language_session = new Core_Model_Session('language');
-            if(!$language_session->current_language) {
-                $language_session->current_language = null;
-            }
-
-            Core_Model_Language::setSession($language_session);
-            Core_View_Default::setSession($session);
-            Core_Controller_Default::setSession($session);
-        }
-
-    }
-
-    protected function _initLanguage() {
-
-        $available_languages = Core_Model_Language::getLanguageCodes();
-        $current_language = in_array($this->_request->getLanguageCode(), $available_languages) ? $this->_request->getLanguageCode() : '';
-        $language_session = Core_Model_Language::getSession();
-        $language = '';
-        if($language_session) {
-            $language = $language_session->current_language;
-        }
-
-        if(!empty($current_language)) {
-            Core_Model_Language::setCurrentLanguage($current_language);
-        } else if(!empty($language)) {
-//            $this->_request->setLanguageCode($language);
-        } else if($accepted_languages = Zend_Locale::getBrowser()) {
-            $accepted_languages = array_keys($accepted_languages);
-//            $accepted_languages = preg_split('/(,)|(;)|(-)|(=)/', $accepted_languages);
-            foreach($accepted_languages as $lang) {
-                if(in_array($lang, $available_languages)) {
-                    $current_language = $lang;
-                    break;
-                }
-            }
-
-            if(!$current_language) {
-                $current_language = Core_Model_Language::getDefaultLanguage();
-            }
-
-            Core_Model_Language::setCurrentLanguage($current_language);
-
-        }
-
-    }
-
-    protected function _initLocale() {
-
-        if(!$this->_request->isInstalling()) {
-            $locale = Application_Model_Application::getInstance()->getLocale();
-        }
-        if(empty($locale)) {
-            $locale = Core_Model_Language::getCurrentLanguage();
-        }
-
-        Zend_Registry::set('Zend_Locale', new Zend_Locale($locale));
-//        Core_Model_Language::setCurrentCurrency(new Zend_Currency($locale));
-
-    }
-
+//    protected function _initSession() {
+//
+//        $configSession = new Zend_Config_Ini(APPLICATION_PATH . '/configs/session.ini', APPLICATION_ENV);
+//
+//        if(!$this->_request->isInstalling()) {
+//            $config = array(
+//                'name'           => 'session',
+//                'primary'        => 'session_id',
+//                'modifiedColumn' => 'modified',
+//                'dataColumn'     => 'data',
+//                'lifetimeColumn' => 'lifetime',
+//                'lifetime'       => $configSession->gc_maxlifetime
+//            );
+//
+//            Zend_Session::setSaveHandler(new Zend_Session_SaveHandler_DbTable($config));
+//        }
+//
+//        if(!$this->_request->isInstalling() OR is_writable(Core_Model_Directory::getSessionDirectory(true))) {
+//            $types = array();
+//            $options = $configSession->toArray();
+//
+//            if(isset($options['types'])) {
+//                $types = $options['types'];
+//                unset($options['types']);
+//            }
+//
+//            Zend_Session::start($options);
+//
+//            $session_type = $this->_request->isApplication() ? 'mobile' : 'front';
+//            $session = new Core_Model_Session($session_type);
+//
+//            foreach($types as $type => $class) {
+//                $session->addType($type, $class);
+//            }
+//
+//            $language_session = new Core_Model_Session('language');
+//            if(!$language_session->current_language) {
+//                $language_session->current_language = null;
+//            }
+//
+//            Core_Model_Language::setSession($language_session);
+//            Core_View_Default::setSession($session);
+//            Core_Controller_Default::setSession($session);
+//        }
+//
+//    }
+//
+//    protected function _initLanguage() {
+//
+//        $available_languages = Core_Model_Language::getLanguageCodes();
+//        $current_language = in_array($this->_request->getLanguageCode(), $available_languages) ? $this->_request->getLanguageCode() : '';
+//        $language_session = Core_Model_Language::getSession();
+//        $language = '';
+//        if($language_session) {
+//            $language = $language_session->current_language;
+//        }
+//
+//        if(!empty($current_language)) {
+//            Core_Model_Language::setCurrentLanguage($current_language);
+//        } else if(!empty($language)) {
+////            $this->_request->setLanguageCode($language);
+//        } else if($accepted_languages = Zend_Locale::getBrowser()) {
+//            $accepted_languages = array_keys($accepted_languages);
+////            $accepted_languages = preg_split('/(,)|(;)|(-)|(=)/', $accepted_languages);
+//            foreach($accepted_languages as $lang) {
+//                if(in_array($lang, $available_languages)) {
+//                    $current_language = $lang;
+//                    break;
+//                }
+//            }
+//
+//            if(!$current_language) {
+//                $current_language = Core_Model_Language::getDefaultLanguage();
+//            }
+//
+//            Core_Model_Language::setCurrentLanguage($current_language);
+//
+//        }
+//
+//    }
+//
+//    protected function _initLocale() {
+//
+//        if(!$this->_request->isInstalling()) {
+//            $locale = Application_Model_Application::getInstance()->getLocale();
+//        }
+//        if(empty($locale)) {
+//            $locale = Core_Model_Language::getCurrentLanguage();
+//        }
+//
+//        Zend_Registry::set('Zend_Locale', new Zend_Locale($locale));
+////        Core_Model_Language::setCurrentCurrency(new Zend_Currency($locale));
+//
+//    }
+//
     protected function _initCache() {
 
         $cache_dir = Core_Model_Directory::getCacheDirectory(true);
@@ -191,12 +189,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     protected function _initDesign() {
 
         if(!$this->_request->isInstalling()) {
-            $request = $this->_request;
             $this->_prepareBlocks();
         }
-
-        $locale = Zend_Registry::get('Zend_Locale');
-        $lang = Core_Model_Language::getCurrentLanguage();
 
         $detect = new Mobile_Detect();
 

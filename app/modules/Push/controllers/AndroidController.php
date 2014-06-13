@@ -21,7 +21,7 @@ class Push_AndroidController extends Core_Controller_Default
                     if(!in_array($key, $fields)) unset($params[$key]);
                 }
 
-                $params['development'] = 'sandbox';
+                $params['development'] = 'production';
                 $params['status'] = 'active';
 
                 $device = new Push_Model_Android_Device();
@@ -69,17 +69,13 @@ class Push_AndroidController extends Core_Controller_Default
             $device = new Push_Model_Android_Device();
             $device->findByRegistrationId($params['registration_id']);
 
-            $isDev = !$this->isProduction();
             $messages = $device->findNotReceivedMessages();
 
             if($messages->count() > 0) {
                 foreach($messages as $message) {
                     $instance = $message->getInstance('android');
                     $instance->setMessage($message);
-                    $instance->isDev($isDev)
-                        ->setSuffix()
-                        ->sendMessage($device)
-                    ;
+                    $instance->sendMessage($device);
                 }
             }
 

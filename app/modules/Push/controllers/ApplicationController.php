@@ -40,8 +40,19 @@ class Push_ApplicationController extends Application_Controller_Default
                 $message->setData($datas)->save();
 
                 if($sendNow) {
-                    $cmd = 'wget "'.$this->getUrl('push/message/send').'"> /dev/null 2>/dev/null &';
-                    shell_exec($cmd);
+                    $c = curl_init();
+                    curl_setopt($c, CURLOPT_URL, $this->getUrl('push/message/send', array('message_id' => $message->getId())));
+                    curl_setopt($c, CURLOPT_FOLLOWLOCATION, true);  // Follow the redirects (needed for mod_rewrite)
+                    curl_setopt($c, CURLOPT_HEADER, false);         // Don't retrieve headers
+                    curl_setopt($c, CURLOPT_NOBODY, true);          // Don't retrieve the body
+                    curl_setopt($c, CURLOPT_RETURNTRANSFER, true);  // Return from curl_exec rather than echoing
+                    curl_setopt($c, CURLOPT_FRESH_CONNECT, true);   // Always ensure the connection is fresh
+
+                    // Timeout super fast once connected, so it goes into async.
+                    curl_setopt( $c, CURLOPT_TIMEOUT, 1);
+                    curl_exec($c);
+                    curl_close($c);
+
                 }
 
                 $html = array(

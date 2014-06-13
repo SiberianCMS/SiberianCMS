@@ -55,6 +55,7 @@ class Push_Model_Message extends Core_Model_Default {
 
     public function push() {
         $errors = array();
+        $this->updateStatus('sending');
         foreach($this->_instances as $type => $instance) {
             $instance->setMessage($this)
                 ->push()
@@ -63,6 +64,7 @@ class Push_Model_Message extends Core_Model_Default {
                 $errors[$instance->getId()] = $instance->getErrors();
             }
         }
+        $this->updateStatus('delivered');
 
         $this->setErrors($errors);
 
