@@ -112,7 +112,7 @@ class Core_Model_Directory
 
         if (is_dir($source) === true) {
 
-            $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source), RecursiveIteratorIterator::SELF_FIRST);
+            $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source, RecursiveDirectoryIterator::SKIP_DOTS), RecursiveIteratorIterator::SELF_FIRST);
             foreach ($files as $file) {
 
                 $basepath = $file->getRealpath();
