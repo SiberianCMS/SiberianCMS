@@ -403,6 +403,8 @@
             $('#mask').click(function() {return false;});
 
             var customer = {
+                customer_id: null,
+                requests: new Array(),
                 device_uid: '0',
                 isLoggedIn: function() {
                     return !isNaN(this.customer_id) && this.customer_id > 0;
@@ -452,63 +454,60 @@
                 },
                 login: function(datas, form) {
 
-                    loader.show();
-
                     var url = '<?php echo $this->getUrl('customer/mobile_account/loginpost'); ?>';
                     var post = datas;
                     if(form) url = form.action;
-//                    if(datas.key) {
-//                        url = '<?php echo $this->getUrl('customer/mobile_account/autoconnect'); ?>/id/'+datas.id+'/key/'+datas.key;
-//                        post = [{name: 'id', value: datas.id}, {name: 'key', value: datas.key}];
-//                    }
 
-                    $.ajax({
-                        url: url,
-                        dataType: 'json',
-                        data: post,
-                        type: 'post',
-                        success: function(datas) {
-                            if(datas.customer_id) {
+                    var xhr = this.requests['login'];
 
-                                this.customer_id = datas.customer_id;
-                                this.closeLoginForm();
-                                page.current_page.fireCallback('customerdidlogin');
+                    if(!xhr) {
 
-                                $('.connect_button').parent('div.connect').hide();
-                            }
-                            else if(datas.message) {
-                                new Alert(datas.message, 'error').show();
-                            }
-                            else {
-                                new Alert('<?php echo $this->_("An error occurred while logging in. Please try again later") ?>', 'error').show();
-                            }
-                        }.bind(this),
-                        complete: function() {
-                            loader.hide();
-                        }
-                    });
+                        xhr = new Xhr();
+                        xhr.setUrl(url)
+                            .setOnSuccess(function(datas) {
+                                if(datas.customer_id) {
+
+                                    this.customer_id = datas.customer_id;
+                                    this.closeLoginForm();
+                                    page.current_page.fireCallback('customerdidlogin');
+
+                                    $('.connect_button').parent('div.connect').hide();
+                                }
+                            }.bind(this))
+                        ;
+
+                        this.requests['login'] = xhr;
+
+                    }
+
+                    xhr.setDatas(datas)
+                        .send()
+                    ;
+
                 },
                 logout: function(forceAjax) {
 
-                    <?php // if(IS_APPLICATION) : ?>
-//                    if(!forceAjax) window.location = '<?php echo $this->getUrl('customer/mobile_account/logout'); ?>';
-                    <?php // endif; ?>
-                    loader.show();
-                    $.ajax({
-                        url: '<?php echo $this->getUrl('customer/mobile_account/logout'); ?>',
-                        dataType: 'json',
-                        success: function(data) {
-                            if(data.success) {
+                    var xhr = this.requests['logout'];
+
+                    if(!xhr) {
+
+                        var url = '<?php echo $this->getUrl('customer/mobile_account/logout'); ?>';
+
+                        xhr = new Xhr();
+                        xhr.setUrl(url)
+                            .setOnSuccess(function(datas) {
                                 this.customer_id = null;
                                 this.datas = {};
                                 this.closeLoginForm();
                                 tabbar.hideAllItems();
-                            }
-                        }.bind(this),
-                        complete: function() {
-                            loader.hide();
-                        }
-                    });
+                            }.bind(this))
+                        ;
+
+                        this.requests['logout'] = xhr;
+                    }
+
+                    xhr.send();
+
                 },
                 reloadImage: function(url) {
                     $('img.customer_image_'+this.customer_id).attr('src', url);

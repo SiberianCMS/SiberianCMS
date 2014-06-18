@@ -24,6 +24,6 @@
     </div>
     <?php endif; ?>
     <script type="text/javascript">
-        tabbar_names['<?php echo $option->getId(); ?>'] = '<?php echo $option->getTabbarName(); ?>';
+        tabbar_names['<?php echo $option->getId(); ?>'] = '<?php echo addslashes($option->getTabbarName()); ?>';
     </script>
 </li>
