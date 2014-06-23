@@ -31,6 +31,14 @@ class Core_Model_Session extends Siberian_Session_Namespace
         return $this;
     }
 
+    public function prepare($types) {
+        foreach($types as $type => $class) {
+            $this->addType($type, $class);
+        }
+
+        return $this;
+    }
+
     public function getInstance() {
 
 //        if(!$this->current_type) return false;

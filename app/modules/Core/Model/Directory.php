@@ -111,8 +111,9 @@ class Core_Model_Directory
         }
 
         if (is_dir($source) === true) {
-
-            $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source, RecursiveDirectoryIterator::SKIP_DOTS), RecursiveIteratorIterator::SELF_FIRST);
+            // 4096 <-> RecursiveDirectoryIterator::SKIP_DOTS
+            // RecursiveDirectoryIterator::SKIP_DOTS doesn't exist in PHP < 5.3
+            $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source, 4096), RecursiveIteratorIterator::SELF_FIRST);
             foreach ($files as $file) {
 
                 $basepath = $file->getRealpath();

@@ -281,7 +281,7 @@ class Core_Controller_Default extends Zend_Controller_Action
         $locale = Core_Model_Language::DEFAULT_LOCALE;
 
         if($this->getRequest()->isApplication()) {
-            $locale = $this->getRequest()->getApplication()->getLocale();
+            $locale = $this->getApplication()->getLocale();
         } else {
             $locale = new Zend_Locale(Core_Model_Language::getCurrentLocale());
         }
