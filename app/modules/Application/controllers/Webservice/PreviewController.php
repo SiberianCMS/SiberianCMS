@@ -4,22 +4,22 @@ class Application_Webservice_PreviewController extends Core_Controller_Default
 {
     public function loginAction() {
 
-        if($datas = $this->getRequest()->getPost()) {
+        if($data = $this->getRequest()->getPost()) {
 
             $canBeLoggedIn = false;
 
             try {
 
-                if(empty($datas['email']) OR empty($datas['password'])) {
-                    throw new Exception($this->_('Authentification impossible. Merci de vérifier votre email et/ou votre mot de passe'));
+                if(empty($data['email']) OR empty($data['password'])) {
+                    throw new Exception($this->_('Authentication failed. Please check your email and/or your password'));
                 }
                 $admin = new Admin_Model_Admin();
-                $admin->findByEmail($datas['email']);
+                $admin->findByEmail($data['email']);
 
-                if($admin->authenticate($datas['password'])) {
+                if($admin->authenticate($data['password'])) {
 
                     $application = $this->getApplication();
-                    $datas = array('applications' => array());
+                    $data = array('applications' => array());
                     $url = parse_url($application->getUrl());
                     $url['path'] = 'overview';
                     $icon = '';
@@ -28,7 +28,7 @@ class Application_Webservice_PreviewController extends Core_Controller_Default
                     }
 
 
-                    $datas['application'] = array(
+                    $data['application'] = array(
                         'id' => $application->getId(),
                         'icon' => $icon,
                         'startup_image' => $application->getStartupImageUrl(),
@@ -42,16 +42,15 @@ class Application_Webservice_PreviewController extends Core_Controller_Default
 
                 }
                 else {
-                    throw new Exception($this->_('Authentification impossible. Merci de vérifier votre email et/ou votre mot de passe'));
+                    throw new Exception($this->_('Authentication failed. Please check your email and/or your password'));
                 }
 
             }
             catch(Exception $e) {
-                $datas = array('error' => $this->_('Authentification impossible. Merci de vérifier votre email et/ou votre mot de passe'));
-//                $datas = array('error' => $e->getMessage());
+                $data = array('error' => $this->_('Authentication failed. Please check your email and/or your password'));
             }
 
-            $this->getResponse()->setBody(Zend_Json::encode($datas))->sendResponse();
+            $this->getResponse()->setBody(Zend_Json::encode($data))->sendResponse();
             die;
         }
 
