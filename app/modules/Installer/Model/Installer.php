@@ -11,11 +11,19 @@ class Installer_Model_Installer extends Core_Model_Default {
 
         $isInstalled = false;
         try {
+
             if(!file_exists(APPLICATION_PATH . '/configs/app.ini')) {
                 throw new Exception('');
             }
             $ini = new Zend_Config_Ini(APPLICATION_PATH . '/configs/app.ini', APPLICATION_ENV);
             $isInstalled = (bool) $ini->isInstalled;
+
+            if(!$isInstalled) {
+                $admin = new Admin_Model_Admin();
+                $isInstalled = Application_Model_Application::getInstance()->getId() && $admin->findAll(array(), null, array('limit' => 1))->count() > 0;
+                if($isInstalled) self::setIsInstalled();
+            }
+
         } catch (Exception $e) {
             $isInstalled = false;
         }
@@ -90,10 +98,6 @@ class Installer_Model_Installer extends Core_Model_Default {
     }
 
     public static function setIsInstalled() {
-
-        if(self::isInstalled()) {
-            return;
-        }
 
         try {
 
