@@ -46,6 +46,10 @@ class Installer_Model_Installer extends Core_Model_Default {
 
         $paths = array('var/cache', 'var/session', 'var/tmp');
         foreach($paths as $path) {
+            if(!is_file($base_path.$path)) {
+                // the folder does not exist, create it
+                mkdir($base_path.$path, 0777, true);
+            }
             if(!is_writable($base_path.$path)) {
                 $errors[] = '/var and all of its subfolders';
                 break;
