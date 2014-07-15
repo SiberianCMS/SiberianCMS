@@ -136,7 +136,7 @@ class Application_Model_Device_Android extends Core_Model_Default {
 
         foreach($icons as $icon_src => $icon_dst) {
             if(!@copy($icon_src, $icon_dst)) {
-                throw new Exception($this->_('An error occured while copying your app icon. Please check the icon, try to send it again and try again.'));
+                throw new Exception($this->_('An error occurred while copying your app icon. Please check the icon, try to send it again and try again.'));
             }
         }
 
@@ -150,7 +150,7 @@ class Application_Model_Device_Android extends Core_Model_Default {
         Core_Model_Directory::zip($src, $src.'/'.$this->_zipname.'.zip');
 
         if(!file_exists($src.'/'.$this->_zipname.'.zip')) {
-            throw new Exception('Une erreur est survenue lors de la création de l\'archive ('.$src.'/'.$this->_zipname.'.zip)');
+            throw new Exception($this->_("An error occurred while creating the archive (%s)", $src."/".$this->_zipname.".zip"));
         }
 
         return $src.'/'.$this->_zipname.'.zip';
@@ -161,7 +161,7 @@ class Application_Model_Device_Android extends Core_Model_Default {
 
         $contents = @file_get_contents($in);
         if(!$contents) {
-            throw new Exception('Un problème est survenue lors de la copie des fichiers sources ('.$in.')');
+            throw new Exception($this->_("An error occurred while copying the source files (%s)", $in));
         }
 
         if($print) {

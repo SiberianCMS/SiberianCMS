@@ -132,7 +132,7 @@ class Catalog_Application_ProductController extends Application_Controller_Defau
             try {
 
                 if(!$this->getCurrentOptionValue()) {
-                    throw new Exception('Une erreur est survenue lors de la sauvegarde.');
+                    throw new Exception($this->_("An error occurred while saving. Please try again later."));
                 }
 
                 $product = new Catalog_Model_Product();

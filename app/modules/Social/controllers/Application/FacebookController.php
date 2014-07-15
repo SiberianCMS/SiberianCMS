@@ -28,7 +28,7 @@ class Social_Application_FacebookController extends Application_Controller_Defau
                     $datas['value_id'] = $option_value->getId();
                 }
                 if($facebook->getId() AND $facebook->getValueId() != $option_value->getId()) {
-                    throw new Exception("Une erreur est survenue lors de la sauvegarde de votre galerie vidéos. Merci de réessayer ultérieurement.");
+                    throw new Exception($this->_("An error occurred while saving the video gallery. Please try later."));
                 }
 
                 $facebook->setData($datas)->save();

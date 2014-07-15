@@ -114,7 +114,7 @@ class Form_Application_FieldController extends Application_Controller_Default {
             try {
 
                 if(!$this->getCurrentOptionValue()) {
-                    throw new Exception('Une erreur est survenue lors de la sauvegarde. Veuillez réessayer ultérieurement.');
+                    throw new Exception($this->_("An error occurred while saving. Please try again later."));
                 }
 
                 $field = new Form_Model_Field();
