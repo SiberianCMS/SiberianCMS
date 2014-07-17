@@ -1,0 +1,17 @@
+<div sb-background-image value-id="'homepage'" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-loader is-loading="is_loading" has-connection="has_connection"></sb-loader>
+
+    <div id="tabbar_items" class="tabbar_items tabbar l6" ng-class="{'slide-top': animate_tabbar}" ng-show="tabbar_is_visible">
+        <ul id="tabbar" class="tabbar_l6">
+
+            <li ng-repeat="option in limited_options" ng-if="option.is_active" class="border-color">
+                <a href="{{ option.url }}" class="item" ng-class="{ is_link: option.is_link }">
+                    <img ng-src="{{ option.icon_url }}" ng-class="{ colorable: option.icon_is_colorable }" width="30" height="30" />
+                    <span class="block">{{ option.name }}</span>
+                </a>
+            </li>
+
+        </ul>
+    </div>
+</div>

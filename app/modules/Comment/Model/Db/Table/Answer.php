@@ -7,15 +7,17 @@ class Comment_Model_Db_Table_Answer extends Core_Model_Db_Table
 
     public function findByComment($comment_id, $viewAll, $pos_id) {
 
-        $where = array($this->_db->quoteInto('comment_id = ?', $comment_id));
+        $select = $this->select()
+            ->from($this->_name)
+            ->join("customer", "customer.customer_id = {$this->_name}.customer_id", array("customer_name" => new Zend_Db_Expr("CONCAT(customer.firstname, ' ', SUBSTR(customer.lastname, 1, 1), '.')")))
+            ->where("comment_id = ?", $comment_id)
+            ->setIntegrityCheck(false)
+        ;
+
         if(!$viewAll) {
-            $where[] = 'is_visible = 1';
-        }
-        if($pos_id) {
-            $where[] = $this->_db->quoteInto('pos_id = ?', $pos_id);
+            $select->where("is_visible = 1");
         }
 
-        $where = join(' AND ', $where);
-        return $this->fetchAll($where);
+        return $this->fetchAll($select);
     }
 }

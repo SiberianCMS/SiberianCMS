@@ -8,4 +8,8 @@ class Application_Model_Layout_Homepage extends Application_Model_Layout_Abstrac
         return $this;
     }
 
+    public function getNumberOfDisplayedIcons() {
+        return (int) $this->getData('number_of_displayed_icons');
+    }
+
 }

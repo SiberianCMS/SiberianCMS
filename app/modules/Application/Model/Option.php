@@ -173,7 +173,7 @@ class Application_Model_Option extends Core_Model_Default
 
         $url = null;
         if($this->getIsDummy()) {
-            $url = 'javascript:void(0);';
+            $url = '#';
         }
         else if($this->getUri()) {
             $uri = $this->getUri();

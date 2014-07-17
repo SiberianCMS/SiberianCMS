@@ -1,0 +1,49 @@
+<style type="text/css">
+    <?php $notImportant = array("background"); ?>
+    <?php foreach($this->getApplication()->getBlocks() as $block) : ?>
+    <?php $important = !in_array($block->getCode(), $notImportant) ? ' !important' : '' ?>
+    .<?php echo $block->getCode() ?> {
+        <?php if($block->getBackgroundColor()) : ?>background-color: <?php echo $block->getBackgroundColor(); ?><?php echo $important; ?>;<?php endif; ?>
+        <?php if($block->getColor()) : ?>color: <?php echo $block->getColor(); ?><?php echo $important; ?>;<?php endif;?>
+    }
+    <?php if($block->getColor()) : ?>
+    .<?php echo $block->getCode() ?>.border { border-color: <?php echo $block->getColor() ?> }
+    .<?php echo $block->getCode() ?>.reverse.border { border-color: <?php echo $block->getBackgroundColor() ?> }
+    <?php endif; ?>
+
+    .<?php echo $block->getCode() ?>.reverse {
+        <?php if($block->getBackgroundColor()) : ?>color: <?php echo $block->getBackgroundColor(); ?><?php echo $important; ?>;<?php endif; ?>
+        <?php if($block->getColor()) : ?>background-color: <?php echo $block->getColor(); ?><?php echo $important; ?>;<?php endif;?>
+    }
+
+    <?php if($block->getBackgroundColor()) : ?>
+    .<?php echo $block->getCode() ?> .no-background, .<?php echo $block->getCode() ?>.no-background {
+        background-color: transparent <?php echo $important; ?>;
+    }
+    <?php endif; ?>
+
+
+    <?php if($block->getCode() == 'background') : ?>
+    .icheckbox_flat,
+    .iradio_flat {
+        background-image: url(<?php echo $this->getColorizedImage($this->getImage('buttons/checkbox.png'), $block->getColor()); ?>);
+    }
+    <?php elseif($block->getCode() == 'header') : ?>
+    .back_arrow, .next_arrow {
+        background-image: url('<?php echo $this->getColorizedImage($this->getImage("buttons/arrow_left.png"), $block->getColor()); ?>');
+    }
+    <?php elseif($block->getCode() == 'button') : ?>
+    button.arrow_right, a.arrow_right {
+        background-image: url("<?php echo $this->getColorizedImage($this->getImage('pictos/phone.png', true), $block->getColor()); ?>");
+    }
+    <?php elseif($block->getCode() == 'connect_button') : ?>
+    button.connect_button.arrow_right, a.connect_button.arrow_right {
+        background-image: url("<?php echo $this->getColorizedImage($this->getImage('pictos/right_arrow.png', true), $block->getColor()); ?>");
+    }
+    <?php elseif($block->getCode() == 'tabbar') : ?>
+    .border-color {
+        border-color: <?php echo $block->getImageColor(); ?> !important;
+    }
+    <?php endif; ?>
+    <?php endforeach; ?>
+</style>

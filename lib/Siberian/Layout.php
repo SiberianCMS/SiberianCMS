@@ -19,6 +19,8 @@ class Siberian_Layout extends Zend_Layout
     public $_xml = null;
     public $_html = null;
 
+    protected $_scripts = array("js" => array(), "css" => array(), "meta" => array());
+
     protected $_partials = array();
 
     protected $_partialshtml = array();
@@ -92,14 +94,31 @@ class Siberian_Layout extends Zend_Layout
                         $link = strpos($file->attributes()->link, '/') === 0  ? '' : $scripts_path.'/';
                         $link .= $file->attributes()->link;
                         $link.= "?$time";
+                    } else if($file->attributes()->href) {
+                        $link = $file->attributes()->href;
                     }
-                    else $link = $file->attributes()->href;
 
-                    if($file->attributes()->if) {
+                    if($file->attributes()->folder) {
+
+                        $link = strpos($file->attributes()->folder, '/') === 0  ? '' : $scripts_path.'/';
+                        $link .= $file->attributes()->folder.'/';
+                        $base_link = Core_Model_Directory::getBasePathTo($link);
+                        if(is_dir($base_link)) {
+
+                            $tmp_files = new DirectoryIterator($base_link);
+                            foreach($tmp_files as $tmp_file) {
+                                if(!$tmp_file->isFile()) continue;
+                                $this->_scripts['js'][] = $link.$tmp_file->getFileName();
+                                $baseView->headScript()->appendFile($link.$tmp_file->getFileName());
+                            }
+                        }
+
+                    } else if($file->attributes()->if) {
                         $baseView->headScript()->appendFile($link, 'text/javascript', array('conditional' => (string) $file->attributes()->if));
-                    }
-                    else {
+                        $this->_scripts['js'][] = $link;
+                    } else {
                         $baseView->headScript()->appendFile($link);
+                        $this->_scripts['js'][] = $link;
                     }
                 }
             }
@@ -111,6 +130,7 @@ class Siberian_Layout extends Zend_Layout
                     if($file->attributes()->link) $src = $scripts_path.'/'.$file->attributes()->link.'?time='.time();
                     else $src = $file->attributes()->href;
                     $baseView->headLink()->appendStylesheet($src, 'screen', $file->attributes()->if ? (string) $file->attributes()->if : null);
+                    $this->_scripts['css'][] = $src;
                 }
             }
 
@@ -119,6 +139,11 @@ class Siberian_Layout extends Zend_Layout
                 foreach($metas as $key => $meta) {
                     $type = $meta->attributes()->type;
                     $baseView->addMeta($type, $key, $meta->attributes()->value);
+                    $this->_scripts['meta'][] = array(
+                        'type' => (string) $type,
+                        'key' => (string) $key,
+                        'value' => (string) $meta->attributes()->value
+                    );
 //                    switch($type) {
 //                        case 'http-equiv':
 //                            $baseView->headMeta()->appendHttpEquiv($key, $meta->attributes()->value);
@@ -133,7 +158,7 @@ class Siberian_Layout extends Zend_Layout
             }
 
             // Layout du template de base
-            foreach($this->_xml->{$base->template} as $partials) {
+            foreach($this->_xml->{$base->template}->views as $partials) {
                 foreach($partials as $key => $partial) {
                     $class = (string) $partial->attributes()->class;
                     $template = (string) $partial->attributes()->template;
@@ -368,6 +393,22 @@ class Siberian_Layout extends Zend_Layout
         }
 
         return $this->_html;
+
+    }
+
+    public function toJson() {
+
+
+        $baseView = $this->_base_render;
+
+        $this->renderPartials();
+
+        $data = array(
+            "scripts" => $this->_scripts,
+            "partials" => $this->_partialshtml
+        );
+
+        return Zend_Json::encode($data);
 
     }
 

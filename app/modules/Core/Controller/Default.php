@@ -174,6 +174,10 @@ class Core_Controller_Default extends Zend_Controller_Action
         return Core_Model_Url::create($url, $params, $locale);
     }
 
+    public function getPath($uri = '', array $params = array()) {
+        return Core_Model_Url::createPath($uri, $params);
+    }
+
     public function getCurrentUrl($withParams = true, $locale = null) {
         return Core_Model_Url::current($withParams, $locale);
     }
@@ -189,6 +193,53 @@ class Core_Controller_Default extends Zend_Controller_Action
 
         $this->_download($path, $name, $content_type);
 
+    }
+
+    protected function _getImage($name, $base = false) {
+
+        if(file_exists(Core_Model_Directory::getDesignPath(true) . '/images/' . $name)) {
+            return Core_Model_Directory::getDesignPath($base).'/images/'.$name;
+        }
+        else if(file_exists(Media_Model_Library_Image::getBaseImagePathTo($name))) {
+            return $base ? Media_Model_Library_Image::getBaseImagePathTo($name) : Media_Model_Library_Image::getImagePathTo($name);
+        }
+
+        return "";
+
+    }
+
+    protected function _getColorizedImage($image_id, $color) {
+
+        $color = str_replace('#', '', $color);
+        $id = md5(implode('+', array($image_id, $color)));
+        $url = '';
+
+        $image = new Media_Model_Library_Image();
+        if(is_numeric($image_id)) {
+            $image->find($image_id);
+            if(!$image->getId()) return $url;
+            if(!$image->getCanBeColorized()) $color = null;
+            $path = $image->getLink();
+            $path = Media_Model_Library_Image::getBaseImagePathTo($path);
+        } else if(!Zend_Uri::check($image_id) AND stripos($image_id, Core_Model_Directory::getBasePathTo()) === false) {
+            $path = Core_Model_Directory::getBasePathTo($image_id);
+        } else {
+            $path = $image_id;
+        }
+
+        try {
+            $image = new Core_Model_Lib_Image();
+            $image->setId($id)
+                ->setPath($path)
+                ->setColor($color)
+                ->colorize()
+            ;
+            $url = $image->getUrl();
+        } catch(Exception $e) {
+            $url = '';
+        }
+
+        return $url;
     }
 
     protected function _redirect($url, array $options = array()) {

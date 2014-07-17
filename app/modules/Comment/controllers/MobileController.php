@@ -2,6 +2,57 @@
 
 class Comment_MobileController extends Application_Controller_Mobile_Default {
 
+
+    public function viewAction() {
+        $this->forward("list");
+    }
+    public function listAction() {
+        $this->forward('index', 'index', 'Front', $this->getRequest()->getParams());
+    }
+
+    public function templateAction() {
+        $this->loadPartials($this->getFullActionName('_').'_l'.$this->_layout_id, false);
+    }
+
+    public function findallAction() {
+
+        if($value_id = $this->getRequest()->getParam('value_id')) {
+
+            $application = $this->getApplication();
+            $comment = new Comment_Model_Comment();
+            $comments = $comment->findLastFive($value_id);
+            $color = $application->getBlock('background')->getColor();
+
+            $data = array(
+                "news" => array(),
+                "application" => array()
+            );
+
+            foreach($comments as $comment) {
+                $data['news'][] = array(
+                    "text" => Core_Model_Lib_String::truncate($comment->getText(), 88),
+                    "created_at" => $comments->getFormattedCreatedAt(),
+                    "number_of_comments" => count($comment->getAnswers()),
+                    "number_of_likes" => count($comment->getLikes())
+                );
+            }
+
+            $data['application'] = array(
+                "icon_url" => $application->getIconUrl(74),
+                "name" => $application->getName()
+            );
+
+            $data['picto'] = array(
+                "pencil" => $this->_getColorizedImage($this->getImage("picto/pencil.png"), $color),
+                "comment" => $this->_getColorizedImage($this->getImage("picto/comment.png"), $color),
+                "like" => $this->_getColorizedImage($this->getImage("picto/like.png"), $color),
+            );
+
+            $this->_sendHtml($data);
+        }
+
+    }
+
     public function detailsAction() {
 
         if($datas = $this->getRequest()->getParams()) {

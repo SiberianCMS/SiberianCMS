@@ -22,13 +22,13 @@ class Contact_ApplicationController extends Application_Controller_Default
                 $contact->find($option_value->getId(), 'value_id');
 
                 if(!empty($datas['file'])) {
-                    $relative_path = '/contact/cover/';
+                    $relative_path = '/feature/contact/cover/';
                     $folder = Application_Model_Application::getBaseImagePath().$relative_path;
                     $file = Core_Model_Directory::getTmpDirectory(true).'/'.$datas['file'];
 
                     if(!is_dir($folder)) mkdir($folder, 0777, true);
                     if(!copy($file, $folder.$datas['file'])) {
-                        throw new exception($this->_('An error occurred while saving your picture. Please try againg later.'));
+                        throw new exception($this->_('An error occurred while saving your picture. Please try again later.'));
                     } else {
                         $datas['cover'] = $relative_path.$datas['file'];
                     }
@@ -41,7 +41,7 @@ class Contact_ApplicationController extends Application_Controller_Default
 
                 $html = array(
                     'success' => '1',
-                    'success_message' => $this->_('Informations successfully saved'),
+                    'success_message' => $this->_('Info successfully saved'),
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0

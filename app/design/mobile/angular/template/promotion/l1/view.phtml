@@ -1,0 +1,45 @@
+<div class="has_header promotions" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="page_title" message="message"></sb-header>
+
+    <sb-loader is-loading="is_loading" has-connection="has_connection"></sb-loader>
+
+    <div class="padding">
+
+        <div class="connect">
+            <button type="button" class="connect_button icon_left arrow_right">
+                <?php echo $this->_("Please log in.") ?>
+            </button>
+        </div>
+
+        <div class="discount">
+            <ul  rn-carousel rn-carousel-indicator="true" >
+                <li ng-repeat="promotion in promotions" ng-if="!promotion.is_locked">
+
+                    <div class="promotion padding">
+
+                        <div class="title" ng-show="promotion.title"><h4>{{ promotion.title }}</h4></div>
+
+                        <p ng-show="promotion.description">{{ promotion.description }}</p>
+
+                        <p ng-show="promotion.conditions">{{ promotion.conditions }}</p>
+
+                        <p ng-show="promotion.is_unique"><?php echo $this->_("Can only be used once") ?></p>
+
+                        <p ng-show="promotion.end_at"><?php echo $this->_("Valid until") ?> {{ promotion.end_at }}</p>
+
+                        <div class="use_discount" ng-if="promotion.is_unique">
+                            <button type="button" class="button discount reverse" ng-click="use(promotion)">
+                                <?php echo $this->_("Use this coupon") ?>
+                            </button>
+                        </div>
+
+                        <div class="clear"></div>
+
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+

@@ -18,15 +18,10 @@ class Comment_Model_Like extends Core_Model_Default {
         $this->_comment = $comment;
         return $this;
     }
-    
-    public function save($comment_id, $customer_id, $ip, $ua) {
-        $duplicate_like = $this->getTable()->findByIp($comment_id, $customer_id, $ip, $ua);
-        if(count($duplicate_like) == 0) {
-            parent::save();
-            return true;
-        } else {
-            return false;
-        }
+
+    public function findByIp($comment_id, $customer_id, $ip, $ua) {
+        $like = $this->getTable()->findByIp($comment_id, $customer_id, $ip, $ua);
+        return $like->count() > 0;
     }
 
 }

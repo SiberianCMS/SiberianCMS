@@ -20,6 +20,7 @@ abstract class Rss_Model_Feed_Abstract extends Core_Model_Default {
             $picture = null;
             if($entry->getEnclosure() && $entry->getEnclosure()->url) $picture = $entry->getEnclosure()->url;
 
+            $description = "";
             if($entry->getDescription()) {
                 $content = new Dom_SmartDOMDocument();
                 $content->loadHTML($entry->getDescription());
@@ -28,22 +29,47 @@ abstract class Rss_Model_Feed_Abstract extends Core_Model_Default {
                 $imgs = $description->getElementsByTagName('img');
 
                 if($imgs->length > 0) {
-                    $img = $imgs->item(0);
 
-                    if($img->getAttribute('src')) {
-                        $picture = $img->getAttribute('src');
+                    foreach($imgs as $k => $img) {
+                        if($k == 0) {
+
+                            $img = $imgs->item(0);
+
+                            if($img->getAttribute('src')) {
+                                $picture = $img->getAttribute('src');
+                                $img->parentNode->removeChild($img);
+                            }
+
+                        }
+
+                        $img->removeAttribute('width');
+                        $img->removeAttribute('height');
                     }
 
                 }
+
+                $as = $description->getElementsByTagName('a');
+
+                if($as->length > 0) {
+
+                    foreach($as as $a) {
+                        if(!$a->hasAttribute('target')) {
+                            $a->setAttribute('target', '_blank');
+                        }
+                    }
+                }
+
+                $description = $content->saveHTMLExact();
             }
 
             $edata = new Core_Model_Default(array(
+                'entry_id'     => $entry->getId(),
                 'title'        => $entry->getTitle(),
-                'description'  => strip_tags($entry->getDescription()),
+                'description'  => $description,
                 'dateModified' => $entry->getDateModified(),
                 'authors'      => $entry->getAuthors(),
                 'link'         => $entry->getLink(),
-                'content'      => strip_tags($entry->getContent()),
+                'content'      => $description,
                 'enclosure'    => $entry->getEnclosure(),
                 'timestamp'    => $entry->getDateCreated()->getTimestamp(),
                 'picture'      => $picture,

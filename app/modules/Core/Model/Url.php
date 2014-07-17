@@ -99,6 +99,17 @@ class Core_Model_Url extends Core_Model_Default
 
     }
 
+    public function createPath($uri, $params = array(), $locale = null) {
+
+        $url = self::create($uri, $params, $locale);
+
+        $request = Zend_Controller_Front::getInstance()->getRequest();
+        $url = str_replace($request->getBaseUrl(), '', $url);
+
+        return $url;
+
+    }
+
     public static function checkCname($url) {
         $ip = $_SERVER['SERVER_ADDR'];
         $foreign_ip = gethostbyname($url);

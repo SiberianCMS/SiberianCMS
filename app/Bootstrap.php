@@ -202,6 +202,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             if($detect->isMobile() || $apptype == 'mobile') $device_type = 'mobile';
             else $device_type = 'desktop';
             $code = 'siberian';
+            if($this->_request->isApplication()) $code = "angular";
         } else {
             $apptype = 'desktop';
             $device_type = 'desktop';

@@ -1,0 +1,113 @@
+<div class="has_header" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="page_title" message="message"></sb-header>
+
+    <sb-loader is-loading="is_loading" has-connection="has_connection"></sb-loader>
+
+    <div class="padding list l1">
+        <ul>
+            <li ng-repeat="item in collection" ng-click="showItem(item)">
+                <div>
+                    <img width="37" height="37" class="logo left" ng-src="{{ item.icon_url }}" ng-if="item.icon_url" />
+
+                    <p class="text">
+                        <span class="name bold">{{ item.title }}.</span>
+                        <span>{{ item.text }}</span>
+                    </p>
+
+                    <div class="clear"></div>
+                </div>
+
+                <div class="image right" ng-if="item.image_url">
+                    <div>
+                        <span class="block" style="background-image: url('{{ item.image_url }}');" ></span>
+                    </div>
+                </div>
+
+                <div class="clear"></div>
+
+                <div class="details" ng-if="item.meta">
+                    <span class="area1 left" ng-if="item.meta.area1">
+                        <img ng-src="{{ item.meta.area1.picto }}" alt="" width="13" height="10px" />
+                        {{ item.meta.area1.text }}
+                    </span>
+                    <span class="area3 right" ng-if="item.meta.area3">
+                        <img ng-src="{{ item.meta.area3.picto }}" alt="" style="vertical-align:bottom" width="13" />
+                        {{ item.meta.area3.text }}
+                    </span>
+                    <span class="area2 right" ng-if="item.meta.area2">
+                        <img ng-src="{{ item.meta.area2.picto }}" alt="" style="vertical-align:bottom" width="13" height="12px" />
+                        {{ item.meta.area2.text }}
+                    </span>
+
+                    <div class="clear"></div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <style type="text/css">
+
+        .list.l1 ul li {
+            padding: 10px 0;
+        }
+
+        .list.l1 ul li p.text {
+            height: 40px;
+            text-align: left;
+            margin-right: 0;
+            margin-bottom: 0px;
+            margin-top: 0;
+            font-size: 15px;
+            line-height: 20px;
+            overflow: hidden;
+        }
+
+        .list.l1 ul li .image {
+            margin-top: 10px;
+            background-image: url("<?php echo $this->getColorizedImage($this->getImage("pictos/pictures.png"), $this->getApplication()->getBlock('news')->getColor()); ?>");
+            background-repeat: no-repeat;
+            background-position: 0 0;
+            background-size: 19px 19px;
+        }
+        .list.l1 ul li .image div {
+            width: 183px;
+            height: 94px;
+            margin-left: 30px;
+            border: 4px solid white;
+            border-width: 4px 7px 4px 11px;
+        }
+        .list.l1 ul li .image div span {
+            width:100%;
+            height:100%;
+            background-repeat:no-repeat;
+            background-position:center center;
+            background-size:cover;
+        }
+
+        .list.l1 ul li div.details {
+            background: rgba(255,255,255,0.3);
+            border: solid 1px rgba(153, 153, 153, 1);
+            padding: 5px;
+            margin-left: 53px;
+            margin-top: 10px;
+            border-radius: 4px;
+        }
+
+        .list.l1 ul li div.details span {
+            font-size: 11px;
+            line-height: 10px;
+            margin-left: 15px;
+        }
+        .list.l1 ul li div.details span img {
+            vertical-align:bottom;
+        }
+
+        .list.l1 ul li div.details span.area1 {
+            margin-left: 0px;
+        }
+        .list.l1 ul li div.details span.area2 {
+
+        }
+
+    </style>
+</div>
