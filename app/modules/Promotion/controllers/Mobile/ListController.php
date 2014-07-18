@@ -42,13 +42,17 @@ class Promotion_Mobile_ListController extends Application_Controller_Mobile_Defa
             if(!$customer_id) throw new Exception($this->_('You must be logged in to use a discount'));
             $html = array();
 
-            if($promotion_id = $this->getRequest()->getPost('promotion_id')) {
+            if($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
 
-                // Prépare la promotion
+                if(empty($data['promotion_id'])) {
+                    throw new Exception($this->_("An error occurred while saving. Please try again later."));
+                }
+
+                $promotion_id = $data['promotion_id'];
+
                 $promotion = new Promotion_Model_Promotion();
                 $promotion->find($promotion_id);
 
-                // Prépare la promotion du client
                 $promotion_customer = new Promotion_Model_Customer();
                 $promotion_customer->findLast($promotion_id, $customer_id);
 
@@ -59,12 +63,16 @@ class Promotion_Mobile_ListController extends Application_Controller_Mobile_Defa
                 }
 
                 if($promotion->getIsUnique() AND $promotion_customer->getId() AND $promotion_customer->getIsUsed()) {
-                    $html['close'] = true;
+                    $html['remove'] = true;
                     throw new Exception($this->_('You have already use this discount'));
                 }
                 else {
                     $promotion_customer->setIsUsed(1)->save();
-                    $html = array('ok' => true);
+                    $html = array(
+                        "success" => 1,
+                        "message" => $this->_("This discount is now used"),
+                        "remove" => 1
+                    );
                 }
 
             }

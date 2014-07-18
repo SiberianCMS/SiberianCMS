@@ -175,6 +175,10 @@ a.button, a.connect_button { line-height:39px; }
 button.icon_left, a.button.icon_left {position:relative;padding-left: 40px;}
 button.icon_left img, a.button.icon_left img, button.icon_left canvas {position:absolute;top:50%;left:10px;margin-top:-10px;border-radius:2px;}
 button.arrow_right, button.arrow_right, a.arrow_right {padding-right: 40px;background:url(../images/pictos/right_arrow.png) no-repeat right 10px center / 14px 20px;}
+button.half, a.button.half {
+    display: inline-block;
+    width: 49%;
+}
 
 a.connect_button {height:22px; padding-top:10px;}
 button.connect_button {height: 32px;}
@@ -310,7 +314,7 @@ button.back {background:transparent;}
     text-align: center;
     z-index: 10;
 }
-.page_header .btn_back {
+.page_header .btn_left {
     position: relative;
     left: 0;
     float: left;
@@ -318,6 +322,17 @@ button.back {background:transparent;}
     width: auto;
     margin: 0px;
     padding-left: 25px;
+    box-shadow: none;
+    z-index: 20;
+}
+.page_header .btn_right {
+    position: relative;
+    right: 0;
+    float: right;
+    height: 42px;
+    width: auto;
+    margin: 0px;
+    padding-right: 25px;
     box-shadow: none;
     z-index: 20;
 }
@@ -333,8 +348,8 @@ button.back {background:transparent;}
     z-index: 20;
 }
 .page_header .back_arrow { left: 0; }
-.page_header .next_arrow { right: 0; transform: rotate(90deg); }
-.page_header .btn_back span, .page_header .btn_next span {
+.page_header .next_arrow { right: 0; transform: rotate(180deg); -webkit-transform: rotate(180deg); }
+.page_header .btn_left span, .page_header .btn_right span {
     height: 42px;
     font-size: 16px;
 }
@@ -433,10 +448,7 @@ button.back {background:transparent;}
 .newswall .content div.add_comment {
     margin-top: 10px;
 }
-.newswall .content div.add_comment .button {
-    display: inline-block;
-    width: 49%;
-}
+
 .newswall .content li.answer span.customer_name {
     margin-right: 5px;
 }

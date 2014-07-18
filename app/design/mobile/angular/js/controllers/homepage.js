@@ -1,4 +1,4 @@
-App.controller('HomeController', function($scope, $timeout, Pages) {
+App.controller('HomeController', function($scope, $timeout, Pages, Customer, Url) {
 
     $scope.$watch("isOnline", function(isOnline) {
         $scope.has_connection = isOnline;
@@ -42,6 +42,8 @@ App.controller('HomeController', function($scope, $timeout, Pages) {
             $scope.more_items.is_visible = false;
         }
 
+        var account_url = Url.get("customer/mobile_account_login");
+        $scope.customer_account.url = Customer.isLoggedIn() ? $scope.customer_account.edit_url : $scope.customer_account.login_url;
         $scope.customer_account.is_visible = true;
 
     }

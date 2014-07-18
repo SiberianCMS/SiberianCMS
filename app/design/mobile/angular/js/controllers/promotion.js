@@ -6,7 +6,7 @@ App.config(function($routeProvider) {
         depth: 1
     });
 
-}).controller('PromotionController', function($window, $scope, $routeParams, Message, Promotion) {
+}).controller('PromotionController', function($window, $scope, $routeParams, $location, Message, Url, Customer, Promotion) {
 
     $scope.$watch("isOnline", function(isOnline) {
         $scope.has_connection = isOnline;
@@ -15,6 +15,7 @@ App.config(function($routeProvider) {
         }
     });
 
+    $scope.is_logged_in = Customer.isLoggedIn();
     $scope.is_loading = true;
     $scope.value_id = Promotion.value_id = $routeParams.value_id;
 
@@ -27,7 +28,11 @@ App.config(function($routeProvider) {
         });
     }
 
-    $scope.use = function(promotion) {
+    $scope.login = function() {
+        $location.path(Url.get("customer/mobile_account_login"));
+    }
+
+    $scope.use = function(promotion_id) {
 
         Promotion.use(promotion_id).success(function(data) {
 
@@ -36,19 +41,37 @@ App.config(function($routeProvider) {
                 .show()
             ;
 
-            delete promotion;
+            if(data.remove) {
+                $scope.remove(promotion_id);
+            }
 
         }).error(function(data) {
-            if(data && angular.isDefined(data.message)) {
-                $scope.message = new Message();
-                $scope.message.isError(true)
-                    .setText(data.message)
-                    .show()
-                ;
+
+            if(data) {
+
+                if(angular.isDefined(data.message)) {
+                    $scope.message = new Message();
+                    $scope.message.isError(true)
+                        .setText(data.message)
+                        .show()
+                    ;
+                }
+
+                if(data.remove) {
+                    $scope.remove(promotion_id);
+                }
             }
 
         }).finally();
 
+    };
+
+    $scope.remove = function(promotion_id) {
+        for(var i = 0; i < $scope.promotions.length; i++) {
+            if($scope.promotions[i].id == promotion_id) {
+                $scope.promotions.splice(i, 1);
+            }
+        }
     }
 
 });

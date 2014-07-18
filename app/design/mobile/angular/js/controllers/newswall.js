@@ -10,7 +10,7 @@ App.config(function($routeProvider) {
         depth: 2
     });
 
-}).controller('NewswallListController', function($scope, $http, $routeParams, $window, $location, Connection, News) {
+}).controller('NewswallListController', function($scope, $http, $routeParams, $window, $location, News) {
 
     $scope.$watch("isOnline", function(isOnline) {
         $scope.has_connection = isOnline;
@@ -32,7 +32,7 @@ App.config(function($routeProvider) {
         $location.path(item.url);
     }
 
-}).controller('NewswallViewController', function($scope, $http, $routeParams, Connection, News, Answers, Message) {
+}).controller('NewswallViewController', function($scope, $http, $routeParams, Customer, News, Answers, Message) {
 
     $scope.$watch("isOnline", function(isOnline) {
         $scope.has_connection = isOnline;
@@ -42,6 +42,7 @@ App.config(function($routeProvider) {
     });
 
     $scope.is_loading = false;
+    $scope.is_logged_in = Customer.isLoggedIn();
     $scope.show_form = false;
     $scope.value_id = News.value_id = Answers.value_id = $routeParams.value_id;
     Answers.news_id = $routeParams.news_id;

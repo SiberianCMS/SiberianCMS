@@ -56,7 +56,9 @@ class Front_Mobile_HomeController extends Application_Controller_Mobile_Default 
         $data['customer_account'] = array(
             'name' => $option->getTabbarName(),
             'is_active' => $option->isActive(),
-            'url' => "",
+            'url' => $this->getUrl("customer/mobile_account_login"),
+            'login_url' => $this->getUrl("customer/mobile_account_login"),
+            'edit_url' => $this->getUrl("customer/mobile_account_edit"),
             'icon_url' => $option->getIconUrl(),
             'icon_is_colorable' => 1,
         );

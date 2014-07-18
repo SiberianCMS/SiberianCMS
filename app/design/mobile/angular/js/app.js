@@ -89,15 +89,17 @@ App.directive('sbBackgroundImage', function($http, $window) {
         },
         link: function (scope, element, attrs) {
 
-            $http({
-                method: 'GET',
-                url: BASE_URL+'/front/mobile/backgroundimage/value_id/'+scope.valueId,
-                cache: true
-            }).success(function(url) {
-                if(url) {
-                    scope.$parent.style_background_image = {"background-image": "url('"+url+"')"};
-                }
-            });
+            if(angular.isDefined(scope.valueId)) {
+                $http({
+                    method: 'GET',
+                    url: BASE_URL+'/front/mobile/backgroundimage/value_id/'+scope.valueId,
+                    cache: true
+                }).success(function(url) {
+                    if(url) {
+                        scope.$parent.style_background_image = {"background-image": "url('"+url+"')"};
+                    }
+                });
+            }
 
             scope.onResizeFunction = function() {
                 var height = $window.innerHeight;
@@ -239,11 +241,27 @@ App.factory('Message', function($timeout) {
 App.directive('sbHeader', function() {
     return {
         restrict: 'E',
-        template: '<header class="page_header"><div class="header absolute scale-fade" ng-show="!message.is_visible"><button type="button" class="btn_back header no-background" back-button><div class="back_arrow header"></div><span>{{ title_back }}</span></button><p class="title">{{ title }}</p></div><div class="message scale-fade" ng-show="message.is_visible"><p ng-class="{error: message.is_error, header: !message.is_error}">{{ message.text }}</p></div></header>',
+        template: '<header class="page_header">' +
+            '<div class="header absolute scale-fade" ng-show="!message.is_visible">' +
+                '<button type="button" class="btn_left header no-background" back-button>' +
+                    '<div class="back_arrow header"></div>' +
+                    '<span>{{ title_back }}</span>' +
+                '</button>' +
+                '<p class="title">{{ title }}</p>' +
+                '<button type="button" class="btn_right header no-background" ng-if="right_button" ng-click="right_button.action()">' +
+                    '<div class="next_arrow header"></div>' +
+                    '<span>{{ right_button.title }}</span>' +
+                '</button>' +
+            '</div>' +
+            '<div class="message scale-fade" ng-show="message.is_visible">' +
+                '<p ng-class="{error: message.is_error, header: !message.is_error}">{{ message.text }}</p>' +
+            '</div>' +
+        '</header>',
         replace: true,
         scope: {
             title_back: '=titleBack',
             title: '=',
+            right_button: '=rightButton',
             message: '='
         }
     }

@@ -42,7 +42,7 @@ class Comment_Mobile_AnswerController extends Application_Controller_Mobile_Defa
                 $customer_id = $this->getSession()->getCustomerId();
 
                 if(empty($customer_id) OR empty($data['news_id']) OR empty($data['text'])) {
-                    throw new Exception($this->_("An error occured while saving"));
+                    throw new Exception($this->_("An error occurred while saving"));
                 }
 
                 $news_id = $data['news_id'];

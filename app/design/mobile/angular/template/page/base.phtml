@@ -28,5 +28,11 @@
     <body>
         <?php echo $this->getPartialHtml("body"); ?>
         <?php echo $this->headScript() ?>
+        <script type="text/javascript">
+            App.run(function(Customer) {
+                Customer.id = <?php echo $this->getSession()->isLoggedIn() ? $this->getSession()->getCustomerId() : "null"; ?>;
+                console.log("Is logged in : ", Customer.isLoggedIn());
+            });
+        </script>
     </body>
 </html>

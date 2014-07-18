@@ -6,7 +6,7 @@
 
     <div class="padding">
 
-        <div class="connect">
+        <div class="connect" ng-if="!is_logged_in" ng-click="login()">
             <button type="button" class="connect_button icon_left arrow_right">
                 <?php echo $this->_("Please log in.") ?>
             </button>
@@ -29,9 +29,20 @@
                         <p ng-show="promotion.end_at"><?php echo $this->_("Valid until") ?> {{ promotion.end_at }}</p>
 
                         <div class="use_discount" ng-if="promotion.is_unique">
-                            <button type="button" class="button discount reverse" ng-click="use(promotion)">
-                                <?php echo $this->_("Use this coupon") ?>
-                            </button>
+                            <div class="toggle" ng-show="!promotion.confirm">
+                                <button type="button" class="discount reverse" ng-click="promotion.confirm = true;">
+                                    <?php echo $this->_("Use this coupon") ?>
+                                </button>
+                            </div>
+                            <div class="slide-top" ng-show="promotion.confirm">
+                                <h3><?php echo $this->_("Are you sure you want to use this discount?"); ?></h3>
+                                <button type="button" class="half discount reverse" ng-click="use(promotion.id)">
+                                    <?php echo $this->_("Yes") ?>
+                                </button>
+                                <button type="button" class="half discount reverse" ng-click="promotion.confirm = false;">
+                                    <?php echo $this->_("No") ?>
+                                </button>
+                            </div>
                         </div>
 
                         <div class="clear"></div>
