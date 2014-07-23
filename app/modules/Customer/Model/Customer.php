@@ -151,7 +151,7 @@ class Customer_Model_Customer extends Core_Model_Default
     }
     //
     public function getNoImage() {
-        return $this->getImagePath().'/no-image.png';
+        return $this->getImagePath().'/placeholder/no-image.png';
     }
 
     public function save() {

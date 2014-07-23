@@ -112,7 +112,14 @@ img.border {border: 1px solid white;}
 
 a.back {width: 62px; height: 31px;}
 .header a.back {position: absolute;margin-top: 6px;}
-.scrollview ul { width: 100%; }
+
+.subheader {position:relative;height:27px;padding:10px 5px 5px;}
+.subheader, .subheader span {font-size: 20px;font-weight: bold;text-align: center;}
+.subheader button.more {position:absolute;top:50%;right:10px;width:auto;margin-top:-19px;box-shadow:none;border:none;background:transparent;}
+.subheader button.more canvas {position:static;margin:0}
+.subheader img.gift, .subheader canvas {position:absolute;top:50%;left:10px;margin-top:-15px;}
+
+
 #loader {
     position: fixed;
     left: 0;
@@ -137,76 +144,35 @@ label.error { display: block; margin-top: 5px; color: #C00939; text-shadow: 1px 
 
 
 /** BLOCK **/
-.connect {
-    width: 100%;
-    /*height: 38px;*/
-    padding-top: 4px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
-}
+.connect {width: 100%;border-bottom: 1px solid rgba(255, 255, 255, 0.4);}
+button.more {background: none;}
+button, a.button, a.connect_button {display: block;height: 39px;margin: 10px auto;font-size: 14px;text-align: center;box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 0 rgba(0, 0, 0, 0.4) ;border: 1px solid rgba(255, 255, 255);border-radius: 5px;}
 
-button.more {
-    background: none;
-}
+button {width: 100%;}
 
-button, a.button, a.connect_button {
-    display: block;
-    height: 39px;
-    margin: 10px auto;
-    font-size: 14px;
-    text-align: center;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 0 rgba(0, 0, 0, 0.4) ;
-    border: 1px solid rgba(255, 255, 255);
-    border-radius: 5px;
-}
-
-button {
-    width: 100%;
-}
-
-a.button, a.connect_button {
-    width: auto;
-}
-
-/*button.button.full_width, button.connect_button.full_width, a.button.full_width, a.connect_button.full_width {*/
-    /*width:100%;*/
-/*}*/
-
-a.button, a.connect_button { line-height:39px; }
 button.icon_left, a.button.icon_left {position:relative;padding-left: 40px;}
 button.icon_left img, a.button.icon_left img, button.icon_left canvas {position:absolute;top:50%;left:10px;margin-top:-10px;border-radius:2px;}
 button.arrow_right, button.arrow_right, a.arrow_right {padding-right: 40px;background:url(../images/pictos/right_arrow.png) no-repeat right 10px center / 14px 20px;}
-button.half, a.button.half {
-    display: inline-block;
-    width: 49%;
-}
+button.half, a.button.half {display: inline-block;width: 49%;}
 
-a.connect_button {height:22px; padding-top:10px;}
 button.connect_button {height: 32px;}
 button:active, a.button:active { border-top-color: black; box-shadow: 0 0 6px black inset;  }
 
-button.close {
-    background: none;
-    border: 2px solid white;
-    border-radius: 2ex;
-    color: white;
-    display: block;
-    height: 25px;
-    position: absolute;
-    right: 7px;
-    top: 7px;
-    width: 25px;
-    z-index: 1;
-    padding-bottom: 1px;
-}
-
+button.close {position: absolute;right: 7px;top: 7px;width: 25px;height: 25px;display: block;background: none;border: 2px solid white;padding-bottom: 1px;border-radius: 2ex;color: white;z-index: 1;}
 button.back {background:transparent;}
 
+a.button, a.connect_button {width: auto;}
+a.button, a.connect_button { line-height:39px; }
+a.connect_button {height:22px; padding-top:10px;}
+
+
+.segmented_control {margin-bottom:10px;}
+.segmented_control .element {display: inline-block;width: 30px;height: 30px;margin: 2px;border: 1px solid;border-radius: 4ex;}
+.segmented_control .element.reverse {border: none;}
 /** /BLOCK **/
 
 /** BACKGROUND IMAGE **/
-#homepage_logo_link {
-    position: absolute;
-}
+#homepage_logo_link {position: absolute;}
 
 /** TABBAR **/
 
@@ -278,16 +244,9 @@ button.back {background:transparent;}
 
 
 
-/*.tabbar_items ul#tabbar li a .badge {left:50%;}*/
-
 
 /** /TABBAR **/
 
-.background {
-    /*height: 100%;*/
-    /*position: absolute;*/
-    /*width: 100%;*/
-}
 .page_header {
     position:fixed;
     width: 100%;
@@ -314,28 +273,9 @@ button.back {background:transparent;}
     text-align: center;
     z-index: 10;
 }
-.page_header .btn_left {
-    position: relative;
-    left: 0;
-    float: left;
-    height: 42px;
-    width: auto;
-    margin: 0px;
-    padding-left: 25px;
-    box-shadow: none;
-    z-index: 20;
-}
-.page_header .btn_right {
-    position: relative;
-    right: 0;
-    float: right;
-    height: 42px;
-    width: auto;
-    margin: 0px;
-    padding-right: 25px;
-    box-shadow: none;
-    z-index: 20;
-}
+.page_header .btn_left, .page_header .btn_right {position:relative;width:auto;height:42px;margin:0px;border:none;box-shadow:none;z-index:20;}
+.page_header .btn_left {left:0;float:left;padding-left:25px;}
+.page_header .btn_right {right:0;float:right;padding-right:25px;}
 
 .page_header .back_arrow, .page_header .next_arrow {
     position: absolute;
@@ -408,6 +348,33 @@ button.back {background:transparent;}
     background-color: darkred;
     z-index: 100;
 }
+
+/* List */
+
+/* L1 */
+.list.l1 ul li {padding:10px 0;}
+.list.l1 ul li p.text {height:40px;text-align:left;margin-right:0;margin-bottom:0px;margin-top:0;font-size:15px;line-height:20px;overflow:hidden;}
+
+.list.l1 ul li .image {margin-top:10px;background-repeat:no-repeat;background-position:0 0;background-size:19px 19px;}
+.list.l1 ul li .image div {width:183px;height:94px;margin-left:30px;border:4px solid white;border-width:4px 7px 4px 11px;}
+.list.l1 ul li .image div span {width:100%;height:100%;background-repeat:no-repeat;background-position:center center;background-size:cover;}
+
+.list.l1 ul li div.details {background:rgba(255,255,255,0.3);border:solid 1px rgba(153, 153, 153, 1);padding:5px;margin-left:53px;margin-top:10px;border-radius:4px;}
+.list.l1 ul li div.details span {font-size:11px;line-height:10px;margin-left:15px;}
+.list.l1 ul li div.details span img {vertical-align:bottom;}
+.list.l1 ul li div.details span.area1 {margin-left:0px;}
+
+
+/* L2 */
+.list.l2 ul li {position:relative;margin-top:10px;background-color:rgba(255,255,255,0.3);border-radius:5px;}
+.list.l2 ul li.first {margin-top:0;}
+
+.list.l2 ul li .image {border-radius:3px 3px 0 0;float:left;height:90px;width:80px;}
+
+.list.l2 ul li .details {float:left;margin-left:10px;}
+.list.l2 ul li .details .title {position:absolute;top:10px;padding-right:10px;font-size:15px;font-weight:bold;text-transform:uppercase;}
+.list.l2 ul li .details .subtitle {position:absolute;bottom:10px;padding-right:10px;}
+.list.l2 ul li .details .subtitle span {font-size:14px;text-transform:lowercase;}
 
 
 /* Newswall / Rss */
@@ -489,7 +456,7 @@ button.back {background:transparent;}
 .promotions .connect button {
     margin-top: 0;
 }
-.promotions .discount {
+.promotions .content {
     margin-top: 10px;
     border-radius: 5px;
 }
@@ -502,28 +469,78 @@ button.back {background:transparent;}
     padding-left: 40px;
     padding-right: 40px;
     text-align: center;
+    border-radius: 5px;
 }
 
-.promotions .discount p {
+.promotions .promotion p {
     margin-top: 20px;
     font-weight: normal;
     font-size: 15px;
 }
-.promotions .discount .title h4, .promotions .discount .use_discount a {
-    margin: 0 5px 5px 10px;
-    font-family: Lobster;
-    font-size: 30px;
-    text-align: center;
-}
+.promotions .promotion .title h4, .promotions .promotion .use_discount a {margin: 0 5px 5px 10px;font-family: Lobster;font-size: 30px;text-align: center;}
 
-.promotions .discount .use_discount {
+.promotions .rn-carousel-indicator {background: none;}
 
-}
+/* Event */
+.list.l2 ul li .image .month {height:26px;padding-top:4px;text-align:center;}
+.list.l2 ul li .image .month span {font-size:16px;font-weight:bold;}
+.list.l2 ul li .image .day {height:46px;margin-left:3px;margin-top:1px;padding-top:10px;text-align:center;width:74px;}
+.list.l2 ul li .image .day span {font-size:30px;font-weight:bold;}
 
-.promotions .discount .use_discount button {
+.event_picture{position: relative;}
+.event_picture img{/*padding: 0 5%;*/}
+.time {padding: 10px 0;font-size: 12px;}
+.time.has_picture {padding: 10px; position: absolute;bottom: 3px;background-color:rgba(255, 255, 255, 0.85);color: #404040;}
+.buttons .link {width: auto;margin: 10px 0;}
+.event_view .event_name { margin-bottom:10px; }
+.event_view .description {margin:10px 0;}
+.event_view .description span {line-height:17px;}
+.event_view .event_name .name { font-size:15px; text-transform:uppercase; }
+.event_view .buttons {margin-top:20px;}
 
-}
+.cover {position: relative;display: block;width: 100%;height: 200px;padding: 0;background-position: center center;background-size: cover;background-repeat: no-repeat;}
+.cover h3 {position: absolute;bottom: 0;display: block;width: 100%;padding: 0;font-size: 16px;overflow: hidden;}
+.cover.has-picture h3 {color: #000000;background: rgba(255, 255, 255, 0.85);}
+.cover h3 span.title {padding: 7px;font-size: 15px;font-weight: bold;line-height: 20px;text-transform: uppercase;overflow: hidden;}
+.cover h3 span.subtitle {display: block;margin-top: 10px;padding: 7px;font-size: 11px;font-weight: normal;overflow: hidden;}
+.cover .description {display: none;font-size: 12px;font-weight: normal;height: 50px;line-height: 1.1em;margin-top: 10px;overflow: hidden;}
 
-.promotions .rn-carousel-indicator {
-    background: none;
-}
+
+/* Loyalty Card */
+.loyaltycard .content {width:100%;}
+.loyaltycard .content h3.short_advantage {margin:auto;line-height:35px;font-weight:400;}
+.loyaltycard .content .subheader {height:auto;min-height:35px;padding-left:0;padding-right:0}
+.loyaltycard .content .subheader .card_details {position:relative;height:35px;margin:0;text-align:center;}
+.loyaltycard .content .subheader.advantage_details {min-height:35px;padding:5px 10px;text-align:left;}
+.loyaltycard .content .subheader.advantage_details p {margin: 0;font-size:13px;line-height:17px;}
+.loyaltycard .content .subheader.advantage_details span {font-size: 13px;font-weight:normal;}
+.loyaltycard .content .promotions {margin-top: 15px;}
+/*.loyaltycard .content .discount .padding {padding-bottom:0;}*/
+/*.loyaltycard .content .discount .use_discount {position:static;margin-bottom:10px;}*/
+.loyaltycard .content .points {margin-top:10px;}
+.loyaltycard .content .points .point {width: 85px;height: 84px;display: inline-block;padding: 5px 0;margin:0 5px;}
+.loyaltycard .content .conditions div.advantage {position: relative;width: 100%;margin: 0;}
+.loyaltycard .center {position:relative;width:290px;margin:auto;}
+
+.loyaltycard .card_is_locked p {min-height:30px;margin:0;padding:6px;text-align:center;font-size:14px;line-height:26px;color:white;background-color:darkred;}
+.loyaltycard .pad {width:290px;text-align:center;padding-top:15px;}
+
+.loyaltycard .pad .dots {width:105px;margin:10px auto;}
+.loyaltycard .pad .dots .dot {width:10px;height:10px;display:inline-block;margin:7px;border:1px solid;border-radius:2ex;}
+.loyaltycard .pad .dots .dot.reverse {width:12px;height:12px;border:none;}
+.loyaltycard .pad .delete {margin-right:30px;font-size:17px;cursor:pointer;}
+.loyaltycard .pad .pad_buttons .title {margin-top:0;font-size:20px;}
+.loyaltycard .pad .pad_buttons .pad_button {display:inline-block;width:75px;height:74px;margin:5px;padding:5px 0;border:1px solid;border-radius:6ex;font-size:25px;box-shadow:none;}
+
+/** SOCIALGAMING **/
+.socialgaming li.header {padding-top:13px;height:29px;text-align:center;}
+.socialgaming li.team_leader, .socialgaming li.challenger {padding:10px 5px;}
+.socialgaming li.challenger.overlay_20 {background:url('../images/overlays/black_35.png') repeat;}
+.socialgaming li.team_leader p.number_of_points {margin:0;width:85px;height:45px;line-height:45px;}
+.socialgaming li.team_leader p.number_of_points img {margin-top:10px;float:right;}
+.socialgaming li p.challenger_name {margin-top:13px;}
+/** /SOCIALGAMING **/
+
+
+
+

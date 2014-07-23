@@ -1,0 +1,33 @@
+
+<div class="has_header" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="page_title" message="message"></sb-header>
+
+    <sb-loader is-loading="is_loading" has-connection="has_connection"></sb-loader>
+
+    <div class="padding list l2">
+        <ul>
+            <li class="padding" ng-repeat="item in collection" ng-click="showItem(item)" ng-class="{first: $index == 0}">
+                <div class="image background reverse">
+                    <div class="month">
+                        <span class="title background reverse">
+                            {{ item.month_name_short }}
+                        </span>
+                    </div>
+                    <div class="day background">
+                        <span class="background">{{ item.day }}</span>
+                    </div>
+                </div>
+                <div class="details">
+                    <div class="title top">
+                        <span>{{ item.title }}</span>
+                    </div>
+                    <div class="subtitle bottom">
+                        <span>{{ item.subtitle }}</span>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </li>
+        </ul>
+    </div>
+</div>

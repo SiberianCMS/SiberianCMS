@@ -5,6 +5,7 @@ class Event_Model_Event extends Core_Model_Default {
     const MAX_RESULTS = 5;
 
     protected $_list = array();
+    protected $_tmp_list = array();
 
     public function __construct($params = array()) {
         parent::__construct($params);
@@ -28,7 +29,11 @@ class Event_Model_Event extends Core_Model_Default {
                     $this->_parseCustomAgenda($event->getId());
                 }
             }
-            usort($this->_list, array($this, '_sortByDate'));
+            usort($this->_tmp_list, array($this, '_sortByDate'));
+            $this->_list = array();
+            foreach($this->_tmp_list as $event) {
+                $this->_list[] = new Core_Model_Default($event);
+            }
             $cache->save($this->_list, $id);
 
         }
@@ -55,7 +60,8 @@ class Event_Model_Event extends Core_Model_Default {
                     $created_at = $created_at->toString('y-MM-dd HH:mm:ss');
                 }
 //                $updated_at = !empty($event['LAST-MODIFIED']) ? date_create($event['LAST-MODIFIED'])->format('Y-m-d H:i:s') : null;
-                $this->_list[] = array(
+                $this->_tmp_list[] = array(
+                    "id"            => $key,
                     "name"          => $event['SUMMARY'],
                     "start_at"      => date_create($event['DTSTART'])->format('Y-m-d H:i:s'),
                     "end_at"        => date_create($event['DTEND'])->format('Y-m-d H:i:s'),
@@ -66,7 +72,6 @@ class Event_Model_Event extends Core_Model_Default {
                     "created_at"    => $created_at,
                     "updated_at"    => null
 //                    "updated_at"    => $updated_at
-
                 );
             }
         }
@@ -94,7 +99,7 @@ class Event_Model_Event extends Core_Model_Default {
         $events = Zend_Json::decode($response);
 
         if (!empty($events) && !empty($events['data'])){
-            foreach ($events['data'] as $event){
+            foreach ($events['data'] as $key => $event){
                 $event_datas = @file_get_contents("https://graph.facebook.com/{$event['id']}?access_token=$access_token");
                 if(!$event_datas) continue;
                 $description = '';
@@ -116,18 +121,19 @@ class Event_Model_Event extends Core_Model_Default {
                 }
 
 //                isset($event['start_time']) ? $start_at = strtotime($event['start_time']) : $start_at = strtotime(date("Y-m-d H:i:s", time()));
-                    $this->_list[] = array(
-                        "name"          => $event['name'],
-                        "start_at"      => $start_at,
-                        "end_at"        => date_create(isset($event['end_time']) ? $event['end_time'] : "")->format('Y-m-d H:i:s'),
-                        "description"   => !empty($event_datas['description']) ? $event_datas['description'] : null,
-                        "location"      => $address,
-                        "rsvp"          => '',
-                        "picture"       => 'https://graph.facebook.com/'.$event['id'].'/picture?type=large',
-                        "created_at"    => null,
-                        "updated_at"    => $updated_at
+                $this->_tmp_list[] = array(
+                    "id"            => $key,
+                    "name"          => $event['name'],
+                    "start_at"      => $start_at,
+                    "end_at"        => date_create(isset($event['end_time']) ? $event['end_time'] : "")->format('Y-m-d H:i:s'),
+                    "description"   => !empty($event_datas['description']) ? $event_datas['description'] : null,
+                    "location"      => $address,
+                    "rsvp"          => '',
+                    "picture"       => 'https://graph.facebook.com/'.$event['id'].'/picture?type=large',
+                    "created_at"    => null,
+                    "updated_at"    => $updated_at
 
-                    );
+                );
 //                }
             }
         }
@@ -141,13 +147,13 @@ class Event_Model_Event extends Core_Model_Default {
         $event = new Event_Model_Event_Custom();
         $custom_events = $event->findAll(array('agenda_id'=> $custom_agenda_id));
         foreach ($custom_events as $custom_event) {
-            if(strtotime($custom_event->getEndAt()) > strtotime(date("Y-m-d H:i:s", time()))){
+            if(strtotime($custom_event->getEndAt()) > strtotime(date("Y-m-d H:i:s", time()))) {
                 $image = $custom_event->getPictureUrl();
                 if(!$image) {
                     $image = $this->_getNoImage();;
                 }
                 $custom_event->setPicture($image);
-                $this->_list[] = $custom_event->getData();
+                $this->_tmp_list[] = $custom_event->getData();
             }
         }
 

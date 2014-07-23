@@ -26,7 +26,7 @@ class Event_Application_EventController extends  Application_Controller_Default{
                         unset($datas['picture']);
                     } else {
                         $application = $this->getApplication();
-                        $illus_relative_path = '/feature/'.$option_value->getId().'/';
+                        $illus_relative_path = '/feature/event/cover/';
                         $folder = Application_Model_Application::getBaseImagePath().$illus_relative_path;
                         $file = Core_Model_Directory::getTmpDirectory(true).'/'.$datas['picture'];
                         if (!is_dir($folder))

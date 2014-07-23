@@ -12,7 +12,7 @@ class LoyaltyCard_Model_Customer extends Core_Model_Default
     }
 
     public static function getMessageCardIsLocked() {
-        return $this->_('We are sorry, your card is temporarily blocked');
+        return parent::_('We are sorry, your card is temporarily blocked');
     }
 
     public function findAllByOptionValue($value_id, $customer_id) {

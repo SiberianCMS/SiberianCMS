@@ -40,6 +40,10 @@
     button.connect_button.arrow_right, a.connect_button.arrow_right {
         background-image: url("<?php echo $this->getColorizedImage($this->getImage('pictos/right_arrow.png', true), $block->getColor()); ?>");
     }
+    <?php elseif($block->getCode() == 'news') : ?>
+    .list.l1 ul li .image {
+        background-image: url("<?php echo $this->getColorizedImage($this->getImage("pictos/pictures.png"), $block->getColor()); ?>");
+    }
     <?php elseif($block->getCode() == 'tabbar') : ?>
     .border-color {
         border-color: <?php echo $block->getImageColor(); ?> !important;
