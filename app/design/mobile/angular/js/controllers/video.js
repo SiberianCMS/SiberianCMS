@@ -16,6 +16,7 @@ App.config(function($routeProvider) {
     });
 
     $scope.is_loading = true;
+    $scope.videos = new Array();
     $scope.value_id = Video.value_id = $routeParams.value_id;
     $scope.template_view = Url.get("/media/mobile_gallery_video_view/template");
 
@@ -57,12 +58,11 @@ App.config(function($routeProvider) {
         item.current_offset = offset;
         Video.find(item).success(function(data) {
             if(!$scope.current_item) {
-                $scope.videos = data.videos;
                 $scope.current_item = item;
-            } else {
-                for(var i = 0; i < data.videos.length; i++) {
-                    $scope.videos.push(data.videos[i]);
-                }
+            }
+
+            for(var i = 0; i < data.videos.length; i++) {
+                $scope.videos.push(data.videos[i]);
             }
 
             if(data.videos.length) {
@@ -88,7 +88,7 @@ App.config(function($routeProvider) {
     $scope.bindScrollEvent = function() {
         $scope.show_loader_more = false;
         angular.element($window).bind('scroll', function() {
-            if(this.pageYOffset > $window.getMaxScrollY()) {
+            if(this.pageYOffset >= $window.getMaxScrollY()) {
                 $scope.show_loader_more = true;
                 $scope.loadMore();
             }

@@ -8,6 +8,7 @@ class Social_Model_Facebook extends Core_Model_Default {
     protected $_list = array();
     protected $_page;
     protected $_next_url;
+    private static $__access_token;
 
     public function __construct($params = array()) {
         parent::__construct($params);
@@ -147,6 +148,24 @@ class Social_Model_Facebook extends Core_Model_Default {
 
     public function getCacheId() {
         return 'SOCIAL_FACEBOOK_'.Core_Model_Language::getCurrentLanguage().sha1($this->getFbUser()."-".$this->_page);
+    }
+
+    public function getAccessToken() {
+//        if(!self::$__access_token) {
+
+        $app_id     = Core_Model_Lib_Facebook::getAppId();
+        $app_secret = Core_Model_Lib_Facebook::getSecretKey();
+
+        $url = 'https://graph.facebook.com/oauth/access_token';
+        $url .= '?grant_type=client_credentials';
+        $url .= "&client_id=$app_id";
+        $url .= "&client_secret=$app_secret";
+
+        return str_replace('access_token=','',file_get_contents($url));
+//            self::$__access_token = str_replace('access_token=','',file_get_contents($url));
+//        }
+
+//        return self::$__access_token;
     }
 
     private function __getAccessToken() {

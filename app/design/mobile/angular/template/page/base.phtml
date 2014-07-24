@@ -29,9 +29,21 @@
         <?php echo $this->getPartialHtml("body"); ?>
         <?php echo $this->headScript() ?>
         <script type="text/javascript">
-            App.run(function(Customer) {
+            App.run(function($window, Customer) {
                 Customer.id = <?php echo $this->getSession()->isLoggedIn() ? $this->getSession()->getCustomerId() : "null"; ?>;
                 console.log("Is logged in : ", Customer.isLoggedIn());
+
+                (function(d){
+                    var js, id = 'facebook-jssdk';if (d.getElementById(id)) {return;}
+                    js = d.createElement('script');js.id = id;js.async = true;
+                    js.src = "//connect.facebook.net/en_US/sdk.js";
+                    d.getElementsByTagName('head')[0].appendChild(js);
+                }($window.document));
+
+            }).config(function($facebookProvider) {
+                $facebookProvider.setCustomInit({xfbml: false, version : 'v2.0'});
+                $facebookProvider.setAppId("<?php echo $application->getFacebookId(); ?>");
+                $facebookProvider.setPermissions("<?php echo Customer_Model_Customer_Type_Facebook::getScope() ?>");
             });
         </script>
     </body>

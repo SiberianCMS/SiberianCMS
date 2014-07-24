@@ -1,0 +1,83 @@
+<?php $color = $this->getApplication()->getBlock("news")->getColor() ?>
+
+<div class="has_header" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="page_title" message="message"></sb-header>
+
+    <sb-loader is-loading="is_loading" has-connection="has_connection"></sb-loader>
+
+    <div class="list l1 news facebook">
+        <ul>
+            <li class="cover" image-src="cover_image_url" sb-image ng-if="cover_image_url"></li>
+            <li class="load_more small loader slide-down" ng-show="show_user_loader"></li>
+        </ul>
+        <div class="padding">
+            {{$scope.cover_image_url}}
+            <ul>
+                <li class="relative">
+                    <div class="info">
+                        <div class="logo large left">
+                            <img width="100" height="100" class="logo_src" ng-src="{{ user.picture.data.url }}" />
+                        </div>
+                        <div class="comment_metas">
+                        <span class="count block">
+                            <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/comment.png', true), $color); ?>" alt="<?php echo $this->_('Comments') ?>" width="13" height="12px" />
+                            <span>{{ user.talking_about_count }}</span>
+                        </span>
+                        <span class="count block">
+                            <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/heart.png', true), $color); ?>" alt="<?php echo $this->_('Likes') ?>" width="13" height="12px" />
+                            <span>{{ user.likes }}</span>
+                        </span>
+
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <p class="about">
+                        <span class="name bold">{{ user.name }}</span>
+                        <span class="name">{{ user.about }}</span><br /><br />
+                        <span class="name">{{ user.genre }}</span>
+                    </p>
+                    <div class="clear"></div>
+                </li>
+                <li ng-repeat="item in collection" class="slide-left" ng-click="showItem(item)">
+                    <div>
+                        <img width="37" height="37" class="logo left" ng-src="{{ user.picture.data.url }}" ng-if="user.picture.data.url" />
+
+                        <p class="text">
+                            <span class="name bold">{{ item.from }}.</span>
+                            <span>{{ item.message }}</span>
+                        </p>
+
+                        <div class="clear"></div>
+                    </div>
+
+                    <div class="image right" ng-if="item.picture">
+                        <div class="container">
+                            <span class="block bg_image" image-src="item.picture" sb-image ></span>
+                        </div>
+                    </div>
+
+                    <div class="clear"></div>
+
+                    <div class="details">
+                        <span class="area1 left">
+                            <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/pencil.png', true), $color); ?>" alt="" width="13" height="10px" />
+                            {{ item.created_time | date : "short" }}
+                        </span>
+                        <span class="area3 right">
+                            <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/comment.png', true), $color); ?>" alt="" width="13" />
+                            {{ item.number_of_comments }}
+                        </span>
+                        <span class="area2 right">
+                            <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/heart.png', true), $color); ?>" alt="" width="13" height="12px" />
+                            {{ item.number_of_likes }}
+                        </span>
+
+                        <div class="clear"></div>
+                    </div>
+                </li>
+                <li class="load_more small loader slide-down" ng-show="show_posts_loader"></li>
+            </ul>
+        </div>
+    </div>
+</div>

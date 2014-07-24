@@ -16,6 +16,7 @@
                     <angular_carousel link="js/angular/angular-carousel.js" />
                     <angular_sanitize link="js/angular/angular-sanitize.min.js" />
                     <angular_storage link="js/angular/ngStorage.min.js" />
+                    <angular_facebook link="js/angular/ngFacebook.js" />
                     <app link="js/app.js" />
                     <controllers folder="js/controllers" />
                     <factories folder="js/factories" />

@@ -16,6 +16,7 @@ App.config(function($routeProvider) {
     });
 
     $scope.is_loading = true;
+    $scope.images = new Array();
     $scope.show_loader_more = false;
     $scope.value_id = Image.value_id = $routeParams.value_id;
     $scope.template_view = Url.get("/media/mobile_gallery_image_view/template");
@@ -58,12 +59,11 @@ App.config(function($routeProvider) {
         item.current_offset = offset;
         Image.find(item).success(function(data) {
             if(!$scope.current_item) {
-                $scope.images = data.images;
                 $scope.current_item = item;
-            } else {
-                for(var i = 0; i < data.images.length; i++) {
-                    $scope.images.push(data.images[i]);
-                }
+            }
+
+            for(var i = 0; i < data.images.length; i++) {
+                $scope.images.push(data.images[i]);
             }
 
             if(data.images.length) {
@@ -85,7 +85,7 @@ App.config(function($routeProvider) {
     $scope.bindScrollEvent = function() {
         $scope.show_loader_more = false;
         angular.element($window).bind('scroll', function() {
-            if(this.pageYOffset > $window.getMaxScrollY()) {
+            if(this.pageYOffset >= $window.getMaxScrollY()) {
                 $scope.show_loader_more = true;
                 $scope.loadMore();
             }
