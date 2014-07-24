@@ -1,0 +1,21 @@
+<div>
+    <ul class="video_gallery">
+        <li class="video list_videos relative slide-left" ng-repeat="video in videos">
+            <div>
+                <a href="{{ video.url }}" class="play_video">
+                    <div class="sprite"></div>
+                    <div class="youtube_preview cover" image-src="video.cover_url" sb-image></div>
+                </a>
+                <div class="background title">
+                    <div>
+                        <img ng-src="{{ video.icon_url }}" width="20" class="icon left" />
+                        <p class="title_video">
+                            {{ video.title }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="load_more small loader" ng-show="show_loader_more"></li>
+    </ul>
+</div>

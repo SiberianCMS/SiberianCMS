@@ -113,7 +113,7 @@ img.border {border: 1px solid white;}
 a.back {width: 62px; height: 31px;}
 .header a.back {position: absolute;margin-top: 6px;}
 
-.subheader {position:relative;height:27px;padding:10px 5px 5px;}
+.subheader {position:relative;height:27px;padding:10px 0 5px;}
 .subheader, .subheader span {font-size: 20px;font-weight: bold;text-align: center;}
 .subheader button.more {position:absolute;top:50%;right:10px;width:auto;margin-top:-19px;box-shadow:none;border:none;background:transparent;}
 .subheader button.more canvas {position:static;margin:0}
@@ -193,7 +193,7 @@ a.connect_button {height:22px; padding-top:10px;}
 /* /Type Scroll */
 
 .tabbar_items ul#tabbar li {position:relative;height:47px;margin-bottom:5px; /*overflow: hidden;*/ }
-.tabbar_items ul#tabbar li span { height:15px;margin-top:3px;font-size:11px;overflow:hidden; }
+.tabbar_items ul#tabbar li span { height:16px;margin-top:3px;font-size:11px;overflow:hidden; }
 .tabbar_items ul#tabbar li#more_items { border-right: none;width: 53px; }
 .tabbar_items.l1 {position: absolute; bottom: 0; width: 100%; height: 50px; padding-top: 5px; box-shadow: 0 -7px 8px rgba(0, 0, 0, 0.3);}
 .tabbar_items.l1 ul#tabbar {width: 100%; text-align: center;}
@@ -228,11 +228,11 @@ a.connect_button {height:22px; padding-top:10px;}
 .tabbar_items.l6 ul#tabbar li a span {float:left;height:16px;margin-top:8px;margin-left:10px;font-size:15px;}
 .tabbar_items.l6 ul#tabbar li a .badge {left:30px;right:auto;}
 
-.tabbar_items.l7 {position:absolute;top:0;left:0;width:80px;height:100%;overflow:auto;-webkit-overflow-scrolling: touch;}
+.tabbar_items.l7 {position:absolute;top:0;left:0;width:90px;height:100%;overflow:auto;-webkit-overflow-scrolling: touch;}
 .tabbar_items.l7 #tabbar_background {position:absolute;top:0;left:0;width:100%;height:100%;opacity:0.85}
-.tabbar_items.l7 #tabbar_items {position:absolute;top:0;left:0;width:79px;height:100%;border-right:1px solid;}
-.tabbar_items.l7 ul#tabbar li {width:80px;height:80px;margin:0;padding:0;border-bottom: 1px solid;}
-.tabbar_items.l7 ul#tabbar li a {display:block;width:70px;height:60px;padding:10px 5px;text-align:center;}
+.tabbar_items.l7 #tabbar_items {position:absolute;top:0;left:0;width:89px;height:100%;border-right:1px solid;}
+.tabbar_items.l7 ul#tabbar li {width:90px;height:80px;margin:0;padding:0;border-bottom: 1px solid;}
+.tabbar_items.l7 ul#tabbar li a {display:block;width:80px;height:60px;padding:10px 5px;text-align:center;}
 .tabbar_items.l7 ul#tabbar li a span {margin-top:8px;font-size:15px;}
 
 
@@ -275,7 +275,8 @@ a.connect_button {height:22px; padding-top:10px;}
 }
 .page_header .btn_left, .page_header .btn_right {position:relative;width:auto;height:42px;margin:0px;border:none;box-shadow:none;z-index:20;}
 .page_header .btn_left {left:0;float:left;padding-left:25px;}
-.page_header .btn_right {right:0;float:right;padding-right:25px;}
+.page_header .btn_right {right:0;float:right;padding-right:6px;}
+.page_header .btn_right.arrow {padding-right:25px;}
 
 .page_header .back_arrow, .page_header .next_arrow {
     position: absolute;
@@ -313,6 +314,7 @@ a.connect_button {height:22px; padding-top:10px;}
 }
 
 .background_image {
+    background-repeat:no-repeat;
     background-position: center center;
     background-size: cover;
 }
@@ -326,16 +328,39 @@ a.connect_button {height:22px; padding-top:10px;}
     margin-right: 10px;
 }
 
+.image_loader {
+    position:relative;
+    height:100%;
+    width:100%;
+    background: black;
+}
+.image_loader .loader {
+    top: 50%;
+    position: absolute;
+    margin-top: -45px;
+}
 .loader {
     padding: 20px 0;
     height: 50px;
     width: 100%;
-
     background-color: transparent;
     background-image: url("../images/loader/ajax.gif");
     background-position: center center;
     background-size: 48px 48px;
     background-repeat: no-repeat;
+}
+.loader.small {
+    height:32px;
+    width:100%;
+    padding:10px 0;
+    background-size: 30px 30px;
+}
+
+.subheader .loader {
+    position: absolute;
+    top: 50%;
+    margin: -16px 0 0;
+    padding: 0;
 }
 
 .no_connection {
@@ -376,6 +401,23 @@ a.connect_button {height:22px; padding-top:10px;}
 .list.l2 ul li .details .subtitle {position:absolute;bottom:10px;padding-right:10px;}
 .list.l2 ul li .details .subtitle span {font-size:14px;text-transform:lowercase;}
 
+
+/* Sidebars */
+.sidebar {position:fixed;width:200px;height:100%;padding:5px;z-index:100;box-shadow:-2px -2px 6px rgba(0, 0, 0, 0.5);}
+.sidebar.right {float:none;right:0;}
+.sidebar li {
+    text-align:left;
+}
+.sidebar li a.item {
+    cursor: pointer;
+    font-size: 0.85em;
+    padding: 10px;
+    border-bottom: 1px solid;
+    display: block;
+    height: auto;
+    margin: 0;
+    text-align: left;
+}
 
 /* Newswall / Rss */
 .newswall .content li, .rss .content li {
@@ -541,6 +583,13 @@ a.connect_button {height:22px; padding-top:10px;}
 .socialgaming li p.challenger_name {margin-top:13px;}
 /** /SOCIALGAMING **/
 
+/* Image Gallery */
+.image_gallery li {display:inline-block;width:20%;height:90px;margin:0;}
+.image_gallery .image {background-color:black;}
 
-
-
+/* Video Gallery */
+.video_gallery li.load_more {padding-top:20px;}
+.video_gallery li.video img.icon {margin: 10px 5px;}
+.video_gallery li.video div.title {position:absolute;bottom:0;left:0;width:100%;height:40px;opacity:0.8;z-index:20;}
+.video_gallery li.video div.title p.title_video {height:40px;vertical-align: middle; display:table-cell;margin:3px 0;font-size:15px;font-weight:bold;line-height:17px;}
+.video_gallery .sprite {position:absolute;top:0;left:0;width:100%;height:100%;background:url(../images/pictos/sprite-play.png) no-repeat center center transparent;background-size:cover;z-index:10;}

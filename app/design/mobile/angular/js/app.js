@@ -248,9 +248,10 @@ App.directive('sbHeader', function() {
                     '<span>{{ title_back }}</span>' +
                 '</button>' +
                 '<p class="title">{{ title }}</p>' +
-                '<button type="button" class="btn_right header no-background" ng-if="right_button" ng-click="right_button.action()">' +
-                    '<div class="next_arrow header"></div>' +
-                    '<span>{{ right_button.title }}</span>' +
+                '<button type="button" class="btn_right header no-background" ng-if="right_button" ng-click="right_button.action()" ng-class="{arrow: !right_button.hide_arrow}">' +
+                    '<div class="next_arrow header" ng-hide="right_button.hide_arrow"></div>' +
+                    '<span ng-if="!right_button.picto_url">{{ right_button.title }}</span>' +
+                    '<img ng-if="right_button.picto_url" ng-src="{{ right_button.picto_url }}" height="30" />' +
                 '</button>' +
             '</div>' +
             '<div class="message scale-fade" ng-show="message.is_visible">' +
@@ -280,10 +281,41 @@ App.directive('sbLoader', function() {
     };
 });
 
+App.directive('sbImage', function() {
+    return {
+        restrict: 'A',
+        scope: {
+            image_src: "=imageSrc"
+        },
+        template: '<div class="image_loader relative scale-fade" ng-hide="is_visible"><span class="loader block"></span></div>',
+        link: function(scope, element) {
+            var img = document.createElement('img');
+            img.src = scope.image_src;
+            img.onload = function() {
+                element.css('background-image', 'url('+img.src+')');
+                scope.is_visible = true;
+                scope.$apply();
+            }
+
+        },
+        controller: function($scope) {
+            $scope.is_visible = false;
+        }
+    };
+});
 
 var ajaxComplete = function(data) {
 
 };
 
+window.getMaxScrollY = function() {
+    return this.getHeight() - window.innerHeight;
+};
 
-
+window.getHeight = function() {
+    return Math.max(
+        document.body.scrollHeight, document.documentElement.scrollHeight,
+        document.body.offsetHeight, document.documentElement.offsetHeight,
+        document.body.clientHeight, document.documentElement.clientHeight
+    );
+}

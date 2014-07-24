@@ -427,19 +427,19 @@
 }
 /* line 165, ../sass/ng-animation.scss */
 .slide-right.ng-enter {
-  transform: translateX(60px);
-  -ms-transform: translateX(60px);
-  -webkit-transform: translateX(60px);
+  transform: translateX(100%);
+  -ms-transform: translateX(100%);
+  -webkit-transform: translateX(100%);
   transition-duration: 250ms;
   -webkit-transition-duration: 250ms;
-  opacity: 0;
+  /*opacity: 0;*/
 }
 /* line 171, ../sass/ng-animation.scss */
 .slide-right.ng-enter-active {
   transform: translateX(0);
   -ms-transform: translateX(0);
   -webkit-transform: translateX(0);
-  opacity: 1;
+  /*opacity: 1;*/
 }
 /* line 176, ../sass/ng-animation.scss */
 .slide-right.ng-leave {
@@ -448,14 +448,14 @@
   -webkit-transform: translateX(0);
   transition-duration: 250ms;
   -webkit-transition-duration: 250ms;
-  opacity: 1;
+  /*opacity: 1;*/
 }
 /* line 182, ../sass/ng-animation.scss */
 .slide-right.ng-leave-active {
-  transform: translateX(60px);
-  -ms-transform: translateX(60px);
-  -webkit-transform: translateX(60px);
-  opacity: 0;
+  transform: translateX(100%);
+  -ms-transform: translateX(100%);
+  -webkit-transform: translateX(100%);
+  /*opacity: 0;*/
 }
 /* line 188, ../sass/ng-animation.scss */
 .slide-right.ng-hide-add {
@@ -464,31 +464,31 @@
   -webkit-transform: translateX(0);
   transition-duration: 250ms;
   -webkit-transition-duration: 250ms;
-  opacity: 1;
+  /*opacity: 1;*/
 }
 /* line 193, ../sass/ng-animation.scss */
 .slide-right.ng-hide-add.ng-hide-add-active {
-  transform: translateX(60px);
-  -ms-transform: translateX(60px);
-  -webkit-transform: translateX(60px);
-  opacity: 0;
+  transform: translateX(100%);
+  -ms-transform: translateX(100%);
+  -webkit-transform: translateX(100%);
+  /*opacity: 0;*/
 }
 /* line 199, ../sass/ng-animation.scss */
 .slide-right.ng-hide-remove {
-  transform: translateX(60px);
-  -ms-transform: translateX(60px);
-  -webkit-transform: translateX(60px);
+  transform: translateX(100%);
+  -ms-transform: translateX(100%);
+  -webkit-transform: translateX(100%);
   transition-duration: 250ms;
   -webkit-transition-duration: 250ms;
   display: block !important;
-  opacity: 0;
+  /*opacity: 0;*/
 }
 /* line 205, ../sass/ng-animation.scss */
 .slide-right.ng-hide-remove.ng-hide-remove-active {
   transform: translateX(0);
   -ms-transform: translateX(0);
   -webkit-transform: translateX(0);
-  opacity: 1;
+  /*opacity: 1;*/
 }
 
 /* ------------------------------------------- */
