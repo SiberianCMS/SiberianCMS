@@ -59,10 +59,11 @@ App.config(function($routeProvider) {
         Video.find(item).success(function(data) {
             if(!$scope.current_item) {
                 $scope.current_item = item;
-            }
-
-            for(var i = 0; i < data.videos.length; i++) {
-                $scope.videos.push(data.videos[i]);
+                $scope.videos = data.videos;
+            } else {
+                for(var i = 0; i < data.videos.length; i++) {
+                    $scope.videos.push(data.videos[i]);
+                }
             }
 
             if(data.videos.length) {

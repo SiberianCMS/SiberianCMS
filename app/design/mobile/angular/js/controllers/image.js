@@ -58,12 +58,14 @@ App.config(function($routeProvider) {
 
         item.current_offset = offset;
         Image.find(item).success(function(data) {
+
             if(!$scope.current_item) {
                 $scope.current_item = item;
-            }
-
-            for(var i = 0; i < data.images.length; i++) {
-                $scope.images.push(data.images[i]);
+                $scope.images = data.images;
+            } else {
+                for(var i = 0; i < data.images.length; i++) {
+                    $scope.images.push(data.images[i]);
+                }
             }
 
             if(data.images.length) {
