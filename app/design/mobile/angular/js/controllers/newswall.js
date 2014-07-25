@@ -3,11 +3,13 @@ App.config(function($routeProvider) {
     $routeProvider.when(BASE_URL+"/comment/mobile_list/index/value_id/:value_id", {
         controller: 'NewswallListController',
         templateUrl: BASE_URL+"/comment/mobile_list/template",
-        depth: 1
+        depth: 1,
+        code: "newswall"
     }).when(BASE_URL+"/comment/mobile_view/index/value_id/:value_id/news_id/:news_id", {
         controller: 'NewswallViewController',
         templateUrl: BASE_URL+"/comment/mobile_view/template",
-        depth: 2
+        depth: 2,
+        code: "newswall"
     });
 
 }).controller('NewswallListController', function($scope, $http, $routeParams, $window, $location, News) {

@@ -3,7 +3,8 @@ App.config(function($routeProvider) {
     $routeProvider.when(BASE_URL+"/media/mobile_gallery_video_list/index/value_id/:value_id", {
         controller: 'VideoListController',
         templateUrl: BASE_URL+"/media/mobile_gallery_video_list/template",
-        depth: 1
+        depth: 1,
+        code: "video"
     });
 
 }).controller('VideoListController', function($window, $scope, $routeParams, Url, Video) {

@@ -3,7 +3,8 @@ App.config(function($routeProvider) {
     $routeProvider.when(BASE_URL+"/media/mobile_gallery_image_list/index/value_id/:value_id", {
         controller: 'ImageListController',
         templateUrl: BASE_URL+"/media/mobile_gallery_image_list/template",
-        depth: 1
+        depth: 1,
+        code: "image"
     });
 
 }).controller('ImageListController', function($window, $scope, $routeParams, Url, Message, Image) {

@@ -3,11 +3,13 @@ App.config(function($routeProvider) {
     $routeProvider.when(BASE_URL+"/event/mobile_list/index/value_id/:value_id", {
         controller: 'EventListController',
         templateUrl: BASE_URL+"/event/mobile_list/template",
-        depth: 1
+        depth: 1,
+        code: "event"
     }).when(BASE_URL+"/event/mobile_view/index/value_id/:value_id/event_id/:event_id", {
         controller: 'EventViewController',
         templateUrl: BASE_URL+"/event/mobile_view/template",
-        depth: 2
+        depth: 2,
+        code: "event"
     });
 
 }).controller('EventListController', function($scope, $routeParams, $location, Event) {

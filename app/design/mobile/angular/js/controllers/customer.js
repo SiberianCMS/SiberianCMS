@@ -3,19 +3,23 @@ App.config(function($routeProvider) {
     $routeProvider.when(BASE_URL+"/customer/mobile_account_login", {
         controller: 'CustomerLoginController',
         templateUrl: BASE_URL+"/customer/mobile_account_login/template",
-        depth: 20
+        depth: 20,
+        code: "customer_account"
     }).when(BASE_URL+"/customer/mobile_account_register", {
         controller: 'CustomerRegisterController',
         templateUrl: BASE_URL+"/customer/mobile_account_register/template",
-        depth: 21
+        depth: 21,
+        code: "customer_account"
     }).when(BASE_URL+"/customer/mobile_account_edit", {
         controller: 'CustomerEditController',
         templateUrl: BASE_URL+"/customer/mobile_account_edit/template",
-        depth: 21
+        depth: 21,
+        code: "customer_account"
     }).when(BASE_URL+"/customer/mobile_account_forgottenpassword", {
         controller: 'CustomerForgottenPasswordController',
         templateUrl: BASE_URL+"/customer/mobile_account_forgottenpassword/template",
-        depth: 21
+        depth: 21,
+        code: "customer_account"
     });
 
 }).controller('CustomerLoginController', function($window, $scope, $routeParams, $window, Message, Customer) {

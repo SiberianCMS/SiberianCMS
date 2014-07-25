@@ -20,6 +20,10 @@ App.run(function($rootScope, $window, $location, Connection) {
 
     });
 
+    $rootScope.$on('$routeChangeSuccess', function(event, current) {
+        $rootScope.code = current.code;
+    })
+
     Connection.check();
 
     $window.addEventListener("online", function() {

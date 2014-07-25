@@ -3,7 +3,8 @@ App.config(function($routeProvider) {
     $routeProvider.when(BASE_URL+"/booking/mobile_view/index/value_id/:value_id", {
         controller: 'BookingController',
         templateUrl: BASE_URL+"/booking/mobile_view/template",
-        depth: 1
+        depth: 1,
+        code: "booking"
     });
 
 }).controller('BookingController', function($window, $scope, $routeParams, Message, Booking) {

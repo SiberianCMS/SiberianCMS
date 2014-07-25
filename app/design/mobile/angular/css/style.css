@@ -409,7 +409,8 @@ a.connect_button {height:22px; padding-top:10px;}
 
 /* L3 */
 .list.l3 ul li {cursor:pointer;height:65px;background-position:right 10px center;background-size:14px 20px;background-repeat:no-repeat;border-bottom:1px solid;overflow:hidden;}
-.list.l3 ul li .picture {height:100%;width:100px;background-position:center center;background-size:auto 100%;background-repeat:no-repeat;}
+.list.l3 ul li .picture {height:100%;width:100px;background-position:center center;background-size:cover;background-repeat:no-repeat;}
+.folder .list.l3 ul li .picture {background-size:auto 100%;}
 .list.l3 ul li .details {position:absolute;height:45px;left:10px;right:35px;margin-top:10px;margin-bottom:10px;padding:0;overflow:hidden;}
 .list.l3 ul li .details.has_picture {left:110px;}
 .list.l3 ul li .details .title {height:16px;font-size:15px;font-weight:bold;overflow:hidden;}

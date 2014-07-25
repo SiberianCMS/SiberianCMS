@@ -3,11 +3,13 @@ App.config(function($routeProvider) {
     $routeProvider.when(BASE_URL+"/catalog/mobile_setmeal_list/index/value_id/:value_id", {
         controller: 'SetMealListController',
         templateUrl: BASE_URL+"/catalog/mobile_setmeal_list/template",
-        depth: 1
+        depth: 1,
+        code: "set_meal"
     }).when(BASE_URL+"/catalog/mobile_setmeal_view/index/value_id/:value_id/set_meal_id/:set_meal_id", {
         controller: 'SetMealViewController',
         templateUrl: BASE_URL+"/catalog/mobile_setmeal_view/template",
-        depth: 2
+        depth: 2,
+        code: "set_meal"
     });
 
 }).controller('SetMealListController', function($scope, $http, $routeParams, $location, SetMeal) {
