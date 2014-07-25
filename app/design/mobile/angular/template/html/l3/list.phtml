@@ -10,7 +10,7 @@
         <ul>
             <li class="arrow_right" ng-repeat="item in collection" ng-class="{first: $index == 0, has_picture: item.picture }" ng-click="showItem(item)">
                 <div class="left picture" image-src="item.picture" ng-if="item.picture" sb-image></div>
-                <div class="details padding">
+                <div class="details padding" ng-class="{has_picture: item.picture}">
                     <h3 class="title">{{ item.title }}</h3>
                     <div class="subtitle">{{ item.subtitle }}</div>
                     <div class="clear"></div>

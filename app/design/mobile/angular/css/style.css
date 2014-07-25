@@ -405,26 +405,10 @@ a.connect_button {height:22px; padding-top:10px;}
 .list.l2 ul li .details .subtitle span {font-size:14px;text-transform:lowercase;}
 
 /* L3 */
-.list.l3 ul li {cursor: pointer;
-    height: 65px;
-    background-position: right 10px center;
-    background-size: 14px 20px;
-    background-repeat: no-repeat;
-    border-bottom: 1px solid #000000;
-    overflow: hidden;
-}
-/*.list.l3 ul li.first {margin-top:0;}*/
-
-.list.l3 ul li .picture {float:left;height:100%;width:25%;background-position:center center;background-size:cover;background-repeat:no-repeat;}
-
-.list.l3 ul li .details {float:left;
-    margin-left: 2%;
-    padding:0;
-    margin-top:10px;margin-bottom:10px;
-    width:72%;
-    height:45px;
-    overflow:hidden;
-}
+.list.l3 ul li {cursor:pointer;height:65px;background-position:right 10px center;background-size:14px 20px;background-repeat:no-repeat;border-bottom:1px solid;overflow:hidden;}
+.list.l3 ul li .picture {height:100%;width:100px;background-position:center center;background-size:auto 100%;background-repeat:no-repeat;}
+.list.l3 ul li .details {position:absolute;height:45px;left:10px;right:35px;margin-top:10px;margin-bottom:10px;padding:0;overflow:hidden;}
+.list.l3 ul li .details.has_picture {left:110px;}
 .list.l3 ul li .details .title {height:16px;font-size:15px;font-weight:bold;overflow:hidden;}
 .list.l3 ul li .details .subtitle {height:30px;vertical-align: bottom; display:table-cell;margin:3px 0;font-size:13px;line-height:15px;text-align:justify;overflow:hidden;}
 
