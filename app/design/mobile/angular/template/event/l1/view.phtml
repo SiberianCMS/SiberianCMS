@@ -5,12 +5,7 @@
     <sb-loader is-loading="is_loading" has-connection="has_connection"></sb-loader>
 
     <div class="event_view">
-        <div class="cover" ng-class="{'has-picture': event.cover_image}" ng-hide="event.is_invisible" ng-style="style_cover_image">
-            <h3>
-                <span class="title block" data-rows="1">{{ event.title }}</span>
-                <span class="subtitle" data-rows="1">{{ event.subtitle }}</span>
-            </h3>
-        </div>
+        <?php echo $this->getPartialHtml("cover"); ?>
 
         <div class="padding">
             <div class="description bold" id="event_description">

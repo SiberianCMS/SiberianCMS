@@ -5,6 +5,7 @@
 
     <sb-loader is-loading="is_loading" has-connection="has_connection"></sb-loader>
 
+    <?php echo $this->getPartialHtml("cover"); ?>
     <div class="list l3">
         <ul>
             <li class="arrow_right" ng-repeat="item in collection" ng-class="{first: $index == 0, has_picture: item.picture }" ng-click="showItem(item)">

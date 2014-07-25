@@ -26,6 +26,7 @@ App.config(function($routeProvider) {
     $scope.loadContent = function() {
         Folder.findAll().success(function(data) {
             $scope.collection = data.folders;
+            $scope.cover = data.cover;
             $scope.page_title = data.page_title;
         }).error(function() {
 

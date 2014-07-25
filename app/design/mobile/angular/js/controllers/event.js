@@ -52,9 +52,7 @@ App.config(function($routeProvider) {
     $scope.loadContent = function() {
         Event.findById($routeParams.event_id).success(function(data) {
             $scope.event = data.event;
-            if(data.event.cover_image) {
-                $scope.style_cover_image = {"background-image": "url('"+data.event.cover_image+"')"};
-            }
+            $scope.cover = data.cover;
             $scope.page_title = data.page_title;
         }).error(function(data) {
             if(data && angular.isDefined(data.message)) {

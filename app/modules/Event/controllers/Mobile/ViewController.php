@@ -33,15 +33,18 @@ class Event_Mobile_ViewController extends Application_Controller_Mobile_Default 
 
                     $data['event'] = array(
                         "id" => $event_id,
-                        "title" => $event->getName(),
-                        "subtitle" => "$formatted_start_at - $formatted_end_at",
                         "description" => $event->getDescription(),
-                        "cover_image" => $event->getPicture(),
                         "location" => $event->getLocation(),
                         "rsvp" => $event->getRsvp(),
                         "start_at" => $formatted_start_at,
                         "end_at" => $formatted_end_at,
                         "url" => $this->getPath("event/mobile_view/index", array('value_id' => $option->getId(), "event_id" => $event->getId()))
+                    );
+
+                    $data["cover"] = array(
+                        "title" => $event->getName(),
+                        "subtitle" => "$formatted_start_at - $formatted_end_at",
+                        "url" => $event->getPicture()
                     );
 
                     $data['page_title'] = $event->getName();
