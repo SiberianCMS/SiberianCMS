@@ -114,7 +114,7 @@ a.back {width: 62px; height: 31px;}
 .header a.back {position: absolute;margin-top: 6px;}
 
 .subheader {position:relative;}
-.subheader, .subheader span {/*font-size:20px;font-weight:bold;*/text-align:center;}
+.subheader, .subheader span {/*font-size:20px;font-weight:bold;text-align:center;*/}
 .subheader button.more {position:absolute;top:50%;right:10px;width:auto;margin-top:-19px;box-shadow:none;border:none;background:transparent;}
 .subheader button.more canvas {position:static;margin:0}
 .subheader img.gift, .subheader canvas {position:absolute;top:50%;left:10px;margin-top:-15px;}
@@ -152,7 +152,7 @@ button {width: 100%;}
 
 button.icon_left, a.button.icon_left {position:relative;padding-left: 40px;}
 button.icon_left img, a.button.icon_left img, button.icon_left canvas {position:absolute;top:50%;left:10px;margin-top:-10px;border-radius:2px;}
-button.arrow_right, button.arrow_right, a.arrow_right {padding-right: 40px;background:url(../images/pictos/right_arrow.png) no-repeat right 10px center / 14px 20px;}
+button.arrow_right, button.arrow_right, a.arrow_right, .arrow_right {padding-right: 40px;background:url(../images/pictos/right_arrow.png) no-repeat right 10px center / 14px 20px;}
 button.half, a.button.half {display: inline-block;width: 49%;}
 
 button.connect_button {height: 32px;}
@@ -404,6 +404,30 @@ a.connect_button {height:22px; padding-top:10px;}
 .list.l2 ul li .details .subtitle {position:absolute;bottom:10px;padding-right:10px;}
 .list.l2 ul li .details .subtitle span {font-size:14px;text-transform:lowercase;}
 
+/* L3 */
+.list.l3 ul li {cursor: pointer;
+    height: 65px;
+    background-position: right 10px center;
+    background-size: 14px 20px;
+    background-repeat: no-repeat;
+    border-bottom: 1px solid #000000;
+    overflow: hidden;
+}
+/*.list.l3 ul li.first {margin-top:0;}*/
+
+.list.l3 ul li .picture {float:left;height:100%;width:25%;background-position:center center;background-size:cover;background-repeat:no-repeat;}
+
+.list.l3 ul li .details {float:left;
+    margin-left: 2%;
+    padding:0;
+    margin-top:10px;margin-bottom:10px;
+    width:72%;
+    height:45px;
+    overflow:hidden;
+}
+.list.l3 ul li .details .title {height:16px;font-size:15px;font-weight:bold;overflow:hidden;}
+.list.l3 ul li .details .subtitle {height:30px;vertical-align: bottom; display:table-cell;margin:3px 0;font-size:13px;line-height:15px;text-align:justify;overflow:hidden;}
+
 
 /* Sidebars */
 .sidebar {position:fixed;width:200px;height:100%;padding:5px;z-index:100;box-shadow:-2px -2px 6px rgba(0, 0, 0, 0.5);}
@@ -566,6 +590,12 @@ a.connect_button {height:22px; padding-top:10px;}
 .facebook .info .comment_metas span.count {margin-top:2px;margin-left:5px;padding:2px;line-height:11px;}
 .facebook .about {margin-top:60px;margin-left:0;width:auto;}
 
-
+/* Set Meal */
+.set_meal .content .name, .set_meal .content .price {display:inline-block;margin:0;padding:0;}
+.set_meal .content .name {width:79%;font-size:17px;text-align:left;}
+.set_meal .content .price {width:19%;float:right;font-size:20px;text-align:right;}
+.set_meal .content .conditions {margin-bottom:0;}
+.set_meal .content .image {}
+.set_meal .content .description {}
 
 
