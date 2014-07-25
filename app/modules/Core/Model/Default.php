@@ -234,6 +234,10 @@ class Core_Model_Default
         return Core_Model_Url::create($url, $params, $locale);
     }
 
+    public function getPath($uri = '', array $params = array()) {
+        return Core_Model_Url::createPath($uri, $params);
+    }
+
     public function getCurrentUrl($withParams = true, $locale = null) {
         return Core_Model_Url::current($withParams, $locale);
     }

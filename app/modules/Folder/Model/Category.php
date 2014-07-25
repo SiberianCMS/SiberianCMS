@@ -3,6 +3,7 @@ class Folder_Model_Category extends Core_Model_Default {
 
     protected $_root_category_id;
     protected $_children;
+    protected $_pages;
     protected $_products;
 
     public function __construct($params = array()) {
@@ -36,6 +37,14 @@ class Folder_Model_Category extends Core_Model_Default {
         return $this->_children;
     }
 
+    public function getPages() {
+        if(!$this->_pages) {
+            $page = new Application_Model_Option_Value();
+            $this->_pages = $page->findAll(array('folder_category_id' => $this->getId(), "is_active" => 1), "folder_category_position ASC");
+        }
+
+        return $this->_pages;
+    }
     public function getProducts() {
         if(!$this->_products) {
             $product = new Catalog_Model_Product();

@@ -1,5 +1,5 @@
 <?php $option_value = new Application_Model_Option_Value(); ?>
-<?php $option_values = $option_value->findAll(array('a.app_id' => $this->getApplication()->getId()), 'position ASC'); ?>
+<?php $option_values = $option_value->findAll(array(), 'position ASC'); ?>
 
 <?php foreach($option_values as $key => $option) : ?>
     <?php if($option->getCode() == "folder") continue; ?>

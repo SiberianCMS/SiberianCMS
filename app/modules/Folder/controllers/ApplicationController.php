@@ -34,7 +34,7 @@ class Folder_ApplicationController extends Application_Controller_Default
                 }
 
                 if(!empty($datas['file'])) {
-                    $relative_path = '/folder/';
+                    $relative_path = '/feature/folder/';
                     $path = Application_Model_Application::getBaseImagePath().$relative_path;
                     $file = Core_Model_Directory::getTmpDirectory(true).'/'.$datas['file'];
                     if(!is_dir($path)) mkdir($path, 0777, true);

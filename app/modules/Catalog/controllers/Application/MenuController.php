@@ -63,7 +63,7 @@ class Catalog_Application_MenuController extends Application_Controller_Default
                         if(substr($data['picture'],0,1) == '/') {
                             unset($data['picture']);
                         } else {
-                            $illus_relative_path = '/feature/'.$option_value->getValueId().'/';
+                            $illus_relative_path = '/feature/'.$option_value->getCode().'/';
                             $folder = Application_Model_Application::getBaseImagePath().$illus_relative_path;
                             $file = Core_Model_Directory::getTmpDirectory(true).'/'.$data['picture'];
                             if (!is_dir($folder))

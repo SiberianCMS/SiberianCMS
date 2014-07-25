@@ -192,8 +192,10 @@ App.factory("Url", function($http, $cacheFactory) {
             url.push(BASE_URL);
             url.push(uri);
             for(var i in params) {
-                url.push(i);
-                url.push(params[i]);
+                if(angular.isDefined(params[i])) {
+                    url.push(i);
+                    url.push(params[i]);
+                }
             }
 
             url = url.join('/');

@@ -190,4 +190,22 @@ class Application_Model_Option extends Core_Model_Default
         return $url;
     }
 
+    public function getPath($action, $params = array(), $tiger_url = true, $env = null) {
+
+        $path = null;
+        if($this->getUri()) {
+            $uri = $this->getUri();
+            if(!is_null($env) AND isset($this->_xml->$env) AND isset($this->_xml->$env->uri)) {
+                $uri = $this->_xml->$env->uri;
+            }
+            if(!$this->getIsAjax() AND $this->getObject()->getLink()) $path = $this->getObject()->getLink();
+            else $path = parent::getPath($uri.$action, $params);
+        }
+        else {
+            $path = '/front/index/noroute';
+        }
+
+        return $path;
+    }
+
 }
