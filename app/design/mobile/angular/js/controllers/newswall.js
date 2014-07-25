@@ -63,13 +63,18 @@ App.config(function($routeProvider) {
         $scope.is_loading = true;
 
         News.find($routeParams.news_id).success(function(news) {
-            $scope.news = news;
-        }).error($scope.showError).finally(function() {
-            $scope.is_loading = false;
-        });
 
-        Answers.findAll($routeParams.news_id).success(function(answers) {
-            $scope.answers = answers;
+            $scope.post = news;
+            $scope.page_title = news.author;
+
+            Answers.findAll($routeParams.news_id).success(function(comments) {
+                $scope.comments = comments;
+                $scope.post.number_of_comments = comments.length;
+
+            }).error($scope.showError).finally(function() {
+                $scope.is_loading = false;
+            });
+
         }).error($scope.showError).finally(function() {
             $scope.is_loading = false;
         });
@@ -83,7 +88,8 @@ App.config(function($routeProvider) {
                 .isError(false)
                 .show()
             ;
-            $scope.answers.push(data.answer);
+            $scope.comments.push(data.answer);
+            $scope.post.number_of_comments = $scope.comments.length;
             $scope.show_form = false;
             $scope.new_answer = "";
         }).error(this.showError)

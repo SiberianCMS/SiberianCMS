@@ -200,7 +200,7 @@ App.factory("Url", function($http, $cacheFactory) {
             if(url.substr(0, 1) != "/") url = "/"+url;
 
             return url;
-        }
+        },
     }
 });
 

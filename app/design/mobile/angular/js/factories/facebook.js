@@ -6,7 +6,7 @@ App.factory('Facebook', function($window, $http, Url, $facebook) {
     factory.value_id = null;
     factory.token = null;
     factory.username = null;
-    factory.next_page_url = "";
+    factory.page_urls = new Array();
 
     factory.loadData = function() {
 
@@ -33,16 +33,24 @@ App.factory('Facebook', function($window, $http, Url, $facebook) {
     factory.findUser = function() {
         var params = "about,name,genre,cover,picture,likes,talking_about_count";
         return $facebook.cachedApi("/"+this.username+"/?access_token="+this.token+"&fields="+params);
-    }
+    };
 
     factory.findPosts = function() {
         var params = "posts.fields(from,message,picture,created_time,likes,comments)";
-        console.log(this.next_page_url);
-        if(this.next_page_url) {
-            return $facebook.api(this.next_page_url);
+        if(angular.isDefined(factory.page_urls['posts'])) {
+            return $facebook.api(factory.page_urls['posts']);
         }
         return $facebook.api("/"+this.username+"/?access_token="+this.token+"&fields="+params);
-    }
+    };
+
+    factory.findPost = function(post_id) {
+        var params = "from,name,message,description,picture,created_time,likes,comments";
+        return $facebook.api("/"+post_id+"?access_token="+this.token+"&fields="+params);
+    };
+
+    factory.findComments = function() {
+        return $facebook.api(factory.page_urls['comments']);
+    };
 
     return factory;
 

@@ -4,12 +4,13 @@
     <comment_mobile_list_template_l1>
         <views>
             <content class="core_view_mobile_default" template="comment/l1/list.phtml" />
+            <list class="core_view_mobile_default" template="html/l1/list.phtml" />
         </views>
     </comment_mobile_list_template_l1>
 
     <comment_mobile_view_template_l1>
         <views>
-            <content class="core_view_mobile_default" template="comment/l1/view.phtml" />
+            <content class="core_view_mobile_default" template="html/l1/post/view.phtml" />
         </views>
     </comment_mobile_view_template_l1>
 

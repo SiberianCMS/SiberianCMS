@@ -8,7 +8,8 @@ class Comment_Mobile_AnswerController extends Application_Controller_Mobile_Defa
 
             $comment = new Comment_Model_Comment();
             $comment->find($comment_id);
-
+            $customer = new Customer_Model_Customer();
+            $noLogo = $customer->getImageLink();
             if($comment->getId()) {
 
                 $answer = new Comment_Model_Answer();
@@ -16,9 +17,10 @@ class Comment_Mobile_AnswerController extends Application_Controller_Mobile_Defa
 
                 foreach($answers as $answer) {
                     $data[] = array(
-                        "customer_name" => $answer->getCustomerName(),
-                        "customer_image_url" => "",
-                        "text" => $answer->getText()
+                        "name" => $answer->getCustomerName(),
+                        "picture" => $noLogo,
+                        "message" => $answer->getText(),
+                        "created_time" => $answer->getCreatedAt()
                     );
 
                 }
@@ -64,9 +66,10 @@ class Comment_Mobile_AnswerController extends Application_Controller_Mobile_Defa
                     $customer = $this->getSession()->getCustomer();
 
                     $html["answer"] = array(
-                        "customer_name" => $customer->getFirstname() . ' ' . substr($customer->getLastname(), 0, 1) . '.',
-                        "customer_image_url" => "",
-                        "text" => $answer->getText()
+                        "name" => $customer->getFirstname() . ' ' . substr($customer->getLastname(), 0, 1) . '.',
+                        "picture" => $customer->getImageLink(),
+                        "message" => $answer->getText(),
+                        "created_time" => $answer->getCreatedAt()
                     );
 
                 }

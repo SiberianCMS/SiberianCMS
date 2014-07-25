@@ -26,11 +26,11 @@ class Comment_Mobile_ListController extends Application_Controller_Mobile_Defaul
             $icon_url = $application->getIcon(74);
             foreach($comments as $comment) {
                 $data['collection'][] = array(
-                    "text" => $comment->getText(),
+                    "message" => $comment->getText(),
                     "url" => $this->getPath("comment/mobile_view", array("value_id" => $value_id, "news_id" => $comment->getId())),
-                    "title" => $application->getName(),
-                    "icon_url" => $icon_url,
-                    "image_url" => $comment->getImageUrl(),
+                    "author" => $application->getName(),
+                    "icon" => $icon_url,
+                    "picture" => $comment->getImageUrl(),
                     "meta" => array(
                         "area1" => array(
                             "picto" => $this->_getColorizedImage($this->_getImage("pictos/pencil.png"), $color),
@@ -41,7 +41,7 @@ class Comment_Mobile_ListController extends Application_Controller_Mobile_Defaul
                             "text" => count($comment->getAnswers())
                         ),
                         "area3" => array(
-                            "picto" => $this->_getColorizedImage($this->_getImage("pictos/like.png"), $color),
+                            "picto" => $this->_getColorizedImage($this->_getImage("pictos/heart.png"), $color),
                             "text" => count($comment->getLikes())
                         )
                     )
