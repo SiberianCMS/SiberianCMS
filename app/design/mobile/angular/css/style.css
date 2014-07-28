@@ -31,6 +31,7 @@ audio {height:0;width:0}
 img.border {border: 1px solid white;}
 
 .separator {position:relative;margin:0;padding:0;border-bottom:1px solid rgba(0, 0, 0, 0.3);border-top:1px solid rgba(255, 255, 255, 0.2);}
+.sprite {position:absolute;top:0;left:0;width:100%;height:100%;background:url(../images/pictos/sprite-play.png) no-repeat center center transparent;background-size:cover;z-index:10;}
 .uppercase { text-transform: uppercase; }
 .lowercase { text-transform: lowercase; }
 .bold { font-weight: bold; }
@@ -50,14 +51,6 @@ img.border {border: 1px solid white;}
 .absolute { position: absolute; }
 .relative { position: relative; }
 
-.clearfix:after {
-    content: ".";
-    display: block;
-    clear: both;
-    visibility: hidden;
-    line-height: 0;
-    height: 0;
-}
 .clearfix {
     display: inline-block;
 }
@@ -74,25 +67,6 @@ img.border {border: 1px solid white;}
     display: none;
 }
 
-.iOS7 .alert .alert_content {
-    padding-top: 15px;
-}
-.alert .alert_content {
-    position: absolute;
-    top: -500px;
-    left: 0;
-    right: 0;
-    color: white;
-    font-size: 15px;
-    text-align: center;
-    box-shadow: 0 0 7px rgba(0, 0, 0, 0.8);
-    border: 1px solid #A1A1A1;
-    border-top: none;
-}
-
-.alert .alert_content.error {
-    background-color: #C41313;
-}
 
 .badge {
     position: absolute;
@@ -561,7 +535,6 @@ a.connect_button {height:22px; padding-top:10px;}
 .video_gallery li.video img.icon {margin: 10px 5px;}
 .video_gallery li.video div.title {position:absolute;bottom:0;left:0;width:100%;height:40px;opacity:0.8;z-index:20;}
 .video_gallery li.video div.title p.title_video {height:40px;vertical-align: middle; display:table-cell;margin:3px 0;font-size:15px;font-weight:bold;line-height:17px;}
-.video_gallery .sprite {position:absolute;top:0;left:0;width:100%;height:100%;background:url(../images/pictos/sprite-play.png) no-repeat center center transparent;background-size:cover;z-index:10;}
 
 /* Facebook */
 .facebook .info {position:absolute;top:-55px;left:25px;width:100%;}
@@ -585,3 +558,14 @@ a.connect_button {height:22px; padding-top:10px;}
 .push .list.l3 ul li .picture {width:80px;background-size:20px 20px;}
 .push .list.l3 ul li .details {right:10px;}
 .push .list.l3 ul li .details.has_picture {left:80px;}
+
+/* CMS */
+/*.cms .cms_block.image div.rn-carousel-container {margin:auto;}*/
+.cms .cms_block.image div.carousel ul li div {height:200px;width:100%;background-repeat:no-repeat;background-size:cover;background-position:center;}
+
+.cms .cms_block.text img.left {margin-right:10px;}
+.cms .cms_block.text img.right {margin-left:10px;}
+.cms .cms_block.text div.content {text-align:justify;}
+.cms .cms_block.text div.content p {margin:0;}
+
+.cms .cms_block button.button.icon_left img { border: none; }

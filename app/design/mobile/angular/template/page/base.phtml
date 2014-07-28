@@ -63,9 +63,9 @@
                     return "";
                 }
 
-                <?php foreach(array("background", "subheader", "news") as $block_name) : ?>
+                <?php foreach(array("background", "subheader", "news", "button") as $block_name) : ?>
                 <?php $block = $application->getBlock($block_name); ?>
-                <?php foreach(array("heart", "comment", "pencil") as $picto) : ?>
+                <?php foreach(array("heart", "comment", "pencil", "marker") as $picto) : ?>
                 factory.add("<?php echo $picto ?>", "<?php echo $block_name ?>", "<?php echo $this->getColorizedImage($this->getImage("pictos/$picto.png", true), $block->getColor()); ?>");
                 <?php endforeach ?>
                 <?php endforeach ?>

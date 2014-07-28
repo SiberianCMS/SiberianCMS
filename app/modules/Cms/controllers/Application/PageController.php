@@ -22,24 +22,27 @@ class Cms_Application_PageController extends Application_Controller_Default {
 
                 // Traitement des images des blocks
                 $blocks = !empty($datas['block']) && is_array($datas['block']) ? $datas['block'] : array();
-                $image_path = '/cms/block/';
+                $image_path = '/feature/cms/%s/';
                 $base_image_path = $this->getApplication()->getBaseImagePath() . $image_path;
-                if (!is_dir($base_image_path))
-                    mkdir($base_image_path, 0777, true);
 
                 foreach ($blocks as $k => $block) {
+
+                    $block_image_path = sprintf($image_path, $block["type"]);
+                    $base_block_image_path = sprintf($base_image_path, $block["type"]);
+                    if (!is_dir($base_block_image_path)) mkdir($base_block_image_path, 0777, true);
+
                     if ($block["type"] == "image" && !empty($block['image_url'])) {
                         foreach ($block['image_url'] as $index => $image_url) {
                             //déjà enregistrée
                             if (substr($image_url, 0, 1) != '/') {
                                 if (!empty($image_url) AND file_exists(Core_Model_Directory::getTmpDirectory(true).'/'.$image_url)) {
-                                    rename(Core_Model_Directory::getTmpDirectory(true).'/'.$image_url, $base_image_path . $image_url);
-                                    $blocks[$k]['image_url'][$index] = $image_path . $image_url;
+                                    rename(Core_Model_Directory::getTmpDirectory(true).'/'.$image_url, $base_block_image_path . $image_url);
+                                    $blocks[$k]['image_url'][$index] = $block_image_path . $image_url;
                                 }
                             } else {
 //                                $img = explode('/', $image_url);
 //                                $img = $img[count($img) - 1];
-//                                $blocks[$k]['image_url'][$index] = $image_path . $img;
+//                                $blocks[$k]['image_url'][$index] = $block_image_path . $img;
                                 $blocks[$k]['image_url'][$index] = $image_url;
                             }
                         }
@@ -47,13 +50,13 @@ class Cms_Application_PageController extends Application_Controller_Default {
                             //déjà enregistrée
                             if (substr($image_url, 0, 1) != '/') {
                                 if (!empty($image_url) AND file_exists(Core_Model_Directory::getTmpDirectory(true).'/' . $image_url)) {
-                                    rename(Core_Model_Directory::getTmpDirectory(true).'/'.$image_url, $base_image_path . $image_url);
-                                    $blocks[$k]['image_fullsize_url'][$index] = $image_path . $image_url;
+                                    rename(Core_Model_Directory::getTmpDirectory(true).'/'.$image_url, $base_block_image_path . $image_url);
+                                    $blocks[$k]['image_fullsize_url'][$index] = $block_image_path . $image_url;
                                 }
                             } else {
 //                                $img = explode('/', $image_url);
 //                                $img = $img[count($img) - 1];
-//                                $blocks[$k]['image_fullsize_url'][$index] = $image_path . $img;
+//                                $blocks[$k]['image_fullsize_url'][$index] = $block_image_path . $img;
                                 $blocks[$k]['image_fullsize_url'][$index] = $image_url;
                             }
                         }
@@ -62,13 +65,13 @@ class Cms_Application_PageController extends Application_Controller_Default {
                         //déjà enregistrée
                         if (substr($block['image'], 0, 1) != '/') {
                             if (!empty($block['image']) AND file_exists(Core_Model_Directory::getTmpDirectory(true).'/'.$block['image'])) {
-                                rename(Core_Model_Directory::getTmpDirectory(true).'/'.$block['image'], $base_image_path . $block['image']);
-                                $blocks[$k]['image'] = $image_path . $block['image'];
+                                rename(Core_Model_Directory::getTmpDirectory(true).'/'.$block['image'], $base_block_image_path . $block['image']);
+                                $blocks[$k]['image'] = $block_image_path . $block['image'];
                             }
                         } else {
 //                            $img = explode('/', $block['image']);
 //                            $img = $img[count($img) - 1];
-//                            $blocks[$k]['image'] = $image_path . $img;
+//                            $blocks[$k]['image'] = $block_image_path . $img;
                             $blocks[$k]['image'] = $block['image'];
                         }
                     }
