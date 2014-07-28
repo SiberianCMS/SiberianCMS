@@ -180,7 +180,8 @@ class Application_Model_Option extends Core_Model_Default
             if(!is_null($env) AND isset($this->_xml->$env) AND isset($this->_xml->$env->uri)) {
                 $uri = $this->_xml->$env->uri;
             }
-            if(!$tiger_url && !$this->getIsAjax() && $this->getObject()->getLink()) $url = $this->getObject()->getLink();
+
+            if(!$this->getIsAjax() AND $this->getObject()->getLink()) $url = (string) $this->getObject()->getLink();
             else $url = parent::getUrl($uri.$action, $params);
         }
         else {

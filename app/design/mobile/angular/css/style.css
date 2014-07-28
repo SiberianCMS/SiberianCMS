@@ -386,6 +386,7 @@ a.connect_button {height:22px; padding-top:10px;}
 .list.l1 ul li {padding:10px 0;}
 .list.l1 ul li p.text {height:40px;text-align:left;margin-right:0;margin-bottom:0px;margin-top:0;font-size:15px;line-height:20px;overflow:hidden;}
 
+.list.l1 ul li.cover {height:100px;padding:0;margin:0;background-repeat:no-repeat;background-position:center;background-size:cover;}
 .list.l1 ul li .image {margin-top:10px;background-repeat:no-repeat;background-position:0 0;background-size:19px 19px;}
 .list.l1 ul li .image div.container {width:183px;height:94px;margin-left:30px;border:4px solid white;border-width:4px 7px 4px 11px;}
 .list.l1 ul li .image div.container span.bg_image {width:100%;height:100%;background-repeat:no-repeat;background-position:center center;background-size:cover;}
@@ -437,22 +438,22 @@ a.connect_button {height:22px; padding-top:10px;}
 .sidebar.l1 .sidebar li a.item {cursor:pointer;font-size:0.85em;padding:10px;border-bottom:1px solid;display:block;height:auto;margin:0;text-align:left;}
 
 /* Newswall / Rss */
-.newswall .content li, .rss .content li {margin-top:1px;}
-.newswall .content div.metas, .rss .content div.metas {background:rgba(255,255,255,0.3);border:solid 1px rgba(153, 153, 153, 1);padding:5px;margin-left:53px;margin-top:10px;border-radius:4px;}
-.newswall .content div.metas span.comments_date, .rss .content div.metas span.comments_date {margin-left:0px;}
+.newswall .content li, .rss_feed .content li {margin-top:1px;}
+.newswall .content div.metas, .rss_feed .content div.metas {background:rgba(255,255,255,0.3);border:solid 1px rgba(153, 153, 153, 1);padding:5px;margin-left:53px;margin-top:10px;border-radius:4px;}
+.newswall .content div.metas span.comments_date, .rss_feed .content div.metas span.comments_date {margin-left:0px;}
 .newswall .content .description {padding-top:15px;padding-bottom:5px;}
-.newswall .content div.metas span, .rss .content div.metas span {margin-left:15px;font-size:11px;line-height:10px;}
-.newswall .content .details .image, .rss .content .details .image {border:3px solid #fff;border-radius:4px;}
-.newswall .content p.text, .rss .content p.text {margin:20px 0 0;text-align:justify;}
-.newswall .content .title p.text, .rss .content .title p.text {margin:0;}
-.newswall .content .title p.text span.name, .rss .content .title p.text span.name {font-size:17px;}
+.newswall .content div.metas span, .rss_feed .content div.metas span {margin-left:15px;font-size:11px;line-height:10px;}
+.newswall .content .details .image, .rss_feed .content .details .image {border:3px solid #fff;border-radius:4px;}
+.newswall .content p.text, .rss_feed .content p.text {margin:20px 0 0;text-align:justify;}
+.newswall .content .title p.text, .rss_feed .content .title p.text {margin:0;}
+.newswall .content .title p.text span.name, .rss_feed .content .title p.text span.name {font-size:17px;}
 .newswall .content div.add_comment {margin-top:10px;}
 .newswall .content li.answer span.customer_name {margin-right:5px;}
 .newswall .content .comments p.text {margin:0;}
 .newswall .content .comments p.comment {display:table-cell;height:30px;overflow:hidden;text-align:justify;vertical-align:bottom;font-size:12px;}
 .newswall .content .comment_content button.button {margin:10px 0;}
-.rss .content .feed_content {margin:15px 0;}
-.rss .content .feed_content img {max-width:100%}
+.rss_feed .content .feed_content {margin:15px 0;}
+.rss_feed .content .feed_content img {max-width:100%}
 
 /* Contact */
 .contact .contact_name {
@@ -517,30 +518,30 @@ a.connect_button {height:22px; padding-top:10px;}
 .event_view .buttons {margin-top:20px;}
 
 /* Loyalty Card */
-.loyaltycard .content {width:100%;}
-.loyaltycard .content h3.short_advantage {margin:auto;line-height:35px;font-weight:400;}
-.loyaltycard .content .subheader {height:auto;min-height:35px;padding:10px 0 5px;}
-.loyaltycard .content .subheader .card_details {position:relative;height:35px;margin:0;text-align:center;}
-.loyaltycard .content .subheader.advantage_details {min-height:35px;padding:5px 10px;text-align:left;}
-.loyaltycard .content .subheader.advantage_details p {margin: 0;font-size:13px;line-height:17px;}
-.loyaltycard .content .subheader.advantage_details span {font-size: 13px;font-weight:normal;}
-.loyaltycard .content .promotions {margin-top: 15px;}
-/*.loyaltycard .content .discount .padding {padding-bottom:0;}*/
-/*.loyaltycard .content .discount .use_discount {position:static;margin-bottom:10px;}*/
-.loyaltycard .content .points {margin-top:10px;}
-.loyaltycard .content .points .point {width: 85px;height: 84px;display: inline-block;padding: 5px 0;margin:0 5px;}
-.loyaltycard .content .conditions div.advantage {position: relative;width: 100%;margin: 0;}
-.loyaltycard .center {position:relative;width:290px;margin:auto;}
+.loyalty .content {width:100%;}
+.loyalty .content h3.short_advantage {margin:auto;line-height:35px;font-weight:400;}
+.loyalty .content .subheader {height:auto;min-height:35px;padding:10px 0 5px;}
+.loyalty .content .subheader .card_details {position:relative;height:35px;margin:0;text-align:center;}
+.loyalty .content .subheader.advantage_details {min-height:35px;padding:5px 10px;text-align:left;}
+.loyalty .content .subheader.advantage_details p {margin: 0;font-size:13px;line-height:17px;}
+.loyalty .content .subheader.advantage_details span {font-size: 13px;font-weight:normal;}
+.loyalty .content .promotions {margin-top: 15px;}
+/*.loyalty .content .discount .padding {padding-bottom:0;}*/
+/*.loyalty .content .discount .use_discount {position:static;margin-bottom:10px;}*/
+.loyalty .content .points {margin-top:10px;}
+.loyalty .content .points .point {width: 85px;height: 84px;display: inline-block;padding: 5px 0;margin:0 5px;}
+.loyalty .content .conditions div.advantage {position: relative;width: 100%;margin: 0;}
+.loyalty .center {position:relative;width:290px;margin:auto;}
 
-.loyaltycard .card_is_locked p {min-height:30px;margin:0;padding:6px;text-align:center;font-size:14px;line-height:26px;color:white;background-color:darkred;}
-.loyaltycard .pad {width:290px;text-align:center;padding-top:15px;}
+.loyalty .card_is_locked p {min-height:30px;margin:0;padding:6px;text-align:center;font-size:14px;line-height:26px;color:white;background-color:darkred;}
+.loyalty .pad {width:290px;text-align:center;padding-top:15px;}
 
-.loyaltycard .pad .dots {width:105px;margin:10px auto;}
-.loyaltycard .pad .dots .dot {width:10px;height:10px;display:inline-block;margin:7px;border:1px solid;border-radius:2ex;}
-.loyaltycard .pad .dots .dot.reverse {width:12px;height:12px;border:none;}
-.loyaltycard .pad .delete {margin-right:30px;font-size:17px;cursor:pointer;}
-.loyaltycard .pad .pad_buttons .title {margin-top:0;font-size:20px;}
-.loyaltycard .pad .pad_buttons .pad_button {display:inline-block;width:75px;height:74px;margin:5px;padding:5px 0;border:1px solid;border-radius:6ex;font-size:25px;box-shadow:none;}
+.loyalty .pad .dots {width:105px;margin:10px auto;}
+.loyalty .pad .dots .dot {width:10px;height:10px;display:inline-block;margin:7px;border:1px solid;border-radius:2ex;}
+.loyalty .pad .dots .dot.reverse {width:12px;height:12px;border:none;}
+.loyalty .pad .delete {margin-right:30px;font-size:17px;cursor:pointer;}
+.loyalty .pad .pad_buttons .title {margin-top:0;font-size:20px;}
+.loyalty .pad .pad_buttons .pad_button {display:inline-block;width:75px;height:74px;margin:5px;padding:5px 0;border:1px solid;border-radius:6ex;font-size:25px;box-shadow:none;}
 
 /** SOCIALGAMING **/
 .socialgaming li.header {padding-top:13px;height:29px;text-align:center;}
@@ -564,7 +565,6 @@ a.connect_button {height:22px; padding-top:10px;}
 .video_gallery .sprite {position:absolute;top:0;left:0;width:100%;height:100%;background:url(../images/pictos/sprite-play.png) no-repeat center center transparent;background-size:cover;z-index:10;}
 
 /* Facebook */
-.facebook.list.l1 ul li.cover {height:100px;padding:0;}
 .facebook .info {position:absolute;top:-55px;left:25px;width:100%;}
 .facebook .info .logo {height:100px;width:100px;}
 .facebook .info .logo img {border-radius:4px;}
@@ -579,4 +579,7 @@ a.connect_button {height:22px; padding-top:10px;}
 .set_meal .content .price {width:19%;float:right;font-size:20px;text-align:right;}
 .set_meal .content .conditions {margin-bottom:0;}
 
-
+/* Push */
+.push .list.l3 ul li .picture {width:80px;background-size:20px 20px;}
+.push .list.l3 ul li .details {right:10px;}
+.push .list.l3 ul li .details.has_picture {left:80px;}

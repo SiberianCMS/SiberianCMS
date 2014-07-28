@@ -4,7 +4,7 @@ App.config(function($routeProvider) {
         controller: 'PromotionController',
         templateUrl: BASE_URL+"/promotion/mobile_list/template",
         depth: 1,
-        code: "promotion"
+        code: "promotions"
     });
 
 }).controller('PromotionController', function($window, $scope, $routeParams, $location, Message, Url, Customer, Promotion) {

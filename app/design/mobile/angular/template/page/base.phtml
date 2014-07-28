@@ -31,6 +31,7 @@
         <script type="text/javascript">
             App.run(function($window, Customer) {
                 Customer.id = <?php echo $this->getSession()->isLoggedIn() ? $this->getSession()->getCustomerId() : "null"; ?>;
+                Customer.device_uid = "azerty123";
                 console.log("Is logged in : ", Customer.isLoggedIn());
 
                 (function(d){
