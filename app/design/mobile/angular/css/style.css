@@ -1,5 +1,5 @@
 /** GENERAL **/
-* { margin:0; padding:0; border:none; font-family: Arial, sans-serif;}
+* { max-width:100%; margin:0; padding:0; border:none; font-family: Arial, sans-serif;}
 
 body { font-size: 15px; -webkit-user-select : none; -webkit-text-size-adjust : none; -webkit-touch-callout: none; line-height:1; background-color:white; }
 
@@ -411,7 +411,6 @@ a.connect_button {height:22px; padding-top:10px;}
 /* L3 */
 .list.l3 ul li {cursor:pointer;height:65px;background-position:right 10px center;background-size:14px 20px;background-repeat:no-repeat;border-bottom:1px solid;overflow:hidden;}
 .list.l3 ul li .picture {height:100%;width:100px;background-position:center center;background-size:cover;background-repeat:no-repeat;}
-.folder .list.l3 ul li .picture {background-size:auto 100%;}
 .list.l3 ul li .details {position:absolute;height:45px;left:10px;right:35px;margin-top:10px;margin-bottom:10px;padding:0;overflow:hidden;}
 .list.l3 ul li .details.has_picture {left:110px;}
 .list.l3 ul li .details .title {height:16px;font-size:15px;font-weight:bold;overflow:hidden;}
@@ -578,6 +577,9 @@ a.connect_button {height:22px; padding-top:10px;}
 .set_meal .content .name {width:79%;font-size:17px;text-align:left;}
 .set_meal .content .price {width:19%;float:right;font-size:20px;text-align:right;}
 .set_meal .content .conditions {margin-bottom:0;}
+
+/* Folder */
+.folder .list.l3 ul li .picture {background-size:auto 100%;}
 
 /* Push */
 .push .list.l3 ul li .picture {width:80px;background-size:20px 20px;}

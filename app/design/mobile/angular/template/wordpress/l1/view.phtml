@@ -1,0 +1,25 @@
+<div class="has_header" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="post.title" message="message"></sb-header>
+
+    <sb-loader is-loading="is_loading" has-connection="has_connection"></sb-loader>
+
+    <div class="content">
+        <ul ng-class="{news: !style_background_image}" class="content_news" ng-show="post">
+            <li class="padding" ng-class="{subheader: !style_background_image}">
+                <div>
+                    <p class="name bold">{{ post.title }}</p>
+                </div>
+                <div class="clear"></div>
+                <p class="conditions">{{ post.short_description }}</p>
+            </li>
+            <li class="details padding">
+                <div class="image" ng-if="post.picture">
+                    <img ng-src="{{ post.picture }}" alt="" title="" width="100%" />
+                </div>
+                <div class="description" ng-bind-html="post.description">
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

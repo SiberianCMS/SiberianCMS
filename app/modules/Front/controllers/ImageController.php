@@ -39,8 +39,7 @@ class ImageController extends Core_Controller_Default
             $image_id = 'wordpress_image_'.sha1($image).'-'.$expected_width.'x'.$expected_height;
             $tmp_file = Core_Model_Directory::getTmpDirectory(true).'/'.$image_id.'.'.$this->_image_ext;
             if(!is_dir(Core_Model_Directory::getImageCacheDirectory(true))) mkdir(Core_Model_Directory::getImageCacheDirectory(true), 0777);
-            $image_path = Core_Model_Directory::getImageCacheDirectory(true).'/'.$image_id.'.'.$this->_image_ext;
-            $dest_file = Core_Model_Directory::getBasePathTo($image_path);
+            $dest_file = Core_Model_Directory::getImageCacheDirectory(true).'/'.$image_id.'.'.$this->_image_ext;
 
 //            if(file_exists($dest_file)) unlink($dest_file);
             if (!file_exists($dest_file) OR !@getimagesize($dest_file)) {
