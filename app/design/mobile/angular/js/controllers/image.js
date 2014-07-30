@@ -7,7 +7,7 @@ App.config(function($routeProvider) {
         code: "image"
     });
 
-}).controller('ImageListController', function($window, $scope, $routeParams, Url, Message, Image) {
+}).controller('ImageListController', function($window, $scope, $routeParams, Url, ImageGallery, Image) {
 
     $scope.$watch("isOnline", function(isOnline) {
         $scope.has_connection = isOnline;
@@ -16,6 +16,7 @@ App.config(function($routeProvider) {
         }
     });
 
+    $scope.gallery = ImageGallery;
     $scope.is_loading = true;
     $scope.images = new Array();
     $scope.show_loader_more = false;
@@ -93,6 +94,10 @@ App.config(function($routeProvider) {
                 $scope.loadMore();
             }
         });
+    }
+
+    $scope.showGallery = function(index) {
+        $scope.gallery.show($scope.images, index);
     }
 
     $scope.removeScrollEvent = function() {

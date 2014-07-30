@@ -2,6 +2,7 @@
 * { max-width:100%; margin:0; padding:0; border:none; font-family: Arial, sans-serif;}
 
 body { font-size: 15px; -webkit-user-select : none; -webkit-text-size-adjust : none; -webkit-touch-callout: none; line-height:1; background-color:white; }
+body.no_scroll {overflow:hidden;}
 
 h1 { font-size: 24px }
 h2 { font-size: 22px }
@@ -153,6 +154,18 @@ a.connect_button {height:22px; padding-top:10px;}
 
 /** TABBAR **/
 
+/* Image Gallery */
+.gallery.fullscreen {background: none repeat scroll 0 0 black;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+    position: absolute;
+    width: 100%;
+    z-index: 150;
+    overflow: hidden;
+}
+.gallery.fullscreen ul li div {width:100%;background-repeat:no-repeat;background-size:100%;background-position:center;}
 
 /* Type Scroll */
 .tabbar_items.type_scroll {position: absolute; bottom:0; height: 340px; padding-top: 5px;}

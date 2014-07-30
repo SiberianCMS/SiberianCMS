@@ -7,7 +7,7 @@ App.config(function($routeProvider) {
         code: "cms"
     });
 
-}).controller('CmsViewController', function($scope, $http, $routeParams, $location, Cms) {
+}).controller('CmsViewController', function($scope, $http, $routeParams, $location, ImageGallery, Cms) {
 
     $scope.$watch("isOnline", function(isOnline) {
         $scope.has_connection = isOnline;
@@ -16,6 +16,7 @@ App.config(function($routeProvider) {
         }
     });
 
+    $scope.gallery = ImageGallery;
     $scope.is_loading = true;
     $scope.value_id = Cms.value_id = $routeParams.value_id;
 
@@ -57,12 +58,13 @@ App.directive("sbCmsText", function() {
     return {
         restrict: 'A',
         scope: {
-            block: "="
+            block: "=",
+            gallery: "="
         },
         template:
             '<div class="cms_block image">'
                 +'<div class="carousel">'
-                    +'<ul rn-carousel rn-carousel-indicator="true">'
+                    +'<ul rn-carousel rn-carousel-indicator="true" rn-carousel-index="gallery.index" rn-click="true">'
                         +'<li ng-repeat="image in block.gallery">'
                             +'<div sb-image image-src="image.url"></div>'
                         +'</li>'
@@ -70,6 +72,13 @@ App.directive("sbCmsText", function() {
                 +'</div>'
                 +'<div class="padding description">{{ block.description }}</div>'
             +'</div>'
+        ,
+        controller: function($scope) {
+            $scope.rnClick = function(index) {
+                $scope.gallery.show($scope.block.gallery, index);
+                $scope.$parent.$apply();
+            }
+        }
     };
 }).directive("sbCmsVideo", function() {
     return {

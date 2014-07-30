@@ -29,11 +29,10 @@ class Cms_Mobile_Page_ViewController extends Application_Controller_Mobile_Defau
                         $library = new Cms_Model_Application_Page_Block_Image_Library();
                         $libraries = $library->findAll(array('library_id' => $block->getLibraryId()), 'image_id ASC', null);
                         $block_data["gallery"] = array();
-
                         foreach($libraries as $image) {
                             $block_data["gallery"][] = array(
                                 "id" => $image->getId(),
-                                "url" => $image->getImage()
+                                "url" => $image->getImageFullSize()
                             );
                         }
                     break;

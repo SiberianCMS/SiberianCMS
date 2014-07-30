@@ -92,6 +92,9 @@ angular.module('angular-carousel')
                 tElement.addClass('rn-carousel-slides');
                 tElement.children().addClass('rn-carousel-slide');
 
+                if('ontouchstart' in $window.document.documentElement && tAttributes["rnClick"]) {
+                    tElement.children().attr('ng-click', 'rnClick($index)');
+                }
                 // try to find an ngRepeat expression
                 // at this point, the attributes are not yet normalized so we need to try various syntax
                 ['ng-repeat', 'data-ng-repeat', 'x-ng-repeat'].every(function(attr) {
@@ -128,6 +131,7 @@ angular.module('angular-carousel')
                         transformProperty,
                         pressed,
                         startX,
+                        startY,
                         amplitude,
                         offset = 0,
                         destination,
@@ -360,6 +364,7 @@ angular.module('angular-carousel')
                         $document.bind('mouseup', documentMouseUpEvent);
                         pressed = true;
                         startX = coords.x;
+                        startY = coords.y;
 
                         amplitude = 0;
                         timestamp = Date.now();
@@ -392,6 +397,9 @@ angular.module('angular-carousel')
 
                         // Prevent clicks on buttons inside slider to trigger "swipeEnd" event on touchend/mouseup
                         if(event && !swipeMoved) {
+                            if(iAttributes.rnClick && angular.isFunction(scope.$parent.rnClick) && !('ontouchstart' in $window.document.documentElement)) {
+                                scope.$parent.rnClick(scope.carouselIndex);
+                            }
                             return;
                         }
 

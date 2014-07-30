@@ -292,21 +292,74 @@ App.directive('sbImage', function() {
         scope: {
             image_src: "=imageSrc"
         },
-        template: '<div class="image_loader relative scale-fade" ng-hide="is_visible"><span class="loader block"></span></div>',
+        template: '<div class="image_loader relative scale-fade" ng-hide="is_hidden"><span class="loader block"></span></div>',
         link: function(scope, element) {
             var img = document.createElement('img');
             img.src = scope.image_src;
             img.onload = function() {
                 element.css('background-image', 'url('+img.src+')');
-                scope.is_visible = true;
+                scope.is_hidden = true;
                 scope.$apply();
             }
 
         },
         controller: function($scope) {
-            $scope.is_visible = false;
+            $scope.is_hidden = false;
         }
     };
+});
+
+App.directive("sbImageGallery", function($window, $document) {
+    return {
+        restrict: 'A',
+        scope: {
+            gallery: "="
+        },
+        replace: true,
+        template:
+            '<div class="gallery fullscreen" ng-if="gallery.is_visible">'
+                +'<ul class="block" rn-carousel rn-carousel-index="gallery.index" rn-click="true">'
+                    +'<li ng-repeat="image in gallery.images">'
+                        +'<div sb-image image-src="image.url" ng-style="style_height"></div>'
+                    +'</li>'
+                +'</ul>'
+            +'</div>',
+        link: function(scope, element) {
+            scope.rnClick = function(index) {
+                scope.gallery.hide(index);
+                scope.$parent.$apply();
+            }
+            scope.style_height = {height: $window.innerHeight+"px"};
+        },
+        controller: function($scope) {
+            $scope.current_index = $scope.gallery.index;
+        }
+    };
+});
+
+App.service("ImageGallery", function() {
+
+    var body = angular.element(document.body);
+    var factory = {};
+    factory.index = 0;
+    factory.is_visible = false;
+    factory.images = new Array();
+
+    factory.show = function(images, index) {
+        body.addClass("no_scroll");
+        factory.images = images;
+        factory.index = index;
+        factory.is_visible = true;
+    };
+
+    factory.hide = function(index) {
+        body.removeClass("no_scroll");
+        factory.index = index;
+        factory.is_visible = false;
+    };
+
+    return factory;
+
 });
 
 var ajaxComplete = function(data) {
