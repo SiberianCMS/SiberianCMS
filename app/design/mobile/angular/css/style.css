@@ -22,7 +22,9 @@ input.full_width, textarea.full_width {width:98%;padding-left:1%;padding-right:1
 input, textarea { min-height: 25px; }
 ul.form li {margin:15px 0;}
 ul.form li label {width:100%;display:block;margin-left:5px;margin-bottom:2px;}
+ul.form li label.inline {display:inline-block;width:auto;margin-top:5px;}
 ul.form li input, ul.form li textarea {width:98%;padding-left:1%;padding-right:1%;}
+ul.form li input[type="checkbox"], ul.form li input[type="radio"] {width:30px;}
 ul.form li select {width:100%;height:30px;}
 table { border-collapse: collapse;}
 table.no-collapse { border-collapse: separate; }
@@ -582,3 +584,7 @@ a.connect_button {height:22px; padding-top:10px;}
 .cms .cms_block.text div.content p {margin:0;}
 
 .cms .cms_block button.button.icon_left img { border: none; }
+
+/* Form */
+.form form .section {margin-bottom:30px;}
+.form form .section p.label {font-size:16px;}

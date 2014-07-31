@@ -11,10 +11,7 @@ class Cms_Mobile_Page_ViewController extends Application_Controller_Mobile_Defau
             $page = new Cms_Model_Application_Page();
             $page->find($option->getId(), 'value_id');
             $blocks = $page->getBlocks();
-            $data = array(
-                "blocks" => array(),
-                "templates" => array()
-            );
+            $data = array("blocks" => array());
 
             foreach($blocks as $block) {
 

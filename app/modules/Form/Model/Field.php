@@ -12,6 +12,22 @@ class Form_Model_Field extends Core_Model_Default {
         return $this->getData('required');
     }
 
+    public function hasOptions() {
+        return in_array($this->getType(), array("checkbox", "radio", "select"));
+    }
+
+    public function getOptions() {
+        $options = array();
+        foreach(explode(";", $this->getOption()) as $key => $value) {
+            $options[] = array(
+                "id" => $key,
+                "name" => $value
+            );
+        }
+
+        return $options;
+    }
+
     public function getTypes() {
 
         return array(

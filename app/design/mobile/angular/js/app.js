@@ -260,7 +260,7 @@ App.directive('sbHeader', function() {
                 '</button>' +
             '</div>' +
             '<div class="message scale-fade" ng-show="message.is_visible">' +
-                '<p ng-class="{error: message.is_error, header: !message.is_error}">{{ message.text }}</p>' +
+                '<p ng-class="{error: message.is_error, header: !message.is_error}" ng-bind-html="message.text"></p>' +
             '</div>' +
         '</header>',
         replace: true,

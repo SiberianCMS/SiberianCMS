@@ -11,6 +11,12 @@ class Form_Model_Section extends Core_Model_Default {
     }
 
     public function getFields() {
+
+        if(!$this->_fields) {
+            $field = new Form_Model_Field();
+            $this->_fields = $field->findAll(array('section_id' => $this->getId()));
+        }
+
         return $this->_fields;
     }
 
