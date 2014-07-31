@@ -25,13 +25,17 @@ App.factory('Wordpress', function($q, $http, Url) {
 
         this.findAll().success(function(data) {
             var posts = data.posts;
+            var cover = data.cover;
             var post = {};
 
-            for(var i in posts) {
-                console.log(posts[i].id);
-                if(posts[i].id == post_id) {
-                    post = posts[i];
-                    break;
+            if(cover && cover.id  == post_id) {
+                post = cover;
+            } else {
+                for(var i in posts) {
+                    if(posts[i].id == post_id) {
+                        post = posts[i];
+                        break;
+                    }
                 }
             }
 

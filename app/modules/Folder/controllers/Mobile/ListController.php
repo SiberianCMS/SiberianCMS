@@ -52,7 +52,7 @@ class Folder_Mobile_ListController extends Application_Controller_Mobile_Default
                 $data["cover"] = array(
                     "title" => $current_category->getTitle(),
                     "subtitle" => $current_category->getSubtitle(),
-                    "url" => $current_category->getPictureUrl()
+                    "picture" => $current_category->getPictureUrl()
                 );
 
                 $data["page_title"] = $current_category->getTitle();
