@@ -45,6 +45,16 @@
                             <input type="email" id="customer_email" name="email" class="full_width" placeholder="<?php echo $this->_('Email'); ?>" ng-model="customer.email" ng-class="{error: editForm.email.$invalid && editForm.submitted}" required />
                             <label class="error block full_width" ng-show="editForm.email.$invalid && editForm.submitted"><?php echo $this->_("Please enter a valid email address"); ?></label>
                         </li>
+
+                        <?php $canViewRanking = false; ?>
+                        <?php if($this->getApplication()->getPage('social_gaming')->getId()) $canViewRanking = true; ?>
+                        <?php if($canViewRanking) : ?>
+                        <li>
+                            <input type="checkbox" id="show_in_social_gaming" name="show_in_social_gaming" class="left" value="1" ng-model="customer.show_in_social_gaming" />
+                            <label for="show_in_social_gaming" class="inline"><?php echo $this->_("Show me in ranking") ?></label>
+                        </li>
+                        <?php endif; ?>
+
                         <li>
                             <button type="button" class="button" ng-click="customer.change_password = !customer.change_password">
                                 <?php echo $this->_("Change Password") ?>
@@ -58,18 +68,6 @@
                             <label for="password"><?php echo $this->_("Password") ?></label>
                             <input type="password" id="password" title="<?php echo $this->_("Password") ?>" placeholder="<?php echo $this->_("Password") ?>" class="full_width" name="password" ng-model="customer.password" ng-disabled="!customer.change_password" />
                         </li>
-                        <?php $canViewRanking = false; ?>
-                        <?php if($this->getApplication()->getPage('social_gaming')->getId()) $canViewRanking = true; ?>
-                        <?php if($canViewRanking) : ?>
-                            <li>
-                                <div class="left">
-                                    <label id="label_show_in_social_gaming" for="show_in_social_gaming"><?php echo $this->_("Show me in ranking") ?></label>
-                                </div>
-                                <div class="right">
-                                    <input type="checkbox" name="show_in_social_gaming" id="show_in_social_gaming" class="checkbox" value="1" ng-model="customer.show_in_social_gaming" />
-                                </div>
-                            </li>
-                        <?php endif; ?>
                         <li>
                             <button type="button" class="button" ng-click="logout()">
                                 <?php echo $this->_("Disconnect") ?>
