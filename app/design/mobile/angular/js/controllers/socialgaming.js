@@ -3,7 +3,6 @@ App.config(function($routeProvider) {
     $routeProvider.when(BASE_URL+"/socialgaming/mobile_view/index/value_id/:value_id", {
         controller: 'SocialgamingController',
         templateUrl: BASE_URL+"/socialgaming/mobile_view/template",
-        depth: 1,
         code: "socialgaming"
     });
 

@@ -3,7 +3,6 @@ App.config(function($routeProvider) {
     $routeProvider.when(BASE_URL+"/loyaltycard/mobile_view/index/value_id/:value_id", {
         controller: 'LoyaltyController',
         templateUrl: BASE_URL+"/loyaltycard/mobile_view/template",
-        depth: 1,
         code: "loyalty"
     });
 

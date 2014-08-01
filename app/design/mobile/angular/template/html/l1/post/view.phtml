@@ -46,8 +46,8 @@
                 <p class="text">
                     {{ post.message }}
                 </p>
-                <div class="a-center add_comment">
-                    <button type="button" class="button half icon_left" ng-click="show_form = true;">
+                <div class="a-center add_comment" ng-if="post.can_comment">
+                    <button type="button" class="button half icon_left" ng-click="showForm();">
                         <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/comment.png', true), $block_button->getColor()); ?>" width="25" height="20" />
                         <?php echo $this->_('Comment'); ?>
                     </button>
@@ -58,10 +58,10 @@
                 </div>
             </li>
 
-            <li class="padding scale-fade" ng-show="show_form == true;">
+            <li class="padding scale-fade" ng-show="show_form == true;" ng-if="post.can_comment">
                 <div class="comment_content" ng-show="is_logged_in">
-                    <form class="commentForm" ng-submit="addAnswer();">
-                        <textarea rows="6" class="input_comment large border" name="text" value="" ng-model="new_answer" placeholder="<?php echo $this->_("Your comment") ?>"></textarea>
+                    <form class="commentForm" ng-submit="addAnswer(new_answer);">
+                        <textarea rows="6" class="input_comment large border" name="text" value="" ng-model="post.new_answer" placeholder="<?php echo $this->_("Your comment") ?>"></textarea>
                         <input type="hidden" name="status_id" value="{{ news.id }}" />
                         <div class="button">
                             <button type="submit" class="button"><?php echo $this->_('Validate'); ?></button>

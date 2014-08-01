@@ -3,12 +3,10 @@ App.config(function($routeProvider) {
     $routeProvider.when(BASE_URL+"/wordpress/mobile_list/index/value_id/:value_id", {
         controller: 'WordpressListController',
         templateUrl: BASE_URL+"/wordpress/mobile_list/template",
-        depth: 1,
         code: "wordpress"
     }).when(BASE_URL+"/wordpress/mobile_view/index/value_id/:value_id/post_id/:post_id", {
         controller: 'WordpressViewController',
         templateUrl: BASE_URL+"/wordpress/mobile_view/template",
-        depth: 2,
         code: "wordpress"
     });
 

@@ -3,12 +3,10 @@ App.config(function($routeProvider) {
     $routeProvider.when(BASE_URL+"/contact/mobile_view/index/value_id/:value_id", {
         controller: 'ContactViewController',
         templateUrl: BASE_URL+"/contact/mobile_view/template",
-        depth: 1,
         code: "contact"
     }).when(BASE_URL+"/contact/mobile_form/index/value_id/:value_id", {
         controller: 'ContactFormController',
         templateUrl: BASE_URL+"/contact/mobile_form/template",
-        depth: 2,
         code: "contact"
     });
 

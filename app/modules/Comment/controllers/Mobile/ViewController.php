@@ -28,6 +28,7 @@ class Comment_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                     "message" => $comment->getText(),
                     "picture" => $comment->getImageUrl(),
                     "icon" => $application->getIcon(74),
+                    "can_comment" => true,
                     "created_at" => $comment->getCreatedAt(),
                     "number_of_likes" => count($comment->getLikes())
                 );

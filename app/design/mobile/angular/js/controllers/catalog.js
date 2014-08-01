@@ -3,12 +3,10 @@ App.config(function($routeProvider) {
     $routeProvider.when(BASE_URL+"/catalog/mobile_category_list/index/value_id/:value_id", {
         controller: 'CategoryListController',
         templateUrl: BASE_URL+"/catalog/mobile_category_list/template",
-        depth: 1,
         code: "catalog"
     }).when(BASE_URL+"/catalog/mobile_category_product_view/index/value_id/:value_id/product_id/:product_id", {
         controller: 'CategoryProductViewController',
         templateUrl: BASE_URL+"/catalog/mobile_category_product_view/template",
-        depth: 2,
         code: "catalog_product_view"
     });
 

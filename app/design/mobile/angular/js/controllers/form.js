@@ -3,7 +3,6 @@ App.config(function($routeProvider) {
     $routeProvider.when(BASE_URL+"/form/mobile_view/index/value_id/:value_id", {
         controller: 'FormViewController',
         templateUrl: BASE_URL+"/form/mobile_view/template",
-        depth: 1,
         code: "form"
     });
 

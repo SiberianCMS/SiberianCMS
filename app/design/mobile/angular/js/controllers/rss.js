@@ -3,12 +3,10 @@ App.config(function($routeProvider) {
     $routeProvider.when(BASE_URL+"/rss/mobile_feed_list/index/value_id/:value_id", {
         controller: 'RssListController',
         templateUrl: BASE_URL+"/rss/mobile_feed_list/template",
-        depth: 1,
         code: "rss_feed"
     }).when(BASE_URL+"/rss/mobile_feed_view/index/value_id/:value_id/feed_id/:feed_id", {
         controller: 'RssViewController',
         templateUrl: BASE_URL+"/rss/mobile_feed_view/template",
-        depth: 2,
         code: "rss_feed"
     });
 

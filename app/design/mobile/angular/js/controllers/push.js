@@ -3,7 +3,6 @@ App.config(function($routeProvider) {
     $routeProvider.when(BASE_URL+"/push/mobile_list/index/value_id/:value_id", {
         controller: 'PushController',
         templateUrl: BASE_URL+"/push/mobile_list/template",
-        depth: 1,
         code: "push"
     });
 

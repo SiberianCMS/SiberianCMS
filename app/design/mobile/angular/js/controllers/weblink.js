@@ -3,7 +3,6 @@ App.config(function($routeProvider) {
     $routeProvider.when(BASE_URL+"/weblink/mobile_multi/index/value_id/:value_id", {
         controller: 'WeblinkMultiController',
         templateUrl: BASE_URL+"/weblink/mobile_multi/template",
-        depth: 1,
         code: "weblink"
     });
 

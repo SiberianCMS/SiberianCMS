@@ -3,12 +3,10 @@ App.config(function($routeProvider) {
     $routeProvider.when(BASE_URL+"/folder/mobile_list/index/value_id/:value_id", {
         controller: 'FolderListController',
         templateUrl: BASE_URL+"/folder/mobile_list/template",
-        depth: 1,
         code: "folder"
     }).when(BASE_URL+"/folder/mobile_list/index/value_id/:value_id/category_id/:category_id", {
         controller: 'FolderListController',
         templateUrl: BASE_URL+"/folder/mobile_list/template",
-        depth: 2,
         code: "folder"
     });
 

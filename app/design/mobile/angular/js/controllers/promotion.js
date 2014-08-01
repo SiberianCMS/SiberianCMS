@@ -3,7 +3,6 @@ App.config(function($routeProvider) {
     $routeProvider.when(BASE_URL+"/promotion/mobile_list/index/value_id/:value_id", {
         controller: 'PromotionController',
         templateUrl: BASE_URL+"/promotion/mobile_list/template",
-        depth: 1,
         code: "promotions"
     });
 

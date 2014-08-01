@@ -251,20 +251,7 @@ a.connect_button {height:22px; padding-top:10px;}
 .page_header .absolute { position: absolute; height: 100%; width: 100% }
 
 .has_header {margin-top: 42px;}
-.page_header p.title {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 42px;
-    overflow: hidden;
-    margin: 0;
-    line-height: 43px;
-    font-size: 16px;
-    font-weight: bold;
-    text-align: center;
-    z-index: 10;
-}
+.page_header p.title {position:absolute;top:0;left:75px;right:75px;height:42px;overflow:hidden;margin:0;line-height:43px;font-size:16px;font-weight:bold;text-align:center;z-index:10;}
 .page_header .btn_left, .page_header .btn_right {position:relative;width:auto;height:42px;margin:0px;border:none;box-shadow:none;z-index:20;}
 .page_header .btn_left {left:0;float:left;padding-left:25px;}
 .page_header .btn_right {right:0;float:right;padding-right:6px;}

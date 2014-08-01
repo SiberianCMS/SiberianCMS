@@ -5,19 +5,53 @@ App.run(function($rootScope, $window, $location, Connection) {
 
     FastClick.attach($window.document);
 
+
+
     $rootScope.direction = 'to-right';
-    $rootScope.$on('$routeChangeStart', function(event, next, current) {
+//    $rootScope.$on('$routeChangeStart', function(event, next, current) {
+//
+//        try {
+//            var locationHistory = JSON.parse(sessionStorage.getItem("locationHistory"));
+//            console.log('locationHistory is loaded');
+//        } catch(e) {
+//            locationHistory = new Array();
+//            console.log('CATCH: locationHistory does exist');
+//        }
+//
+////        $window.scrollTo(0,0);
+//        console.log("original path : ", next.originalPath);
+//        console.log("last path : ", locationHistory[locationHistory.length - 2]);
+//        if(locationHistory[locationHistory.length - 2] == next.originalPath) {
+//            $rootScope.direction = 'to-right';
+//            locationHistory.pop();
+//        } else {
+//            $rootScope.direction = 'to-left';
+//            locationHistory.push(next.originalPath);
+//        }
+//        console.log(locationHistory);
+//
+//        sessionStorage.setItem("locationHistory", JSON.stringify(locationHistory));
+//
+////        if(!current) {
+////            $rootScope.direction = 'to-right';
+////        } else if (current.depth > next.depth) {
+////            $rootScope.direction = 'to-right';
+////        } else {
+////            $rootScope.direction = 'to-left';
+////        }
+//
+//    });
 
-//        $window.scrollTo(0,0);
+    $rootScope.$on('$locationChangeStart', function() {
+        $rootScope.actualLocation = $location.path();
+    });
 
-        if(!current) {
-            $rootScope.direction = 'to-right';
-        } else if (current.depth > next.depth) {
+    $rootScope.$watch(function () {return $location.path()}, function (newLocation, oldLocation) {
+        if($rootScope.actualLocation === newLocation) {
             $rootScope.direction = 'to-right';
         } else {
             $rootScope.direction = 'to-left';
         }
-
     });
 
     $rootScope.$on('$routeChangeSuccess', function(event, current) {

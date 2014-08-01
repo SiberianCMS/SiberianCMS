@@ -3,12 +3,10 @@ App.config(function($routeProvider) {
     $routeProvider.when(BASE_URL+"/social/mobile_facebook_list/index/value_id/:value_id", {
         controller: 'FacebookListController',
         templateUrl: BASE_URL+"/social/mobile_facebook_list/template",
-        depth: 1,
         code: "facebook"
     }).when(BASE_URL+"/social/mobile_facebook_view/index/value_id/:value_id/post_id/:post_id", {
         controller: 'FacebookViewController',
         templateUrl: BASE_URL+"/social/mobile_facebook_view/template",
-        depth: 2,
         code: "facebook"
     });
 

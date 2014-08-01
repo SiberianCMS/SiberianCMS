@@ -3,7 +3,6 @@ App.config(function($routeProvider) {
     $routeProvider.when(BASE_URL+"/cms/mobile_page_view/index/value_id/:value_id", {
         controller: 'CmsViewController',
         templateUrl: BASE_URL+"/cms/mobile_page_view/template",
-        depth: 1,
         code: "cms"
     });
 

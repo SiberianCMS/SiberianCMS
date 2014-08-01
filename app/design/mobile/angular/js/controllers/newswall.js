@@ -3,12 +3,10 @@ App.config(function($routeProvider) {
     $routeProvider.when(BASE_URL+"/comment/mobile_list/index/value_id/:value_id", {
         controller: 'NewswallListController',
         templateUrl: BASE_URL+"/comment/mobile_list/template",
-        depth: 1,
         code: "newswall"
     }).when(BASE_URL+"/comment/mobile_view/index/value_id/:value_id/news_id/:news_id", {
         controller: 'NewswallViewController',
         templateUrl: BASE_URL+"/comment/mobile_view/template",
-        depth: 2,
         code: "newswall"
     });
 
@@ -83,8 +81,12 @@ App.config(function($routeProvider) {
 
     }
 
+    $scope.showForm = function() {
+        $scope.show_form = true;
+    }
+
     $scope.addAnswer = function() {
-        Answers.add($scope.new_answer).success(function(data) {
+        Answers.add($scope.post.new_answer).success(function(data) {
             $scope.message = new Message();
             $scope.message.setText(data.message)
                 .isError(false)
@@ -99,9 +101,9 @@ App.config(function($routeProvider) {
     }
 
     $scope.addLike = function() {
-        News.addLike($scope.news.id).success(function(data) {
+        News.addLike($scope.post.id).success(function(data) {
             if(data.success) {
-                $scope.news.number_of_likes++;
+                $scope.post.number_of_likes++;
                 $scope.message = new Message();
                 $scope.message.setText(data.message)
                     .isError(false)
