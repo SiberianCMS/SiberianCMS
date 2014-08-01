@@ -1,11 +1,5 @@
 
-<div class="has_header" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
 
-    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="page_title" message="message"></sb-header>
-
-    <sb-loader is-loading="is_loading" has-connection="has_connection"></sb-loader>
-
-    <?php echo $this->getPartialHtml("cover"); ?>
     <div class="list l3">
         <ul>
             <li ng-repeat="item in collection" ng-class="{first: $index == 0, has_picture: item.picture, arrow_right: item.url }" ng-click="showItem(item)">
@@ -21,4 +15,3 @@
             </li>
         </ul>
     </div>
-</div>

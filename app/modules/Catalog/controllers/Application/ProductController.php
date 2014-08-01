@@ -66,7 +66,7 @@ class Catalog_Application_ProductController extends Application_Controller_Defau
                         if(substr($datas['picture'],0,1) == '/') {
                             unset($datas['picture']);
                         } else {
-                            $illus_relative_path = '/feature/'.$option_value->getValueId().'/';
+                            $illus_relative_path = '/feature/catalog/';
                             $folder = Application_Model_Application::getBaseImagePath().$illus_relative_path;
                             $file = Core_Model_Directory::getTmpDirectory(true).'/'.$datas['picture'];
                             if (!is_dir($folder))

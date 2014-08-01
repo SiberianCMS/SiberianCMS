@@ -2,21 +2,17 @@
 
     <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="page_title" message="message" right-button="header_right_button"></sb-header>
 
-    <div class="subheader sidebar right slide-right" ng-hide="!show_sidebar">
+    <div class="subheader sidebar right slide-right" ng-hide="!sidebar.show">
         <div class="content">
-            <ul ng-click="show_sidebar = false;">
-                <li ng-repeat="item in collection">
-                    <a class="item reverse" ng-click="showItem(item);" ng-class="{subheader: current_item == item}">
-                        {{ item.name }}
-                    </a>
-                </li>
+            <ul > <!-- ng-click="show_sidebar = false;" -->
+                <li ng-repeat="item in sidebar.collection" ng-include="'sidebar_l1.html'"></li>
             </ul>
         </div>
     </div>
     <div class="subheader content">
         <div>
-            <h3 class="title" ng-show="current_item.name">{{ current_item.name }}</h3>
-            <p class="small loader" ng-hide="current_item.name"></p>
+            <h3 class="title" ng-show="sidebar.current_item.name">{{ sidebar.current_item.name }}</h3>
+            <p class="small loader" ng-hide="sidebar.current_item.name"></p>
         </div>
     </div>
 
@@ -25,3 +21,15 @@
     <sb-loader is-loading="is_loading" has-connection="has_connection"></sb-loader>
 
 </div>
+
+<script type="text/ng-template" id="sidebar_l1.html">
+
+    <a class="item reverse" ng-click="sidebar.showItem(item);" ng-class="{subheader: sidebar.current_item == item}">
+        {{ item.name }}
+    </a>
+
+    <ul ng-if="item.children" ng-show="item.show_children">
+        <li ng-repeat="item in item.children" ng-include="'sidebar_l1.html'"></li>
+    </ul>
+
+</script>

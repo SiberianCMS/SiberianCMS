@@ -1,0 +1,30 @@
+<?php $application = $this->getApplication(); ?>
+
+<div class="has_header" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="product.name" message="message"></sb-header>
+
+    <sb-loader is-loading="is_loading" has-connection="has_connection"></sb-loader>
+
+    <div class="content">
+        <ul ng-class="{news: !style_background_image}" class="content_news" ng-show="product">
+            <li class="padding" ng-class="{subheader: !style_background_image}">
+                <div class="left">
+                    <div class="image" ng-if="product.picture">
+                        <img ng-src="{{ product.picture }}" alt="" title="" width="100%" />
+                    </div>
+                </div>
+                <div class="left details">
+                    <p class="name bold">{{ product.name }}</p>
+                    <p class="price bold" ng-if="product.price">{{ product.price }}</p>
+                </div>
+                <div class="clear"></div>
+                <p class="conditions">{{ product.conditions }}</p>
+            </li>
+            <li class="padding">
+                <div class="description" ng-bind-html="product.description">
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

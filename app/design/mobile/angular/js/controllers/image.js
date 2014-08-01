@@ -7,7 +7,7 @@ App.config(function($routeProvider) {
         code: "image"
     });
 
-}).controller('ImageListController', function($window, $scope, $routeParams, Url, ImageGallery, Image) {
+}).controller('ImageListController', function($window, $scope, $routeParams, Url, Sidebar, ImageGallery, Image) {
 
     $scope.$watch("isOnline", function(isOnline) {
         $scope.has_connection = isOnline;
@@ -17,6 +17,7 @@ App.config(function($routeProvider) {
     });
 
     $scope.gallery = ImageGallery;
+    $scope.sidebar = new Sidebar("image");
     $scope.is_loading = true;
     $scope.images = new Array();
     $scope.show_loader_more = false;
@@ -29,27 +30,26 @@ App.config(function($routeProvider) {
 
             $scope.header_right_button = {
                 action: function() {
-                    if(!$scope.current_item) return;
-                    $scope.show_sidebar = !$scope.show_sidebar
+                    if(!$scope.sidebar.current_item) return;
+                    $scope.sidebar.show = !$scope.sidebar.show;
                 },
                 picto_url: data.header_right_button.picto_url,
                 hide_arrow: true
             };
 
-            $scope.collection = data.galleries;
+            $scope.sidebar.collection = data.galleries;
             $scope.page_title = data.page_title;
-            if($scope.collection[0]) {
-                $scope.showItem($scope.collection[0]);
-            }
+            $scope.sidebar.showFirstItem(data.galleries);
+
         }).finally(function() {
             $scope.is_loading = false;
         });
     }
 
-    $scope.showItem= function(item) {
+    $scope.sidebar.showItem= function(item) {
 
-        if($scope.current_item == item) return;
-        $scope.current_item = null;
+        if($scope.sidebar.current_item == item) return;
+        $scope.sidebar.current_item = null;
         $scope.loadItem(item, 1);
 
     };
@@ -59,14 +59,15 @@ App.config(function($routeProvider) {
         $scope.removeScrollEvent();
 
         item.current_offset = offset;
+        $scope.sidebar.show = false;
         Image.find(item).success(function(data) {
 
-            if(!$scope.current_item) {
-                $scope.current_item = item;
-                $scope.images = data.images;
+            if(!$scope.sidebar.current_item) {
+                $scope.sidebar.current_item = item;
+                $scope.collection = data.images;
             } else {
                 for(var i = 0; i < data.images.length; i++) {
-                    $scope.images.push(data.images[i]);
+                    $scope.collection.push(data.images[i]);
                 }
             }
 
@@ -82,8 +83,8 @@ App.config(function($routeProvider) {
     };
 
     $scope.loadMore = function() {
-        var offset = $scope.images[$scope.images.length-1].offset+1;
-        $scope.loadItem($scope.current_item, offset);
+        var offset = $scope.collection[$scope.collection.length-1].offset+1;
+        $scope.loadItem($scope.sidebar.current_item, offset);
     };
 
     $scope.bindScrollEvent = function() {
@@ -97,7 +98,7 @@ App.config(function($routeProvider) {
     }
 
     $scope.showGallery = function(index) {
-        $scope.gallery.show($scope.images, index);
+        $scope.gallery.show($scope.collection, index);
     }
 
     $scope.removeScrollEvent = function() {

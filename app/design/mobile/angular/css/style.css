@@ -560,11 +560,17 @@ a.connect_button {height:22px; padding-top:10px;}
 .facebook .info .comment_metas span.count {margin-top:2px;margin-left:5px;padding:2px;line-height:11px;}
 .facebook .about {margin-top:60px;margin-left:0;width:auto;}
 
-/* Set Meal */
+/* Set Meal / Catalog */
 .set_meal .content .name, .set_meal .content .price {display:inline-block;margin:0;padding:0;}
 .set_meal .content .name {width:79%;font-size:17px;text-align:left;}
 .set_meal .content .price {width:19%;float:right;font-size:20px;text-align:right;}
 .set_meal .content .conditions {margin-bottom:0;}
+
+/* Catalog */
+.catalog .list.l3 ul li .picture {width:80px;}
+.catalog .list.l3 ul li .details.has_picture {left:90px;}
+.catalog_product_view .content .details {margin-left:10px;}
+.catalog_product_view .content .details .name {margin:0;font-size:20px;}
 
 /* Folder */
 .folder .list.l3 ul li .picture {background-size:auto 100%;}
