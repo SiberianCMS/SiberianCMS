@@ -58,7 +58,7 @@ class Front_Mobile_HomeController extends Application_Controller_Mobile_Default 
             'name' => $option->getTabbarName(),
             'is_active' => $option->isActive(),
             'url' => "",
-            'icon_url' => $option->getIconUrl(),
+            'icon_url' => $this->_getColorizedImage($option->getIconUrl(), $color),
             'icon_is_colorable' => 1,
         );
 
@@ -70,7 +70,7 @@ class Front_Mobile_HomeController extends Application_Controller_Mobile_Default 
             'url' => $this->getUrl("customer/mobile_account_login"),
             'login_url' => $this->getUrl("customer/mobile_account_login"),
             'edit_url' => $this->getUrl("customer/mobile_account_edit"),
-            'icon_url' => $option->getIconUrl(),
+            'icon_url' => $this->_getColorizedImage($option->getIconUrl(), $color),
             'icon_is_colorable' => 1,
         );
 

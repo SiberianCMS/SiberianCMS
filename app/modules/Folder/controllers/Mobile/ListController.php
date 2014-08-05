@@ -39,7 +39,7 @@ class Folder_Mobile_ListController extends Application_Controller_Mobile_Default
                 }
 
                 $pages = $current_category->getPages();
-                $color = $this->getApplication()->getBlock('tabbar')->getImageColor();
+                $color = $this->getApplication()->getBlock('background')->getImageColor();
                 foreach($pages as $page) {
                     $data["folders"][] = array(
                         "title" => $page->getTabbarName(),

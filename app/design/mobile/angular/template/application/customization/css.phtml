@@ -36,3 +36,18 @@
         </style>
     <?php endif; ?>
 <?php endforeach; ?>
+<style>
+    .mask {
+        position: fixed;
+        top:0;right:0;bottom:0;left:0;
+        background: black;
+        z-index: 200;
+    }
+    .override_mask {
+        position: relative;
+        z-index: 300;
+    }
+    .page_header.override_mask {
+        z-index: 300;
+    }
+</style>

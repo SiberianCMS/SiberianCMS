@@ -121,7 +121,6 @@ class Core_Model_Language extends Core_Model_Default {
         if(is_null(self::$_countries_list)) {
 
             self::$_countries_list = array();
-            $locale = Zend_Registry::get('Zend_Locale');
             $currency = new Zend_Currency();
             foreach(Zend_Locale::getTranslationList('Territory', null, 2) as $ter => $name) {
                 $country_code = Zend_Locale::getLocaleToTerritory($ter);

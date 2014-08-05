@@ -96,24 +96,24 @@
             scroller.deactive();
 
             $('#app_colors').hover(function() {
-                    iframe.f.page.clearAnimation().showSubpage({id: 'colors'});
-                    $('#mobile_overview').attr('height', '908px');
-                    scroller.active();
+//                iframe.f.page.clearAnimation().showSubpage({id: 'colors'});
+                $('#mobile_overview').attr('height', '1081px');
+                scroller.active();
             }, function() {return false;});
 
             $('#tabbar_colors').hover(function() {
                 $('#mobile_overview').attr('height', '460px');
-                iframe.f.page.clearAnimation().showHomepage();
+//                iframe.f.page.clearAnimation().showHomepage();
                 scroller.scrollToTop();
                 scroller.deactive();
             }, function() {return false;});
 
-            var page_colors_interval_id = setInterval(function() {
-                if(iframe.f && iframe.f.page.getSubpage('colors')) {
+//            var page_colors_interval_id = setInterval(function() {
+//                if(iframe.f && iframe.f.page.getSubpage('colors')) {
                     $('#mask_colors').hide();
-                    clearInterval(page_colors_interval_id);
-                }
-            }, 200);
+//                    clearInterval(page_colors_interval_id);
+//                }
+//            }, 200);
 
         });
         <?php foreach($blocks as $block) : ?>
@@ -327,30 +327,21 @@
             },
             showMask: function(code) {
                 if(code == 'tabbar') return this;
-                iframe.content.find('#mask_colors').fadeOut(400, function() {
-                    iframe.content.find('.'+code).each(function() {
-                        $(this).attr('data-position', $(this).css('position'));
-                        $(this).attr('data-z-index', $(this).css('z-index'));
-                        if(!/(absolute)|(fixed)|(relative)/.test($(this).css('position'))) {
-                            $(this).css('position', 'relative')
-                        }
-                    });
-                    iframe.content.find('.'+code).css('z-index', '99999999');
-                    iframe.content.find('#mask_colors').fadeIn(400);
-                });
+                iframe.f.showMask(code);
             },
             hideMask: function(code) {
                 if(code == 'tabbar') return this;
-                iframe.content.find('#mask_colors').fadeOut(400, function() {
-                    var elements = iframe.content.find('.'+code);
-                    elements.each(function() {
-                        if($(this).attr('data-position')) $(this).css('position', $(this).attr('data-position'));
-                        if($(this).attr('data-z-index')) $(this).css('z-index', $(this).attr('data-z-index'));
-                    });
-//                    if(/(news)|(background)/.test(code)) elements.css('position', 'static');
-//                    else elements.css('z-index', 0);
-//                    iframe.content.find('.'+code).css('z-index', '0');
-                });
+                iframe.f.hideMask(code);
+//                iframe.content.find('#mask_colors').fadeOut(400, function() {
+//                    var elements = iframe.content.find('.'+code);
+//                    elements.each(function() {
+//                        if($(this).attr('data-position')) $(this).css('position', $(this).attr('data-position'));
+//                        if($(this).attr('data-z-index')) $(this).css('z-index', $(this).attr('data-z-index'));
+//                    });
+////                    if(/(news)|(background)/.test(code)) elements.css('position', 'static');
+////                    else elements.css('z-index', 0);
+////                    iframe.content.find('.'+code).css('z-index', '0');
+//                });
             }
         }
     </script>
