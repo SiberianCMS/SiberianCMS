@@ -84,10 +84,10 @@
                 iframe.content = iframe.object.contents();
                 iframe.f = iframe.object.get(0).contentWindow;
 
-                iframe.content.find('#tabbar').find('img').each(function() {
-                    $(this).attr('src', $(this).attr('src').replace('@2x', ''));
-                });
-                iframe.f.app.isOverview = true;
+//                iframe.content.find('#tabbar').find('img').each(function() {
+//                    $(this).attr('src', $(this).attr('src').replace('@2x', ''));
+//                });
+//                iframe.f.app.isOverview = true;
 
                 mask_overview.remove();
 

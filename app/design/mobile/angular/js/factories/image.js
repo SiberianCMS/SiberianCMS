@@ -1,5 +1,4 @@
-
-App.factory('Image', function($http, Url, httpCache) {
+App.factory('Image', function($rootScope, $http, Url) {
 
     var factory = {};
 
@@ -12,7 +11,7 @@ App.factory('Image', function($http, Url, httpCache) {
         return $http({
             method: 'GET',
             url: Url.get("media/mobile_gallery_image_list/findall", {value_id: this.value_id}),
-            cache: true,
+            cache: !$rootScope.isOverview,
             responseType:'json'
         });
     };
@@ -24,7 +23,7 @@ App.factory('Image', function($http, Url, httpCache) {
         return $http({
             method: 'GET',
             url: Url.get("media/mobile_gallery_image_view/find", {value_id: this.value_id, image_id: item.id, offset: item.current_offset}),
-            cache: true,
+            cache: !$rootScope.isOverview,
             responseType:'json'
         });
     };

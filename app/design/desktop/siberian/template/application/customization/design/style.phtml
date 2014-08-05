@@ -158,8 +158,8 @@
                                     modal_preview.hide();
                                     $('#homepage_standard').attr('src', datas.homepage_normal);
                                     $('#homepage_retina').attr('src', datas.homepage_retina4);
-                                    iframe.f.tabbar.hideAllItems(true);
-                                    iframe.f.tabbar.hide(false);
+//                                    iframe.f.tabbar.hideAllItems(true);
+//                                    iframe.f.tabbar.hide(false);
                                     iframe.reload();
                                 }
                             });
@@ -179,12 +179,13 @@
             $('.change_layout').click(function() {
                 reload(this, this.href, true, function(response) {
                     if(response.reload) {
-                        iframe.f.tabbar.hideAllItems(true);
-                        iframe.f.tabbar.hide(false);
-                        iframe.f.page.loadHomePage();
+                        iframe.f.reload();
+//                        iframe.f.tabbar.hideAllItems(true);
+//                        iframe.f.tabbar.hide(false);
+//                        iframe.f.page.loadHomePage();
                     }
                     else {
-                        iframe.f.tabbar.hideAllItems();
+//                        iframe.f.tabbar.hideAllItems();
                     }
                 });
                 return false;

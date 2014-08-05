@@ -1,5 +1,5 @@
 
-App.factory('Cms', function($http, Url) {
+App.factory('Cms', function($rootScope, $http, Url) {
 
     var factory = {};
 
@@ -12,7 +12,7 @@ App.factory('Cms', function($http, Url) {
         return $http({
             method: 'GET',
             url: Url.get("cms/mobile_page_view/findall", {value_id: this.value_id}),
-            cache: true,
+            cache: !$rootScope.isOverview,
             responseType:'json'
         });
     };

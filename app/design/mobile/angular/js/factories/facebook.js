@@ -1,5 +1,5 @@
 
-App.factory('Facebook', function($window, $http, Url, $facebook) {
+App.factory('Facebook', function($window, $rootScope, $http, Url, $facebook) {
 
     var factory = {};
 
@@ -20,7 +20,7 @@ App.factory('Facebook', function($window, $http, Url, $facebook) {
         return $http({
             method: 'GET',
             url: Url.get("social/mobile_facebook_list/find", params),
-            cache: true,
+            cache: !$rootScope.isOverview,
             responseType:'json'
         }).success(function(data) {
             factory.username = data.username;

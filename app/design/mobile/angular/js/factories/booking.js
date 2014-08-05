@@ -1,5 +1,5 @@
 
-App.factory('Booking', function($http, Url, httpCache) {
+App.factory('Booking', function($rootScope, $http, Url) {
 
     var factory = {};
 
@@ -12,7 +12,7 @@ App.factory('Booking', function($http, Url, httpCache) {
         return $http({
             method: 'GET',
             url: Url.get("booking/mobile_view/findstores", {value_id: this.value_id}),
-            cache: true,
+            cache: !$rootScope.isOverview,
             responseType:'json'
         });
     };

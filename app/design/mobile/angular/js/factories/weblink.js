@@ -1,5 +1,5 @@
 
-App.factory('Weblink', function($http, Url, httpCache) {
+App.factory('Weblink', function($rootScope, $http, Url) {
 
     var factory = {};
 
@@ -12,7 +12,7 @@ App.factory('Weblink', function($http, Url, httpCache) {
         return $http({
             method: 'GET',
             url: Url.get("weblink/mobile_multi/find", {value_id: this.value_id}),
-            cache: true,
+            cache: !$rootScope.isOverview,
             responseType:'json'
         });
     };

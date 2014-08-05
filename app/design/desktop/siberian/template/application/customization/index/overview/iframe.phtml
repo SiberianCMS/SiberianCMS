@@ -11,7 +11,7 @@
         <div class="iphone_content">
             <p id="iphone_header" class="iphone_header toolbar_overview a-center"><?php echo date('H:m'); ?></p>
             <p id="android_header" class="android_header toolbar_overview a-right" style="display:none"><?php echo date('H:m'); ?></p>
-            <iframe id="mobile_overview" src="<?php echo $this->getApplication()->getUrl(null, array(), true); ?>?overview=1" width="320" height="460" style="overflow: hidden;"></iframe>
+            <iframe id="mobile_overview" src="<?php // echo $this->getApplication()->getUrl(null, array(), true); ?>?overview=1" width="320" height="460" style="overflow: hidden;"></iframe>
         </div>
     </div>
 </div>
@@ -41,18 +41,11 @@
             $('#iphone').css('background-image', 'url('+sizes.background+')');
             $('#iphone').css({
                 width: sizes.container_width,
-                height: sizes.container_height,
+                height: sizes.container_height
             });
             $('.iphone_content').css({
                 'margin-top' : sizes.marginTop,
                 'margin-left': sizes.marginLeft
-            });
-
-            iframe.f.page.loadHomePage();
-
-            iframe.f.page.homepage.setCallback('is_now_visible', function() {
-                iframe.f.loader.hide();
-                this.unsCallback('is_now_visible');
             });
 
             $('.overview_size').removeClass('active');
@@ -61,6 +54,10 @@
             iframe.f.loader.show();
 
         }
+    });
+
+    $(document).ready(function() {
+        $('#mobile_overview').attr("src", "<?php echo $this->getApplication()->getUrl(null, array(), true); ?>");
     });
 
 </script>

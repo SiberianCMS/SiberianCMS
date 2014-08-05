@@ -6,6 +6,10 @@ class Core_View_Mobile_Default extends Core_View_Default
     protected static $_current_option;
     protected static $_blocks;
 
+    public function isOverview() {
+        return (bool) $this->getSession()->isOverview;
+    }
+
     public function setCurrentOption($option) {
         self::$_current_option = $option;
     }

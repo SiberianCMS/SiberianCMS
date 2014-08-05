@@ -1,5 +1,5 @@
 
-App.factory('Loyalty', function($http, Url, httpCache) {
+App.factory('Loyalty', function($rootScope, $http, Url, httpCache) {
 
     var factory = {};
 
@@ -12,7 +12,7 @@ App.factory('Loyalty', function($http, Url, httpCache) {
         return $http({
             method: 'GET',
             url: Url.get("loyaltycard/mobile_view/findall", {value_id: this.value_id}),
-            cache: true,
+            cache: !$rootScope.isOverview,
             responseType:'json'
         });
     };
@@ -28,8 +28,6 @@ App.factory('Loyalty', function($http, Url, httpCache) {
             number_of_points: pad.number_of_points,
             password: pad.password
         };
-
-        console.log(data);
 
         return $http.post(url, data).success(function() {
             console.log('flushing cache');

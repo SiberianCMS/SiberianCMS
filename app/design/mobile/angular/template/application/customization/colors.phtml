@@ -1,0 +1,130 @@
+<?php $application = $this->getApplication(); ?>
+<div id="customize_colors" class="general">
+    <div class="relative">
+        <div class="subheader relative">
+            <img id="subheader_gift" class="gift" src="<?php echo $this->getColorizedImage($this->getImage('pictos/gift.png', true), $application->getBlock('subheader')->getColor()); ?>" alt="" title="" width="30" height="30" />
+            <div class="no-margin a-center">
+                <h3><?php echo $this->_('One free coffee') ?></h3>
+                <button type="button" class="more"><img id="subheader_more" src="<?php echo $this->getColorizedImage($this->getImage('pictos/more.png', true), $application->getBlock('subheader')->getColor()); ?>" alt="<?php echo $this->_("More infos") ?>" title="<?php echo $this->_("More infos") ?>" width="35" height="35" /></button>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+    <div class="background">
+        <div class="connect">
+            <button id="connect_button_arrow" type="button" class="connect_button icon_left arrow_right" rel="176">
+                <?php echo $this->_('Please log in.') ?>
+            </button>
+        </div>
+        <div class="promotions empty relative discount">
+            <div id="promotion_scrollview" class="scrollview relative">
+                <ul id="promotions_list">
+                    <li style="height: 100%">
+                        <div id="promotion_colors" class="details">
+                            <div class="scroll relative">
+                                <div class="title" id="title_colors"><h4><?php echo $this->_('Buy one, get one!') ?></h4></div>
+                                <p id="description_colors"><?php echo $this->_('Discount zone description. Here your clients will be able to see the details of each discount') ?></p>
+                                <div id="use_promotion_colors" class="use_discount">
+                                    <a href="javascript:void(0)" onclick="return false;" class="discount reverse"><?php echo $this->_('Use this discount') ?></a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="socialgaming">
+            <div id="game_scrollview" class="scrollview relative">
+                <ul id="players_list">
+                    <li class="challenger">
+                        <div class="shadow">
+                            <div class="border-fade">
+                                <img class="customer_image_2" src="<?php echo $this->getImage('customization/customer_image.png') ?>" width="35" />
+                            </div>
+                            <p class="challenger_name left"><?php echo $this->_('Fred W.') ?></p>
+                            <p class="number_of_points right">1000 pts</p>
+                        </div>
+                        <div class="clear"></div>
+                    </li>
+                    <li class="separator"></li>
+                    <li class="challenger overlay_20">
+                        <div class="shadow">
+                            <div class="border-fade">
+                                <img class="customer_image_2" src="<?php echo $this->getImage('customization/customer_image.png') ?>" width="35" />
+                            </div>
+                            <p class="challenger_name left"><?php echo $this->_('Fred W.') ?></p>
+                            <p class="number_of_points right">1000 pts</p>
+                        </div>
+                        <div class="clear"></div>
+                    </li>
+                    <li class="separator"></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="comments_scrollview_news" class="scrollview">
+        <ul id="list_news">
+            <li class="new_details news">
+                <div class="subheader comment_details_title">
+                    <div class="logo left" style="width:37px; height:37px; overflow:hidden" id="logo_cont">
+                        <img width="37" height="37" id="logo_src" class="logo_src" src="<?php echo $application->getLogo() ?>" data-default="<?php echo $application->getLogo() ?>" />
+                    </div>
+                    <p class="text">
+                        <span class="name bold"><?php echo $application->getName(); ?></span>
+                    </p>
+                    <div class="clear"></div>
+                    <div class="comment_metas">
+                        <span class="comments_date left">
+                            <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/pencil.png', true), $this->getApplication()->getBlock('subheader')->getColor()); ?>" id="picto_date" alt="" style="vertical-align:bottom" width="13px" height="10px"/>
+                            <?php echo Zend_Date::now()->toString($this->_('MM/dd/y')) ?>
+                        </span>
+                        <span class="comments_count right">
+                            <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/comment.png', true), $this->getApplication()->getBlock('subheader')->getColor()); ?>" id="picto_comment" alt="<?php echo $this->_('Coms') ?>" style="vertical-align:bottom" width="13px" height="10px" />
+                            1
+                        </span>
+                        <span class="likes_count right">
+                            <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/like.png', true), $this->getApplication()->getBlock('subheader')->getColor()); ?>" id="picto_like" alt="<?php echo $this->_('Likes') ?>" style="vertical-align:bottom" width="13px" height="12px" />
+                            12
+                        </span>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <div class="comment_details_content">
+                    <div class="comment_details_image">
+                        <img src="<?php echo $this->getImage('customization/news_image.jpg'); ?>" alt="<?php echo $application->getName() ?>" title="<?php echo $application->getName() ?>" width="300px" />
+                    </div>
+                    <p class="comment_details_text">
+                        <?php echo $this->_("Here is our latest creation. What do you think?") ?>
+                    </p>
+                    <div class="a-center add_comment">
+                        <button type="button" class="button icon_left">
+                            <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/comment.png', true), $application->getBlock('button')->getColor()); ?>" id="button_comment" width="25" height="20" />
+                            <?php echo $this->_('Comment'); ?>
+                        </button>
+                        <button type="button" class="button icon_left">
+                            <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/like.png', true), $application->getBlock('button')->getColor()); ?>" id="button_like" width="25" height="20" />
+                            <?php echo $this->_('Like'); ?>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="comments answer first last">
+                    <div>
+                        <img width="35" height="35" class="logo left" src="<?php echo $this->getImage('customization/customer_image.png') ?>" title="<?php echo $this->_("Marc A.") ?>" alt="<?php echo $this->_("Marc A.") ?>" />
+                        <p class="text"><span class="bold"><?php echo $this->_("Marc A.") ?></span> <?php echo $this->_("Love it <3") ?></p>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <div class="separator"></div>
+            </li>
+        </ul>
+    </div>
+    <style>
+        .promotions {height:250px;}
+        /*.promotions #promotions_list .details {height: 240px}*/
+        .promotions #promotions_list .scroll {height: 240px}
+        button.button.icon_left.ie img { top:auto; margin-top:0; }
+    </style>
+</div>
+<?php //echo $this->getPartialHtml('tabbar'); ?>

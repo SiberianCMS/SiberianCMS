@@ -1,5 +1,5 @@
 
-App.factory('Rss', function($http, Url) {
+App.factory('Rss', function($rootScope, $http, Url) {
 
     var factory = {};
 
@@ -26,7 +26,7 @@ App.factory('Rss', function($http, Url) {
         return $http({
             method: 'GET',
             url: url,
-            cache: true,
+            cache: !$rootScope.isOverview,
             responseType:'json'
         });
     };
@@ -40,7 +40,7 @@ App.factory('Rss', function($http, Url) {
         return $http({
             method: 'GET',
             url: url,
-            cache: true,
+            cache: !$rootScope.isOverview,
             responseType:'json'
         });
     };

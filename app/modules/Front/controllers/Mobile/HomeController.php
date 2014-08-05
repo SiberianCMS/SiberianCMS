@@ -2,6 +2,17 @@
 
 class Front_Mobile_HomeController extends Application_Controller_Mobile_Default {
 
+    public function overviewAction() {
+        $this->getRequest()->setParam('overview', 1);
+        $this->getSession()->isOverview = true;
+        $this->forward('index', 'index', 'Front', $this->getRequest()->getParams());
+    }
+
+    public function indexAction() {
+        $this->getSession()->isOverview = false;
+        parent::indexAction();
+    }
+
     public function viewAction() {
         $this->loadPartials('home_mobile_view_l'.$this->_layout_id, false);
     }

@@ -1,46 +1,27 @@
-//var App = angular.module("Siberian", ['ngRoute', 'ngAnimate', 'ngTouch', 'angular-carousel']);
 var App = angular.module("Siberian", ['ngRoute', 'ngAnimate', 'ngTouch', 'angular-carousel', 'ngResource', 'ngSanitize', 'ngFacebook']);
 
-App.run(function($rootScope, $window, $location, Connection) {
+App.run(function($rootScope, $window, $route, $location, $templateCache, Connection) {
 
     FastClick.attach($window.document);
 
+    $rootScope.isOverview = $window.parent.location.href != $window.location.href;
+    console.log('Is overview : ', $rootScope.isOverview);
 
+    if($rootScope.isOverview) {
+        $rootScope.$on('$routeChangeStart', function(event, next, current) {
+            if (typeof(current) !== 'undefined'){
+                $templateCache.remove(current.templateUrl);
+            }
+        });
+    }
 
-    $rootScope.direction = 'to-right';
-//    $rootScope.$on('$routeChangeStart', function(event, next, current) {
-//
-//        try {
-//            var locationHistory = JSON.parse(sessionStorage.getItem("locationHistory"));
-//            console.log('locationHistory is loaded');
-//        } catch(e) {
-//            locationHistory = new Array();
-//            console.log('CATCH: locationHistory does exist');
-//        }
-//
-////        $window.scrollTo(0,0);
-//        console.log("original path : ", next.originalPath);
-//        console.log("last path : ", locationHistory[locationHistory.length - 2]);
-//        if(locationHistory[locationHistory.length - 2] == next.originalPath) {
-//            $rootScope.direction = 'to-right';
-//            locationHistory.pop();
-//        } else {
-//            $rootScope.direction = 'to-left';
-//            locationHistory.push(next.originalPath);
-//        }
-//        console.log(locationHistory);
-//
-//        sessionStorage.setItem("locationHistory", JSON.stringify(locationHistory));
-//
-////        if(!current) {
-////            $rootScope.direction = 'to-right';
-////        } else if (current.depth > next.depth) {
-////            $rootScope.direction = 'to-right';
-////        } else {
-////            $rootScope.direction = 'to-left';
-////        }
-//
-//    });
+    $window.reload = function() {
+        if(angular.isFunction($route.current.scope.reload)) {
+            $route.current.scope.reload();
+        }
+        $rootScope.direction = null;
+        $route.reload();
+    }
 
     $rootScope.$on('$locationChangeStart', function() {
         $rootScope.actualLocation = $location.path();
@@ -56,7 +37,7 @@ App.run(function($rootScope, $window, $location, Connection) {
 
     $rootScope.$on('$routeChangeSuccess', function(event, current) {
         $rootScope.code = current.code;
-    })
+    });
 
     Connection.check();
 
@@ -84,13 +65,10 @@ App.run(function($rootScope, $window, $location, Connection) {
     });
 
     $locationProvider.html5Mode(true);
-    $routeProvider
-        .when(BASE_URL, {
+    $routeProvider.when(BASE_URL, {
             controller: 'HomeController',
-            templateUrl: BASE_URL+"/front/mobile_home/view",
-            depth: 0
-        })
-        .otherwise({
+            templateUrl: BASE_URL+"/front/mobile_home/view"
+        }).otherwise({
             controller: 'HomeController',
             templateUrl: BASE_URL+"/front/mobile_home/view"
          })
@@ -223,7 +201,7 @@ App.factory("httpCache", function($http, $cacheFactory) {
     }
 });
 
-App.factory("Url", function($http, $cacheFactory) {
+App.factory("Url", function($rootScope) {
     return {
         get: function(uri, params) {
             var url = new Array();
@@ -240,7 +218,7 @@ App.factory("Url", function($http, $cacheFactory) {
             if(url.substr(0, 1) != "/") url = "/"+url;
 
             return url;
-        },
+        }
     }
 });
 

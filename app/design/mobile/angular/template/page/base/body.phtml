@@ -1,43 +1,10 @@
 <div ng-app="Siberian">
     <div id="fb-root"></div>
     <div id="wrapper" class="background" ng-class="direction">
-        <div ng-view class="scale-slide t-view-slide background" ng-class="code"></div>
+        <div ng-view class="at-view-slide t-view-slide background" ng-class="code"></div>
     </div>
-    <?php //$homepage = $this->getLayout()->addPartial("homepage", "core_view_mobile_default", "home/l1/view.phtml")->toHtml(); ?>
-    <?php //$partial = $this->getLayout()->addPartial("newswall_list", "core_view_mobile_default", "comment/l1/list.phtml")->toHtml(); ?>
     <script type="text/javascript">
         var BASE_URL = "<?php echo str_replace($this->getRequest()->getPathInfo(), "", $this->getRequest()->getRequestUri()); ?>";
         if(BASE_URL.indexOf('/') !== 0) BASE_URL = '/'+BASE_URL;
-        // BASE_URL = "<?php // echo $this->getUrl(""); ?>/";
-//        BASE_URL = "";
-
-        /* var isApplication = false;
-        var Templates = {
-            getUrl: function(path) {
-                if(isApplication) {
-                    window.location = "app:loadTemplate:"+path;
-                }
-                // if offline => return path.replace(/\//g, "_") + '.html'
-                return BASE_URL+path;
-            },
-            homepage: {
-                html: ""<?php //echo Zend_Json::encode($homepage); ?>,
-                url: "<?php echo $this->getUrl('front/mobile_home/view'); ?>"
-            },
-            newswallList: {
-                html: ""<?php //echo Zend_Json::encode($partial); ?>,
-                url: "<?php echo $this->getUrl('comment/mobile_list/template'); ?>"
-            }
-        }
-        */
-
-
-        /*
-        var fbObject={id:'<?php echo $this->getApplication()->getFacebookId(); ?>', perms:'<?php echo Customer_Model_Customer_Type_Facebook::getScope() ?>'}
-        window.fbAsyncInit = function() {
-            FB.init({appId  : fbObject.id, status : true, cookie : true, xfbml  : true});
-        };
-        */
-
     </script>
 </div>

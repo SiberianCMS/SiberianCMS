@@ -1,0 +1,51 @@
+<?php $application = $this->getApplication(); ?>
+<?php $isOverview = $this->getRequest()->getParam('overview', 0); ?>
+
+<script type="text/javascript">
+
+    App.run(function($window, $rootScope, Customer) {
+        Customer.id = <?php echo $this->getSession()->isLoggedIn() ? $this->getSession()->getCustomerId() : "null"; ?>;
+        Customer.device_uid = "azerty123";
+        console.log("Is logged in : ", Customer.isLoggedIn());
+
+        (function(d){
+            var js, id = 'facebook-jssdk';if (d.getElementById(id)) {return;}
+            js = d.createElement('script');js.id = id;js.async = true;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            d.getElementsByTagName('head')[0].appendChild(js);
+        }($window.document));
+
+    }).config(function($facebookProvider) {
+
+        $facebookProvider.setCustomInit({xfbml: false, version : 'v2.0'});
+        $facebookProvider.setAppId("<?php echo $application->getFacebookId(); ?>");
+        $facebookProvider.setPermissions("<?php echo Customer_Model_Customer_Type_Facebook::getScope() ?>");
+
+    }).factory('Pictos', function() {
+
+        var factory = {};
+
+        factory.list = new Array();
+        factory.add = function(name, block, url) {
+            if(!angular.isDefined(this.list[name])) this.list[name] = new Array();
+            this.list[name][block] = url;
+        }
+        factory.get = function(name, block) {
+
+            if(angular.isDefined(this.list[name]) && angular.isDefined(this.list[name][block])) {
+                return this.list[name][block];
+            }
+
+            return "";
+        }
+
+        <?php foreach(array("background", "subheader", "news", "button") as $block_name) : ?>
+        <?php $block = $application->getBlock($block_name); ?>
+        <?php foreach(array("heart", "comment", "pencil", "marker") as $picto) : ?>
+        factory.add("<?php echo $picto ?>", "<?php echo $block_name ?>", "<?php echo $this->getColorizedImage($this->getImage("pictos/$picto.png", true), $block->getColor()); ?>");
+        <?php endforeach ?>
+        <?php endforeach ?>
+
+        return factory;
+    });
+</script>

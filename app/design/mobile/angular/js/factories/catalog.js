@@ -1,5 +1,5 @@
 
-App.factory('Catalog', function($http, Url, httpCache) {
+App.factory('Catalog', function($rootScope, $http, Url) {
 
     var factory = {};
 
@@ -12,7 +12,7 @@ App.factory('Catalog', function($http, Url, httpCache) {
         return $http({
             method: 'GET',
             url: Url.get("catalog/mobile_category_list/findall", {value_id: this.value_id}),
-            cache: true,
+            cache: !$rootScope.isOverview,
             responseType:'json'
         });
     };
@@ -26,7 +26,7 @@ App.factory('Catalog', function($http, Url, httpCache) {
         return $http({
             method: 'GET',
             url: url,
-            cache: true,
+            cache: !$rootScope.isOverview,
             responseType:'json'
         });
     };

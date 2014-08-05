@@ -1,5 +1,5 @@
 
-App.factory('Wordpress', function($q, $http, Url) {
+App.factory('Wordpress', function($rootScope, $q, $http, Url) {
 
     var factory = {};
 
@@ -13,7 +13,7 @@ App.factory('Wordpress', function($q, $http, Url) {
         return $http({
             method: 'GET',
             url: Url.get("wordpress/mobile_list/findall", {value_id: this.value_id}),
-            cache: true,
+            cache: !$rootScope.isOverview,
             responseType:'json'
         });
     };
