@@ -88,7 +88,6 @@
         ];
 
         var menu = {
-            number_of_children: 0,
             id: null,
             is_new: false,
             processEvents: function() {
@@ -99,28 +98,24 @@
                 $('#menu_description').ckeditor(
                     function () {
                         this.document.on('keyup', function() {
-                            menu.setDescription(this.getData());
+//                            menu.setDescription(this.getData());
                         }.bind(this));
                         $('#page').stop().animate({height: $('#icon_and_name').outerHeight(true) + $('#header_editor').outerHeight(true) + $('#edit').outerHeight(true)});
                     }
                 );
 
-                 $('#name').keyup(function() {
-                    menu.setName($(this).val());
-                }).blur(function() {
-                    menu.calcHeight();
-                });
-                $('#price').keyup(function() {
-                    menu.setPrice($(this));
-                });
-                $('#conditions').keyup(function() {
-                    menu.setCondition($(this).val());
-                }).blur(function() {
-                    menu.calcHeight();
-                });
-                menu.number_of_children = iframe.content.find('.menu_details_<?php echo $option_value->getId(); ?>').children().length;
-            },
+//                $('#name').keyup(function() {
+//                    menu.setName($(this).val());
+//                });
+//                $('#price').keyup(function() {
+//                    menu.setPrice($(this));
+//                });
+//                $('#conditions').keyup(function() {
+//                    menu.setCondition($(this).val());
+//                });
 
+            },
+/*
             setName: function(text) {
                 if(this.is_new) this.prepareDummy();
                 iframe.content.find('#menu_name_'+this.id).html(text);
@@ -140,14 +135,10 @@
                 if(this.is_new) this.prepareDummy();
                 iframe.content.find('#menu_conditions_'+this.id).html(text);
             },
-            calcHeight: function() {
-                iframe.f.page.getSubpage('<?php echo $option_value->getId(); ?>').refreshScrollview();
-            },
             prepareDummy: function() {
                 if(!iframe.content.find('#menu_details_'+this.id).attr('id')) {
                     var list = iframe.content.find('#menus_list_<?php echo $option_value->getId(); ?>');
                     list.append(this.getDummy());
-                    this.number_of_children++;
 //                    var totalHeight = 0;
 //                    list.each(function() {
 //                        totalHeight += $(this).outerHeight();
@@ -163,7 +154,6 @@
                 if(menu_new.attr('id')) {
                     menu_new.remove();
                     iframe.content.find('#menu_description_'+this.id).remove();
-                    this.number_of_children--;
                 }
 //                var totalHeight = 0;
 //                list.each(function() {
@@ -195,6 +185,7 @@
                 </li>\n\
                 <li rel="<?php echo $option_value->getId(); ?>_new" class="separator"></li>';
             }
+*/
         }
 
         page.setCallback('didappear', function() {
@@ -240,12 +231,12 @@
             $('.edit_menu').unbind('click');
             $('.del_menu').unbind('click');
             $('#formCreateMenu').unbind('submit');
-            $('#menu_description').unbind('keyup');
-            $('#name').unbind('keyup');
-            $('#conditions').unbind('keyup');
-            $('#price').unbind('change');
+//            $('#menu_description').unbind('keyup');
+//            $('#name').unbind('keyup');
+//            $('#conditions').unbind('keyup');
+//            $('#price').unbind('change');
             $('.menu_actions').unbind('mouseenter mouseout');
-            menu.removeDummy();
+//            menu.removeDummy();
         });
     </script>
 </div>
