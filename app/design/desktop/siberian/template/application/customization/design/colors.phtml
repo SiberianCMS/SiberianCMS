@@ -97,12 +97,15 @@
 
             $('#app_colors').hover(function() {
 //                iframe.f.page.clearAnimation().showSubpage({id: 'colors'});
-                $('#mobile_overview').attr('height', '1081px');
+                $('#mobile_overview').show();
+                $('#homepage_overview').hide();
                 scroller.active();
             }, function() {return false;});
 
             $('#tabbar_colors').hover(function() {
-                $('#mobile_overview').attr('height', '460px');
+//                $('#mobile_overview').attr('height', '460px');
+                $('#mobile_overview').hide();
+                $('#homepage_overview').show();
 //                iframe.f.page.clearAnimation().showHomepage();
                 scroller.scrollToTop();
                 scroller.deactive();
@@ -252,13 +255,13 @@
             setColor: function(to, color) {
                 var html = '';
                 if(/(background)|(news)|(comments)/.test(to)) {
-                    html = '.wrapper .'+to+'/*, .wrapper .'+to+' * */, .wrapper a .'+to+', .wrapper a.'+to+' {color: '+color+'}';
-                    html += '.wrapper .'+to+'.reverse, .wrapper .'+to+' .reverse, .wrapper .'+to+'.reverse * {background-color: '+color+';}';
+                    html = '.'+to+', a .'+to+', a.'+to+' {color: '+color+'}';
+                    html += '.'+to+'.reverse, .'+to+' .reverse, .'+to+'.reverse * {background-color: '+color+';}';
 
                 }
                 else {
-                    html += '.wrapper .'+to+'/*, .wrapper .'+to+' * */, .wrapper a .'+to+', .wrapper a.'+to+' {color: '+color+' !important;}';
-                    html += '.wrapper .'+to+'.reverse, .wrapper .'+to+' .reverse/*, .wrapper .'+to+'.reverse * */ {background-color: '+color+' !important;}';
+                    html += '.'+to+', a .'+to+', a.'+to+' {color: '+color+' !important;}';
+                    html += '.'+to+'.reverse, .'+to+' .reverse {background-color: '+color+' !important;}';
                 }
 
                 html = '<style id="color_'+to+'">'+html+'</style>';
@@ -266,17 +269,17 @@
 
             },
             setBackgroundColor: function(to, color) {
+                console.log(to);
                 var html = '';
                 if(/(background)|(news)|(comments)|(tabbar)/.test(to)) {
-                    html = '.wrapper .'+to+' {background-color: '+color+'}';
-                    html += '.wrapper .'+to+' .no-background, .wrapper .'+to+'.no-background {background-color: transparent;}';
-                    html += '.wrapper .'+to+'.reverse/*, .wrapper .'+to+'.reverse * */, .wrapper a .'+to+'.reverse, .wrapper a.'+to+'.reverse {color: '+color+';}';
+                    html =  '.'+to+' {background-color: '+color+'}';
+                    html += '.'+to+' .no-background, .'+to+'.no-background {background-color: transparent;}';
+                    html += '.'+to+'.reverse, a .'+to+'.reverse, a.'+to+'.reverse {color: '+color+';}';
                 }
                 else {
-                    html = '.wrapper .'+to+' {background-color: '+color+' !important;}';
-//                    html += '.wrapper .'+to+' * {background-color: '+color+' !important;}';
-                    html += '.wrapper .'+to+' .no-background, .wrapper .'+to+'.no-background {background-color: transparent !important;}';
-                    html += '.wrapper .'+to+'.reverse/*, .wrapper .'+to+'.reverse * */, .wrapper a .'+to+'.reverse, .wrapper a.'+to+'.reverse {color: '+color+' !important;}';
+                    html =  '.'+to+' {background-color: '+color+' !important;}';
+                    html += '.'+to+' .no-background, .'+to+'.no-background {background-color: transparent !important;}';
+                    html += '.'+to+'.reverse, a .'+to+'.reverse, a.'+to+'.reverse {color: '+color+' !important;}';
                 }
 
                 html = '<style id="backgroundColor_'+to+'">'+html+'</style>';
@@ -316,7 +319,7 @@
 
                 if(iframe.content.find('#imageColor_tabbar').length) {
                     var html = '';
-                    html += '.wrapper .border-color {border-color: '+hex+' !important}';
+                    html += '.border-color {border-color: '+hex+' !important}';
                     html = '<style id="imageColor_tabbar">'+html+'</style>';
                     iframe.content.find('style#imageColor_tabbar').replaceWith(html);
                 }

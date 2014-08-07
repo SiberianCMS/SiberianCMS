@@ -2,26 +2,23 @@
     <?php $notImportant = array("background"); ?>
     <?php foreach($this->getApplication()->getBlocks() as $block) : ?>
     <?php $important = !in_array($block->getCode(), $notImportant) ? ' !important' : '' ?>
+
     .<?php echo $block->getCode() ?> {
-        <?php if($block->getBackgroundColor()) : ?>background-color: <?php echo $block->getBackgroundColor(); ?><?php echo $important; ?>;<?php endif; ?>
-        <?php if($block->getColor()) : ?>color: <?php echo $block->getColor(); ?><?php echo $important; ?>;<?php endif;?>
+        background-color: <?php echo $block->getBackgroundColor(); ?><?php echo $important; ?>;
+        color: <?php echo $block->getColor(); ?><?php echo $important; ?>;
     }
-    <?php if($block->getColor()) : ?>
-    .<?php echo $block->getCode() ?>.border { border-color: <?php echo $block->getColor() ?> }
-    .<?php echo $block->getCode() ?>.reverse.border { border-color: <?php echo $block->getBackgroundColor() ?> }
-    <?php endif; ?>
 
     .<?php echo $block->getCode() ?>.reverse {
-        <?php if($block->getBackgroundColor()) : ?>color: <?php echo $block->getBackgroundColor(); ?><?php echo $important; ?>;<?php endif; ?>
-        <?php if($block->getColor()) : ?>background-color: <?php echo $block->getColor(); ?><?php echo $important; ?>;<?php endif;?>
+        color: <?php echo $block->getBackgroundColor(); ?><?php echo $important; ?>;
+        background-color: <?php echo $block->getColor(); ?><?php echo $important; ?>;
     }
 
-    <?php if($block->getBackgroundColor()) : ?>
+    .<?php echo $block->getCode() ?>.border { border-color: <?php echo $block->getColor() ?> }
+    .<?php echo $block->getCode() ?>.reverse.border { border-color: <?php echo $block->getBackgroundColor() ?> }
+
     .<?php echo $block->getCode() ?> .no-background, .<?php echo $block->getCode() ?>.no-background {
         background-color: transparent <?php echo $important; ?>;
     }
-    <?php endif; ?>
-
 
     <?php if($block->getCode() == 'background') : ?>
     .icheckbox_flat,

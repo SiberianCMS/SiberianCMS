@@ -177,8 +177,8 @@ class Application_Model_Option extends Core_Model_Default
         }
         else if($this->getUri()) {
             $uri = $this->getUri();
-            if(!is_null($env) AND isset($this->_xml->$env) AND isset($this->_xml->$env->uri)) {
-                $uri = $this->_xml->$env->uri;
+            if(!is_null($env) AND $this->getData("{$env}_uri")) {
+                $uri = $this->getData("{$env}_uri");
             }
 
             if(!$this->getIsAjax() AND $this->getObject()->getLink()) $url = (string) $this->getObject()->getLink();
@@ -191,20 +191,39 @@ class Application_Model_Option extends Core_Model_Default
         return $url;
     }
 
-    public function getPath($action, $params = array(), $tiger_url = true, $env = null) {
+    public function getPath($action, $params = array(), $env = null) {
 
+        if($this->getValueId()) {
+            $params["value_id"] = $this->getValueId();
+        }
+
+        $request = Zend_Controller_Front::getInstance()->getRequest();
+        $useKey = (bool) $request->useApplicationKey();
         $path = null;
+
         if($this->getUri()) {
             $uri = $this->getUri();
-            if(!is_null($env) AND isset($this->_xml->$env) AND isset($this->_xml->$env->uri)) {
-                $uri = $this->_xml->$env->uri;
+
+            if(!is_null($env)) {
+
+                if($this->getData("{$env}_uri")) {
+                    $uri = $this->getData("{$env}_uri");
+                }
+
+                if($env == "mobile") {
+                    $request->useApplicationKey(true);
+                }
             }
+
             if(!$this->getIsAjax() AND $this->getObject()->getLink()) $path = $this->getObject()->getLink();
             else $path = parent::getPath($uri.$action, $params);
+
         }
         else {
             $path = '/front/index/noroute';
         }
+
+        $request->useApplicationKey($useKey);
 
         return $path;
     }

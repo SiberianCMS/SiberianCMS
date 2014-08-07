@@ -14,7 +14,7 @@ class Comment_Mobile_AnswerController extends Application_Controller_Mobile_Defa
 
                 $answer = new Comment_Model_Answer();
                 $answers = $answer->findByComment($comment->getId());
-
+                $data = array();
                 foreach($answers as $answer) {
                     $data[] = array(
                         "name" => $answer->getCustomerName(),

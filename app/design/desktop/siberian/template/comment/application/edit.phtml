@@ -152,13 +152,13 @@
                     });
 
                 }.bind(page));
-
+/*
                 function prepareDummy() {
                     if (iframe.f.page.current_page.id != 'news_details_<?php echo $value->getId(); ?>_new') {
                         iframe.f.page.showSubpage({id:'news_details_<?php echo $value->getId(); ?>_new'});
                     }
                 }
-
+*/
                 page.setCallback('willappear', function() {
                     createCustomUI();
                 });
@@ -176,7 +176,7 @@
                         $('.uploader_comment').trigger('click');
                         return false;
                     });
-
+/*
                     $('#title').keyup(function() {
                         var val = $(this).val();
                         if (val.length > 0) {
@@ -186,7 +186,7 @@
                     }).change(function() {
                         iframe.f.page.getSubpage('news_details_<?php echo $value->getId(); ?>_new').scrollview.refresh();
                     });
-
+*/
                     $('.show_details').click(function() {
                         var id = $(this).attr('rel');
                         var div = $('#details_news_'+id);
@@ -234,7 +234,6 @@
                         reload($(this), '<?php echo $this->getUrl('comment/application/delete'); ?>/id/'+id, true, function(datas) {
                             if(datas.success) {
                                 page.reload();
-                                iframe.f.page.reload();
                             }
                         });
                     });
@@ -244,7 +243,6 @@
                         reload($(this), '<?php echo $this->getUrl('comment/application/hide'); ?>/id/'+id, true, function(datas) {
                             if(datas.success) {
                                 page.reload();
-                                iframe.f.page.reload();
                             }
                         });
                     });
@@ -254,7 +252,6 @@
                         reload($(this), '<?php echo $this->getUrl('comment/application/show'); ?>/id/'+id, true, function(datas) {
                             if(datas.success) {
                                 page.reload();
-                                iframe.f.page.reload();
                             }
                         });
                     });
@@ -311,8 +308,7 @@
                             comment_uploader.crop(params);
                             comment_uploader.callback = function(file) {
                                 var filepath = '<?php echo Core_Model_Directory::getTmpDirectory() ?>/'+file;
-                                prepareDummy();
-                                iframe.content.find('#comment_details_image_<?php echo $value->getId(); ?>_new').attr('src', filepath).fadeIn(200);
+                                // iframe.content.find('#comment_details_image_<?php echo $value->getId(); ?>_new').attr('src', filepath).fadeIn(200);
                                 var button = '<button type="button" style="vertical-align:top" onclick="removepicture();" id="delete_picture" class="as-link"><i class="icon-remove"></i></button>';
                                 var img = '<img id="comment_picture" width="183" src="'+filepath+'"/>'+button;
                                 $('#uploaded_content').html(img);
@@ -323,13 +319,13 @@
                 });
 
                 background_image.setCallback('cropDidFinish', function() {
-                    iframe.content.find('.news').addClass('no-background');
-                    iframe.content.find('.comments').addClass('no-background');
+//                    iframe.content.find('.news').addClass('no-background');
+//                    iframe.content.find('.comments').addClass('no-background');
                 }).setCallback('imageDidRemove', function(datas) {
-                    if(!datas.background_image_url) {
-                        iframe.content.find('.news').removeClass('no-background');
-                        iframe.content.find('.comments').removeClass('no-background');
-                    }
+//                    if(!datas.background_image_url) {
+//                        iframe.content.find('.news').removeClass('no-background');
+//                        iframe.content.find('.comments').removeClass('no-background');
+//                    }
                 });
 
         </script>

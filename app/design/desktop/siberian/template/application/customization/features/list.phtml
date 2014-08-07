@@ -90,9 +90,9 @@
         carousel.update();
         $('#mobile_overview').load(function() {
             carousel.update();
-            iframe.f.tabbar.setCallback('numberOfIconsDidChange', function() {
-                carousel.update();
-            });
+//            iframe.f.tabbar.setCallback('numberOfIconsDidChange', function() {
+//                carousel.update();
+//            });
         });
     });
 
@@ -105,7 +105,7 @@
             $('#option_values li').hide();
             if(category_id == 'default') {
                 page.close(true);
-                iframe.f.page.showHomepage();
+//                iframe.f.page.showHomepage();
                 $('.option_path .node_container').fadeOut();
                 if(typeof layout != 'undefined') {
                     layout.hideCategoryManage();
@@ -214,22 +214,27 @@
                     reload($('#option_values'), order_url, true, function() {
                         //Order dans la feature folder
                         if($('.manage_categories').length > 0) {
-                            iframe.f.page.reload();
+                            alert('list.phtml line 217 : iframe.f.page.reload()');
+                            iframe.f.reload();
+//                            iframe.f.page.reload();
                         //Order directement dans une feature d'une catégorie
                         } else {
-                            var cat_id = $(ui.item).find('input[name="category_id"]').val();
-                            var parent_page = iframe.f.page.getSubpage(cat_id);
-                            //Catégorie root
-                            if(parent_page.content == '') {
-                                parent_page = iframe.f.page.getSubpage(folder.id);
-                            }
-                            iframe.f.page.refreshSubpage(parent_page);
+//                            var cat_id = $(ui.item).find('input[name="category_id"]').val();
+//                            var parent_page = iframe.f.page.getSubpage(cat_id);
+//                            //Catégorie root
+//                            if(parent_page.content == '') {
+//                                parent_page = iframe.f.page.getSubpage(folder.id);
+//                            }
+//                            iframe.f.page.refreshSubpage(parent_page);
                         }
                     });
                 } else {
                     var order_url = "<?php echo $this->getUrl('application/customization_features/seticonpositions'); ?>?"+order;
                     reload($('#option_values'), order_url, true, function() {
-                        iframe.f.page.loadHomePage();
+                        if(iframe.isHomepage()) {
+                            iframe.f.reload();
+                        }
+//                        iframe.f.page.loadHomePage();
                         $('ul#option_values li.option_value').each(function(index, value) {
                             $(this).attr('data-pos', index+1);
                             $(this).find('a').attr('pos', index+1);
@@ -244,6 +249,7 @@
         callback: new Array(),
         current: null,
         next: null,
+        current_path: null,
         ask_confirmation: false,
         processEvents: function() {
 
@@ -274,6 +280,10 @@
 
                     reload($(this).parent(), '<?php echo $this->getUrl('application/customization_features/delete'); ?>', true, function(datas) {
 
+                        if(datas.path && iframe.f.getPath() == datas.path) {
+                            iframe.f.back();
+                        }
+
                         //Cas folder
                         if(datas.was_category) {
 
@@ -287,9 +297,6 @@
                             // Supprime de l'élément dans l'iframe
                             iframe.content.find('#tabbar_item_'+datas.value_id+'.belongs_to_folder').fadeOut(300, function() {
                                 $(this).parent().remove();
-                                if(iframe.f.page.getSubpage(folder.getPageId())) {
-                                    iframe.f.page.getSubpage(folder.getPageId()).refreshScrollview();
-                                }
                             });
 
                             // Cas aucune feature n'est ouverte -> Le folder est ouvert
@@ -305,7 +312,9 @@
                             }
 
                             //Met à jour la home pour récupérer les options assignées
-                            iframe.f.page.loadHomePage();
+                            if(iframe.isHomepage()) {
+                                iframe.f.reload();
+                            }
 
                         } else if(datas.was_feature) {
                             // Si la fonctionnalité était un folder ET le folder en cours
@@ -333,8 +342,10 @@
                             if(!datas.use_admin_account) $('#option_value_customer_account').hide();
                             carousel.update();
 
-                            iframe.f.page.destroySubpage(datas.value_id, true);
-                            iframe.f.page.loadHomePage();
+                            if(iframe.isHomepage()) {
+                                iframe.f.reload();
+                            }
+//                            iframe.f.page.destroySubpage(datas.value_id, true);
 
                             if(datas.was_folder) {
                                 $('#option_values > .option_value').each(function() {
@@ -384,11 +395,12 @@
                         var a = li.children('a');
                         $('#option_value_customer_account').before(li);
                         this.close();
-                        iframe.f.page.homepage.setCallback('didcreate', function() {
-                            page.load(a);
-                            this.unsCallback('didcreate');
-                        });
-                        iframe.f.page.loadHomePage();
+//                        iframe.f.page.homepage.setCallback('didcreate', function() {
+//                            page.load(a);
+//                            this.unsCallback('didcreate');
+//                        });
+//                        iframe.f.page.loadHomePage();
+                        iframe.f.setPath(datas.path);
                         carousel.update().slideToItem(li);
                         page.processEvents();
                     }
@@ -448,6 +460,8 @@
                         this.next.addClass('editor_menu active');
                         this.next.parent().children('div.actions').fadeIn();
 
+                        this.current_path = datas.path;
+
                         var div = $('#page').children('div');
                         var new_div = $('<div />').css('left', $('#page').width()).attr('pos', this.next.attr('pos')).hide();
 
@@ -468,40 +482,18 @@
 
                         this.current = this.next;
 
-                        iframe.f.page.clearAnimation();
+                        $('#title_editor').html(this.next.children('span').attr('rel'));
 
-                        if(iframe.f.page.subpageIsDisplayed(this.next.attr('rel'), true)) {
-                            iframe.f.page.getSubpage(this.next.attr('rel')).setCallback('didrefresh', function() {
-                                loader.hide('page.load 1');
-                                page.next = null;
-                                this.unsCallback('didrefresh');
-                            });
-                            iframe.f.page.refreshSubpage(this.next.attr('rel'), true);
+                        /*if(iframe.f.isSamePath(this.current_path)) {
+                            loader.hide('page.load 1');
+                            page.next = null;
+                            iframe.f.reload();
                         }
-                        else if(show_mobile_page) {
-
-                            var subpage_id = this.next.attr('rel');
-                            var subpage = iframe.f.page.getSubpage(subpage_id);
-
-                            if(subpage) {
-                                subpage.setCallback('is_now_visible', function() {
-                                    iframe.f.page.refreshSubpage(this, true);
-                                    loader.hide('page.load 2');
-                                    page.next = null;
-                                    this.unsCallback('is_now_visible');
-                                });
-                            }
-
-                            iframe.f.page.showSubpage({
-                                a: iframe.content.find('#tabbar_item_'+subpage_id),
-                                callbacks: {
-                                    is_now_visible: function() {
-                                        loader.hide('page.load 2-1');
-                                        page.next = null;
-                                        this.unsCallback('is_now_visible');
-                                    }
-                                }
-                            });
+                        else */
+                        if(show_mobile_page) {
+                            iframe.f.setPath(this.current_path);
+                            page.next = null;
+                            loader.hide('page.load 2');
                         }
                         else {
                             loader.hide('page.load 3');
@@ -509,7 +501,6 @@
 
                         animation.fold(div, new_div, this.getCallback('diddisappear'), didappear_callback);
 
-                        $('#title_editor').html(this.next.children('span').attr('rel'));
                         $('#header_editor').fadeIn();
 
                         if(typeof background_image == 'object') background_image.init();
@@ -534,7 +525,6 @@
                     else {
                         loader.hide('page.load 5');
                     }
-
 
                 }.bind(this),
                 error: function() {
@@ -587,7 +577,11 @@
                     page.load(a.get(0), false);
                 }
 
-                if(!folder.id || !folder.current_option_id || this.current.attr('rel') != folder.id) {
+                if(!folder.id && !folder.current_option_id && this.current.attr('rel') != folder.id) {
+                    if(!this.next) {
+                        iframe.f.showHomepage();
+                    }
+                } else if(!folder.id || !folder.current_option_id || this.current.attr('rel') != folder.id) {
                     iframe.f.page.destroySubpage(this.current.attr('rel'), recursive);
                 }
             }

@@ -78,7 +78,7 @@ var Carousel = Class.extend({
         this.options.items = this.container.children('li:visible');
         this.slide_width = this.options.item_width*this.options.items_per_page;
         if(typeof iframe.f != 'undefined') {
-            var nbr_of_icons_in_app = iframe.f.tabbar.nbr_of_icons;
+            var nbr_of_icons_in_app = 0;//iframe.f.tabbar.nbr_of_icons;
             var nbr_of_icons_in_carousel = 0;
             this.options.items.each(function() {
                 if(this.id != 'option_value_more_items') nbr_of_icons_in_carousel++;

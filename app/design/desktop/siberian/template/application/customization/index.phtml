@@ -35,6 +35,9 @@
 <script type="text/javascript">
 
     var iframe = {
+        isHomepage: function() {
+            return this.object.attr('src') == this.f.window.location.href;
+        },
         setHomepageImage: function(img) {
             var logo = iframe.content.find('#homepage_background_image_link');
             if(img != false) {

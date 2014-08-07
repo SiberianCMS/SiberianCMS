@@ -11,7 +11,7 @@
         <div class="iphone_content">
             <p id="iphone_header" class="iphone_header toolbar_overview a-center"><?php echo date('H:m'); ?></p>
             <p id="android_header" class="android_header toolbar_overview a-right" style="display:none"><?php echo date('H:m'); ?></p>
-            <iframe id="mobile_overview" src="<?php // echo $this->getApplication()->getUrl(null, array(), true); ?>?overview=1" width="320" height="460" style="overflow: hidden;"></iframe>
+            <iframe id="mobile_overview" src="<?php echo $this->getApplication()->getUrl("front/mobile_home/overview", array(), true); ?>" width="320" height="460" style="overflow: hidden;"></iframe>
         </div>
     </div>
 </div>
@@ -54,10 +54,6 @@
             iframe.f.loader.show();
 
         }
-    });
-
-    $(document).ready(function() {
-        $('#mobile_overview').attr("src", "<?php echo $this->getApplication()->getUrl(null, array(), true); ?>");
     });
 
 </script>

@@ -1,6 +1,6 @@
 var App = angular.module("Siberian", ['ngRoute', 'ngAnimate', 'ngTouch', 'angular-carousel', 'ngResource', 'ngSanitize', 'ngFacebook']);
 
-App.run(function($rootScope, $window, $route, $location, $templateCache, Connection) {
+App.run(function($rootScope, $window, $route, $location, $timeout, $templateCache, Connection) {
 
     FastClick.attach($window.document);
 
@@ -8,19 +8,60 @@ App.run(function($rootScope, $window, $route, $location, $templateCache, Connect
     console.log('Is overview : ', $rootScope.isOverview);
 
     if($rootScope.isOverview) {
+
         $rootScope.$on('$routeChangeStart', function(event, next, current) {
             if (typeof(current) !== 'undefined'){
                 $templateCache.remove(current.templateUrl);
             }
         });
-    }
 
-    $window.reload = function() {
-        if(angular.isFunction($route.current.scope.reload)) {
-            $route.current.scope.reload();
+        $window.isHomepage = function() {
+            return $location.path() == ORIG_URL;
         }
-        $rootScope.direction = null;
-        $route.reload();
+
+        $window.reload = function(path) {
+
+            if(!path || path == $location.path()) {
+                if(angular.isFunction($route.current.scope.reload)) {
+                    $route.current.scope.reload();
+                }
+                $rootScope.direction = null;
+                $route.reload();
+            }
+        }
+
+        $window.setPath = function(path) {
+            if($window.isSamePath(path)) {
+                $window.reload();
+            } else if(!$window.isHomepage()) {
+                $window.back();
+                $timeout(function() {$window.setPath(path);}, 50);
+            } else {
+                $location.path(path);
+                $rootScope.$apply();
+            }
+        }
+
+        $window.getPath = function() {
+            return $location.path();
+        }
+
+        $window.isSamePath = function(path) {
+            return $location.path() == path;
+        }
+
+        $window.showHomepage = function() {
+
+            if($location.path() != ORIG_URL) {
+                $window.back();
+                $timeout(function() {$window.showHomepage();}, 100);
+            }
+        }
+
+        $window.back = function(path) {
+            $window.history.back();
+        }
+
     }
 
     $rootScope.$on('$locationChangeStart', function() {

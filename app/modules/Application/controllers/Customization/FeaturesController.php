@@ -70,6 +70,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
                 $html = array(
                     'success' => 1,
                     'page_html' => $row,
+                    'path' => $option_value->getPath(null, array(), "mobile"),
                     'delete_features' => $delete_features,
                     'page_id' => $option_value->getOptionId(),
                     'use_user_account' => $this->getApplication()->usesUserAccount()
@@ -104,6 +105,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
                 $html = array(
                     'success' => 1,
                     'value_id' => $datas['value_id'],
+                    'path' => $option_value->getPath(null, array(), "mobile"),
                     'was_folder' => false,
                     'was_category' => false,
                     'was_feature' => false
@@ -142,7 +144,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
                     }
 
                     // Renvoi le nouveau code HTML
-                    $this->getLayout()->setBaseRender('content', 'application/customization/page/list.phtml', 'admin_view_default');
+//                    $this->getLayout()->setBaseRender('content', 'application/customization/page/list.phtml', 'admin_view_default');
 
                 }
             }

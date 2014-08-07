@@ -450,4 +450,19 @@ class Application_Model_Application extends Core_Model_Default {
         return $url;
 
     }
+
+    public function getPath($uri = null, $params = array(), $locale = null) {
+
+        $request = Zend_Controller_Front::getInstance()->getRequest();
+        $useKey = (bool) $request->useApplicationKey();
+        $request->useApplicationKey(true);
+        if($this->getValueId()) {
+            $param["value_id"] = $this->getValueId();
+        }
+        $url = parent::getPath($uri, $params, $locale);
+        $request->useApplicationKey($useKey);
+
+        return $url;
+
+    }
 }

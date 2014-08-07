@@ -8,6 +8,11 @@ class Front_Mobile_HomeController extends Application_Controller_Mobile_Default 
         $this->forward('index', 'index', 'Front', $this->getRequest()->getParams());
     }
 
+    public function colorsAction() {
+        $this->loadPartials("front_index_index");
+        $this->getLayout()->addPartial("style", "core_view_mobile_default", "application/customization/css.phtml");
+    }
+
     public function indexAction() {
         $this->getSession()->isOverview = false;
         parent::indexAction();
