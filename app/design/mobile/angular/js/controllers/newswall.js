@@ -116,7 +116,4 @@ App.config(function($routeProvider) {
 
     $scope.loadContent();
 
-
-
-
 });

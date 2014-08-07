@@ -115,6 +115,14 @@ class Wordpress_ApplicationController extends Application_Controller_Default
                 // Test si les données sont OK
                 if($root_category->getChildren()) {
 
+                    // Sauvegarde le Wordpress
+                    if(!$wordpress->getId()) {
+                        $wordpress->setValueId($datas['value_id']);
+                    }
+                    $wordpress->setUrl($datas['url'])
+                        ->save()
+                    ;
+
                     $html = $this->getLayout()->addPartial('categories_html', 'admin_view_default', 'wordpress/application/edit/categories.phtml')
                         ->setCategory($root_category)
                         ->setCheckAllCategories(true)

@@ -164,7 +164,7 @@ a.connect_button {height:22px; padding-top:10px;}
     right:0;
     bottom:0;
     left:0;
-    position: absolute;
+    position: fixed;
     width: 100%;
     z-index: 150;
     overflow: hidden;

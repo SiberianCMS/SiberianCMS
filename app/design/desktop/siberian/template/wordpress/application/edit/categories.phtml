@@ -27,7 +27,7 @@
         <?php endif ?>
         <div class="clear"></div>
         <script type="text/javascript">
-            wordpress.setPostIds('<?php echo $category->getId(); ?>', <?php echo Zend_Json::encode($category->getPostIds()); ?>);
+            wordpress.setPosts('<?php echo $category->getId(); ?>', <?php echo Zend_Json::encode($category->getPostIds()); ?>);
         </script>
     </li>
 <?php endforeach ?>

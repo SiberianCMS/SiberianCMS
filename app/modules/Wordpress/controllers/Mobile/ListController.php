@@ -11,12 +11,18 @@ class Wordpress_Mobile_ListController extends Application_Controller_Mobile_Defa
                 $option_value = $this->getCurrentOptionValue();
                 $wordpress = $option_value->getObject();
 
-                $posts = $wordpress->getRemotePosts($this->getRequest()->getParam('overview'), null, !$this->getRequest()->getParam('overview'));
+                $posts = $wordpress->getRemotePosts($this->isOverview(), null, !$this->isOverview());
+                $cover = null;
 
                 if(count($posts)) {
-                    $cover = current($posts);
-                    if($cover->getPicture()) {
-                        $posts = array_slice($posts, 1, count($posts));
+                    foreach($posts as $k => $post) {
+                        if(!$post->getIsHidden()) {
+                            $cover = $post;
+                        }
+                    }
+
+                    if($cover AND $cover->getPicture()) {
+                        $cover->setIsHidden(true);
                     } else {
                         $cover = null;
                     }
@@ -28,21 +34,28 @@ class Wordpress_Mobile_ListController extends Application_Controller_Mobile_Defa
                     $data["posts"][] = array(
                         "id" => $post->getId(),
                         "title" => $post->getTitle(),
-                        "subtitle" => $post->getShortDescription(),
+                        "subtitle" => html_entity_decode($post->getShortDescription(), ENT_NOQUOTES, "UTF-8"),
                         "description" => $post->getDescription(),
                         "picture" => $post->getPicture(),
+                        "date" => $post->getFormattedDate(),
+                        "is_hidden" => !!$post->getIsHidden(),
                         "url" => $this->getPath("wordpress/mobile_view", array("value_id" => $value_id, "post_id" => $post->getId())),
                     );
+
                 }
 
-                $data["cover"] = array(
-                    "id" => $cover->getId(),
-                    "title" => $cover->getTitle(),
-                    "subtitle" => $cover->getFormattedDate(),
-                    "description" => $cover->getDescription(),
-                    "picture" => $cover->getPicture(),
-                    "url" => $this->getPath("wordpress/mobile_view", array("value_id" => $value_id, "post_id" => $cover->getId()))
-                );
+                if($cover) {
+                    $data["cover"] = array(
+                        "id" => $cover->getId(),
+                        "title" => $cover->getTitle(),
+                        "subtitle" => html_entity_decode($post->getShortDescription(), ENT_NOQUOTES, "UTF-8"),
+                        "description" => $cover->getDescription(),
+                        "picture" => $cover->getPicture(),
+                        "date" => $post->getFormattedDate(),
+                        "is_hidden" => false,
+                        "url" => $this->getPath("wordpress/mobile_view", array("value_id" => $value_id, "post_id" => $cover->getId()))
+                    );
+                }
 
                 $data["page_title"] = $this->getCurrentOptionValue()->getTabbarName();
 

@@ -10,7 +10,7 @@ App.config(function($routeProvider) {
         code: "wordpress"
     });
 
-}).controller('WordpressListController', function($scope, $http, $routeParams, $location, Wordpress) {
+}).controller('WordpressListController', function($window, $scope, $http, $routeParams, $location, Wordpress) {
 
     $scope.$watch("isOnline", function(isOnline) {
         $scope.has_connection = isOnline;
@@ -19,13 +19,29 @@ App.config(function($routeProvider) {
         }
     });
 
+    $scope.collection = new Array();
+    $scope.cover = {};
     $scope.is_loading = true;
     $scope.value_id = Wordpress.value_id = $routeParams.value_id;
 
     $scope.loadContent = function() {
         Wordpress.findAll().success(function(data) {
+
             $scope.collection = data.posts;
-            $scope.cover = data.cover;
+            if($scope.collection.length) {
+                for(var i in $scope.collection) {
+
+                    if($scope.collection[i].is_hidden) continue;
+
+                    if($scope.collection[i].picture) {
+                        $scope.collection[i].is_hidden = true;
+                        $scope.cover = $scope.collection[i];
+                    }
+
+                    break;
+                }
+            }
+
             $scope.page_title = data.page_title;
         }).error(function() {
 
@@ -37,6 +53,40 @@ App.config(function($routeProvider) {
 
     $scope.showItem = function(item) {
         $location.path(item.url);
+    }
+
+    if($scope.isOverview) {
+        $window.showPost = function(post_id) {
+            if($scope.cover.id == post_id) {
+                return;
+            }
+            for(var i = 0; i < $scope.collection.length; i++) {
+                if($scope.collection[i].id == post_id) {
+                    if(!$scope.cover.id && $scope.collection[i].picture) {
+                        $scope.cover = {
+                            id: $scope.collection[i].id,
+                            title: $scope.collection[i].title,
+                            subtitle: $scope.collection[i].subtitle,
+                            picture: $scope.collection[i].picture
+                        };
+                    } else {
+                        $scope.collection[i].is_hidden = false;
+                    }
+                }
+            }
+            $scope.$apply();
+        };
+        $window.hidePosts = function() {
+            for(var i = 0; i < $scope.collection.length; i++) {
+                $scope.collection[i].is_hidden = true;
+            }
+            $scope.cover = {};
+            $scope.$apply();
+        };
+        $scope.$on("$destroy", function() {
+            $window.showPosts = null;
+            $window.hidePosts = null;
+        });
     }
 
     $scope.loadContent();

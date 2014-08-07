@@ -98,6 +98,10 @@ class Wordpress_Model_Wordpress extends Core_Model_Default {
 
                     foreach($datas['posts'] as $post_datas) {
 
+                        if($showAll AND count(array_intersect($category_ids, $post_datas['category_ids'])) == 0) {
+                            $post_datas['is_hidden'] = true;
+                        }
+
                         $first_picture = '';
                         $first_picture_src = '';
 
@@ -155,21 +159,23 @@ class Wordpress_Model_Wordpress extends Core_Model_Default {
                             $post_datas['description'] = $content->saveHTMLExact();
                             $post_datas['description'] = strip_tags($post_datas['description'], '<div><p><a><img><iframe>');
                         }
-                        $post_datas['picture'] = $first_picture_src;
 
+                        $post_datas['picture'] = $first_picture_src;
                         $this->_remote_posts[$post_datas['date']] = new Wordpress_Model_Wordpress_Category_Post($post_datas);
                     }
 
                 }
 
                 krsort($this->_remote_posts);
+
                 if($useCache) {
                     $cache->save($this->_remote_posts, $cacheId);
                 }
             }
 //        }
 
-        return array_splice($this->_remote_posts, 0, 20);
+//        return array_splice($this->_remote_posts, 0, 20);
+        return $this->_remote_posts;
 
     }
 

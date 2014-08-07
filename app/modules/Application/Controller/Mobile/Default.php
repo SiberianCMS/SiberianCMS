@@ -66,6 +66,10 @@ class Application_Controller_Mobile_Default extends Core_Controller_Default {
         return $this;
     }
 
+    public function isOverview() {
+        return $this->getSession()->isOverview;
+    }
+
     /**
      * @depecrated
      */

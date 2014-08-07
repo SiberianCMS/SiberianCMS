@@ -4,7 +4,7 @@
 <?php $root_category = $wordpress->getRemoteRootCategory(); ?>
 <script type="text/javascript">
     var wordpress = {
-        post_ids: new Array(),
+        posts: new Array(),
         init: function() {
 
             $('#wordpressSearchForm').submit(function() {
@@ -13,6 +13,7 @@
                 $('#loader_search_loader').show();
                 reload(this, this.action, true, function(datas) {
                     this.loadCategories(datas);
+                    iframe.f.reload();
                 }.bind(wordpress), function() {
                     $('#wordpress_content').slideUp();
                     $('#loader_search_loader').hide();
@@ -59,15 +60,6 @@
                 }.bind(this));
 
                 $('#wordpress_url_receiver').val($('#wordpress_url').val());
-                var subpage;
-                if(subpage = iframe.f.page.getSubpage('wordpress_view_<?php echo $option->getId() ?>')) {
-                    if(subpage.is_displayed) iframe.f.page.goBack();
-                    subpage.destroy();
-                    iframe.f.page.unsSubpage(subpage);
-                }
-//                iframe.f.page.destroySubpage(iframe.f.page.getSubpage('wordpress_view_<?php echo $option->getId() ?>'));
-                iframe.f.page.getSubpage('<?php echo $option->getId(); ?>').wordpress_url = $('#wordpress_url').val();
-                iframe.f.page.getSubpage('<?php echo $option->getId(); ?>').loadPosts(true);
             }
         },
         selectCategory: function(input) {
@@ -80,34 +72,6 @@
 
             this.showPosts();
 
-//            var labels = $('ul#category_'+id+' > li > label');
-//            var length = labels.length;
-
-//            if(length) {
-//                labels.each(function(i, e) {
-//                    var child = $(e).children('input');
-//                    if(isChecked != child.is(':checked')) {
-//                        child.prop('checked', isChecked);
-//                        this.selectCategory(child);
-//                    }
-//                }.bind(this));
-//            }
-//            else {
-//                this.showPosts();
-//            }
-//            var label = input.parent('label');
-//            cpt = 1;
-//            while(label.attr('id')) {
-//                if(isChecked) {
-//                    checkInput(label);
-//                }
-//                else {
-//                    var labels = $('#category_'+label.attr('rel')).find('label.checked');
-//                    if(labels.length == 0) uncheckInput(label);
-//                }
-//                label = $('#'+label.attr('data-parent'));
-//            }
-
         },
         saveCategories: function() {
             if(!$(this).valid()) return false;
@@ -116,25 +80,20 @@
 
             return false;
         },
-        setPostIds: function(cat_id, post_ids) {
-            this.post_ids[cat_id] = post_ids;
+        setPosts: function(cat_id, posts) {
+            this.posts[cat_id] = posts;
         },
         showPosts: function() {
 
-            iframe.content.find('#wordpress_list_<?php echo $option->getId(); ?>').find('li.post').hide();
+            iframe.f.hidePosts();
             $('.select_category:checked').each(function(i, e) {
-                if(this.post_ids[$(e).val()].length) {
-                    $.each(this.post_ids[$(e).val()], function(i, value) {
-                        iframe.content.find('#post_'+value).show();
+                if(this.posts[$(e).val()].length) {
+                    $.each(this.posts[$(e).val()], function(i, value) {
+                        iframe.f.showPost(value);
                     }.bind(this));
                 }
             }.bind(this));
-            iframe.content.find('#wordpress_list_<?php echo $option->getId(); ?>').find('li.post.header_post').removeClass('header_post');
-            var header_post = iframe.content.find('#wordpress_list_<?php echo $option->getId(); ?>').find('li.post:visible:first');
-            if(header_post.hasClass('has_a_picture')) {
-                iframe.content.find('#wordpress_list_<?php echo $option->getId(); ?>').find('li.post:visible:first').addClass('header_post');
-            }
-            iframe.f.page.current_page.refreshScrollview();
+
         }
 
     }
