@@ -102,7 +102,7 @@
                                 $('#sections').append('<div>' + datas.section_html + '</div>');
                                 field.bindAddField($('#add_field_section_'+datas.section_id));
                                 $('#section_name').val('').focus();
-                                iframe.f.page.reload();
+                                iframe.f.reload();
                                 section.processEvents();
                             }
                         });
@@ -175,11 +175,11 @@
                             input.removeClass('selected');
                             var color = input.attr('data-color');
                             input.stop().animate({'background-color': 'transparent', color: color}).removeClass('loading');
-                            iframe.f.page.reload();
+                            iframe.f.reload();
                         }
                         else if (datas.is_deleted) {
                             div.remove();
-                            iframe.f.page.reload();
+                            iframe.f.reload();
                         }
                         else {
                             // Alert;
@@ -223,7 +223,7 @@
                             var order = $(e.target).sortable('serialize');
                             $(e.target).sortable("refresh");
                             reload($(e.target), "<?php echo $this->getUrl('form/application_field/sortfields', array('option_value_id' => $option_value->getId())); ?>/section_id/" + $(ui.item).attr('rel') + "?" + order, false, function() {
-                                iframe.f.page.reload();
+                                iframe.f.reload();
                             });
                         }
                     });
@@ -253,7 +253,7 @@
                             if (datas.success) {
                                 li.css('background-color', '#C41313').animate({'background-color': 'transparent', height: 0, padding: 0, opacity: 0}, 500, null, function() {
                                     li.remove();
-                                    iframe.f.page.reload();
+                                    iframe.f.reload();
                                 });
                             }
                         });
@@ -274,7 +274,7 @@
                                 form.unbind('submit');
                                 field.processEvents();
                                 $.prettyPhoto.close();
-                                iframe.f.page.reload();
+                                iframe.f.reload();
                             }
                         }.bind(this));
                     } else if ($('#typeField').val() == '') {

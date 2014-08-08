@@ -154,16 +154,7 @@
                     showAnim: 'clip',
                     dateFormat: 'yy-mm-dd',
                     onClose: function(date, obj) {
-                        var newdate = '';
-                        if(date.length > 0) {
                             //fuck ie
-                            var d=date.split("-");
-                            date = new Date(d[0],(d[1]-1),d[2]);
-                            var newdate = $.datepicker.formatDate('<?php echo $this->_('MM,d yy'); ?>', date, {
-                                dayNames: $.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguage() ?>'].dayNames,
-                                monthNamesShort: $.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguage() ?>'].monthNamesShort,
-                                monthNames: $.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguage() ?>'].monthNames
-                            });
 //                            var dates = newdate.split(' ');
 //                            days = dates[1];
 //                            if(days.length > 1) {
@@ -185,8 +176,7 @@
 //                            } else {
 //                                newdate = dates[0]+' '+doubledigit+' '+dates[2];
 //                            }
-                        }
-                        promotion.setEndAt(newdate);
+                        promotion.setEndAt(date);
                     }
                 });
 
@@ -232,88 +222,37 @@
             },
 
             setTitle: function(text) {
-                iframe.content.find('#title_'+this.id).html('<h4>'+text+'</h4>');
-                text.length > 0 ? iframe.content.find('#title_'+this.id).show() : iframe.content.find('#title_'+this.id).hide();
-                iframe.f.page.getSubpage('<?php echo $option_value->getId(); ?>').refreshPromotionScrollview('promotion_'+this.id);
+                iframe.f.setAttributeToDummy("title", text);
             },
-            setDescription: function(text, etat) {
-                iframe.content.find('#description_'+this.id).html(text);
-                text.length > 0 ? iframe.content.find('#description_'+this.id).show() : iframe.content.find('#description_'+this.id).hide();
-                iframe.f.page.getSubpage('<?php echo $option_value->getId(); ?>').refreshPromotionScrollview('promotion_'+this.id);
+            setDescription: function(text) {
+                iframe.f.setAttributeToDummy("description", text);
             },
-            setConditions: function(text, etat) {
-                iframe.content.find('#conditions_'+this.id).html(text);
-                text.length > 0 ? iframe.content.find('#conditions_'+this.id).show() : iframe.content.find('#conditions_'+this.id).hide();
-                iframe.f.page.getSubpage('<?php echo $option_value->getId(); ?>').refreshPromotionScrollview('promotion_'+this.id);
+            setConditions: function(text) {
+                iframe.f.setAttributeToDummy("conditions", text);
             },
-            setEndAt: function(text, etat) {
-                var html = text.length > 0 ? '<?php echo addslashes($this->_("Valid until")); ?> '+ text : '';
-                iframe.content.find('#end_at_'+this.id).html('<?php echo addslashes($this->_("Valid until")); ?> '+ text);
-                text.length > 0 ? iframe.content.find('#end_at_'+this.id).show() : iframe.content.find('#end_at_'+this.id).hide();
-                iframe.f.page.getSubpage('<?php echo $option_value->getId(); ?>').refreshPromotionScrollview('promotion_'+this.id);
-            },
-            setIsUnique: function(is_unique, etat) {
-
-                if(is_unique) {
-                    if(!iframe.content.find('#use_promotion_'+this.id).length) {
-                        iframe.content.find('#promotion_'+this.id).children('.scroll')
-                            .append('\n\
-                                <div class="use_discount" id="use_promotion_'+this.id+'">\n\
-                                    <a class="discount reverse" onclick="return false;" href="javascript:void(0)"><?php echo $this->_('Use this coupon'); ?></a>\n\
-                                </div>\n\
-                            ');
-                    }
-                    iframe.content.find('#use_promotion_'+this.id).show();
-                }
-                else {
-                    iframe.content.find('#use_promotion_'+this.id).hide();
+            setEndAt: function(text) {
+                if(text.length) {
+                    var d = text.split("-");
+                    var date = new Date(d[0],(d[1]-1),d[2]);
+                    text = $.datepicker.formatDate('<?php echo $this->_('MM,d yy'); ?>', date, {
+                        dayNames: $.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguage() ?>'].dayNames,
+                        monthNamesShort: $.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguage() ?>'].monthNamesShort,
+                        monthNames: $.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguage() ?>'].monthNames
+                    });
                 }
 
-                iframe.f.page.getSubpage('<?php echo $option_value->getId(); ?>').refreshPromotionScrollview('promotion_'+this.id);
-
+                iframe.f.setAttributeToDummy("end_at", text);
             },
-            setIsIllimited: function(is_illimited, etat) {
-                if(!is_illimited && $('#end_at').val().length > 0) iframe.content.find('#end_at_'+this.id).show();
-                else iframe.content.find('#end_at_'+this.id).hide();
-                iframe.f.page.getSubpage('<?php echo $option_value->getId(); ?>').refreshPromotionScrollview('promotion_'+this.id);
+            setIsUnique: function(is_unique) {
+                iframe.f.setAttributeToDummy("is_unique", is_unique);
+            },
+            setIsIllimited: function(is_illimited) {
+                if(is_illimited) iframe.f.setAttributeToDummy("end_at", null);
+                else this.setEndAt($('#end_at').val());
             },
             prepareDummy: function() {
-                if(!iframe.content.find('#promotion_new').attr('id')) {
-                    var list = iframe.content.find('#promotions_list_<?php echo $option_value->getId(); ?>');
-                    list.prepend(this.getDummy());
-                    promotion.number_of_children++;
-                    if(!iframe.f.scrollviews.get('promotion_'+this.id)) {
-                        iframe.f.page.getSubpage('<?php echo $option_value->getId(); ?>').createPromotionScrollview('promotion_'+this.id);
-                    }
-                    iframe.f.page.getSubpage('<?php echo $option_value->getId(); ?>').setContentSize().refreshScrollview();
-                }
-            },
-            removeDummy: function() {
-                var promotion_new = iframe.content.find('#promotion_new_<?php echo $option_value->getId(); ?>');
-                if(promotion_new.attr('id')) {
-                    iframe.f.scrollviews.destroy('promotion_'+this.id);
-                    var list = iframe.content.find('#promotions_list_<?php echo $option_value->getId(); ?>');
-                    promotion_new.parent().remove();
-                    promotion.number_of_children--;
-
-                    iframe.f.page.getSubpage('<?php echo $option_value->getId(); ?>').setContentSize();
-                }
-            },
-            getDummy: function() {
-                return '<li class="relative">\n\
-                    <div id="promotion_new_<?php echo $option_value->getId(); ?>" class="details promotion_scrollview_details">\n\
-                        <div class="scroll" style="min-height: 197px;">\n\
-                            <div class="padding"></div>\n\
-                            <div id="title_new_<?php echo $option_value->getId(); ?>" class="title promotion none"><h4></h4></div>\n\
-                            <p id="description_new_<?php echo $option_value->getId(); ?>" class="none"></p>\n\
-                            <p id="conditions_new_<?php echo $option_value->getId(); ?>" class="none"></p>\n\
-                            <p id="end_at_new_<?php echo $option_value->getId(); ?>" class="end_at none"></p>\n\
-                            <div id="use_promotion_new_<?php echo $option_value->getId(); ?>" class="use_discount none">\n\
-                                <a class="discount reverse" onclick="return false;" href="javascript:void(0)"><?php echo addslashes($this->_('Use this coupon')); ?></a>\n\
-                            </div>\n\
-                        </div>\n\
-                    </div>\n\
-                </li>';
+                iframe.f.prepareDummy();
+                promotion.number_of_children++;
             }
         }
 
@@ -333,11 +272,6 @@
                     $('#edit').html(datas.form);
                     feature.edit();
                     promotion.prepareDummy();
-                    iframe.f.page.getSubpage('<?php echo $option_value->getId(); ?>').scrollview.scrollToPage(0,0,0);
-//                    iframe.f.scrollviews.destroy('promotion_scrollview');
-                    <?php //foreach($promotions as $promotion) : ?>
-//                    iframe.f.scrollviews.destroy('promotion_<?php echo $promotion->getPromotionId(); ?>');
-                    <?php //endforeach; ?>
                     promotion.processEvents();
                     createCustomUI();
                 });
@@ -350,12 +284,6 @@
                 reload(this, url, true, function(datas) {
                     $('#edit').html(datas.form);
                     feature.edit();
-
-                    if(position > -1) iframe.f.page.getSubpage('<?php echo $option_value->getId(); ?>').scrollview.scrollToPage(position, 0, 0);
-//                    iframe.f.scrollviews.destroy('promotion_scrollview');
-                    <?php //foreach($promotions as $promotion) : ?>
-//                    iframe.f.scrollviews.destroy('promotion_<?php echo $promotion->getPromotionId(); ?>');
-                    <?php //endforeach; ?>
                     promotion.processEvents();
                     createCustomUI();
                 });
@@ -386,7 +314,6 @@
             $('#is_unique').unbind('change');
             $('#is_illimited').unbind('change');
             $(".promotion_actions").unbind('mouseenter mouseout');
-            promotion.removeDummy();
         });
     </script>
     <style type="text/css">

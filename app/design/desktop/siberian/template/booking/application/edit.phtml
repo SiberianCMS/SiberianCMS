@@ -139,7 +139,7 @@
         $('.form_booking').submit(function() {
             if(!$(this).valid()) return false;
             reload(this, '<?php echo $this->getUrl('booking/application/editpost') ?>', true, function(datas) {
-                iframe.f.page.reload();
+                iframe.f.reload();
                 //new feed
                 if(datas.row_html) {
                     $('#booking_list').prepend(datas.row_html);
@@ -163,7 +163,7 @@
             }
             else {
                 reload(this, '<?php echo $this->getUrl('booking/application/delete')?>/id/'+id, true, function(datas) {
-                    iframe.f.page.reload();
+                    iframe.f.reload();
                     $('li#row_'+id).css('background-color', '#C41313').css('color', 'white')
                         .animate({opacity: 0.3, height: 0}, 500, function() {
                             $('li#row_'+id).remove();

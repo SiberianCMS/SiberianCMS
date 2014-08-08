@@ -171,7 +171,7 @@
             remove: function(id) {
                 var td = $('#custom_'+id).parent();
                 var tr = td.parent();
-                if(confirm('Etes-vous sûr de vouloir supprimer cet evenement ?')) {
+                if(confirm('<?php echo addslashes($this->_("Delete this event?")); ?>')) {
                     $('<input />').attr('type', 'hidden')
                         .attr('name', 'id')
                         .val(id)
@@ -181,7 +181,7 @@
                     reload(tr, '<?php echo $this->getUrl('event/application_event/delete'); ?>', true, function(datas) {
                         if(datas.success) {
                             tr.css('background-color', '#C41313').animate({'background-color': 'transparent', height: 0, padding: 0, opacity: 0}, 500, null, function() {tr.remove();});
-                            iframe.f.page.reload();
+                            iframe.f.reload();
                         }
                     });
                 }
@@ -197,7 +197,7 @@
                     }
                 }.bind(this));
 
-                iframe.f.page.reload();
+                iframe.f.reload();
             },
             save: function() {
                 var form = $('#customEventForm');

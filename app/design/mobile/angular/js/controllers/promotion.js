@@ -15,6 +15,7 @@ App.config(function($routeProvider) {
         }
     });
 
+    $scope.carousel_index = 0;
     $scope.is_logged_in = Customer.isLoggedIn();
     $scope.is_loading = true;
     $scope.value_id = Promotion.value_id = $routeParams.value_id;
@@ -34,6 +35,14 @@ App.config(function($routeProvider) {
 
     $scope.use = function(promotion_id) {
 
+        if($scope.isOverview) {
+            $scope.message = new Message();
+            $scope.message.isError(true)
+                .setText("This section is unlocked for mobile users only")
+                .show()
+            ;
+            return;
+        }
         Promotion.use(promotion_id).success(function(data) {
 
             $scope.message = new Message();
@@ -72,6 +81,38 @@ App.config(function($routeProvider) {
                 $scope.promotions.splice(i, 1);
             }
         }
+    };
+
+    if($scope.isOverview) {
+        $scope.dummy = {};
+        $scope.dummy.is_dummy = true;
+
+        $window.prepareDummy = function() {
+            var hasDummy = false;
+            for(var i in $scope.promotions) {
+                if($scope.promotions[i].is_dummy) {
+                    hasDummy = true;
+                }
+            }
+
+            if(!hasDummy) {
+                $scope.promotions.unshift($scope.dummy);
+                $scope.$apply();
+                $scope.carousel_index = 0;
+                $scope.$apply();
+            }
+        };
+
+        $window.setAttributeToDummy = function(attribute, value) {
+            $scope.dummy[attribute] = value;
+            $scope.$apply();
+        };
+
+        $scope.$on("$destroy", function() {
+            $scope.prepareDummy = null;
+            $scope.setAttributeToDummy = null;
+        });
+
     }
 
 });

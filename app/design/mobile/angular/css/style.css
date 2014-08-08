@@ -448,33 +448,12 @@ a.connect_button {height:22px; padding-top:10px;}
 }
 
 /* Promotion */
-
-.promotions .connect button {
-    margin-top: 0;
-}
-.promotions .content {
-    margin-top: 10px;
-    border-radius: 5px;
-}
-.promotions .promotion {
-    position:relative;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding-left: 40px;
-    padding-right: 40px;
-    text-align: center;
-    border-radius: 5px;
-}
-
-.promotions .promotion p {
-    margin-top: 20px;
-    font-weight: normal;
-    font-size: 15px;
-}
-.promotions .promotion .title h4, .promotions .promotion .use_discount a {margin: 0 5px 5px 10px;font-family: Lobster;font-size: 30px;text-align: center;}
-
+.promotions .connect button {margin-top:0;}
+.promotions .content {margin-top:10px;border-radius:5px;}
+.promotions .content ul li {min-height:220px;}
+.promotions .promotion {position:relative;top:0;bottom:0;left:0;right:0;padding-left:40px;padding-right:40px;text-align:center;border-radius:5px;}
+.promotions .promotion p {margin-top:20px;font-weight:normal;font-size:15px;}
+.promotions .promotion .title h4, .promotions .promotion .use_discount a {margin:0 5px 5px 10px;font-family:Lobster;font-size:30px;text-align:center;}
 .promotions .rn-carousel-indicator {background: none;}
 
 /* Event */

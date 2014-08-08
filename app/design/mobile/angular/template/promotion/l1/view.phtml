@@ -13,14 +13,14 @@
         </div>
 
         <div class="content discount">
-            <ul rn-carousel rn-carousel-indicator="true">
+            <ul rn-carousel rn-carousel-indicator="true" rn-carousel-index="carousel_index">
                 <li ng-repeat="promotion in promotions" ng-if="!promotion.is_locked">
 
                     <div class="promotion padding">
 
                         <div class="title" ng-show="promotion.title"><h4>{{ promotion.title }}</h4></div>
 
-                        <p ng-show="promotion.description">{{ promotion.description }}</p>
+                        <p ng-show="promotion.description" ng-bind-html="promotion.description"></p>
 
                         <p ng-show="promotion.conditions">{{ promotion.conditions }}</p>
 
@@ -44,9 +44,7 @@
                                 </button>
                             </div>
                         </div>
-
                         <div class="clear"></div>
-
                     </div>
                 </li>
             </ul>
