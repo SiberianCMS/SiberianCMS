@@ -29,7 +29,8 @@ class Contact_Mobile_ViewController extends Application_Controller_Mobile_Defaul
             "email" => $contact->getEmail(),
             "form_url" => $this->getUrl("contact/mobile_form/index", array('value_id' => $option->getId())),
             "website_url" => $contact->getWebsite(),
-            "facebook_url" => $contact->getFacebook()
+            "facebook_url" => $contact->getFacebook(),
+            "twitter_url" => $contact->getTwitter()
         );
 
         $data['page_title'] = $option->getTabbarName();

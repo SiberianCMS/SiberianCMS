@@ -25,7 +25,7 @@
                             <table class="no-collapse" cellspacing="10">
                                 <tr>
                                     <td class="label"><label for="name"><?php echo $this->_('Last Name') ?> :</label></td>
-                                    <td><input type="text" id="name_<?php echo $option_value->getId() ?>" name="name" class="contact_field input" value="<?php echo !is_null($contact->getName()) ? $contact->getName() : $application->getName() ?>" /></td>
+                                    <td><input type="text" id="name_<?php echo $option_value->getId() ?>" name="name" class="contact_field input" value="<?php echo !is_null($contact->getName()) ? $contact->getName() : $application->getName() ?>" rel="name" /></td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -49,45 +49,45 @@
                                 </tr>
                                 <tr>
                                     <td class="label"><label for="phone"><?php echo $this->_('Phone') ?> :</label></td>
-                                    <td><input type="text" id="phone_<?php echo $option_value->getId() ?>" name="phone" class="contact_field input" value="<?php echo $contact->getPhone() ?>" /></td>
+                                    <td><input type="text" id="phone_<?php echo $option_value->getId() ?>" name="phone" rel="phone" class="contact_field input" value="<?php echo $contact->getPhone() ?>" /></td>
                                 </tr>
                                 <tr>
                                     <td class="label"><label for="street"><?php echo $this->_('Address') ?> :</label></td>
-                                    <td><input type="text" id="street_<?php echo $option_value->getId() ?>" name="street" class="contact_field input" value="<?php echo $contact->getStreet() ?>" /></td>
+                                    <td><input type="text" id="street_<?php echo $option_value->getId() ?>" name="street" rel="street" class="contact_field input" value="<?php echo $contact->getStreet() ?>" /></td>
                                 </tr>
                                 <tr>
                                     <td class="label"><label for="postcode"><?php echo $this->_('Zip code') ?> :</label></td>
-                                    <td><input type="text" id="postcode_<?php echo $option_value->getId() ?>" name="postcode" class="contact_field input" value="<?php echo $contact->getPostcode() ?>" /></td>
+                                    <td><input type="text" id="postcode_<?php echo $option_value->getId() ?>" name="postcode" rel="postcode" class="contact_field input" value="<?php echo $contact->getPostcode() ?>" /></td>
                                 </tr>
                                 <tr>
                                     <td class="label"><label for="city"><?php echo $this->_('City') ?> :</label></td>
-                                    <td><input type="text" id="city_<?php echo $option_value->getId() ?>" name="city" class="contact_field input" value="<?php echo $contact->getCity() ?>" /></td>
+                                    <td><input type="text" id="city_<?php echo $option_value->getId() ?>" name="city" rel="city" class="contact_field input" value="<?php echo $contact->getCity() ?>" /></td>
                                 </tr>
                                 <tr>
                                     <td class="label"><label for="country"><?php echo $this->_('Country') ?> :</label></td>
-                                    <td><input type="text" id="country_<?php echo $option_value->getId() ?>" name="country" class="contact_field input" value="<?php echo $contact->getCountry() ?>" /></td>
+                                    <td><input type="text" id="country_<?php echo $option_value->getId() ?>" name="country" rel="country" class="contact_field input" value="<?php echo $contact->getCountry() ?>" /></td>
                                 </tr>
                                 <tr>
                                     <td class="label"><label for="description"><?php echo $this->_('Description') ?> :</label></td>
                                     <td>
-                                        <textarea id="description_<?php echo $option_value->getId() ?>" name="description" class="contact_field description_field input"><?php echo $contact->getDescription() ?></textarea>
+                                        <textarea id="description_<?php echo $option_value->getId() ?>" name="description" rel="description" class="contact_field description_field input"><?php echo $contact->getDescription() ?></textarea>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="label"><label for="email"><?php echo $this->_('Email') ?> :</label></td>
-                                    <td><input type="text" id="email_<?php echo $option_value->getId() ?>" name="email" class="contact_field input email" value="<?php echo $contact->getEmail() ?>" /></td>
+                                    <td><input type="text" id="email_<?php echo $option_value->getId() ?>" name="email" rel="email" class="contact_field input email" value="<?php echo $contact->getEmail() ?>" /></td>
                                 </tr>
                                 <tr>
                                     <td class="label"><label for="website"><?php echo $this->_('Website') ?> :</label></td>
-                                    <td><input type="text" id="website_<?php echo $option_value->getId() ?>" name="website" class="contact_field input url" value="<?php echo $contact->getWebsite() ?>"/></td>
+                                    <td><input type="text" id="website_<?php echo $option_value->getId() ?>" name="website" rel="website_url" class="contact_field input url" value="<?php echo $contact->getWebsite() ?>"/></td>
                                 </tr>
                                 <tr>
                                     <td class="label"><label for="facebook"><?php echo $this->_('Facebook') ?> :</label></td>
-                                    <td><input type="text" id="facebook_<?php echo $option_value->getId() ?>" name="facebook" class="contact_field input url" value="<?php echo $contact->getFacebook() ?>"/></td>
+                                    <td><input type="text" id="facebook_<?php echo $option_value->getId() ?>" name="facebook" rel="facebook_url" class="contact_field input url" value="<?php echo $contact->getFacebook() ?>"/></td>
                                 </tr>
                                 <tr>
                                     <td class="label"><label for="twitter"><?php echo $this->_('Twitter') ?> :</label></td>
-                                    <td><input type="text" id="twitter_<?php echo $option_value->getId() ?>" name="twitter" class="contact_field input url" value="<?php echo $contact->getTwitter() ?>"/></td>
+                                    <td><input type="text" id="twitter_<?php echo $option_value->getId() ?>" name="twitter" rel="twitter_url" class="contact_field input url" value="<?php echo $contact->getTwitter() ?>"/></td>
                                 </tr>
                             </table>
                         </div>
@@ -130,9 +130,7 @@
             if(default_cover_url.isEmpty()) {
                 $('#cover_img').hide().attr('src', '');
                 $('#cover_file').val('');
-                iframe.content.find('#contact_cover_<?php echo $option_value->getId(); ?>').slideUp(300, function() {
-                    iframe.content.find('#contact_cover_img_<?php echo $option_value->getId(); ?>').attr('src', '');
-                });
+                iframe.f.setCoverUrl(null);
                 $('#remove_cover').val(1);
                 $('#remove_cover_img').hide();
             }
@@ -140,12 +138,7 @@
                 $('#cover_crop_content').slideUp(300, function() {$(this).html('')});
                 $('#cover_crop').hide();
                 $('#remove_cover_img').show();
-                iframe.content.find('#contact_cover_img_<?php echo $option_value->getId(); ?>')
-                    .hide()
-                    .removeAttr('style')
-                    .attr('src', default_cover_url)
-                    .fadeIn()
-                ;
+                iframe.f.setCoverUrl(default_cover_url);
                 $('#cover_img').hide().attr('src', default_cover_url).slideDown();
                 $('#cover_file').val(default_cover_url);
                 $('#contact_content').slideDown();
@@ -157,9 +150,7 @@
             if(confirm("<?php echo $this->_("Are you sure you want to remove the picture?"); ?>")) {
                 $('#cover_img').hide().attr('src', '');
                 $('#cover_file').val('');
-                iframe.content.find('#contact_cover_<?php echo $option_value->getId(); ?>').slideUp(300, function() {
-                    iframe.content.find('#contact_cover_img_<?php echo $option_value->getId(); ?>').attr('src', '');
-                });
+                iframe.f.setCoverUrl(null);
                 $('#remove_cover').val(1);
                 $(this).hide();
                 default_cover_url = '';
@@ -192,11 +183,7 @@
                     contact_uploader.crop(params);
                     contact_uploader.callback = function(file) {
                         var image = iframe.content.find('#contact_cover_img_<?php echo $option_value->getId(); ?>');
-                        image.attr('src','<?php echo Core_Model_Directory::getTmpDirectory() ?>/'+file).load(function() {
-                            iframe.content.find('#contact_cover_<?php echo $option_value->getId(); ?>').slideDown(300, function() {
-                                iframe.f.page.current_page.refreshScrollview();
-                            });
-                        });
+                        iframe.f.setCoverUrl("<?php echo Core_Model_Directory::getTmpDirectory() ?>/"+file);
                         $('#cover_img').hide().attr('src', '<?php echo Core_Model_Directory::getTmpDirectory() ?>/'+file).slideDown();
                         $('#remove_cover_img').show();
                         $('#remove_cover').val(0);
@@ -235,6 +222,9 @@
         });
 
         function updateIframe(champ) {
+
+            iframe.f.setAttribute(champ.attr("rel"), champ.val());
+            /*
             if(champ.attr('id') == 'phone_<?php echo $option_value->getId(); ?>') {
                 if(!$('#phone_<?php echo $option_value->getId(); ?>').valid()) iframe.content.find('#contact_phone_<?php echo $option_value->getId(); ?>').fadeOut();
                 else if(!champ.val().isEmpty()) iframe.content.find('#contact_phone_<?php echo $option_value->getId(); ?>').attr('href', 'tel:'+champ.val()).fadeIn();
@@ -266,7 +256,7 @@
                 if(!$('#street_<?php echo $option_value->getId(); ?>').val().isEmpty() && !$('#postcode_<?php echo $option_value->getId(); ?>').val().isEmpty() && !$('#city_<?php echo $option_value->getId(); ?>').val().isEmpty() && !$('#country_<?php echo $option_value->getId(); ?>').val().isEmpty()) iframe.content.find('#contact_gmaps_<?php echo $option_value->getId(); ?>').fadeIn();
                 else iframe.content.find('#contact_gmaps_<?php echo $option_value->getId(); ?>').fadeOut();
             }
-            iframe.f.page.current_page.refreshScrollview();
+            */
         }
 
     });

@@ -26,6 +26,24 @@ App.config(function($routeProvider) {
         $scope.is_loading = false;
     });
 
+    if($scope.isOverview) {
+
+        $window.setCoverUrl = function(cover_url) {
+            $scope.contact.cover_url = cover_url;
+            $scope.$apply();
+        };
+
+        $window.setAttribute = function(attribute, value) {
+            $scope.contact[attribute] = value;
+            $scope.$apply();
+        };
+
+        $scope.$on("$destroy", function() {
+            $window.setCoverUrl = null;
+            $window.setAttribute = null;
+        });
+    }
+
 }).controller('ContactFormController', function($window, $scope, $routeParams, Contact, Message) {
 
     $scope.$watch("isOnline", function(isOnline) {
