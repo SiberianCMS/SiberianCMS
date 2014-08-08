@@ -16,7 +16,7 @@
         product.submit = function(callback) {
             if(!callback) callback = function() {}
                 reload($('#row_'+this.id), products.url, true, function(response) {
-                iframe.f.page.reload();
+                    iframe.f.reload();
                 callback(response);
             });
         }

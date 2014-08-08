@@ -29,7 +29,7 @@ class Media_Model_Gallery_Image_Custom extends Media_Model_Gallery_Image_Abstrac
             try {
                 $image = new Media_Model_Gallery_Image_Custom();
                 $params = array('limit' => self::MAX_RESULTS);
-                if(!empty($offset)) $params['offset'] = ++$offset;
+                if(!empty($offset)) $params['offset'] = --$offset;
 
                 $images = $image->findAll(array('gallery_id' => $this->getImageId()), 'image_id DESC', $params);
             }

@@ -26,7 +26,11 @@ App.config(function($routeProvider) {
 
     $scope.loadContent = function() {
 
+        $scope.sidebar.is_loading = true;
+
         Catalog.findAll().success(function(data) {
+
+            $scope.sidebar.reset();
 
             $scope.header_right_button = {
                 action: function() {
@@ -43,6 +47,7 @@ App.config(function($routeProvider) {
             $scope.sidebar.showFirstItem(data.categories);
         }).finally(function() {
             $scope.is_loading = false;
+            $scope.sidebar.is_loading = false;
         });
     }
 

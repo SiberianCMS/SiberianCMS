@@ -45,7 +45,7 @@
                     reload(form, form.action, true, function(response) {
                         $('#list_of_categories').append(response.row_html);
                         $(form).find('input').val('');
-                        iframe.f.page.reload();
+                        iframe.f.reload();
                     });
                     return false;
                 }
@@ -60,7 +60,7 @@
                     var id = ui.item.attr('id').replace('row_', '');
                     categories.updateEvents(id);
                     reload($j("#list_of_categories"), "<?php echo $this->getUrl('catalog/application_category/sortcategories', array('option_value_id' => $option_value->getId())); ?>?"+order, true, function() {
-                        iframe.f.page.reload();
+                        iframe.f.reload();
                     });
                 }
             });
@@ -74,7 +74,7 @@
                     var id = ui.item.attr('id').replace('row_', '');
                     categories.updateEvents(id);
                     reload($j("#list_of_categories"), "<?php echo $this->getUrl('catalog/application_category/sortcategories', array('option_value_id' => $option_value->getId())); ?>?"+order, true, function() {
-                        iframe.f.page.reload();
+                        iframe.f.reload();
                     });
                 }
             });

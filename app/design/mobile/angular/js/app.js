@@ -421,12 +421,12 @@ App.service("Sidebar", function(SidebarInstances) {
 
         if(SidebarInstances[object_id]) return SidebarInstances[object_id];
 
-        this.collection = new Array();
-        this.current_item = null;
-        this.first_item = null;
-        this.show = false;
-
         this.showFirstItem = function(collection) {
+
+            if(!collection.length) {
+                this.is_loading = false;
+                return this;
+            }
 
             if(this.current_item) {
                 var item = this.current_item;
@@ -439,7 +439,7 @@ App.service("Sidebar", function(SidebarInstances) {
 
             for(var i in collection) {
                 var item = collection[i];
-                if(item.children) {
+                if(item.children && item.children.length) {
                     this.showFirstItem(item.children);
                 } else {
                     this.first_item = item;
@@ -470,6 +470,16 @@ App.service("Sidebar", function(SidebarInstances) {
         this.loadItem = function(item) {
 
         }
+
+        this.reset = function() {
+            this.is_loading = true;
+            this.collection = new Array();
+            this.current_item = null;
+            this.first_item = null;
+            this.show = false;
+        }
+
+        this.reset();
 
         SidebarInstances[object_id] = this;
     }

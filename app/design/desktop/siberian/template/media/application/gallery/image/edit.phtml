@@ -281,7 +281,7 @@
                 var tr = $(this.parentNode.parentNode);
                 reload(tr, '<?php echo $this->getUrl('media/application_gallery_image/delete'); ?>', true, function(datas) {
                     if(datas.success) {
-                        iframe.f.page.reload();
+                        iframe.f.reload();
                         tr.css('background-color', '#C41313').css('color', 'white')
                             .animate({opacity: 0.3, height: 0}, 500, function() {
                                 tr.remove();

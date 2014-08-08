@@ -49,8 +49,9 @@ class Media_Model_Gallery_Video extends Core_Model_Default {
     }
 
     public function save() {
+        $isDeleted = $this->getIsDeleted();
         parent::save();
-        if(!$this->getIsDeleted()) {
+        if(!$isDeleted) {
             if($this->getTypeInstance()->getId()) $this->getTypeInstance()->delete();
             $this->getTypeInstance()->setData($this->_getTypeInstanceData())->setGalleryId($this->getId())->save();
         }

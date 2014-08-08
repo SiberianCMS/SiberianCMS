@@ -142,7 +142,7 @@
                     reload(tr, '<?php echo $this->getUrl('media/application_gallery_video/editpost'); ?>', true, function(datas) {
                         if(datas.success) {
                             if(datas.is_new) page.reload();
-                            else iframe.f.page.reload();
+                            else iframe.f.reload();
                         }
                     });
                 });
@@ -159,7 +159,7 @@
                             $('<input />').attr('type', 'hidden').attr('name', 'is_deleted').val('1').appendTo(td);
                             reload(tr, '<?php echo $this->getUrl('media/application_gallery_video/editpost'); ?>', true, function(datas) {
                                 if(datas.success) {
-                                    iframe.f.page.reload();
+                                    iframe.f.reload();
                                     tr.css('background-color', '#C41313').css('color', 'white')
                                         .animate({opacity: 0.3, height: 0}, 500, function() {
                                             tr.remove();

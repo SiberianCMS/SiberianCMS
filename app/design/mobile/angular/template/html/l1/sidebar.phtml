@@ -11,8 +11,8 @@
     </div>
     <div class="subheader content">
         <div>
-            <h3 class="title" ng-show="sidebar.current_item.name">{{ sidebar.current_item.name }}</h3>
-            <p class="small loader" ng-hide="sidebar.current_item.name"></p>
+            <h3 class="title" ng-hide="sidebar.is_loading">{{ sidebar.current_item.name }}</h3>
+            <p class="small loader" ng-show="sidebar.is_loading"></p>
         </div>
     </div>
 

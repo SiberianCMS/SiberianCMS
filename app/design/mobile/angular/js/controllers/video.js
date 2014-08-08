@@ -25,6 +25,8 @@ App.config(function($routeProvider) {
 
         Video.findAll().success(function(data) {
 
+            $scope.sidebar.reset();
+
             $scope.header_right_button = {
                 action: function() {
                     if(!$scope.sidebar.current_item) return;
@@ -53,6 +55,7 @@ App.config(function($routeProvider) {
     $scope.loadItem = function(item, offset) {
 
         $scope.removeScrollEvent();
+        $scope.sidebar.is_loading = true;
 
         item.current_offset = offset;
         $scope.sidebar.show = false;
@@ -69,6 +72,8 @@ App.config(function($routeProvider) {
             if(data.videos.length) {
                 $scope.bindScrollEvent();
             }
+
+            $scope.sidebar.is_loading = false;
 
         }).error(function() {
 

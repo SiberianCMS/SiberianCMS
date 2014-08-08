@@ -25,7 +25,11 @@ App.config(function($routeProvider) {
 
     $scope.loadContent = function() {
 
+        $scope.sidebar.is_loading = true;
+
         Image.findAll().success(function(data) {
+
+            $scope.sidebar.reset();
 
             $scope.header_right_button = {
                 action: function() {
@@ -56,6 +60,7 @@ App.config(function($routeProvider) {
     $scope.loadItem = function(item, offset) {
 
         $scope.removeScrollEvent();
+        $scope.sidebar.is_loading = true;
 
         item.current_offset = offset;
         $scope.sidebar.show = false;
@@ -73,6 +78,8 @@ App.config(function($routeProvider) {
             if(data.images.length) {
                 $scope.bindScrollEvent();
             }
+
+            $scope.sidebar.is_loading = false;
 
         }).error(function() {
 

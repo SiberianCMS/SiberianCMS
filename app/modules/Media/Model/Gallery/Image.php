@@ -46,8 +46,9 @@ class Media_Model_Gallery_Image extends Core_Model_Default {
     }
 
     public function save() {
+        $isDeleted = $this->getIsDeleted();
         parent::save();
-        if(!$this->getIsDeleted() AND ($this->getTypeId() == 'picasa' || $this->getTypeId() == 'instagram')) {
+        if(!$isDeleted AND ($this->getTypeId() == 'picasa' || $this->getTypeId() == 'instagram')) {
             if($this->getTypeInstance()->getId()) $this->getTypeInstance()->delete();
             $this->getTypeInstance()->setData($this->_getTypeInstanceData())->setGalleryId($this->getId())->save();
         }
