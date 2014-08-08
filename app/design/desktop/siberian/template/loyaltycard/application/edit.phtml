@@ -15,7 +15,7 @@
                         <span class="span3">
                         <button type="button" class="default_button btn-block" onclick="feature.slide($('#list'), $('#passwords'), 'right')"><?php echo $this->_('My passwords') ?></button>
                         </span>
-                        <button type="button" onclick="feature.edit()" class="default_button add right" id="add_item">
+                        <button type="button" onclick="feature.edit();iframe.f.prepareDummy();" class="default_button add right" id="add_item">
                             <i class="icon-plus"></i>
                         </button>
                     </span>
@@ -235,64 +235,16 @@
     <script type="text/javascript">
 
         var loyaltyCard = {
-            default_advantage: '',
-            default_conditions: '',
-            default_number_of_points: '',
             setAdvantage: function(text) {
-                iframe.content.find('#card_advantage').html(text);
-                iframe.content.find('#card_short_advantage').html(text)
-                iframe.f.page.getSubpage('<?php echo $option_value->getId(); ?>').collectAutoresizeLabels().resizeLabels();
-                cardHasChanged = true;
-            },
-            resetAdvantage: function() {
-                this.setAdvantage(this.default_advantage);
+                iframe.f.setAttributeToDummy("advantage", text)
             },
             setConditions: function(text) {
-                text = '<?php echo $this->_('1 loyalty point ='); ?> ' + text;
-                iframe.content.find('#card_conditions').html(text);
-                cardHasChanged = true;
-            },
-            resetConditions: function() {
-                this.setConditions(this.default_conditions);
+                iframe.f.setAttributeToDummy("conditions", text)
             },
             setNumberOfPoints: function(nbr) {
-                var remaining = nbr;
-
-                iframe.content.find('.point.loyaltycard').each(function(e, el) {
-                    if(remaining > 0) {
-                        $(el).show();
-                        remaining--;
-                    }
-                    else {
-                        $(el).hide();
-                    }
-
-                }.bind(this));
-
-                for(var i = remaining; i > 0; i--) {
-                    iframe.content.find('.points').append(this.createPoint());
-                }
-
-                var number_of_points_for_advantage = '<?php echo $this->_('1 validated point = '); ?>';
-                if(nbr > 1) {
-                    number_of_points_for_advantage = nbr + ' <?php echo $this->_('validated points = '); ?>';
-                }
-
-                var number_of_points_for_advantage = number_of_points_for_advantage;
-                iframe.content.find('#number_of_points_for_advantage').html(number_of_points_for_advantage);
-                iframe.f.page.getSubpage('<?php echo $option_value->getId(); ?>').refreshScrollview();
-
-                cardHasChanged = true;
-            },
-            resetNumberOfPoints: function() {
-                this.setNumberOfPoints(this.default_number_of_points);
-            },
-            createPoint: function() {
-                return '<a class="point loyaltycard" onclick="customer.openLoginForm(\'fidelity\', function() {});" href="javascript:void(0);"><img width="85px" src="<?php echo $this->getImage('buttons/point.png'); ?>"></a>';
+                iframe.f.setNumberOfPoints(nbr)
             }
         }
-
-        var cardHasChanged = false;
 
         page.setCallback('didremove',  function() {
 
@@ -340,10 +292,6 @@
             $('#number_of_points').dropkick({
                 change: function() {$('#number_of_points').change();}
             });
-
-            loyaltyCard.default_advantage = iframe.content.find('#fidelity_details').children('span.details_advantage').html();
-            loyaltyCard.default_conditions = iframe.content.find('#fidelity_details').children('span.details_conditions').html();
-            loyaltyCard.default_number_of_points = iframe.content.find('.point.loyaltycard').length;
 
             $('.row_password').each(function() {
                 bindInputEvents(this.id);

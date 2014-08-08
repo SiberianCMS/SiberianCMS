@@ -48,6 +48,11 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
 
             }
 
+            $data["picto_urls"] = array(
+                "normal_url" => $this->_getImage('pictos/point.png'),
+                "validated_url" => $this->_getColorizedImage($this->_getImage('pictos/point_validated.png', true), $this->getApplication()->getBlock('connect_button')->getBackgroundColor())
+            );
+
             $data["page_title"] = $this->getCurrentOptionValue()->getTabbarName();
             $data["pad_title"] = $this->_("Enter the password");
 //            $data["pad_title"] = $this->_("Please show your phone to the store person so that he enters his password");

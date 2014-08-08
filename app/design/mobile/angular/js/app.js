@@ -1,6 +1,6 @@
 var App = angular.module("Siberian", ['ngRoute', 'ngAnimate', 'ngTouch', 'angular-carousel', 'ngResource', 'ngSanitize', 'ngFacebook']);
 
-App.run(function($rootScope, $window, $route, $location, $timeout, $templateCache, Connection) {
+App.run(function($rootScope, $window, $route, $location, $timeout, $templateCache, Connection, Message) {
 
     FastClick.attach($window.document);
 
@@ -91,6 +91,14 @@ App.run(function($rootScope, $window, $route, $location, $timeout, $templateCach
         console.log('offline');
         Connection.check();
     });
+
+    $rootScope.alertMobileUsersOnly = function() {
+        this.message = new Message();
+        this.message.isError(true)
+            .setText("This section is unlocked for mobile users only")
+            .show()
+        ;
+    }
 
 }).config(function($routeProvider, $locationProvider, $httpProvider) {
 

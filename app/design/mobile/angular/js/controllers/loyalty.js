@@ -6,7 +6,7 @@ App.config(function($routeProvider) {
         code: "loyalty"
     });
 
-}).controller('LoyaltyController', function($scope, $routeParams, $location, Url, Message, Customer, Loyalty) {
+}).controller('LoyaltyController', function($window, $scope, $routeParams, $location, Url, Message, Customer, Loyalty) {
 
     $scope.$watch("isOnline", function(isOnline) {
         $scope.has_connection = isOnline;
@@ -46,6 +46,7 @@ App.config(function($routeProvider) {
         Loyalty.findAll().success(function(data) {
             $scope.promotions = data.promotions;
             $scope.card = data.card;
+            $scope.picto_urls = data.picto_urls;
             $scope.card_is_locked = data.card_is_locked;
             $scope.points = data.points;
             $scope.page_title = data.page_title;
@@ -58,6 +59,10 @@ App.config(function($routeProvider) {
 
     $scope.openPad = function(card) {
 
+        if($scope.isOverview) {
+            $scope.alertMobileUsersOnly();
+            return;
+        }
         if(!Customer.isLoggedIn()) {
             $location.path(Url.get("customer/mobile_account_login"));
             return this;
@@ -104,7 +109,6 @@ App.config(function($routeProvider) {
                 if(data.points) {
                     $scope.card.number_of_points = data.number_of_points;
                 } else if(data.promotion_id_to_remove) {
-                    console.log('removing card');
                     for(var i in $scope.promotions) {
                         if($scope.promotions[i].id == data.promotion_id_to_remove) {
                             console.log('card found');
@@ -146,7 +150,46 @@ App.config(function($routeProvider) {
     };
 
     $scope.login = function() {
+        if($scope.isOverview) {
+            $scope.alertMobileUsersOnly();
+            return;
+        }
         $location.path(Url.get("customer/mobile_account_login"));
+    };
+
+    if($scope.isOverview) {
+
+        $window.prepareDummy = function() {
+            $scope.card = {is_visible: true};
+            $scope.points = new Array();
+            $scope.$apply();
+        };
+
+        $window.setAttributeToDummy = function(attribute, value) {
+            $scope.card[attribute] = value;
+            $scope.$apply();
+        }
+
+        $window.setNumberOfPoints = function(nbr) {
+
+            var points = new Array();
+            for(var i = 0; i < nbr; i++) {
+                points.push({
+                    is_validated: false,
+                    image_url: $scope.picto_urls.normal_url
+                });
+            };
+
+            console.log(points);
+            $scope.points = points;
+            $scope.$apply();
+        }
+
+        $scope.$on("$destroy", function() {
+            $window.prepareDummy = null;
+            $window.setAttributeToDummy = null;
+            $window.setNumberOfPoints = null;
+        });
     }
 
 });

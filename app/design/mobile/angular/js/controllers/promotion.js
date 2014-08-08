@@ -30,17 +30,17 @@ App.config(function($routeProvider) {
     }
 
     $scope.login = function() {
+        if($scope.isOverview) {
+            $scope.alertMobileUsersOnly();
+            return;
+        }
         $location.path(Url.get("customer/mobile_account_login"));
     }
 
     $scope.use = function(promotion_id) {
 
         if($scope.isOverview) {
-            $scope.message = new Message();
-            $scope.message.isError(true)
-                .setText("This section is unlocked for mobile users only")
-                .show()
-            ;
+            $scope.alertMobileUsersOnly();
             return;
         }
         Promotion.use(promotion_id).success(function(data) {
