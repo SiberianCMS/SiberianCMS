@@ -66,7 +66,6 @@ class Rss_Application_FeedController extends Application_Controller_Default
             try {
 
                 // Test s'il y a une erreur dans la saisie
-                if(empty($datas['title'])) throw new Exception($this->_('Please enter a title'));
                 if(empty($datas['link']) OR !Zend_Uri::check($datas['link'])) throw new Exception($this->_('Please enter a valid url'));
 
                 // Test s'il y a un value_id
