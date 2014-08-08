@@ -23,6 +23,7 @@ class Weblink_Mobile_MultiController extends Application_Controller_Mobile_Defau
 
         foreach($weblink->getLinks() as $link) {
             $data["weblink"]["links"][] = array(
+                "id" => $link->getId(),
                 "title" => $link->getTitle(),
                 "picto_url" => $link->getPictoUrl(),
                 "url" => $link->getUrl()

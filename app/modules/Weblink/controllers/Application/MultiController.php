@@ -87,9 +87,11 @@ class Weblink_Application_MultiController extends Application_Controller_Default
                         }
                     }
                     // Sauvegarde le link
-                    $link->addData($link_datas)->save();
+                    $link->addData($link_datas);
+                    $isDeleted = $link->getIsDeleted();
+                    $link->save();
 
-                    if($link->getIsDeleted()) {
+                    if($isDeleted) {
                         $html['success_message'] = $this->_('Link has been successfully deleted');
                         $html['is_deleted'] = 1;
                     }

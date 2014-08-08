@@ -95,11 +95,7 @@
         height: 585,
         width: 495,
         afterUpload: function(file) {
-            iframe.content.find('#weblink_cover_img_<?php echo $option_value->getId(); ?>').attr('src','<?php echo Core_Model_Directory::getTmpDirectory() ?>/'+file).load(function() {
-                iframe.content.find('#weblink_cover_<?php echo $option_value->getId(); ?>').slideDown(300, function() {
-                    iframe.f.page.current_page.refreshScrollview();
-                });
-            });
+            iframe.f.setCoverUrl('<?php echo Core_Model_Directory::getTmpDirectory() ?>/'+file);
             $('#cover_img').hide().attr('src', '<?php echo Core_Model_Directory::getTmpDirectory() ?>/'+file).slideDown();
             $('#remove_cover_img').show();
             $('#remove_cover').val(0);
@@ -117,11 +113,7 @@
         afterUpload: function(file) {
             $('#picto_file_'+this.id).val(file);
             $('#upload_weblink_picto_'+this.id).html($('<img />').attr('src', '<?php echo Core_Model_Directory::getTmpDirectory() ?>/'+file).attr('width', '100%').attr('height', '100%'));
-            var a = iframe.content.find('#link_button_'+this.id);
-            a.children('img').remove();
-            var html = $('#title_'+this.id).val();
-            a.html($('<img />').attr('src', '<?php echo Core_Model_Directory::getTmpDirectory() ?>/'+file).attr('width', '21').attr('height', '21'));
-            a.html(a.html()+html);
+            iframe.f.setAttributeTo(this.id, "picto_url", "<?php echo Core_Model_Directory::getTmpDirectory() ?>/"+file);
         }
     }
 
@@ -164,10 +156,7 @@
 
             $('.weblink_field').unbind('keyup');
             $('.weblink_field').keyup(function(e) {
-                var a = iframe.content.find('#link_button_'+$(e.target).attr('rel'));
-                var img = a.children('img');
-                a.html(img);
-                a.html(a.html() + $(e.target).val());
+                iframe.f.setAttributeTo($(e.target).attr('rel'), "title", $(e.target).val());
             }.bind(this));
 
             $('.weblink_url').unbind('keyup');
@@ -188,6 +177,7 @@
             if(!$('#table_list_links').is(':visible')) $('#table_list_links').fadeIn();
             if(!$('#row_new').is(':visible')) {
                 this.resetNewRow();
+                iframe.f.prepareDummy();
                 $('#row_new').fadeIn(300, function() {
                     $('#title_new').focus();
                 });
@@ -207,6 +197,7 @@
         },
         resetNewRow: function() {
             $('#row_new').find('input:text').val('');
+            $('#row_new').find('button.upload_weblink_picto').html('<i class="icon-plus"></i>');
         },
         save: function(row) {
             var input = row.find('.url');
@@ -224,7 +215,7 @@
                             row.remove();
                         });
                     }
-                    iframe.f.page.reload();
+                    iframe.f.reload();
                     this.hideNewRow(false);
                     this.bind();
                 }
@@ -285,31 +276,20 @@
             $('#weblink_content').slideDown();
             $('#cover_img').hide().attr('src', '');
 
-            iframe.f.page.current_page.refreshScrollview();
             $('#cover_file').val('');
-            iframe.content.find('#weblink_cover_<?php echo $option_value->getId(); ?>').slideUp(300, function() {
-                iframe.content.find('#weblink_cover_img_<?php echo $option_value->getId(); ?>').attr('src', '');
-                iframe.f.page.current_page.refreshScrollview();
-            });
+//            iframe.f.setCoverUrl(null);
             $('#remove_cover').val(1);
             $('#remove_cover_img').hide();
         });
         $('#remove_cover_img').click(function() {
             if(confirm("<?php echo $this->_("Are you sure you want to delete this picture?"); ?>")) {
-
-//                iframe.content.find('#weblink_cover_<?php echo $option_value->getId(); ?>').slideUp(300, function() {
-//                    iframe.content.find('#weblink_cover_img_<?php echo $option_value->getId(); ?>').attr('src', '');
-//                });
                 $('#remove_cover').val(1);
                 reload($('#weblinkCoverForm'), '<?php echo $this->getUrl('weblink/application_multi/editpost') ?>', true, function(datas) {
                     if(datas.success) {
                         $('#cover_img').slideUp(300, function() {$(this).attr('src', '')});
                         $('#cover_file').val('');
                         $('#remove_cover_img').hide();
-                        iframe.content.find('#weblink_cover_<?php echo $option_value->getId(); ?>').fadeOut(300, function() {
-                            iframe.content.find('#weblink_cover_img_<?php echo $option_value->getId(); ?>').attr('src', '');
-                            iframe.f.page.current_page.refreshScrollview();
-                        });
+                        iframe.f.setCoverUrl(null);
                     }
                 });
             }

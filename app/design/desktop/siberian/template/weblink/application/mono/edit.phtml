@@ -55,7 +55,9 @@
             if(!$(this).valid()) return false;
             reload(this, this.action, true, function(datas) {
                 if(datas.success) {
-                    iframe.content.find('#tabbar_item_<?php echo $option_value->getId(); ?>').attr('href', datas.link);
+                    if(iframe.f.isHomepage()) {
+                        iframe.f.reload();
+                    }
                 }
             });
             return false;
