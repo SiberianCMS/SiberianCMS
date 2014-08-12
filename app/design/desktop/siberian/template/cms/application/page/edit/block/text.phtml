@@ -60,7 +60,6 @@
             $(this).addClass('active');
             updateImage(<?php echo $this->getPosition(); ?>);
             updateFormText(<?php echo $this->getPosition(); ?>);
-            refreshIscroll(<?php echo $this->getPosition(); ?>);
             return false;
         });
 
@@ -90,6 +89,7 @@
                     //partie iframe
                     var img = $('<img />').attr('src', '<?php echo Core_Model_Directory::getTmpDirectory() ?>/'+data.result.files).addClass('textillus');
                     var clear = $('<div></div>').addClass('clear');
+                    /*
                     //block iframe déjà créé
                     if(iframe.content.find('.cms_block[rel="<?php echo $this->getPosition() ?>"]').length > 0) {
                         var container = iframe.content.find('.cms_block[rel="<?php echo $this->getPosition() ?>"]');
@@ -102,13 +102,11 @@
                         var container = $('<div />').addClass('cms_block').addClass('text').attr('rel', <?php echo $this->getPosition() ?>);
                         iframe.content.find('#cms_page_content_<?php echo $block->getValueId(); ?>').append(container);
                     }
+                    */
                     img.prependTo(container);
                     clear.appendTo(container);
                     updateImage(<?php echo $this->getPosition() ?>);
                     $('.cms_block[rel="<?php echo $this->getPosition(); ?>"]').find('.param_cont').show();
-                    img.load(function() {
-                        refreshIscroll(<?php echo $this->getPosition(); ?>);
-                    });
 
                 }
             }
@@ -117,14 +115,15 @@
         //ckeditor
         $('textarea[rel="<?php echo $this->getPosition(); ?>"]').ckeditor(function() {
 
+                /*
                 if(!iframe.content.find('.cms_block[rel="<?php echo $this->getPosition(); ?>"]').length) {
                     iframe.content.find('#cms_page_content_<?php echo $option->getId(); ?>').append('<div class="cms_block text padding" rel="<?php echo $this->getPosition(); ?>"></div>');
                 }
+                */
                 this.on('change', function (c) {
                     $('textarea[rel="<?php echo $this->getPosition(); ?>"]').html(this.getData());
                     updateFormText(<?php echo $this->getPosition(); ?>);
                     updateContentIframe(this.getData(), <?php echo $this->getPosition(); ?>);
-                    refreshIscroll(<?php echo $this->getPosition(); ?>);
                 }.bind(this));
                 hackCkeditor(<?php echo $this->getPosition(); ?>);
             },

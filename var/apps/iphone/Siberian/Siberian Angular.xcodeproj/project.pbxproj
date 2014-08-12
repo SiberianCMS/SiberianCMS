@@ -1,0 +1,576 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F511E27F196C27EE004D315F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F511E27E196C27EE004D315F /* Foundation.framework */; };
+		F511E281196C27EE004D315F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F511E280196C27EE004D315F /* CoreGraphics.framework */; };
+		F511E283196C27EE004D315F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F511E282196C27EE004D315F /* UIKit.framework */; };
+		F511E289196C27EE004D315F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F511E287196C27EE004D315F /* InfoPlist.strings */; };
+		F511E28B196C27EE004D315F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F511E28A196C27EE004D315F /* main.m */; };
+		F511E28F196C27EE004D315F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F511E28E196C27EE004D315F /* AppDelegate.m */; };
+		F511E292196C27EE004D315F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F511E290196C27EE004D315F /* Main.storyboard */; };
+		F511E295196C27EE004D315F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F511E294196C27EE004D315F /* ViewController.m */; };
+		F511E297196C27EE004D315F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F511E296196C27EE004D315F /* Images.xcassets */; };
+		F511E29E196C27EE004D315F /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F511E29D196C27EE004D315F /* XCTest.framework */; };
+		F511E29F196C27EE004D315F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F511E27E196C27EE004D315F /* Foundation.framework */; };
+		F511E2A0196C27EE004D315F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F511E282196C27EE004D315F /* UIKit.framework */; };
+		F511E2A8196C27EE004D315F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F511E2A6196C27EE004D315F /* InfoPlist.strings */; };
+		F511E2AA196C27EE004D315F /* Siberian_AngularTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F511E2A9196C27EE004D315F /* Siberian_AngularTests.m */; };
+		F511E2B7196C3A5C004D315F /* Request.m in Sources */ = {isa = PBXBuildFile; fileRef = F511E2B6196C3A5C004D315F /* Request.m */; };
+		F511E2BB196C3B21004D315F /* Url.m in Sources */ = {isa = PBXBuildFile; fileRef = F511E2BA196C3B21004D315F /* Url.m */; };
+		F52838CE199A1ABE00F3EB90 /* webViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F52838CC199A1ABE00F3EB90 /* webViewController.m */; };
+		F52838D3199A1DB400F3EB90 /* loaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = F52838D2199A1DB400F3EB90 /* loaderView.m */; };
+		F52838D6199A1F2800F3EB90 /* common.m in Sources */ = {isa = PBXBuildFile; fileRef = F52838D5199A1F2800F3EB90 /* common.m */; };
+		F5A595A1196E91FF00EC6183 /* EVURLCache.m in Sources */ = {isa = PBXBuildFile; fileRef = F5A59598196E914100EC6183 /* EVURLCache.m */; };
+		F5A595A8196E995A00EC6183 /* RNCachingURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = F5A595A7196E995A00EC6183 /* RNCachingURLProtocol.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F511E2A1196C27EE004D315F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F511E273196C27EE004D315F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F511E27A196C27EE004D315F;
+			remoteInfo = "Siberian Angular";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		F511E27B196C27EE004D315F /* Siberian Angular.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Siberian Angular.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F511E27E196C27EE004D315F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		F511E280196C27EE004D315F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		F511E282196C27EE004D315F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		F511E286196C27EE004D315F /* Siberian Angular-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Siberian Angular-Info.plist"; sourceTree = "<group>"; };
+		F511E288196C27EE004D315F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		F511E28A196C27EE004D315F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		F511E28C196C27EE004D315F /* Siberian Angular-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Siberian Angular-Prefix.pch"; sourceTree = "<group>"; };
+		F511E28D196C27EE004D315F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		F511E28E196C27EE004D315F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		F511E291196C27EE004D315F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		F511E293196C27EE004D315F /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		F511E294196C27EE004D315F /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		F511E296196C27EE004D315F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		F511E29C196C27EE004D315F /* Siberian AngularTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Siberian AngularTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F511E29D196C27EE004D315F /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		F511E2A5196C27EE004D315F /* Siberian AngularTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Siberian AngularTests-Info.plist"; sourceTree = "<group>"; };
+		F511E2A7196C27EE004D315F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		F511E2A9196C27EE004D315F /* Siberian_AngularTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Siberian_AngularTests.m; sourceTree = "<group>"; };
+		F511E2B5196C3A5C004D315F /* Request.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Request.h; path = Application/Request/Request.h; sourceTree = "<group>"; };
+		F511E2B6196C3A5C004D315F /* Request.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Request.m; path = Application/Request/Request.m; sourceTree = "<group>"; };
+		F511E2B9196C3B21004D315F /* Url.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Url.h; path = Application/Url/Url.h; sourceTree = "<group>"; };
+		F511E2BA196C3B21004D315F /* Url.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Url.m; path = Application/Url/Url.m; sourceTree = "<group>"; };
+		F52838CB199A1ABE00F3EB90 /* webViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = webViewController.h; sourceTree = "<group>"; };
+		F52838CC199A1ABE00F3EB90 /* webViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = webViewController.m; sourceTree = "<group>"; };
+		F52838D1199A1DB400F3EB90 /* loaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = loaderView.h; sourceTree = "<group>"; };
+		F52838D2199A1DB400F3EB90 /* loaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = loaderView.m; sourceTree = "<group>"; };
+		F52838D4199A1F2800F3EB90 /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = common.h; path = Application/common.h; sourceTree = "<group>"; };
+		F52838D5199A1F2800F3EB90 /* common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = common.m; path = Application/common.m; sourceTree = "<group>"; };
+		F5A59597196E914100EC6183 /* EVURLCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVURLCache.h; sourceTree = "<group>"; };
+		F5A59598196E914100EC6183 /* EVURLCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVURLCache.m; sourceTree = "<group>"; };
+		F5A595A6196E995A00EC6183 /* RNCachingURLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNCachingURLProtocol.h; sourceTree = "<group>"; };
+		F5A595A7196E995A00EC6183 /* RNCachingURLProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNCachingURLProtocol.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F511E278196C27EE004D315F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F511E281196C27EE004D315F /* CoreGraphics.framework in Frameworks */,
+				F511E283196C27EE004D315F /* UIKit.framework in Frameworks */,
+				F511E27F196C27EE004D315F /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F511E299196C27EE004D315F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F511E29E196C27EE004D315F /* XCTest.framework in Frameworks */,
+				F511E2A0196C27EE004D315F /* UIKit.framework in Frameworks */,
+				F511E29F196C27EE004D315F /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F511E272196C27EE004D315F = {
+			isa = PBXGroup;
+			children = (
+				F511E284196C27EE004D315F /* Siberian Angular */,
+				F511E2A3196C27EE004D315F /* Siberian AngularTests */,
+				F511E27D196C27EE004D315F /* Frameworks */,
+				F511E27C196C27EE004D315F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F511E27C196C27EE004D315F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F511E27B196C27EE004D315F /* Siberian Angular.app */,
+				F511E29C196C27EE004D315F /* Siberian AngularTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F511E27D196C27EE004D315F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F511E27E196C27EE004D315F /* Foundation.framework */,
+				F511E280196C27EE004D315F /* CoreGraphics.framework */,
+				F511E282196C27EE004D315F /* UIKit.framework */,
+				F511E29D196C27EE004D315F /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F511E284196C27EE004D315F /* Siberian Angular */ = {
+			isa = PBXGroup;
+			children = (
+				F52838C9199A1A9800F3EB90 /* Layout */,
+				F511E2B3196C3A2C004D315F /* Application */,
+				F511E28D196C27EE004D315F /* AppDelegate.h */,
+				F511E28E196C27EE004D315F /* AppDelegate.m */,
+				F511E290196C27EE004D315F /* Main.storyboard */,
+				F511E293196C27EE004D315F /* ViewController.h */,
+				F511E294196C27EE004D315F /* ViewController.m */,
+				F511E296196C27EE004D315F /* Images.xcassets */,
+				F511E285196C27EE004D315F /* Supporting Files */,
+			);
+			path = "Siberian Angular";
+			sourceTree = "<group>";
+		};
+		F511E285196C27EE004D315F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F511E286196C27EE004D315F /* Siberian Angular-Info.plist */,
+				F511E287196C27EE004D315F /* InfoPlist.strings */,
+				F511E28A196C27EE004D315F /* main.m */,
+				F511E28C196C27EE004D315F /* Siberian Angular-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F511E2A3196C27EE004D315F /* Siberian AngularTests */ = {
+			isa = PBXGroup;
+			children = (
+				F511E2A9196C27EE004D315F /* Siberian_AngularTests.m */,
+				F511E2A4196C27EE004D315F /* Supporting Files */,
+			);
+			path = "Siberian AngularTests";
+			sourceTree = "<group>";
+		};
+		F511E2A4196C27EE004D315F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F511E2A5196C27EE004D315F /* Siberian AngularTests-Info.plist */,
+				F511E2A6196C27EE004D315F /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F511E2B3196C3A2C004D315F /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				F52838D4199A1F2800F3EB90 /* common.h */,
+				F52838D5199A1F2800F3EB90 /* common.m */,
+				F5A59590196E902100EC6183 /* Cache */,
+				F511E2B8196C3AEF004D315F /* Url */,
+				F511E2B4196C3A3C004D315F /* Request */,
+			);
+			name = Application;
+			sourceTree = "<group>";
+		};
+		F511E2B4196C3A3C004D315F /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				F511E2B5196C3A5C004D315F /* Request.h */,
+				F511E2B6196C3A5C004D315F /* Request.m */,
+			);
+			name = Request;
+			sourceTree = "<group>";
+		};
+		F511E2B8196C3AEF004D315F /* Url */ = {
+			isa = PBXGroup;
+			children = (
+				F511E2B9196C3B21004D315F /* Url.h */,
+				F511E2BA196C3B21004D315F /* Url.m */,
+			);
+			name = Url;
+			sourceTree = "<group>";
+		};
+		F52838C9199A1A9800F3EB90 /* Layout */ = {
+			isa = PBXGroup;
+			children = (
+				F52838D0199A1DB400F3EB90 /* Loader */,
+				F52838CA199A1ABE00F3EB90 /* Modals */,
+			);
+			name = Layout;
+			sourceTree = "<group>";
+		};
+		F52838CA199A1ABE00F3EB90 /* Modals */ = {
+			isa = PBXGroup;
+			children = (
+				F52838CB199A1ABE00F3EB90 /* webViewController.h */,
+				F52838CC199A1ABE00F3EB90 /* webViewController.m */,
+			);
+			name = Modals;
+			path = Layout/Modals;
+			sourceTree = "<group>";
+		};
+		F52838D0199A1DB400F3EB90 /* Loader */ = {
+			isa = PBXGroup;
+			children = (
+				F52838D1199A1DB400F3EB90 /* loaderView.h */,
+				F52838D2199A1DB400F3EB90 /* loaderView.m */,
+			);
+			name = Loader;
+			path = Layout/Loader;
+			sourceTree = "<group>";
+		};
+		F5A59590196E902100EC6183 /* Cache */ = {
+			isa = PBXGroup;
+			children = (
+				F5A595A6196E995A00EC6183 /* RNCachingURLProtocol.h */,
+				F5A595A7196E995A00EC6183 /* RNCachingURLProtocol.m */,
+				F5A59597196E914100EC6183 /* EVURLCache.h */,
+				F5A59598196E914100EC6183 /* EVURLCache.m */,
+			);
+			name = Cache;
+			path = Application/Cache;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F511E27A196C27EE004D315F /* Siberian Angular */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F511E2AD196C27EE004D315F /* Build configuration list for PBXNativeTarget "Siberian Angular" */;
+			buildPhases = (
+				F511E277196C27EE004D315F /* Sources */,
+				F511E278196C27EE004D315F /* Frameworks */,
+				F511E279196C27EE004D315F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Siberian Angular";
+			productName = "Siberian Angular";
+			productReference = F511E27B196C27EE004D315F /* Siberian Angular.app */;
+			productType = "com.apple.product-type.application";
+		};
+		F511E29B196C27EE004D315F /* Siberian AngularTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F511E2B0196C27EE004D315F /* Build configuration list for PBXNativeTarget "Siberian AngularTests" */;
+			buildPhases = (
+				F511E298196C27EE004D315F /* Sources */,
+				F511E299196C27EE004D315F /* Frameworks */,
+				F511E29A196C27EE004D315F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F511E2A2196C27EE004D315F /* PBXTargetDependency */,
+			);
+			name = "Siberian AngularTests";
+			productName = "Siberian AngularTests";
+			productReference = F511E29C196C27EE004D315F /* Siberian AngularTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F511E273196C27EE004D315F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = "Adrien Sala";
+				TargetAttributes = {
+					F511E29B196C27EE004D315F = {
+						TestTargetID = F511E27A196C27EE004D315F;
+					};
+				};
+			};
+			buildConfigurationList = F511E276196C27EE004D315F /* Build configuration list for PBXProject "Siberian Angular" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = F511E272196C27EE004D315F;
+			productRefGroup = F511E27C196C27EE004D315F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F511E27A196C27EE004D315F /* Siberian Angular */,
+				F511E29B196C27EE004D315F /* Siberian AngularTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F511E279196C27EE004D315F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F511E297196C27EE004D315F /* Images.xcassets in Resources */,
+				F511E289196C27EE004D315F /* InfoPlist.strings in Resources */,
+				F511E292196C27EE004D315F /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F511E29A196C27EE004D315F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F511E2A8196C27EE004D315F /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F511E277196C27EE004D315F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F5A595A1196E91FF00EC6183 /* EVURLCache.m in Sources */,
+				F511E2BB196C3B21004D315F /* Url.m in Sources */,
+				F511E295196C27EE004D315F /* ViewController.m in Sources */,
+				F5A595A8196E995A00EC6183 /* RNCachingURLProtocol.m in Sources */,
+				F511E2B7196C3A5C004D315F /* Request.m in Sources */,
+				F52838D3199A1DB400F3EB90 /* loaderView.m in Sources */,
+				F52838D6199A1F2800F3EB90 /* common.m in Sources */,
+				F52838CE199A1ABE00F3EB90 /* webViewController.m in Sources */,
+				F511E28F196C27EE004D315F /* AppDelegate.m in Sources */,
+				F511E28B196C27EE004D315F /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F511E298196C27EE004D315F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F511E2AA196C27EE004D315F /* Siberian_AngularTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F511E2A2196C27EE004D315F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F511E27A196C27EE004D315F /* Siberian Angular */;
+			targetProxy = F511E2A1196C27EE004D315F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		F511E287196C27EE004D315F /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F511E288196C27EE004D315F /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		F511E290196C27EE004D315F /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F511E291196C27EE004D315F /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		F511E2A6196C27EE004D315F /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F511E2A7196C27EE004D315F /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		F511E2AB196C27EE004D315F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		F511E2AC196C27EE004D315F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F511E2AE196C27EE004D315F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Siberian Angular/Siberian Angular-Prefix.pch";
+				INFOPLIST_FILE = "Siberian Angular/Siberian Angular-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		F511E2AF196C27EE004D315F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Siberian Angular/Siberian Angular-Prefix.pch";
+				INFOPLIST_FILE = "Siberian Angular/Siberian Angular-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		F511E2B1196C27EE004D315F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Siberian Angular.app/Siberian Angular";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Siberian Angular/Siberian Angular-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Siberian AngularTests/Siberian AngularTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		F511E2B2196C27EE004D315F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Siberian Angular.app/Siberian Angular";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Siberian Angular/Siberian Angular-Prefix.pch";
+				INFOPLIST_FILE = "Siberian AngularTests/Siberian AngularTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F511E276196C27EE004D315F /* Build configuration list for PBXProject "Siberian Angular" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F511E2AB196C27EE004D315F /* Debug */,
+				F511E2AC196C27EE004D315F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F511E2AD196C27EE004D315F /* Build configuration list for PBXNativeTarget "Siberian Angular" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F511E2AE196C27EE004D315F /* Debug */,
+				F511E2AF196C27EE004D315F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F511E2B0196C27EE004D315F /* Build configuration list for PBXNativeTarget "Siberian AngularTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F511E2B1196C27EE004D315F /* Debug */,
+				F511E2B2196C27EE004D315F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F511E273196C27EE004D315F /* Project object */;
+}

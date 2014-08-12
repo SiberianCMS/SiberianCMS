@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
+    <dependencies>
+        <deployment defaultVersion="1536" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="ufC-wZ-h7g">
+            <objects>
+                <viewController id="vXZ-lx-hvc" customClass="ViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
+                        <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3Dn-a4-DIr">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="webView" destination="3Dn-a4-DIr" id="4Eu-Jn-Hej"/>
+                        <segue destination="uvG-q4-Tmb" kind="modal" identifier="openWebview" id="EQC-DG-DWV"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="617" y="-26"/>
+        </scene>
+        <!--Web View Controller-->
+        <scene sceneID="MPD-39-A8w">
+            <objects>
+                <viewController id="uvG-q4-Tmb" customClass="webViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="h7Q-Qk-Jcm"/>
+                        <viewControllerLayoutGuide type="bottom" id="H4r-gu-zm7"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="cLn-yF-6eO">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" fixedFrame="YES" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AIc-KW-tm5">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" calendarEvent="YES"/>
+                            </webView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="ZaY-9J-vIM">
+                                <rect key="frame" x="0.0" y="524" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <items>
+                                    <barButtonItem style="plain" id="EsE-DV-lPJ">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="4hr-eT-EDe">
+                                            <rect key="frame" x="16" y="6" width="57" height="33"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" title="Back">
+                                                <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="closeModal:" destination="uvG-q4-Tmb" eventType="touchUpInside" id="6cw-dP-qgP"/>
+                                            </connections>
+                                        </button>
+                                        <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    </barButtonItem>
+                                    <barButtonItem width="118" style="plain" systemItem="flexibleSpace" id="u9u-ZM-XWG"/>
+                                    <barButtonItem systemItem="rewind" id="gnb-nG-cYX">
+                                        <connections>
+                                            <action selector="goBack:" destination="uvG-q4-Tmb" id="BRm-12-fMO"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem width="10" style="plain" systemItem="fixedSpace" id="a04-js-gir"/>
+                                    <barButtonItem systemItem="fastForward" id="Wu0-Qg-aiJ">
+                                        <connections>
+                                            <action selector="goForth:" destination="uvG-q4-Tmb" id="SqH-3G-atr"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem width="104" style="plain" systemItem="flexibleSpace" id="U9F-7r-vtJ"/>
+                                    <barButtonItem systemItem="stop" id="HcT-Y8-yhI">
+                                        <connections>
+                                            <action selector="stop:" destination="uvG-q4-Tmb" id="Bhx-c4-uXi"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem width="10" style="plain" systemItem="fixedSpace" id="pHp-oH-Tjn"/>
+                                    <barButtonItem systemItem="refresh" id="eWd-St-Dlh">
+                                        <connections>
+                                            <action selector="refresh:" destination="uvG-q4-Tmb" id="SSK-Hf-02z"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <connections>
+                        <outlet property="btnBack" destination="gnb-nG-cYX" id="i82-hl-wLF"/>
+                        <outlet property="btnForth" destination="Wu0-Qg-aiJ" id="pLW-iR-Jp7"/>
+                        <outlet property="btnRefresh" destination="eWd-St-Dlh" id="CiE-PW-1E3"/>
+                        <outlet property="btnStop" destination="HcT-Y8-yhI" id="QGH-bh-FDD"/>
+                        <outlet property="toolbar" destination="ZaY-9J-vIM" id="B6N-vQ-hHn"/>
+                        <outlet property="wv" destination="AIc-KW-tm5" id="RNT-dD-J8R"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JD9-AQ-OpG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1086" y="-26"/>
+        </scene>
+    </scenes>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>

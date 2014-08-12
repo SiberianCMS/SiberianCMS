@@ -49,7 +49,6 @@
 
         $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] input.description').keyup(function() {
             updateDesc(<?php echo $this->getPosition(); ?>);
-            refreshIscroll(<?php echo $this->getPosition(); ?>);
         });
 
         $('.image_cont').sortable({
@@ -102,6 +101,7 @@
                                 </div>'
                             );
 
+                            /*
                             //iframe
                             var id = iframe.content.find('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .image_ul').attr('rel');
 
@@ -139,9 +139,6 @@
                                 li_gallery.append(img_gallery);
                                 iframe.content.find('.gallery_ul[rel="'+id+'"]').append(li_gallery);
 
-                                img.load(function() {
-                                    refreshIscroll(<?php echo $this->getPosition(); ?>);
-                                });
                             } else {
 
                                 var img = $('<img />').attr('width', iframe.content.find('#cms_page_content_<?php echo $option->getId(); ?>').width()+'px').attr('src', '<?php echo Core_Model_Directory::getTmpDirectory() ?>/'+datas.file);
@@ -168,10 +165,8 @@
                                 iframe.content.find('#cms_page_content_<?php echo $option->getId(); ?>').append(scrollview_carousel);
 
                                 iframe.f.page.current_page.createCarousel('carousel_scrollview_<?php echo $this->getPosition(); ?>');//.refreshCarousel('carousel_scrollview_<?php echo $this->getPosition(); ?>');
-                                img.load(function() {
-                                    refreshIscroll(<?php echo $this->getPosition(); ?>);
-                                });
                             }
+                            */
                         }
                     });
                 }

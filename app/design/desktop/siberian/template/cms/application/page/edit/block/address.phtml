@@ -48,6 +48,7 @@
             removeElem(<?php echo $this->getPosition(); ?>);
         });
 
+        /*
         $('#address_<?php echo $this->getPosition() ?>').keyup(function() {
             var address = "page.showGoogleMaps('"+$(this).val().replaceAll("\n", "")+"');";
             iframe.content.find('#cms_geolocation_button_<?php echo $this->getPosition() ?>').attr('onclick', address);
@@ -57,6 +58,7 @@
         $('#label_<?php echo $this->getPosition() ?>').keyup(function() {
             iframe.content.find('#cms_label_<?php echo $this->getPosition() ?>').html($(this).val());
         });
+         */
 
         $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .handle').mousedown(function(){
             dragTransformMouseDown($(this));
@@ -69,14 +71,15 @@
             var field = fields[i];
             bindLabel($('#label_'+field));
             setupLabel($('#label_'+field));
+            /*
             $('#'+field).change(function() {
-                console.log(this.id)
                 if($(this).is(':checked')) {
                     iframe.content.find('#'+this.id).slideDown();
                 } else {
                     iframe.content.find('#'+this.id).stop().slideUp();
                 }
             })
+            */
         }
 
     </script>

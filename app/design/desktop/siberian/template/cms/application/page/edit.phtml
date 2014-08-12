@@ -49,10 +49,11 @@
             $('.cms_block[rel="'+pos+'"]').slideUp('fast', function(){
                 $(this).remove();
             });
+            /*
             iframe.content.find('.cms_block[rel="'+pos+'"]').slideUp('fast', function(){
                 $(this).remove();
-                iframe.f.page.getSubpage('<?php echo $option_value->getId(); ?>').refreshScrollview();
             });
+            */
             var ckedname = $('.cms_block[rel="'+pos+'"]').find(".ckcontainer").find("span").attr("id");
             if(ckedname != undefined) {
                 ckedname = ckedname.split("_");
@@ -95,21 +96,10 @@
             }
         }
 
-        function refreshIscroll(pos) {
-
-            if(iframe.content.find('#page_content_<?php echo $option_value->getId() ?>').length > 0) {
-//                iframe.f.list_images.refreshGallery(pos);
-                iframe.f.page.getSubpage('<?php echo $option_value->getId(); ?>').refreshCarousel('carousel_scrollview_'+pos).refreshScrollview();
-                if(iframe.content.find('.cms_block[rel="'+pos+'"]').is(':first-child')) {
-                    iframe.f.page.current_page.scrollview.scrollTo(0, 0, 100);
-                } else {
-                    iframe.f.page.current_page.scrollview.scrollToElement('.cms_block[rel="'+pos+'"]', 100);
-                }
-            }
-        }
-
         function sortIframe() {
 
+            return;
+            /*
             iframe_elems = [];
             $('.cms_block').each(function(index,element) {
                 var block_rel = $(element).attr('rel');
@@ -117,19 +107,17 @@
                     if($(element).attr('rel') == block_rel) {
                         iframe_elems.push(element.outerHTML);
                         iframe.f.page.current_page.destroyCarousel('carousel_scrollview_'+$(element).attr('rel'));
-//                        iframe.f.list_images.destroyGallery($(element).attr('rel'));
                     }
                 });
             });
             iframe.content.find('#cms_page_content_<?php echo $option_value->getId() ?>').html('');
             $.each(iframe_elems, function(index, value) {
-//                $(value).find('.image_li img').removeAttr('onload');
                 iframe.content.find('#cms_page_content_<?php echo $option_value->getId() ?>').append(value);
                 if($(value).hasClass('picture')) {
                     iframe.f.page.current_page.createCarousel('carousel_scrollview_'+$(value).attr('rel'));
-//                    iframe.f.list_images.createGallery($(value).attr('rel'));
                 }
             });
+            */
         }
 
         function hackCkeditor(pos) {
@@ -161,6 +149,8 @@
 
         //met à jour le contenu iframe après changement texte
         function updateContentIframe(text,pos) {
+            return;
+            /*
             var img = null;
             if(iframe.content.find('.cms_block[rel="'+pos+'"]').find('.textillus').length > 0) {
                 img = iframe.content.find('.cms_block[rel="'+pos+'"]').find('.textillus');
@@ -170,10 +160,12 @@
             if(img != undefined) {
                 iframe.content.find('.cms_block[rel="'+pos+'"]').prepend(img);
             }
+            */
         }
 
         //Met à jour l'image dans l'iframe
         function updateImage(pos) {
+            /*
             var img = null;
             if(iframe.content.find('.cms_block[rel="'+pos+'"]').find('.textillus').length > 0) {
                 img = iframe.content.find('.cms_block[rel="'+pos+'"]').find('.textillus');
@@ -184,10 +176,12 @@
                 img.removeClass('alignright').removeClass('alignleft');
                 img.attr('style', 'float:'+alignment).attr('width',size).addClass('align'+alignment);
             }
+            */
         }
 
         function updateVideo(pos) {
             return;
+            /*
             var val_video = $('.cms_block[rel="'+pos+'"] input.video').val();
             var val_poster = $('.cms_block[rel="'+pos+'"] img.poster').attr('src');
             var width = iframe.content.find('#cms_page_content_<?php echo $option_value->getId() ?>').width();
@@ -211,9 +205,11 @@
                 video.attr('width', '0px').remove();
             }
             updateFormVideo(pos);
+            */
         }
 
         function updateDescVideo(pos) {
+            /*
             var val_desc = $('.cms_block[rel="'+pos+'"] input.description').val();
             if(iframe.content.find('.cms_block[rel="'+pos+'"] p.description').length == 0) {
                 var video = '<video controls width="100%"><source src=""></video><p class="description" width="100%">'+val_desc+'</p>';
@@ -223,6 +219,7 @@
             } else {
                 iframe.content.find('.cms_block[rel="'+pos+'"] p.description').html(val_desc);
             }
+            */
             updateFormVideo(pos);
         }
 
@@ -232,24 +229,24 @@
             $('.cms_block[rel="'+pos+'"]').find('.image_cont img').remove();
             $('.cms_block[rel="'+pos+'"]').find('.image_cont .removeimg').remove();
             $('.cms_block[rel="'+pos+'"]').find('.param_cont').hide();
-            iframe.content.find('.cms_block[rel="'+pos+'"] img.textillus').remove();
-            refreshIscroll(pos);
+            // iframe.content.find('.cms_block[rel="'+pos+'"] img.textillus').remove();
         }
 
         function deleteImageImage(elem) {
             var index = $(elem).parent().index();
             var pos = $(elem).parent().attr('rel');
             $(elem).parent().remove();
+            /*
             iframe.content.find('.image_ul[rel="'+pos+'"] .image_li').eq(index).remove();
             iframe.content.find('.gallery_ul[rel="'+pos+'"] .gallery_li').eq(index).remove();
             if(scrollView = iframe.f.scrollviews.get('carousel_scrollview_'+pos)) {
                 if(scrollView.currPageX == index) scrollView.scrollToPage('prev');
             }
+             */
 //            var child_count = iframe.content.find('.image_ul[rel="'+pos+'"]').find('li').length;
 //            if(child_count < 2) {
 //                iframe.content.find('.image_ul[rel="'+pos+'"]').parent().find('.controls').hide();
 //            }
-            refreshIscroll(pos);
         }
 
         function deleteImageVideo(elem) {
@@ -257,7 +254,7 @@
             var pos = elem.parent().attr('rel');
             elem.parent().find('img').attr('src', '');
             $('.cms_block[rel="'+pos+'"] input.image').val('');
-            iframe.content.find('.cms_block[rel="'+pos+'"] video').attr('poster', '');
+//            iframe.content.find('.cms_block[rel="'+pos+'"] video').attr('poster', '');
         }
 
         function updateFormText(pos) {
@@ -279,9 +276,11 @@
         }
 
         function updateDesc(pos) {
+            /*
             var val_desc = $('.cms_block[rel="'+pos+'"] input.description').val();
             iframe.content.find('.cms_block[rel="'+pos+'"] p.description').html(val_desc);
             iframe.content.find('span.title[rel="'+pos+'"]').html(val_desc);
+            */
         }
 
         function updateFormVideo(pos) {
@@ -294,6 +293,7 @@
         }
 
         function refreshCarousel(pos) {
+            /*
             var srcs = [];
             $('.image_cont_details[rel="'+pos+'"]').each(function(index, element){
                 srcs.push($(this).find('img').attr('src'));
@@ -301,9 +301,11 @@
             iframe.content.find('.image_ul[rel="'+pos+'"]').find('.image_li').each(function(index, element){
                 $(this).find('img').attr('src', srcs[index]);
             });
+            */
         }
 
         function refreshGallery(pos) {
+            /*
             var srcs = [];
             $('.image_cont_details[rel="'+pos+'"]').each(function(index, element){
                 srcs.push($(this).find('img').attr('src'));
@@ -312,6 +314,7 @@
 //            iframe.content.find('.gallery_ul[rel="'+pos+'"]').find('.gallery_li').each(function(index, element){
                 $(this).attr('src', srcs[index]);
             });
+            */
         }
 
         page.setCallback('didappear', function() {
@@ -359,7 +362,6 @@
                         this.on('change', function (c) {
                             $('textarea[rel="'+pos+'"]').html(this.getData());
                             updateContentIframe(this.getData(), pos);
-                            refreshIscroll(pos);
                         });
                             hackCkeditor(pos);
                         },{extraPlugins : 'onchange,cms'},{language: 'ja'}
@@ -370,7 +372,6 @@
                             $(this).parent().parent().find('.image_cont').show();
                         }
                     }
-                    refreshIscroll(pos);
                 },
                 update: function (e, ui) {
                     sortIframe();

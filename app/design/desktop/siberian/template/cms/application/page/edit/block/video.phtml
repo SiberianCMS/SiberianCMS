@@ -209,10 +209,12 @@
                     params["file"] = data.result.files;
                     var width = 500;
                     var height = 300;
+                    /*
                     if (iframe.content.find('.cms_block[rel="<?php echo $this->getPosition(); ?>"]').find('video').length > 0) {
                         width = iframe.content.find('.cms_block[rel="<?php echo $this->getPosition(); ?>"]').find('video').width();
                         height = iframe.content.find('.cms_block[rel="<?php echo $this->getPosition(); ?>"]').find('video').height();
                     }
+                    */
                     params["output_w"] = width;
                     params["output_h"] = height;
                     params["output_url"] = '<?php echo str_replace('/', '$', $this->getUrl('cms/application_page/cropvideo')) ?>';
@@ -225,7 +227,9 @@
                         $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .cont_poster .removeimg').remove();
                         $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .cont_poster').append(btn_remove);
                         $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] input[name="block[<?php echo $this->getPosition(); ?>][image]"]').val(file);
+                        /*
                         iframe.content.find('.cms_block[rel="<?php echo $this->getPosition(); ?>"] video').attr('poster', filepath);
+                        */
                     }
                 }
             }
@@ -233,12 +237,10 @@
 
         $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] input.video').change(function() {
             updateVideo(<?php echo $this->getPosition(); ?>);
-            refreshIscroll(<?php echo $this->getPosition(); ?>);
         });
 
         $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] input.description').keyup(function() {
             updateDescVideo(<?php echo $this->getPosition(); ?>);
-            refreshIscroll(<?php echo $this->getPosition(); ?>);
         });
 
         $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .remove').click(function() {
