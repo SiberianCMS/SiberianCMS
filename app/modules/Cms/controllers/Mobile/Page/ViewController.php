@@ -35,8 +35,12 @@ class Cms_Mobile_Page_ViewController extends Application_Controller_Mobile_Defau
                     break;
                     case "video":
                         $video = $block->getObject();
-                        $block_data["image_url"] = $video->getImageUrl();
-                        $block_data["url"] = $video->getTypeId() == "youtube" ? $video->getYoutube() : $video->getLink();
+                        $block_data["cover_url"] = $video->getImageUrl();
+                        $url = $video->getLink();
+                        if($video->getTypeId() == "youtube") {
+                            $url = "http://www.youtube.com/embed/{$video->getYoutube()}?autoplay=1";
+                        }
+                        $block_data["url"] = $url;
                     break;
                 }
 

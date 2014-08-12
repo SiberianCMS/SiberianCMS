@@ -250,10 +250,12 @@ a.connect_button {height:22px; padding-top:10px;}
     z-index: 100;
 }
 
-.page_header .absolute { position: absolute; height: 100%; width: 100% }
+.page_header .header.absolute { position: absolute; height: 100%; width: 100% }
+.iOS7 .page_header .header.absolute {padding-top:21px;}
 
 .has_header {margin-top: 42px;}
-.page_header p.title {position:absolute;top:0;left:75px;right:75px;height:42px;overflow:hidden;margin:0;line-height:43px;font-size:16px;font-weight:bold;text-align:center;z-index:10;}
+.iOS7 .has_header {margin-top: 63px;}
+.page_header p.title {position:absolute;left:75px;right:75px;height:42px;overflow:hidden;margin:0;line-height:43px;font-size:16px;font-weight:bold;text-align:center;z-index:10;}
 .page_header .btn_left, .page_header .btn_right {position:relative;width:auto;height:42px;margin:0px;border:none;box-shadow:none;z-index:20;}
 .page_header .btn_left {left:0;float:left;padding-left:25px;}
 .page_header .btn_right {right:0;float:right;padding-right:6px;}
@@ -414,6 +416,14 @@ a.connect_button {height:22px; padding-top:10px;}
 .sidebar.l1 .sidebar li {text-align:left;}
 .sidebar.l1 .sidebar li a.item {cursor:pointer;font-size:0.85em;padding:10px;border-bottom:1px solid;display:block;height:auto;margin:0;text-align:left;}
 
+/* Video */
+.video {position:relative;}
+.video .cover {width:100%;height:200px;padding:0;background-position:center center;background-size:cover;background-repeat:no-repeat;}
+.video img.icon {margin: 10px 5px;}
+.video div.title {position:absolute;bottom:0;left:0;width:100%;height:40px;opacity:0.8;z-index:20;}
+.video div.title p.title_video {height:40px;vertical-align: middle; display:table-cell;margin:3px 0;font-size:15px;font-weight:bold;line-height:17px;}
+
+
 /* Newswall / Rss */
 .newswall .content li, .rss_feed .content li {margin-top:1px;}
 .newswall .content div.metas, .rss_feed .content div.metas {background:rgba(255,255,255,0.3);border:solid 1px rgba(153, 153, 153, 1);padding:5px;margin-left:53px;margin-top:10px;border-radius:4px;}
@@ -514,10 +524,6 @@ a.connect_button {height:22px; padding-top:10px;}
 
 /* Video Gallery */
 .video_gallery li.load_more {padding-top:20px;}
-.video_gallery li.video .cover {width:100%;height:200px;padding:0;background-position:center center;background-size:cover;background-repeat:no-repeat;}
-.video_gallery li.video img.icon {margin: 10px 5px;}
-.video_gallery li.video div.title {position:absolute;bottom:0;left:0;width:100%;height:40px;opacity:0.8;z-index:20;}
-.video_gallery li.video div.title p.title_video {height:40px;vertical-align: middle; display:table-cell;margin:3px 0;font-size:15px;font-weight:bold;line-height:17px;}
 
 /* Facebook */
 .facebook .info {position:absolute;top:-55px;left:25px;width:100%;}

@@ -16,17 +16,10 @@
 
 @synthesize webViewUrl;
 @synthesize wv, toolbar, loader;
-@synthesize btnBack, btnForth, btnStop, btnRefresh;
+@synthesize btnClose, btnBack, btnForth, btnStop, btnRefresh;
 @synthesize delegate;
 
 - (void)viewDidLoad {
-    
-    UIBarButtonItem *btnClose = [[UIBarButtonItem alloc]
-                                   initWithTitle:NSLocalizedString(@"Done", nil)
-                                   style:UIBarButtonItemStyleDone
-                                   target:self
-                                 action:@selector(closeModal:)];
-    self.navigationItem.leftBarButtonItem = btnClose;
     
     if(isAtLeastiOS7()) {
         self.navigationController.navigationBar.translucent = NO;

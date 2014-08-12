@@ -37,7 +37,7 @@ class Media_Model_Gallery_Video_Youtube extends Media_Model_Gallery_Video_Abstra
                 $link = null;
                 if(!empty($params['v'])) {
                     $image = "http://img.youtube.com/vi/{$params['v']}/0.jpg";
-                    $link = "http://www.youtube.com/embed/{$params['v']}";
+                    $link = "http://www.youtube.com/embed/{$params['v']}?autoplay=1";
                 }
                 else {
                     $link = $entry->getLink();

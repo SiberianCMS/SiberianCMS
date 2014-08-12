@@ -56,19 +56,10 @@
                                 <rect key="frame" x="0.0" y="524" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
-                                    <barButtonItem style="plain" id="EsE-DV-lPJ">
-                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="4hr-eT-EDe">
-                                            <rect key="frame" x="16" y="6" width="57" height="33"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="Back">
-                                                <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <connections>
-                                                <action selector="closeModal:" destination="uvG-q4-Tmb" eventType="touchUpInside" id="6cw-dP-qgP"/>
-                                            </connections>
-                                        </button>
-                                        <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <barButtonItem style="plain" systemItem="done" id="EsE-DV-lPJ">
+                                        <connections>
+                                            <action selector="closeModal:" destination="uvG-q4-Tmb" id="Zzi-gp-Tt9"/>
+                                        </connections>
                                     </barButtonItem>
                                     <barButtonItem width="118" style="plain" systemItem="flexibleSpace" id="u9u-ZM-XWG"/>
                                     <barButtonItem systemItem="rewind" id="gnb-nG-cYX">
@@ -76,13 +67,13 @@
                                             <action selector="goBack:" destination="uvG-q4-Tmb" id="BRm-12-fMO"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem width="10" style="plain" systemItem="fixedSpace" id="a04-js-gir"/>
+                                    <barButtonItem width="10" style="plain" systemItem="fixedSpace" id="xm2-du-uXf"/>
                                     <barButtonItem systemItem="fastForward" id="Wu0-Qg-aiJ">
                                         <connections>
                                             <action selector="goForth:" destination="uvG-q4-Tmb" id="SqH-3G-atr"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem width="104" style="plain" systemItem="flexibleSpace" id="U9F-7r-vtJ"/>
+                                    <barButtonItem width="20" style="plain" systemItem="fixedSpace" id="KlX-xX-8Oh"/>
                                     <barButtonItem systemItem="stop" id="HcT-Y8-yhI">
                                         <connections>
                                             <action selector="stop:" destination="uvG-q4-Tmb" id="Bhx-c4-uXi"/>
@@ -102,6 +93,7 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="btnBack" destination="gnb-nG-cYX" id="i82-hl-wLF"/>
+                        <outlet property="btnClose" destination="EsE-DV-lPJ" id="qzp-a4-yzS"/>
                         <outlet property="btnForth" destination="Wu0-Qg-aiJ" id="pLW-iR-Jp7"/>
                         <outlet property="btnRefresh" destination="eWd-St-Dlh" id="CiE-PW-1E3"/>
                         <outlet property="btnStop" destination="HcT-Y8-yhI" id="QGH-bh-FDD"/>

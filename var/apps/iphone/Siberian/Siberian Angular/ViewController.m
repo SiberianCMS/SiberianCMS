@@ -47,6 +47,10 @@
     return YES;
 }
 
+- (void)webViewDidFinishLoad:(UIWebView *)wv {
+    [webView stringByEvaluatingJavaScriptFromString:@"angular.element(document.body).addClass('iOS7')"];
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"openWebview"]) {
         [segue.destinationViewController setWebViewUrl:webviewUrl];

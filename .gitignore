@@ -4,6 +4,7 @@
 /var/cache/*
 /var/session/*
 .DS_Store
+.idea/
 /.htaccess
 /.gitignore
 /index.php

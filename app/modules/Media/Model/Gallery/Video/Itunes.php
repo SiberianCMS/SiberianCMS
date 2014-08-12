@@ -12,8 +12,7 @@ class Media_Model_Gallery_Video_Itunes extends Media_Model_Gallery_Video_Abstrac
 
         $cache = Zend_Registry::get('cache');
 
-        if(($this->_videos = $cache->load('MEDIA_VIDEOS_ITUNES_'.sha1($this->getGalleryId().$this->getParam()))) === false )
-        {
+//        if(($this->_videos = $cache->load('MEDIA_VIDEOS_ITUNES_'.sha1($this->getGalleryId().$this->getParam()))) === false ) {
 
             $this->_videos = array();
             try{
@@ -23,12 +22,18 @@ class Media_Model_Gallery_Video_Itunes extends Media_Model_Gallery_Video_Abstrac
                     foreach($flux as $entry) {
                         $image = $flux->getImage();
                         $podcast = $entry->getExtension('Podcast');
+                        $extension = "";
+                        if($entry->getEnclosure()->url) {
+                            $extension = explode(".", $entry->getEnclosure()->url);
+                            $extension = $extension[count($extension)-1];
+                        }
 
                         $video = new Core_Model_Default(array(
                             'video_id'     => $entry->getEnclosure()->url,
                             'title'        => $entry->getTitle(),
                             'description'  => $entry->getContent(),
                             'link'         => $entry->getEnclosure()->url,
+                            'extension'    => $extension,
                             'image'        => $podcast->getImage()?$podcast->getImage():$image['uri']
                         ));
 
@@ -40,7 +45,7 @@ class Media_Model_Gallery_Video_Itunes extends Media_Model_Gallery_Video_Abstrac
             catch(Exception $e){
 
             }
-        }
+//        }
 
         return array_slice($this->_videos, $offset-1, self::MAX_RESULTS);
     }

@@ -33,7 +33,7 @@ class Media_Model_Gallery_Video_Vimeo extends Media_Model_Gallery_Video_Abstract
 
         $cache = Zend_Registry::get('cache');
 
-        if(($this->_videos = $cache->load('MEDIA_VIDEOS_VIMEO_'.sha1($this->getGalleryId().$url))) === false) {
+//        if(($this->_videos = $cache->load('MEDIA_VIDEOS_VIMEO_'.sha1($this->getGalleryId().$url))) === false) {
 
             $this->_videos = array();
             try{
@@ -53,7 +53,7 @@ class Media_Model_Gallery_Video_Vimeo extends Media_Model_Gallery_Video_Abstract
                             'video_id'     => $entry['id'],
                             'title'        => $entry['title'],
                             'description'  => $entry['description'],
-                            'link'         => $entry['id'],
+                            'link'         => "http://player.vimeo.com/video/".$entry['id']."?autoplay=1",
                             'image'        => $entry['thumbnail_medium']
                         ));
 
@@ -66,7 +66,7 @@ class Media_Model_Gallery_Video_Vimeo extends Media_Model_Gallery_Video_Abstract
 
             }
 
-        }
+//        }
 
         return array_slice($this->_videos, $offset, self::MAX_RESULTS);
     }

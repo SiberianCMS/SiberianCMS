@@ -81,12 +81,13 @@ App.directive("sbCmsText", function() {
             block: "="
         },
         template:
-            '<div class="cms_block video padding">'
-                +'<a href="block.url" class="relative block">'
-                    +'<div class="sprite"></div>'
-                    +'<img ng-src="{{ block.image_url }}" width="100%" height="100%" ng-if="block.image_url" />'
-                +'</a>'
-                +'<div class="description">{{ block.description }}</div>'
+            '<div class="cms_block padding">'
+                +'<div sb-video video="block"></div>'
+                /*+'<a href="block.url" class="relative block">'
+                 +'<div class="sprite"></div>'
+                 +'<img ng-src="{{ block.image_url }}" width="100%" height="100%" ng-if="block.image_url" />'
+                 +'</a>'
+                 +'<div class="description">{{ block.description }}</div>'*/
             +'</div>'
     };
 }).directive("sbCmsAddress", function() {

@@ -29,6 +29,7 @@
 @property (strong, nonatomic) NSURL *webViewUrl;
 @property (strong, nonatomic) IBOutlet UIWebView *wv;
 @property (strong, nonatomic) IBOutlet UIToolbar *toolbar;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *btnClose;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *btnBack;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *btnForth;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *btnStop;
