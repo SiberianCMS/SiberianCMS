@@ -15,6 +15,13 @@
             d.getElementsByTagName('head')[0].appendChild(js);
         }($window.document));
 
+        $window.colors = {
+            header: {
+                backgroundColor: <?php echo Zend_Json::encode($application->getBlock("header")->getBackgroundColorRGB()); ?>,
+                color: <?php echo Zend_Json::encode($application->getBlock("header")->getColorRGB()); ?>
+            }
+        };
+
     }).config(function($facebookProvider) {
 
         $facebookProvider.setCustomInit({xfbml: false, version : 'v2.0'});

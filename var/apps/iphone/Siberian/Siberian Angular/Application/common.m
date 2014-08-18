@@ -15,10 +15,37 @@ BOOL isScreeniPhone5() {
 
 BOOL isAtLeastiOS7() { return [[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0; }
 
-UIColor* getBlueColor() {return [UIColor colorWithRed:0.0706 green:0.6549 blue:1 alpha:1];}
-UIColor* getWhiteColor() {return [UIColor whiteColor];}
-
 @implementation common
+
++ (void)setColors:(NSDictionary *)newColors {
+    
+    appColors = [NSMutableDictionary dictionary];
+    
+    for (id i in newColors) {
+        
+        NSDictionary *dColor = [[newColors objectForKey:i] objectForKey:@"color"];
+        float colorRed = [[dColor objectForKey:@"red"] floatValue] / 255;
+        float colorGreen = [[dColor objectForKey:@"green"] floatValue] / 255;
+        float colorBlue = [[dColor objectForKey:@"blue"] floatValue] / 255;
+        
+        NSDictionary *dBackgroundColor = [[newColors objectForKey:i] objectForKey:@"backgroundColor"];
+        float backgroundColorRed = [[dBackgroundColor objectForKey:@"red"] floatValue] / 255;
+        float backgroundColorGreen = [[dBackgroundColor objectForKey:@"green"] floatValue] / 255;
+        float backgroundColorBlue = [[dBackgroundColor objectForKey:@"blue"] floatValue] / 255;
+        
+        UIColor *color = [UIColor colorWithRed:colorRed green:colorGreen blue:colorBlue alpha:1.0f];
+        UIColor *backgroundColor = [UIColor colorWithRed:backgroundColorRed green:backgroundColorGreen blue:backgroundColorBlue alpha:1.0f];
+        
+        NSDictionary *colors = [[NSDictionary alloc] initWithObjectsAndKeys:color, @"color", backgroundColor, @"backgroundColor", nil];
+        
+        [appColors setObject:colors forKey:i];
+    }
+
+}
+
++ (NSDictionary *)getColors:(NSString *)area {
+    return [appColors objectForKey:area];
+}
 
 + (void)replaceTextWithLocalizedTextInSubviewsForView:(UIView*)view
 {

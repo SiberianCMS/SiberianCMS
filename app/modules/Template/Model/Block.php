@@ -101,6 +101,14 @@ class Template_Model_Block extends Core_Model_Default {
         return $dst;
     }
 
+    public function getColorRGB() {
+        return $this->toRgb($this->getData("color"));
+    }
+
+    public function getBackgroundColorRGB() {
+        return $this->toRgb($this->getData("background_color"));
+    }
+
     public function toRgb($hexStr, $returnAsString = false, $seperator = ','){
 
         $hexStr = preg_replace("/[^0-9A-Fa-f]/", '', $hexStr);

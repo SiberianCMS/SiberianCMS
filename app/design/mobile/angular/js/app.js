@@ -208,7 +208,9 @@ App.factory('Connection', function($rootScope, $window, $http, $timeout) {
 
         if($rootScope.isOnline) return;
 
-        $http({ method: "HEAD", url: "/app:setIsOnline:1" });
+        if($rootScope.isApplication) {
+            $http({ method: "HEAD", url: "/app:setIsOnline:1" });
+        }
 
         this.isOnline = true;
         $rootScope.isOnline = true;

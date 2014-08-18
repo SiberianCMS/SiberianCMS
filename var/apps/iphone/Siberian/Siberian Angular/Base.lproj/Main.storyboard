@@ -52,9 +52,10 @@
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" calendarEvent="YES"/>
                             </webView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="ZaY-9J-vIM">
+                            <toolbar clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="ZaY-9J-vIM">
                                 <rect key="frame" x="0.0" y="524" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <color key="backgroundColor" red="1" green="0.16548809240000001" blue="0.25247250560000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <items>
                                     <barButtonItem style="plain" systemItem="done" id="EsE-DV-lPJ">
                                         <connections>
@@ -87,6 +88,11 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tvt-W0-Doe">
+                                <rect key="frame" x="0.0" y="524" width="320" height="1"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -97,13 +103,14 @@
                         <outlet property="btnForth" destination="Wu0-Qg-aiJ" id="pLW-iR-Jp7"/>
                         <outlet property="btnRefresh" destination="eWd-St-Dlh" id="CiE-PW-1E3"/>
                         <outlet property="btnStop" destination="HcT-Y8-yhI" id="QGH-bh-FDD"/>
+                        <outlet property="line" destination="Tvt-W0-Doe" id="IBD-Ds-2W8"/>
                         <outlet property="toolbar" destination="ZaY-9J-vIM" id="B6N-vQ-hHn"/>
                         <outlet property="wv" destination="AIc-KW-tm5" id="RNT-dD-J8R"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JD9-AQ-OpG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1086" y="-26"/>
+            <point key="canvasLocation" x="1053" y="-26"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

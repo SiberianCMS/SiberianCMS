@@ -15,21 +15,23 @@
 @implementation webViewController
 
 @synthesize webViewUrl;
-@synthesize wv, toolbar, loader;
+@synthesize wv, line, toolbar, loader;
 @synthesize btnClose, btnBack, btnForth, btnStop, btnRefresh;
 @synthesize delegate;
 
 - (void)viewDidLoad {
     
+    NSDictionary *headerColors = [common getColors:@"header"];
+    UIColor *headerColor = [headerColors objectForKey:@"color"];
+    UIColor *headerBackgroundColor = [headerColors objectForKey:@"backgroundColor"];
+    UIColor *tintColor = [UIColor blackColor];
+    
+    [line setBackgroundColor:headerColor];
     if(isAtLeastiOS7()) {
-        self.navigationController.navigationBar.translucent = NO;
-        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.30f green:0.30f blue:0.30f alpha:1.00f];
-        self.navigationController.navigationBar.tintColor = [UIColor blackColor];
-        NSArray *buttons = [[NSArray alloc] initWithObjects:btnClose, btnBack, btnForth, btnRefresh, btnStop, nil];
-        for (UIBarButtonItem *button in buttons) {
-            [button setTintColor:[UIColor blackColor]];
-        }
-        
+        [toolbar setTintColor:headerColor];
+        [toolbar setBarTintColor:headerBackgroundColor];
+    } else {
+        [[UINavigationBar appearance] setTintColor:tintColor];
     }
     
     // Créé et affiche le loader
@@ -109,7 +111,7 @@
     NSString *url = [[webView.request URL] absoluteString];
     NSString *bodyHTML = [webView stringByEvaluatingJavaScriptFromString:@"document.body.innerHTML"];
 
-    if([url hasPrefix:@"https://m.facebook.com/dialog/oauth"]) {
+    if([url hasPrefix:@"https://m.facebook.com/v2.0/dialog/oauth"]) {
         if([bodyHTML isEqualToString:@""]) {
             if([delegate respondsToSelector:@selector(facebookDidClose:)]) {
                 [delegate facebookDidClose:true];

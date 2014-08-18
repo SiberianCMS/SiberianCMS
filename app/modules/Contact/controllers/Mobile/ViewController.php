@@ -17,10 +17,25 @@ class Contact_Mobile_ViewController extends Application_Controller_Mobile_Defaul
         $application = $this->getApplication();
         $contact_name = !is_null($contact->getName()) ? $contact->getName() : $application->getName();
         $data = array();
+        $address = "";
+        $latlon = "";
+        if($contact->getStreet() AND $contact->getPostcode() AND $contact->getCity()) {
+
+            $latlon = Siberian_Google_Geocoding::getLatLng(array(
+                "street" => $contact->getStreet(),
+                "postcode" => $contact->getPostcode(),
+                "city" => $contact->getCity()
+            ));
+            $latlon = array(
+                "latitude" => $latlon[0],
+                "longitude" => $latlon[1]
+            );
+        }
 
         $data['contact'] = array(
             "name" => $contact_name,
             "cover_url" => $contact->getCoverUrl() ? $contact->getCoverUrl() : null,
+            "coordinates" => $latlon,
             "street" => $contact->getStreet(),
             "postcode" => $contact->getPostcode(),
             "city" => $contact->getCity(),

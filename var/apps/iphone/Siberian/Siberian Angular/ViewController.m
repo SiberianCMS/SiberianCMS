@@ -25,6 +25,7 @@
     NSString *url = [[Url sharedInstance] get:@""];
     NSURLRequest *request = [NSURLRequest requestWithURL:[[NSURL alloc] initWithString:url]];
     webView.delegate = self;
+    webView.scrollView.bounces = NO;
     [webView loadRequest:request];
 }
 
@@ -48,7 +49,14 @@
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)wv {
-    [webView stringByEvaluatingJavaScriptFromString:@"angular.element(document.body).addClass('iOS7')"];
+    if(isAtLeastiOS7()) {
+        [webView stringByEvaluatingJavaScriptFromString:@"angular.element(document.body).addClass('iOS7')"];
+    }
+    
+    NSString *jsonString = [webView stringByEvaluatingJavaScriptFromString:@"JSON.stringify(window.colors)"];
+    NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *colors = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil];
+    [common setColors:colors];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

@@ -12,9 +12,12 @@
 
 BOOL isScreeniPhone5();
 BOOL isAtLeastiOS7();
+NSMutableDictionary *appColors;
 
 @interface common : NSObject
 
++ (void)setColors:(NSDictionary *)colors;
++ (NSDictionary *)getColors:(NSString *)area;
 + (NSString *)unescape:(NSString *)string;
 + (void)replaceTextWithLocalizedTextInSubviewsForView:(UIView*)view;
 

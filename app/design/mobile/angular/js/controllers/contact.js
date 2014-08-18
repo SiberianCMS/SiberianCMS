@@ -10,7 +10,7 @@ App.config(function($routeProvider) {
         code: "contact"
     });
 
-}).controller('ContactViewController', function($window, $scope, $routeParams, Contact) {
+}).controller('ContactViewController', function($window, $scope, $routeParams, $location, Url, Contact) {
 
     $scope.$watch("isOnline", function(isOnline) {
         $scope.has_connection = isOnline;
@@ -25,6 +25,12 @@ App.config(function($routeProvider) {
     }).finally(function() {
         $scope.is_loading = false;
     });
+
+    $scope.showMap = function() {
+        var address = $scope.contact.street+", "+$scope.contact.postcode+", "+$scope.contact.city;
+        address = escape(address);
+        $location.path(Url.get("map/mobile_view/index", {latitude: $scope.contact.coordinates.latitude, longitude: $scope.contact.coordinates.longitude}));
+    }
 
     if($scope.isOverview) {
 

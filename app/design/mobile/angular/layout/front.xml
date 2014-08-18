@@ -8,6 +8,7 @@
             <scripts>
                 <js>
                     <fastclick link="js/fastclick.js" />
+                    <google_maps href="https://maps.googleapis.com/maps/api/js?sensor=false" />
                     <angular link="js/angular.min.js" />
                     <angular_animate link="js/angular/angular-animate.min.js" />
                     <angular_resource link="js/angular/angular-resource.min.js" />
@@ -17,6 +18,7 @@
                     <angular_sanitize link="js/angular/angular-sanitize.min.js" />
                     <angular_storage link="js/angular/ngStorage.min.js" />
                     <angular_facebook link="js/angular/ngFacebook.js" />
+                    <!--<angular_maps link="js/angular/ngMap.min.js" />-->
                     <app link="js/app.js" />
                     <controllers folder="js/controllers" />
                     <factories folder="js/factories" />

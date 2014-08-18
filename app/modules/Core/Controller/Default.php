@@ -145,8 +145,14 @@ class Core_Controller_Default extends Zend_Controller_Action
     }
 
     public function norouteAction() {
-        $this->getResponse()->setHeader('HTTP/1.0', '404 Not Found');;
-        $this->loadPartials('front_index_noroute');
+
+        if(!$this->getRequest()->isApplication()) {
+            $this->getResponse()->setHeader('HTTP/1.0', '404 Not Found');;
+            $this->loadPartials('front_index_noroute');
+        } else {
+            $this->forward("index", "index");
+        }
+
     }
 
     public function exceptionAction() {
