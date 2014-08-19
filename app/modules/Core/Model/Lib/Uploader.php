@@ -35,7 +35,7 @@ class Core_Model_Lib_Uploader extends Core_Model_Default
         if($adapter->getValidator('Extension')) {
             $adapter->getValidator('Extension')->setMessages(array(
                 'fileExtensionFalse' => $this->_("Extension not allowed, '%s' only", '%extension%'),
-                'fileExtensionNotFound' => $this->_("The image '%s' does not exist", '%value%')
+                'fileExtensionNotFound' => $this->_("The file '%s' does not exist", '%value%')
             ));
         }
 
@@ -45,7 +45,6 @@ class Core_Model_Lib_Uploader extends Core_Model_Default
             //Créé l'image sur le serveur
             if (!$adapter->isUploaded($file)) {
                 throw new Exception($this->_('An error occurred during process. Please try again later.'));
-                die;
             } else if (!$adapter->isValid($file)) {
                 if(count($adapter->getMessages()) == 1) {
                     $erreur_message = $this->_('Error : <br/>');
@@ -56,8 +55,8 @@ class Core_Model_Lib_Uploader extends Core_Model_Default
                     $erreur_message .= '- '.$message.'<br/>';
                 }
                 throw new Exception($erreur_message);
-                die;
             } else {
+                $new_name = uniqid("file_");
                 if(isset($params['uniq']) AND $params['uniq'] == 1) {
                     if(isset($params['desired_name'])) {
                         $new_name = $params['desired_name'];

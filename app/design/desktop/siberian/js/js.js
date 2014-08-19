@@ -181,7 +181,7 @@ var AlertMessage = Class.extend({
 
         this.timer = timer ? timer * 1000 : null;
          $('#alert_message').html(message);
-        this.intervalId = null;
+        this.timeoutId = null;
 
         this.showLoader = true;
 
@@ -198,9 +198,9 @@ var AlertMessage = Class.extend({
     	if(this.showLoader) loader.show('message');
 //    	else loader.hide('message');
 
-    	if(this.is_visible && this.intervalId) {
-            clearInterval(this.intervalId);
-            this.intervalId = null;
+    	if(this.is_visible && this.timeoutId) {
+            clearTimeout(this.timeoutId);
+            this.timeoutId = null;
             $('#alert').hide();
         }
 
@@ -215,7 +215,7 @@ var AlertMessage = Class.extend({
         $('#alert').show();
 
         $('#alert').animate({top: 0}, 400, function() {
-            if(this.timer) this.intervalId = window.setInterval(this.didAppear.bind(this), this.timer);
+            if(this.timer) this.timeoutId = window.setTimeout(this.hide.bind(this), this.timer);
         }.bind(this));
 
         return this;
@@ -234,9 +234,9 @@ var AlertMessage = Class.extend({
 
         this.hide();
 
-        if(this.intervalId) {
-            clearInterval(this.intervalId);
-            this.intervalId = null;
+        if(this.timeoutId) {
+            clearTimeout(this.timeoutId);
+            this.timeoutId = null;
         }
     },
 
@@ -322,6 +322,18 @@ var Uploader = Class.extend({
         message.setMessage(error);
         message.show();
         message.addButton(true);
+        message.setTimer(false);
+    },
+    showSuccess: function(success) {
+        $('#progressbar').progressbar({
+            value: 0
+        });
+        $('#progressbar').stop().hide();
+        message.addLoader(false);
+        message.isError(false);
+        message.setMessage(success);
+        message.show();
+        message.addButton(false);
         message.setTimer(false);
     },
     hide: function() {
