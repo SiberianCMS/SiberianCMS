@@ -23,6 +23,13 @@
         hasConnection = YES;
     }
 
+    // Set the User Agent
+    NSString* userAgent = [[[UIWebView alloc] init] stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
+    userAgent = [userAgent stringByAppendingString:@" Type/siberian.application"];
+    NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:userAgent, @"UserAgent", nil];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:dictionary];
+
+    
     // Prepare the cache
     useCache = !hasConnection;
     [[NSURLCache sharedURLCache] removeAllCachedResponses];

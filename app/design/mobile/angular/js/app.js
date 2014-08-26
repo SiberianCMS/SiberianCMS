@@ -125,7 +125,7 @@ App.run(function($rootScope, $window, $route, $location, $timeout, $templateCach
 
 });
 
-App.factory("Application", function() {
+App.factory("Application", function($http) {
 
     var factory = {};
 
@@ -141,8 +141,13 @@ App.factory("Application", function() {
     };
 
     factory.call = function(params) {
-        params = params.join(":");
-        $http({ method: "HEAD", url: "/app:"+params});
+        var url = ["app"];
+        angular.forEach(params, function(value, key) {
+            url.push(value);
+            url.push(key);
+        });
+        url = url.join(":");
+        $http({ method: "HEAD", url: "/"+url});
     }
 
     factory.getLocation = function(success, error) {
@@ -170,7 +175,7 @@ App.factory("Application", function() {
     }
 
     factory.isNative = function() {
-        return this.is_native;
+        return !!this.is_native;
     }
 
     return factory;

@@ -26,6 +26,8 @@
     UIColor *headerBackgroundColor = [headerColors objectForKey:@"backgroundColor"];
     UIColor *tintColor = [UIColor blackColor];
     
+    NSLog(@"headerColor : %@", headerColor);
+    NSLog(@"headerBackgroundColor : %@", headerBackgroundColor);
     [line setBackgroundColor:headerColor];
     if(isAtLeastiOS7()) {
         [toolbar setTintColor:headerColor];

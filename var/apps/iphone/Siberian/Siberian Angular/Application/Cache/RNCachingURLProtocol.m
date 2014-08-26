@@ -62,11 +62,10 @@ static NSString *RNCachingURLHeader = @"X-RNCache";
 + (BOOL)canInitWithRequest:(NSURLRequest *)request
 {
     
-//    NSLog(@"canInitWithRequest");
     NSString *url = [NSString stringWithFormat:@"%@", [request URL]];
     BOOL isCheckingConnection = [url rangeOfString:@"check_connection.php" options:NSCaseInsensitiveSearch].location != NSNotFound;
     BOOL isChangingStatus = NO;
-//    NSLog(@"url : %@", url);
+    
     if([url rangeOfString:@"/app:setIsOnline" options:NSCaseInsensitiveSearch].location != NSNotFound) {
         NSMutableArray *path = [[NSMutableArray alloc] initWithArray:[url componentsSeparatedByString: @":"]];
         NSString *value = [path lastObject];
@@ -100,53 +99,51 @@ static NSString *RNCachingURLHeader = @"X-RNCache";
 
 - (void)startLoading
 {
-//    NSString *url = [NSString stringWithFormat:@"%@", [[self request] URL]];
-//    BOOL isCheckingConnection = [url rangeOfString:@"check_connection.php" options:NSCaseInsensitiveSearch].location != NSNotFound;
-//    BOOL isChangingStatus = NO;
-//    NSLog(@"url : %@", url);
-//    if([url rangeOfString:@"/app:setIsOnline" options:NSCaseInsensitiveSearch].location != NSNotFound) {
-//        NSMutableArray *path = [[NSMutableArray alloc] initWithArray:[url componentsSeparatedByString: @":"]];
-//        NSString *value = [path lastObject];
-//        useCache = [value isEqualToString:@"0"];
-//        isChangingStatus = YES;
-//    }
+
+    BOOL loadData = YES;
+    NSArray *cachedExtensions = [[NSArray alloc] initWithObjects:@"js", @"css", @"png", @"jpg", @"gif", nil];
+    BOOL cacheIsForced = [cachedExtensions containsObject:[[[self request] URL] pathExtension]];
     
-//    NSLog(@"useCache : %i", useCache);
-//    if (!useCache || isChangingStatus || isCheckingConnection) {
-    if (!useCache) {
-        
+    if (useCache || cacheIsForced) {
+
+        RNCachedData *cache = [NSKeyedUnarchiver unarchiveObjectWithFile:[self cachePathForRequest:[self request]]];
+        if (cache) {
+            
+            NSData *data = [cache data];
+            NSURLResponse *response = [cache response];
+            NSURLRequest *redirectRequest = [cache redirectRequest];
+            
+            if (redirectRequest) {
+                [[self client] URLProtocol:self wasRedirectedToRequest:redirectRequest redirectResponse:response];
+            } else {
+                [[self client] URLProtocol:self didReceiveResponse:response cacheStoragePolicy:NSURLCacheStorageNotAllowed]; // we handle caching ourselves.
+                [[self client] URLProtocol:self didLoadData:data];
+                [[self client] URLProtocolDidFinishLoading:self];
+            }
+            
+            loadData = NO;
+        }
+        else if(useCache) {
+            [[self client] URLProtocol:self didFailWithError:[NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorCannotConnectToHost userInfo:nil]];
+            loadData = NO;
+        }
+    }
+    
+    if(loadData) {
         NSMutableURLRequest *connectionRequest =
-#if WORKAROUND_MUTABLE_COPY_LEAK
+    #if WORKAROUND_MUTABLE_COPY_LEAK
         [[self request] mutableCopyWorkaround];
-#else
+    #else
         [[self request] mutableCopy];
-#endif
-//            NSLog(@"startLoading");
+    #endif
+
         // we need to mark this request with our header so we know not to handle it in +[NSURLProtocol canInitWithRequest:].
         [connectionRequest setValue:@"" forHTTPHeaderField:RNCachingURLHeader];
         NSURLConnection *connection = [NSURLConnection connectionWithRequest:connectionRequest
                                                                     delegate:self];
         [self setConnection:connection];
     }
-    else {
-        RNCachedData *cache = [NSKeyedUnarchiver unarchiveObjectWithFile:[self cachePathForRequest:[self request]]];
-        if (cache) {
-            NSData *data = [cache data];
-            NSURLResponse *response = [cache response];
-            NSURLRequest *redirectRequest = [cache redirectRequest];
-            if (redirectRequest) {
-                [[self client] URLProtocol:self wasRedirectedToRequest:redirectRequest redirectResponse:response];
-            } else {
-                
-                [[self client] URLProtocol:self didReceiveResponse:response cacheStoragePolicy:NSURLCacheStorageNotAllowed]; // we handle caching ourselves.
-                [[self client] URLProtocol:self didLoadData:data];
-                [[self client] URLProtocolDidFinishLoading:self];
-            }
-        }
-        else {
-            [[self client] URLProtocol:self didFailWithError:[NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorCannotConnectToHost userInfo:nil]];
-        }
-    }
+    
 }
 
 - (void)stopLoading
@@ -167,6 +164,7 @@ static NSString *RNCachingURLHeader = @"X-RNCache";
 #else
         [request mutableCopy];
 #endif
+        NSLog(@"Caching data 1");
         // We need to remove our header so we know to handle this request and cache it.
         // There are 3 requests in flight: the outside request, which we handled, the internal request,
         // which we marked with our header, and the redirectableRequest, which we're modifying here.
@@ -211,6 +209,7 @@ static NSString *RNCachingURLHeader = @"X-RNCache";
 {
     [[self client] URLProtocolDidFinishLoading:self];
     
+    NSLog(@"Caching data 2");
     NSString *cachePath = [self cachePathForRequest:[self request]];
     RNCachedData *cache = [RNCachedData new];
     [cache setResponse:[self response]];

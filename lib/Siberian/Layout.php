@@ -84,55 +84,118 @@ class Siberian_Layout extends Zend_Layout
             $metas = $base->metas;
 
             // Scripts JS
-            $js = '';
-            $time = time();
-            foreach($scripts->js as $files) {
-                foreach($files as $file) {
+            $jsToMerge = array();
+            $cache = Zend_Registry::get('cache');
+            $cacheId = 'js';
 
-                    $link = '';
-                    if($file->attributes()->link) {
-                        $link = strpos($file->attributes()->link, '/') === 0  ? '' : $scripts_path.'/';
-                        $link .= $file->attributes()->link;
-                        $link.= "?$time";
-                    } else if($file->attributes()->href) {
-                        $link = $file->attributes()->href;
-                    }
+            if(!$cache->load($cacheId)) {
+                foreach($scripts->js as $files) {
+                    foreach($files as $file) {
 
-                    if($file->attributes()->folder) {
-
-                        $link = strpos($file->attributes()->folder, '/') === 0  ? '' : $scripts_path.'/';
-                        $link .= $file->attributes()->folder.'/';
-                        $base_link = Core_Model_Directory::getBasePathTo($link);
-                        if(is_dir($base_link)) {
-
-                            $tmp_files = new DirectoryIterator($base_link);
-                            foreach($tmp_files as $tmp_file) {
-                                if(!$tmp_file->isFile()) continue;
-                                $this->_scripts['js'][] = $link.$tmp_file->getFileName();
-                                $baseView->headScript()->appendFile($link.$tmp_file->getFileName());
-                            }
+                        $link = '';
+                        if($file->attributes()->link) {
+                            $link = strpos($file->attributes()->link, '/') === 0  ? '' : $scripts_path.'/';
+                            $link .= $file->attributes()->link;
+                            $jsToMerge["local"][] = Core_Model_Directory::getBasePathTo($link);
+                        } else if($file->attributes()->href) {
+                            $link = (string) $file->attributes()->href;
+                            $jsToMerge["external"][] = $link;
                         }
 
-                    } else if($file->attributes()->if) {
-                        $baseView->headScript()->appendFile($link, 'text/javascript', array('conditional' => (string) $file->attributes()->if));
-                        $this->_scripts['js'][] = $link;
-                    } else {
-                        $baseView->headScript()->appendFile($link);
-                        $this->_scripts['js'][] = $link;
+                        if($file->attributes()->folder) {
+
+                            $link = strpos($file->attributes()->folder, '/') === 0  ? '' : $scripts_path.'/';
+                            $link .= $file->attributes()->folder.'/';
+                            $base_link = Core_Model_Directory::getBasePathTo($link);
+                            if(is_dir($base_link)) {
+
+                                $tmp_files = new DirectoryIterator($base_link);
+                                foreach($tmp_files as $tmp_file) {
+                                    if(!$tmp_file->isFile()) continue;
+                                    $this->_scripts['js'][] = $link.$tmp_file->getFileName();
+                                    $jsToMerge["local"][] = Core_Model_Directory::getBasePathTo($link.$tmp_file->getFileName());
+                                }
+                            }
+
+                        }
                     }
+
+                    $cache->save($jsToMerge, $cacheId);
+
+                }
+            }
+
+            if(empty($jsToMerge)) {
+                $jsToMerge = $cache->load($cacheId);
+            }
+
+            $js_file = Core_Model_Directory::getCacheDirectory()."/js.js";
+
+            if(!file_exists(Core_Model_Directory::getBasePathTo($js_file))) {
+                // Merging javascript files
+                $js = fopen(Core_Model_Directory::getCacheDirectory(true)."/js.js", "w");
+                foreach($jsToMerge["local"] as $file) {
+                    fputs($js, file_get_contents($file).PHP_EOL);
+                }
+                fclose($js);
+            }
+
+            // Appending the JS files to the view
+            $js_file .= "?".filemtime(Core_Model_Directory::getBasePathTo($js_file));
+            $this->_scripts['js'][] = $js_file;
+            $baseView->headScript()->appendFile($js_file);
+
+            if(!empty($jsToMerge["external"])) {
+                foreach($jsToMerge["external"] as $external_js) {
+                    $this->_scripts['js'][] = $external_js;
+                    $baseView->headScript()->appendFile($external_js);
                 }
             }
 
             // Scripts CSS
-            foreach($scripts->css as $files) {
-                foreach($files as $file) {
-                    $src = '';
-                    if($file->attributes()->link) $src = $scripts_path.'/'.$file->attributes()->link.'?time='.time();
-                    else $src = $file->attributes()->href;
-                    $baseView->headLink()->appendStylesheet($src, 'screen', $file->attributes()->if ? (string) $file->attributes()->if : null);
-                    $this->_scripts['css'][] = $src;
+            $cssToMerge = array();
+            $cacheId = 'css';
+            if(!$cache->load($cacheId)) {
+                foreach($scripts->css as $files) {
+                    foreach($files as $file) {
+                        $src = '';
+                        if($file->attributes()->link) $cssToMerge["local"][] = Core_Model_Directory::getBasePathTo($scripts_path.'/'.$file->attributes()->link);
+                        else $cssToMerge["external"][] = $file->attributes()->href;
+//                        $baseView->headLink()->appendStylesheet($src, 'screen', $file->attributes()->if ? (string) $file->attributes()->if : null);
+//                        $this->_scripts['css'][] = $src;
+                    }
+                }
+
+                $cache->save($cssToMerge, $cacheId);
+            }
+
+            if(empty($cssToMerge)) {
+                $cssToMerge = $cache->load($cacheId);
+            }
+
+            $css_file = Core_Model_Directory::getCacheDirectory()."/css.css";
+            if(!file_exists($css_file)) {
+                // Merging css files
+                $css = fopen(Core_Model_Directory::getCacheDirectory(true)."/css.css", "w");
+                foreach($cssToMerge["local"] as $file) {
+                    fputs($css, file_get_contents($file).PHP_EOL);
+                }
+                fclose($css);
+            }
+
+            // Appending the JS files to the view
+            $css_file .= "?".filemtime(Core_Model_Directory::getBasePathTo($css_file));
+            $this->_scripts['css'][] = $css_file;
+            $baseView->headLink()->appendStylesheet($css_file, 'screen');
+
+            if(!empty($cssToMerge["external"])) {
+                foreach($cssToMerge["external"] as $external_css) {
+                    $this->_scripts['css'][] = $external_css;
+                    $baseView->headLink()->appendStylesheet($external_css, 'screen');
                 }
             }
+
+
 
             // Balises meta
             foreach($base->metas as $metas) {
