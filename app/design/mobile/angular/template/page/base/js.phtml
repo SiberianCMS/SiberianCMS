@@ -3,7 +3,7 @@
 
 <script type="text/javascript">
 
-    App.run(function($window, $rootScope, Customer) {
+    App.run(function($window, $rootScope, Customer, Application) {
         Customer.id = <?php echo $this->getSession()->isLoggedIn() ? $this->getSession()->getCustomerId() : "null"; ?>;
         Customer.device_uid = "azerty123";
         console.log("Is logged in : ", Customer.isLoggedIn());
@@ -21,6 +21,9 @@
                 color: <?php echo Zend_Json::encode($application->getBlock("header")->getColorRGB()); ?>
             }
         };
+
+        Application.is_native = <?php echo $this->getRequest()->isNative() ? 1 : 0; ?>;
+        $window.Application = Application;
 
     }).config(function($facebookProvider) {
 
@@ -48,7 +51,7 @@
 
         <?php foreach(array("background", "subheader", "news", "button") as $block_name) : ?>
         <?php $block = $application->getBlock($block_name); ?>
-        <?php foreach(array("heart", "comment", "pencil", "marker") as $picto) : ?>
+        <?php foreach(array("heart", "comment", "pencil", "marker", "search", "place_status", "place_label", "locate_us") as $picto) : ?>
         factory.add("<?php echo $picto ?>", "<?php echo $block_name ?>", "<?php echo $this->getColorizedImage($this->getImage("pictos/$picto.png", true), $block->getColor()); ?>");
         <?php endforeach ?>
         <?php endforeach ?>

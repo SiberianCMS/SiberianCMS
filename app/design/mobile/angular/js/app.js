@@ -125,6 +125,58 @@ App.run(function($rootScope, $window, $route, $location, $timeout, $templateCach
 
 });
 
+App.factory("Application", function() {
+
+    var factory = {};
+
+    factory.is_native = false;
+
+    factory.callbacks = {
+        success: null,
+        error: null,
+        reset: function() {
+            this.success = null;
+            this.error = null;
+        }
+    };
+
+    factory.call = function(params) {
+        params = params.join(":");
+        $http({ method: "HEAD", url: "/app:"+params});
+    }
+
+    factory.getLocation = function(success, error) {
+
+        this.callbacks.success = success;
+        this.callbacks.error = error;
+
+        if(this.isNative()) {
+            this.call({getLocation: 1});
+        } else {
+            navigator.geolocation.getCurrentPosition(function(coordinates) {
+                factory.fireCallback("success", coordinates);
+            }, function(error) {
+                factory.fireCallback("error", error);
+            });
+        }
+
+    }
+
+    factory.fireCallback = function(type, params) {
+        if(angular.isFunction(this.callbacks[type])) {
+            this.callbacks[type](params);
+            this.callbacks.reset();
+        }
+    }
+
+    factory.isNative = function() {
+        return this.is_native;
+    }
+
+    return factory;
+
+})
+
 App.directive('backButton', function($window, $location) {
     return {
         restrict: 'A',
@@ -186,7 +238,7 @@ App.directive('sbBackgroundImage', function($http, $window) {
 });
 
 
-App.factory('Connection', function($rootScope, $window, $http, $timeout) {
+App.factory('Connection', function($rootScope, $window, $http, $timeout, Application) {
 
     var factory = {};
 
@@ -196,7 +248,7 @@ App.factory('Connection', function($rootScope, $window, $http, $timeout) {
 
         if(!$rootScope.isOnline) return;
 
-        $http({ method: "HEAD", url: "/app:setIsOnline:0" });
+        Application.call({setIsOnline:0});
 
         this.isOnline = false;
         $rootScope.isOnline = false;
@@ -209,7 +261,7 @@ App.factory('Connection', function($rootScope, $window, $http, $timeout) {
         if($rootScope.isOnline) return;
 
         if($rootScope.isApplication) {
-            $http({ method: "HEAD", url: "/app:setIsOnline:1" });
+            Application.call({setIsOnline:1});
         }
 
         this.isOnline = true;
@@ -420,6 +472,44 @@ App.service("ImageGallery", function() {
         factory.index = index;
         factory.is_visible = false;
     };
+
+    return factory;
+
+});
+
+App.service("Geolocation", function(Application) {
+
+    var factory = {};
+    factory.origLatitude = null;
+    factory.origLongitude = null;
+
+    factory.calcDistance = function(latitude, longitude) {
+
+        if(!factory.origLatitude || !factory.origLongitude) return null;
+        var rad = Math.PI / 180;
+        var lat_a = this.origLatitude * rad;
+        var lat_b = latitude * rad;
+        var lon_a = this.origLongitude * rad;
+        var lon_b = longitude * rad;
+
+        var distance = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin((lat_a-lat_b)/2) , 2) + Math.cos(lat_a)*Math.cos(lat_b)* Math.pow(Math.sin((lon_a-lon_b)/2) , 2)));
+
+        distance *= 6378;
+
+        return !isNaN(distance) ? parseFloat(distance.toFixed(2)) : null;
+
+    }
+
+    factory.refreshPosition = function(success, error) {
+
+        Application.getLocation(function(params) {
+            factory.origLatitude = params.coords.latitude;
+            factory.origLongitude = params.coords.longitude;
+            if(angular.isFunction(success)) {
+                success(params);
+            }
+        }, error);
+    }
 
     return factory;
 

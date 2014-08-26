@@ -92,17 +92,42 @@ class Place_Model_Parser extends Core_Model_Default {
 
             if(!empty($row["latitude"])) {
                 $latitude = self::_sanitizeCoordinate($row["latitude"]);
-                $row["latitude"] = $latitude <= 85 && $latitude >= -85 ? $latitude : null;
+                $row["latitude"] = $latitude <= 85 || $latitude >= -85 ? $latitude : null;
             }
 
             if(!empty($row["longitude"])) {
                 $longitude = self::_sanitizeCoordinate($row["longitude"]);
-                $row["longitude"] = $longitude <= 180 && $longitude >= -180 ? $longitude : null;
+                $row["longitude"] = $longitude <= 180 || $longitude >= -180 ? $longitude : null;
             }
 
             if(empty($row["latitude"]) OR empty($row["longitude"])) {
                 $row["latitude"] = null;
                 $row["longitude"] = null;
+            }
+
+            $row["label_id"] = null;
+            $row["status_id"] = null;
+            $row["type_id"] = null;
+            if(!empty($row["label"])) {
+
+                foreach(Place_Model_Place::getLabels() as $label) {
+                    if($label->getName() == $row["label"]) {
+                        $row["label_id"] = $label->getLabelId();
+                    }
+                }
+            }
+            if(!empty($row["status"])) {
+                foreach(Place_Model_Place::getStatuses() as $status) {
+                    if($status->getName() == $row["status"]) {
+                        $row["status_id"] = $status->getStatusId();
+                    }
+                }
+            }
+            if(!empty($row["type"])) {
+                $type_id = array_search($row["type"], Place_Model_Place::getTypes());
+                $row["type_id"] = !empty($type_id) ? $type_id : null;
+            } else if($row["status_id"] == 3) {
+                $row["type_id"] = 1;
             }
 
             foreach($row as $key => $value) {
@@ -118,18 +143,18 @@ class Place_Model_Parser extends Core_Model_Default {
 
     protected static function _sanitizeCoordinate($coordinate) {
 
-        $coordinate = trim(str_replace(" ", "", $coordinate));
-        $coordinate = str_replace(",", ".", $coordinate);
-        return is_numeric($coordinate) ? floatval($coordinate) : "";
+//        $coordinate = trim(str_replace(" ", "", $coordinate));
+//        $coordinate = str_replace(",", ".", $coordinate);
+//        return is_numeric($coordinate) ? floatval($coordinate) : "";
 
-//        $coordinate = trim(preg_replace("/[^-0-9]/", " ", $coordinate));
+        $coordinate = trim(preg_replace("/[^-0-9]/", " ", $coordinate));
 //        $coordinate = preg_replace('/\s+/', ' ', $coordinate);
-//        $parts = explode(" ", $coordinate);
-//        $int = $parts[0];
-//        unset($parts[0]);
-//        $float = implode("", $parts);
-//        $coordinate = implode(".", array($int, $float));
-        return $coordinate;
+        $parts = explode(" ", $coordinate);
+        $int = $parts[0];
+        unset($parts[0]);
+        $float = implode("", $parts);
+        $coordinate = implode(".", array($int, $float));
+        return is_numeric($coordinate) ? floatval($coordinate) : "";
 
     }
 }

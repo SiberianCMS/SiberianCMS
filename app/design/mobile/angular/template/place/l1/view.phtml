@@ -1,0 +1,38 @@
+<div class="has_header" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="page_title" message="message"></sb-header>
+
+    <sb-loader is-loading="is_loading" has-connection="has_connection"></sb-loader>
+
+    <div class="padding" ng-show="!is_loading">
+        <div class="title">
+            <h3>{{ place.name }}</h3>
+            <p>{{ place.type }}</p>
+        </div>
+
+        <div class="picture">
+            <img class="left" ng-src="{{ place.picture_url }}" />
+            <p ng-if="place.distance"><?php echo $this->_("Distance:"); ?> {{ place.distance }}</p>
+        </div>
+        <div class="clear"></div>
+        <div class="address">
+            <p>
+                <span class="block">{{ place.street }}</span>
+                <span>{{ place.postcode }} {{ place.city }}</span>
+            </p>
+        </div>
+
+        <div class="phone" ng-if="place.phone">
+            <a href="tel:{{place.phone}}"><?php echo $this->_("Phone:"); ?> {{ place.phone }}</a>
+        </div>
+        <br />
+
+        <div class="information toggle" ng-if="place.information">
+            {{ place.information }}
+        </div>
+
+        <div class="opening_details toggle" ng-if="place.opening_details">
+            {{ place.opening_details }}
+        </div>
+    </div>
+</div>

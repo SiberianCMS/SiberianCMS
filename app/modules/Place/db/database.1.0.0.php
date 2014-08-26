@@ -5,7 +5,6 @@ $this->query("
 
     CREATE TABLE `place` (
         `place_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-        `value_id` INT(11) UNSIGNED NOT NULL,
         `identifier` VARCHAR(50) NOT NULL,
         `name` longtext COLLATE utf8_unicode_ci,
         `street` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -13,13 +12,13 @@ $this->query("
         `city` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
         `phone` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
         `rating` TINYINT(1) NOT NULL DEFAULT 0,
-        `type` TINYINT(1) NOT NULL DEFAULT 0,
-        `label` TINYINT(1) NOT NULL DEFAULT 0,
-        `status` TINYINT(1) NOT NULL DEFAULT 0,
+        `type_id` TINYINT(1) NOT NULL DEFAULT 0,
+        `label_id` TINYINT(1) NOT NULL DEFAULT 0,
+        `status_id` TINYINT(1) NOT NULL DEFAULT 0,
         `latitude` decimal(10,7) NULL DEFAULT NULL,
         `longitude` decimal(10,7) NULL DEFAULT NULL,
-        `min_price` decimal(9,4) NOT NULL DEFAULT 0.0,
-        `max_price` decimal(9,4) NOT NULL DEFAULT 0.0,
+        `min_price` decimal(9,4) NULL DEFAULT NULL,
+        `max_price` decimal(9,4) NULL DEFAULT NULL,
         `meal_min_price` decimal(9,4) NULL DEFAULT NULL,
         `meal_max_price` decimal(9,4) NULL DEFAULT NULL,
         `number_of_rooms` TINYINT(2) NOT NULL DEFAULT 0,
@@ -28,15 +27,8 @@ $this->query("
         `created_at` datetime NOT NULL,
         `updated_at` datetime NOT NULL,
         PRIMARY KEY (`place_id`),
-        KEY `KEY_VALUE_ID` (`value_id`),
         UNIQUE `UNIQUE_IDENTIFIER` (`identifier`)
     ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-");
-
-
-$this->query("
-    ALTER TABLE `place`
-        ADD FOREIGN KEY `FK_VALUE_ID` (`value_id`) REFERENCES `application_option_value` (`value_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 ");
 
 

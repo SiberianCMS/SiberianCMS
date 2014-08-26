@@ -18,9 +18,6 @@ class Application_Customization_Publication_InfosController extends Application_
             try {
 
                 if(!empty($datas["name"])) {
-                    if(is_numeric(substr($datas["name"], 0, 1))) {
-                        throw new Exception("Ce champ ne peut pas commencer par un chiffre");
-                    }
                     $this->getApplication()->setName($datas['name'])->save();
                 } else if(!empty($datas['bundle_id'])) {
                     if(count(explode('.', $datas['bundle_id'])) < 2) {

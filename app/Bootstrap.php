@@ -213,7 +213,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         define('APPLICATION_TYPE', $apptype);
         define('DEVICE_TYPE', $device_type);
         define('DEVICE_IS_IPHONE', $detect->isIphone() || $detect->isIpad());
-        define('IS_APPLICATION', $detect->isApplication() && $this->_request->isApplication());
+        define('IS_APPLICATION', $detect->isNative() && $this->_request->isApplication());
         Core_Model_Directory::setDesignPath("/app/design/$apptype/$code");
         define('DESIGN_CODE', $code);
 

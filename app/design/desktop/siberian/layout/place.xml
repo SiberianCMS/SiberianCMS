@@ -6,4 +6,10 @@
             <content_editor class="core_view_default" template="place/application/edit.phtml" />
         </views>
     </place_application_edit>
+
+    <place_application_form_view>
+        <views>
+            <content class="core_view_default" template="place/application/form/view.phtml" />
+        </views>
+    </place_application_form_view>
 </layout>

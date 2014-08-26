@@ -1,0 +1,133 @@
+<?php $value_id = $this->getValueId(); ?>
+<?php $place = $this->getPlace(); ?>
+<?php $application = $this->getApplication();?>
+
+<h4 class="subtitle">
+    <span class="left area"><?php echo $this->_("Edit \"%s\"", $place->getName()); ?></span>
+    <hr class="area reverse">
+    <div class="clear"></div>
+</h4>
+<form id="placeEditForm" method="post" action="<?php echo $this->getUrl('place/application_form/save'); ?>">
+    <div class="buttons">
+        <button type="button" onclick="feature.list();" class="delete left"><i class="icon-arrow-left"></i></button>
+        <button type="submit" class="default_button right">OK</button>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+    <fieldset>
+        <table class="list list-input">
+            <tr>
+                <td class="label"><div><label for="identifier"><?php echo $this->_('Identifier:'); ?> : <span class="input-required">*</span></label></div></td>
+                <td><input type="text" id="identifier" name="identifier" class="required" value="<?php echo $place->getIdentifier(); ?>" /></td>
+            </tr>
+            <tr>
+                <td class="label"><div><label for="name"><?php echo $this->_('Name:'); ?><span class="input-required">*</span></label></div></td>
+                <td><input type="text" id="name" name="name" class="required" value="<?php echo $place->getName(); ?>" /></td>
+            </tr>
+            <tr>
+                <td class="label"><div><label for="street"><?php echo $this->_('Street:'); ?><span class="input-required">*</span></label></div></td>
+                <td><input type="text" id="street" name="street" class="required" value="<?php echo $place->getStreet(); ?>" /></td>
+            </tr>
+            <tr>
+                <td class="label"><div><label for="postcode"><?php echo $this->_('Postcode:'); ?><span class="input-required">*</span></label></div></td>
+                <td><input type="text" id="postcode" name="postcode" class="required" value="<?php echo $place->getPostcode(); ?>" /></td>
+            </tr>
+            <tr>
+                <td class="label"><div><label for="city"><?php echo $this->_('City:'); ?><span class="input-required">*</span></label></div></td>
+                <td><input type="text" id="city" name="city" class="required" value="<?php echo $place->getCity(); ?>" /></td>
+            </tr>
+            <tr>
+                <td class="label"><div><label for="phone"><?php echo $this->_('Phone:'); ?><span class="input-required">*</span></label></div></td>
+                <td><input type="text" id="phone" name="phone" class="required" value="<?php echo $place->getPhone(); ?>" /></td>
+            </tr>
+            <tr>
+                <td class="label"><div><label for="type_id"><?php echo $this->_('Type:'); ?></label></div></td>
+                <td>
+                    <select name="type_id">
+                        <option value=""></option>
+                        <?php foreach(Place_Model_Place::getTypes() as $key => $value) : ?>
+                            <option value="<?php echo $key ?>"<?php if($place->getTypeId() == $key) : ?> selected="selected"<?php endif; ?>><?php echo $value ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="label"><div><label for="type"><?php echo $this->_('Rating:'); ?></label></div></td>
+                <td>
+                    <select name="rating">
+                        <option value="0"<?php if(!$place->getRating()) : ?> selected="selected"<?php endif; ?>>0</option>
+                        <option value="1"<?php if($place->getRating() == 1) : ?> selected="selected"<?php endif; ?>>1</option>
+                        <option value="2"<?php if($place->getRating() == 2) : ?> selected="selected"<?php endif; ?>>2</option>
+                        <option value="3"<?php if($place->getRating() == 3) : ?> selected="selected"<?php endif; ?>>3</option>
+                        <option value="4"<?php if($place->getRating() == 4) : ?> selected="selected"<?php endif; ?>>4</option>
+                        <option value="5"<?php if($place->getRating() == 5) : ?> selected="selected"<?php endif; ?>>5</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="label"><div><label for="label"><?php echo $this->_('Label:'); ?></label></div></td>
+                <td>
+                    <select name="label_id">
+                        <option value=""></option>
+                    <?php foreach(Place_Model_Place::getLabels() as $label) : ?>
+                        <option value="<?php echo $label->getLabelId() ?>"<?php if($place->getLabelId() == $label->getLabelId()) : ?> selected="selected"<?php endif; ?>><?php echo $label->getName() ?></option>
+                    <?php endforeach; ?>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="label"><div><label for="status"><?php echo $this->_('Statut:'); ?></label></div></td>
+                <td>
+                    <select name="status_id">
+                        <option value=""></option>
+                        <?php foreach(Place_Model_Place::getStatuses() as $status) : ?>
+                            <option value="<?php echo $status->getStatusId() ?>"<?php if($place->getStatusId() == $status->getStatusId()) : ?> selected="selected"<?php endif; ?>><?php echo $status->getName(); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="label"><div><label for="latitude"><?php echo $this->_('Latitude:'); ?></label></div></td>
+                <td><input type="text" id="latitude" name="latitude" class="number" value="<?php echo $place->getLatitude(); ?>" /></td>
+            </tr>
+            <tr>
+                <td class="label"><div><label for="longitude"><?php echo $this->_('Longitude:'); ?></label></div></td>
+                <td><input type="text" id="longitude" name="longitude" class="number" value="<?php echo $place->getLongitude(); ?>" /></td>
+            </tr>
+            <tr>
+                <td class="label"><div><label for="min_price"><?php echo $this->_($place->getMinPriceLabel().':'); ?></label></div></td>
+                <td><input type="text" id="min_price" name="min_price" value="<?php echo $place->getMinPrice(); ?>" /></td>
+            </tr>
+            <tr>
+                <td class="label"><div><label for="max_price"><?php echo $this->_($place->getMaxPriceLabel().':'); ?></label></div></td>
+                <td><input type="text" id="max_price" name="max_price" value="<?php echo $place->getMaxPrice(); ?>" /></td>
+            </tr>
+            <tr>
+                <td class="label"><div><label for="meal_min_price"><?php echo $this->_('Min Meal Price:'); ?></label></div></td>
+                <td><input type="text" id="meal_min_price" name="meal_min_price" value="<?php echo $place->getMealMinPrice(); ?>" /></td>
+            </tr>
+            <tr>
+                <td class="label"><div><label for="meal_max_price"><?php echo $this->_('Max Meal Price:'); ?></label></div></td>
+                <td><input type="text" id="meal_max_price" name="meal_max_price" value="<?php echo $place->getMealMaxPrice(); ?>" /></td>
+            </tr>
+            <tr>
+                <td class="label"><div><label for="number_of_rooms"><?php echo $this->_('Number of rooms:'); ?></label></div></td>
+                <td><input type="text" id="number_of_rooms" name="number_of_rooms" value="<?php echo $place->getNumberOfRooms(); ?>" /></td>
+            </tr>
+            <tr>
+                <td class="label"><div><label for="information"><?php echo $this->_('Information:'); ?></label></div></td>
+                <td><textarea rows="10" id="information" name="information"><?php echo $place->getInformation(); ?></textarea></td>
+            </tr>
+            <tr>
+                <td class="label"><div><label for="opening_details"><?php echo $this->_('Opening Details:'); ?></label></div></td>
+                <td><input type="text" id="opening_details" name="opening_details" value="<?php echo $place->getOpeningDetails(); ?>" /></td>
+            </tr>
+
+        </table>
+    </fieldset>
+    <input type="hidden" name="value_id" value="<?php echo $value_id ?>" />
+    <?php if($place->getId()) : ?>
+        <input type="hidden" name="id" id="place_id" value="<?php echo $place->getId() ?>" />
+    <?php endif; ?>
+
+</form>

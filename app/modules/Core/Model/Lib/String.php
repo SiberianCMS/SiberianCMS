@@ -8,6 +8,11 @@ class Core_Model_Lib_String extends Core_Model_Default
         return strtolower(strtr($str, ' ', '_'));
     }
 
+    public static function decamelize($str) {
+        return preg_replace('/(^|_)([a-z])/e', 'strtoupper("\\2")', $str);
+    }
+
+
     public static function formatShortName($name) {
         $shortname = trim($name);
 

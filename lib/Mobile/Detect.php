@@ -9,7 +9,7 @@ class Mobile_Detect {
     protected $accept;
     protected $deviceName;
     public $userAgent;
-    protected $isApplication = null;
+    protected $isNative = null;
     protected $isMobile = false;
     protected $isAndroid = null;
     protected $isAndroidtablet = null;
@@ -34,7 +34,7 @@ class Mobile_Detect {
         "windows" => "windows ce; (iemobile|ppc|smartphone)",
         "windowsphone" => "windows phone os",
         "googlebot" => "googlebot",
-        "application" => "siberian.application",
+        "native" => "siberian.application",
         "generic" => "(kindle|mobile|mmp|midp|pocket|psp|symbian|smartphone|treo|up.browser|up.link|vodafone|wap|opera mini)"
     );
 

@@ -4,13 +4,12 @@
     <place_mobile_list_template_l1>
         <views>
             <content class="core_view_mobile_default" template="place/l1/list.phtml" />
-            <list class="core_view_mobile_default" template="html/l1/list.phtml" />
         </views>
     </place_mobile_list_template_l1>
 
     <place_mobile_view_template_l1>
         <views>
-            <content class="core_view_mobile_default" template="html/l1/post/view.phtml" />
+            <content class="core_view_mobile_default" template="place/l1/view.phtml" />
         </views>
     </place_mobile_view_template_l1>
 

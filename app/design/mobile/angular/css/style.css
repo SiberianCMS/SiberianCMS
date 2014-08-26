@@ -151,6 +151,11 @@ a.connect_button {height:22px; padding-top:10px;}
 .segmented_control {margin-bottom:10px;}
 .segmented_control .element {display: inline-block;width: 30px;height: 30px;margin: 2px;border: 1px solid;border-radius: 4ex;}
 .segmented_control .element.reverse {border: none;}
+.segmented_control.ios {margin:0;}
+.segmented_control.ios .element {float:left;width:40px;margin:0;padding:0 5px;box-shadow:none;border:1px solid;border-radius:0;}
+.segmented_control.ios .element.first {border-radius:8px 0 0 8px;}
+.segmented_control.ios .element.last {border-radius:0 8px 8px 0;}
+.segmented_control.ios .element.reverse {border: none;}
 /** /BLOCK **/
 
 /** BACKGROUND IMAGE **/
@@ -568,3 +573,92 @@ a.connect_button {height:22px; padding-top:10px;}
 /* Form */
 .form form .section {margin-bottom:30px;}
 .form form .section p.label {font-size:16px;}
+
+/* Place */
+.place .list.l3 ul li {height:85px;}
+/*.place .list.l3 ul li .picture {height:100%;width:100px;background-position:center center;background-size:cover;background-repeat:no-repeat;}*/
+.place .list.l3 ul li .details {height:75px;margin-top:10px;margin-bottom:0px;}
+.place .list.l3 ul li .details.has_label {height:75px;margin-top:5px;}
+/*.place .list.l3 ul li .details.has_picture {left:110px;}*/
+.place .list.l3 ul li .details .title {height:14px;font-size:13px;}
+.place .list.l3 ul li .details .address {height:27px;margin:10px 0;overflow:hidden;}
+.place .list.l3 ul li .details.has_label .address {margin:3px 0;}
+.place .list.l3 ul li .details .address span,
+.place .list.l3 ul li .details .distance span {font-size:12px;line-height:13px;}
+
+.place .list.l3 .filters.subheader {
+    position:relative;
+    height:35px;
+    padding:5px;
+}
+
+.place .list.l3 .filters .listing,
+.place .list.l3 .filters .filter {
+    position:absolute;
+    left:0;
+    right:0;
+}
+
+.place .list.l3 .filters .listing {
+    text-align:center;
+    padding:5px;
+}
+.place .list.l3 .filters .filter {
+    display:inline-block;
+    top:0;
+    left:35px;
+    height:33px;
+    padding:7px 0 6px 0;
+}
+.place .list.l3 .filters .filter.back {
+    left:0px;
+    height:45px;
+    padding:0;
+}
+.place .list.l3 .filters .filter.back button {
+    position: relative;
+    width: auto;
+    height: 45px;
+    margin: 0px;
+    border: none;
+    box-shadow: none;
+    z-index: 20;
+}
+.place .list.l3 .filters .filter.back button div {
+    width: 29px;
+    height: 45px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 12px 20px;
+}
+.place .list.l3 .filters .listing ul li {
+    display:inline-block;
+    height:auto;
+    padding:5px 5px 5px 17px;
+    border:none;
+    background-repeat: no-repeat;
+    background-size: 15px auto;
+    background-position: left center;
+}
+
+.place .list.l3 .filters .listing ul li.border {border-bottom:1px solid;}
+.place .list.l3 .filters .listing ul li.place_status {background-size:18px auto;}
+.place .list.l3 .filters .listing ul li.place_label {background-size:17px auto;}
+.place .list.l3 .filters .listing ul li.geolocation {background-size:12px auto;}
+
+.place .list.l3 .filters .search input {width:78%;}
+.place .list.l3 .filters .search button {width:16%;height:32px;margin:0 2% 0 0;box-shadow:none;}
+
+.place .list.l3 .filters .geolocation {left:35px;height:30px;padding:8px 0;}
+.place .list.l3 .filters .geolocation label {height:30px;line-height:30px;}
+.place .list.l3 .filters .geolocation .segmented_control {margin-right:10px;}
+
+.place .list.l3 .filters .label {margin-top:1px;}
+.place .list.l3 .filters .label .segmented_control {position:absolute;left:0;right:10px;}
+.place .list.l3 .filters .label .segmented_control .element {width:25%;border-left:none;border-right:none;}
+.place .list.l3 .filters .label .segmented_control .element.first {border-left:1px solid;}
+.place .list.l3 .filters .label .segmented_control .element.last {border-right:1px solid;}
+
+.place .list.l3 .filters .status .segmented_control .element {width:33%;border-left:none;border-right:none;line-height:12px;}
+.place .list.l3 .filters .status .segmented_control .element.first {border-left:1px solid;}
+.place .list.l3 .filters .status .segmented_control .element.last {border-right:1px solid;}

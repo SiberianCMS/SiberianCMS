@@ -15,6 +15,7 @@ class Siberian_Controller_Request_Http extends Zend_Controller_Request_Http
     protected $_language_code;
     protected $_force_language_code = false;
     protected $_is_application;
+    protected $_is_native;
     protected $_use_application_key = false;
     protected $_is_installing = false;
     protected $_mediaUrl;
@@ -50,6 +51,9 @@ class Siberian_Controller_Request_Http extends Zend_Controller_Request_Http
         $paths = array_diff($paths, Core_Model_Language::getLanguageCodes());
         $paths = array_values($paths);
         $this->_pathInfo = '/'.implode('/', $paths);
+
+        $detector = new Mobile_Detect();
+        $this->_is_native = $detector->isNative();
 
         return $this;
     }
@@ -89,6 +93,10 @@ class Siberian_Controller_Request_Http extends Zend_Controller_Request_Http
 
     public function isApplication() {
         return $this->_is_application;
+    }
+
+    public function isNative() {
+        return $this->_is_native;
     }
 
     public function useApplicationKey($useAppKey = null) {
