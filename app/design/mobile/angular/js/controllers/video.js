@@ -15,13 +15,17 @@ App.config(function($routeProvider) {
         }
     });
 
-    $scope.is_loading = true;
+    $scope.is_loading = false;
     $scope.sidebar = new Sidebar("video");
     $scope.videos = new Array();
     $scope.value_id = Video.value_id = $routeParams.value_id;
     $scope.template_view = Url.get("/media/mobile_gallery_video_view/template");
 
     $scope.loadContent = function() {
+
+        if($scope.is_loading) return;
+
+        $scope.is_loading = true;
 
         Video.findAll().success(function(data) {
 
@@ -100,5 +104,7 @@ App.config(function($routeProvider) {
             }
         });
     }
+
+    $scope.loadContent();
 
 });

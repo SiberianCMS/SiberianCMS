@@ -107,6 +107,7 @@ static NSString *RNCachingURLHeader = @"X-RNCache";
     if (useCache || cacheIsForced) {
 
         RNCachedData *cache = [NSKeyedUnarchiver unarchiveObjectWithFile:[self cachePathForRequest:[self request]]];
+    
         if (cache) {
             
             NSData *data = [cache data];

@@ -621,7 +621,7 @@ App.directive("sbVideo", function() {
                 +'</div>'
                 +'<div ng-if="!use_iframe" ng-show="show_player">'
                     +'<div id="video_player_view" class="player">'
-                        +'<video src="" type="video/mp4" controls preload="none" width="100%" height="200px" poster="{{ video.cover_url }}">'
+                        +'<video src="" type="video/mp4" controls preload="none" width="100%" height="200px">'
                         +'</video>'
                     +'</div>'
                 +'</div>'
@@ -629,6 +629,10 @@ App.directive("sbVideo", function() {
         ,
         link: function(scope, element) {
 
+//            var video = element.find("video");
+//            if(video.length) {
+//                video.attr("poster", video.cover_url);
+//            }
             element.bind("click", function() {
 
                 if(/(youtube)|(vimeo)/.test(scope.video.url)) {

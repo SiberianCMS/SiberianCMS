@@ -151,6 +151,7 @@ class Siberian_Layout extends Zend_Layout
 
             } else {
                 foreach($jsToMerge["local"] as $file) {
+                    $file .= "?".filemtime(Core_Model_Directory::getBasePathTo($file));
                     $this->_scripts['js'][] = $file;
                     $baseView->headScript()->appendFile($file);
                 }
@@ -205,6 +206,7 @@ class Siberian_Layout extends Zend_Layout
             } else {
 
                 foreach($cssToMerge["local"] as $file) {
+                    $file .= "?".filemtime(Core_Model_Directory::getBasePathTo($file));
                     $this->_scripts['css'][] = $file;
                     $baseView->headLink()->appendStylesheet($file, 'screen');
                 }
