@@ -77,6 +77,7 @@ class Siberian_Layout extends Zend_Layout
         if($use_base) {
             $baseView->setTitle($base->title);
             $baseView->default_class_name = $this->_action;
+            $mergeFiles = APPLICATION_TYPE == "mobile" && APPLICATION_ENV == "production";
 
             $scripts_path = Core_Model_Directory::getDesignPath();
 
@@ -86,9 +87,10 @@ class Siberian_Layout extends Zend_Layout
             // Scripts JS
             $jsToMerge = array();
             $cache = Zend_Registry::get('cache');
-            $cacheId = 'js';
+            $cacheId = 'js_'.APPLICATION_TYPE;
 
-            if(!$cache->load($cacheId)) {
+            if(!$mergeFiles OR !$cache->load($cacheId)) {
+
                 foreach($scripts->js as $files) {
                     foreach($files as $file) {
 
@@ -96,7 +98,7 @@ class Siberian_Layout extends Zend_Layout
                         if($file->attributes()->link) {
                             $link = strpos($file->attributes()->link, '/') === 0  ? '' : $scripts_path.'/';
                             $link .= $file->attributes()->link;
-                            $jsToMerge["local"][] = Core_Model_Directory::getBasePathTo($link);
+                            $jsToMerge["local"][] = $link;
                         } else if($file->attributes()->href) {
                             $link = (string) $file->attributes()->href;
                             $jsToMerge["external"][] = $link;
@@ -113,7 +115,7 @@ class Siberian_Layout extends Zend_Layout
                                 foreach($tmp_files as $tmp_file) {
                                     if(!$tmp_file->isFile()) continue;
                                     $this->_scripts['js'][] = $link.$tmp_file->getFileName();
-                                    $jsToMerge["local"][] = Core_Model_Directory::getBasePathTo($link.$tmp_file->getFileName());
+                                    $jsToMerge["local"][] = $link.$tmp_file->getFileName();
                                 }
                             }
 
@@ -129,21 +131,30 @@ class Siberian_Layout extends Zend_Layout
                 $jsToMerge = $cache->load($cacheId);
             }
 
-            $js_file = Core_Model_Directory::getCacheDirectory()."/js.js";
+            $js_file = Core_Model_Directory::getCacheDirectory()."/js_".APPLICATION_TYPE.".js";
 
-            if(!file_exists(Core_Model_Directory::getBasePathTo($js_file))) {
-                // Merging javascript files
-                $js = fopen(Core_Model_Directory::getCacheDirectory(true)."/js.js", "w");
-                foreach($jsToMerge["local"] as $file) {
-                    fputs($js, file_get_contents($file).PHP_EOL);
+            if($mergeFiles) {
+                if(!file_exists(Core_Model_Directory::getBasePathTo($js_file))) {
+                    // Merging javascript files
+                    $js = fopen(Core_Model_Directory::getBasePathTo($js_file), "w");
+                    foreach($jsToMerge["local"] as $file) {
+                        fputs($js, file_get_contents(Core_Model_Directory::getBasePathTo($file)).PHP_EOL);
+                    }
+                    fclose($js);
                 }
-                fclose($js);
-            }
 
-            // Appending the JS files to the view
-            $js_file .= "?".filemtime(Core_Model_Directory::getBasePathTo($js_file));
-            $this->_scripts['js'][] = $js_file;
-            $baseView->headScript()->appendFile($js_file);
+                // Appending the JS files to the view
+                $js_file .= "?".filemtime(Core_Model_Directory::getBasePathTo($js_file));
+                $this->_scripts['js'][] = $js_file;
+                $baseView->headScript()->appendFile($js_file);
+
+
+            } else {
+                foreach($jsToMerge["local"] as $file) {
+                    $this->_scripts['js'][] = $file;
+                    $baseView->headScript()->appendFile($file);
+                }
+            }
 
             if(!empty($jsToMerge["external"])) {
                 foreach($jsToMerge["external"] as $external_js) {
@@ -154,13 +165,13 @@ class Siberian_Layout extends Zend_Layout
 
             // Scripts CSS
             $cssToMerge = array();
-            $cacheId = 'css';
-            if(!$cache->load($cacheId)) {
+            $cacheId = 'css_'.APPLICATION_TYPE;
+            if(!$mergeFiles OR !$cache->load($cacheId)) {
                 foreach($scripts->css as $files) {
                     foreach($files as $file) {
                         $src = '';
-                        if($file->attributes()->link) $cssToMerge["local"][] = Core_Model_Directory::getBasePathTo($scripts_path.'/'.$file->attributes()->link);
-                        else $cssToMerge["external"][] = $file->attributes()->href;
+                        if($file->attributes()->link) $cssToMerge["local"][] = (string) ($scripts_path.'/'.$file->attributes()->link);
+                        else $cssToMerge["external"][] = (string) $file->attributes()->href;
 //                        $baseView->headLink()->appendStylesheet($src, 'screen', $file->attributes()->if ? (string) $file->attributes()->if : null);
 //                        $this->_scripts['css'][] = $src;
                     }
@@ -173,20 +184,32 @@ class Siberian_Layout extends Zend_Layout
                 $cssToMerge = $cache->load($cacheId);
             }
 
-            $css_file = Core_Model_Directory::getCacheDirectory()."/css.css";
-            if(!file_exists($css_file)) {
-                // Merging css files
-                $css = fopen(Core_Model_Directory::getCacheDirectory(true)."/css.css", "w");
-                foreach($cssToMerge["local"] as $file) {
-                    fputs($css, file_get_contents($file).PHP_EOL);
-                }
-                fclose($css);
-            }
+            $css_file = Core_Model_Directory::getCacheDirectory()."/css_".APPLICATION_TYPE.".css";
+            $base_css_file = Core_Model_Directory::getCacheDirectory(true)."/css_".APPLICATION_TYPE.".css";
+            if($mergeFiles) {
 
-            // Appending the JS files to the view
-            $css_file .= "?".filemtime(Core_Model_Directory::getBasePathTo($css_file));
-            $this->_scripts['css'][] = $css_file;
-            $baseView->headLink()->appendStylesheet($css_file, 'screen');
+                if(!file_exists($base_css_file)) {
+                    // Merging css files
+                    $css = fopen($base_css_file, "w");
+                    foreach($cssToMerge["local"] as $file) {
+                        fputs($css, file_get_contents(Core_Model_Directory::getBasePathTo($file)).PHP_EOL);
+                    }
+                    fclose($css);
+                }
+
+                // Appending the JS files to the view
+                $css_file .= "?".filemtime(Core_Model_Directory::getBasePathTo($css_file));
+                $this->_scripts['css'][] = $css_file;
+                $baseView->headLink()->appendStylesheet($css_file, 'screen');
+
+            } else {
+
+                foreach($cssToMerge["local"] as $file) {
+                    $this->_scripts['css'][] = $file;
+                    $baseView->headLink()->appendStylesheet($file, 'screen');
+                }
+
+            }
 
             if(!empty($cssToMerge["external"])) {
                 foreach($cssToMerge["external"] as $external_css) {

@@ -34,7 +34,7 @@ audio {height:0;width:0}
 img.border {border: 1px solid white;}
 
 .separator {position:relative;margin:0;padding:0;border-bottom:1px solid rgba(0, 0, 0, 0.3);border-top:1px solid rgba(255, 255, 255, 0.2);}
-.sprite {position:absolute;top:0;left:0;width:100%;height:100%;background:url(../images/pictos/sprite-play.png) no-repeat center center transparent;background-size:cover;z-index:10;}
+.sprite {position:absolute;top:0;left:0;width:100%;height:100%;background:url(/app/design/mobile/angular/images/pictos/sprite-play.png) no-repeat center center transparent;background-size:cover;z-index:10;}
 .uppercase { text-transform: uppercase; }
 .lowercase { text-transform: lowercase; }
 .bold { font-weight: bold; }
@@ -134,7 +134,7 @@ button {width: 100%;}
 
 button.icon_left, a.button.icon_left {position:relative;padding-left: 40px;}
 button.icon_left img, a.button.icon_left img, button.icon_left canvas {position:absolute;top:50%;left:10px;margin-top:-10px;border-radius:2px;}
-button.arrow_right, button.arrow_right, a.arrow_right, .arrow_right {padding-right: 40px;background:url(../images/pictos/right_arrow.png) no-repeat right 10px center / 14px 20px;}
+button.arrow_right, button.arrow_right, a.arrow_right, .arrow_right {padding-right: 40px;background:url(/app/design/mobile/angular/images/pictos/right_arrow.png) no-repeat right 10px center / 14px 20px;}
 button.half, a.button.half {display: inline-block;width: 49%;}
 
 button.connect_button {height: 32px;}
@@ -335,7 +335,7 @@ a.connect_button {height:22px; padding-top:10px;}
     height: 50px;
     width: 100%;
     background-color: transparent;
-    background-image: url("../images/loader/ajax.gif");
+    background-image: url("/app/design/mobile/angular/images/loader/ajax.gif");
     background-position: center center;
     background-size: 48px 48px;
     background-repeat: no-repeat;
@@ -517,7 +517,7 @@ a.connect_button {height:22px; padding-top:10px;}
 /** SOCIALGAMING **/
 .socialgaming li.header {padding-top:13px;height:29px;text-align:center;}
 .socialgaming li.team_leader, .socialgaming li.challenger {padding:10px 5px;}
-.socialgaming li.challenger.overlay_20 {background:url('../images/overlays/black_35.png') repeat;}
+.socialgaming li.challenger.overlay_20 {background:url('/app/design/mobile/angular/images/overlays/black_35.png') repeat;}
 .socialgaming li.team_leader p.number_of_points {margin:0;width:85px;height:45px;line-height:45px;}
 .socialgaming li.team_leader p.number_of_points img {margin-top:10px;float:right;}
 .socialgaming li p.challenger_name {margin-top:13px;}
