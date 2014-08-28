@@ -1,0 +1,94 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout2"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    tools:context=".Browser" >
+    
+    <LinearLayout
+        android:id="@+id/tabbarlayout"
+        android:orientation="horizontal" 
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content" 
+		android:layout_alignParentBottom="false">
+        
+    </LinearLayout>
+
+    <WebView
+        android:id="@+id/webView"
+        android:layout_width="fill_parent"
+        android:layout_height="410dp"
+        android:layout_below="@+id/tabbarlayout"
+        android:layout_above="@+id/buttonlayout" />
+
+    <RelativeLayout
+        android:id="@+id/buttonlayout"
+        android:layout_width="match_parent"
+        android:layout_height="22pt"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/bDone"
+            android:layout_alignParentLeft="true"
+
+            android:layout_width="wrap_content"
+            android:layout_height="14pt"
+            android:layout_marginLeft="10pt"
+            android:layout_centerVertical="true"
+
+            android:text="@string/done"
+            android:background="@android:color/transparent"
+            android:alpha="1" />
+
+        <ImageButton
+            android:id="@+id/bForward"
+            android:layout_alignParentRight="true"
+
+            android:layout_width="wrap_content"
+            android:layout_height="14pt"
+            android:layout_marginLeft="10pt"
+            android:layout_marginRight="10pt"
+            android:layout_centerVertical="true"
+
+            android:clickable="false"
+            android:enabled="false"
+            android:src="@drawable/ic_action_next_item"
+            android:background="@android:color/transparent"
+            android:alpha="0.5" />
+
+        <ImageButton
+            android:id="@+id/bBack"
+            android:layout_toLeftOf="@+id/bForward"
+
+            android:layout_width="wrap_content"
+            android:layout_height="14pt"
+            android:layout_marginLeft="10pt"
+            android:layout_centerVertical="true"
+
+            android:clickable="false"
+            android:enabled="false"
+            android:src="@drawable/ic_action_previous_item"
+            android:background="@android:color/transparent"
+            android:alpha="0.5" />
+
+        <ImageButton
+            android:id="@+id/bReload"
+
+            android:layout_toLeftOf="@+id/bBack"
+
+            android:layout_width="wrap_content"
+            android:layout_height="14pt"
+            android:layout_marginLeft="10pt"
+            android:layout_centerVertical="true"
+
+            android:clickable="true"
+            android:src="@drawable/ic_action_refresh"
+            android:background="@android:color/transparent"
+            android:enabled="true" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

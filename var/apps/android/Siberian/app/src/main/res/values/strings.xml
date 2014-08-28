@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">Siberian Angular</string>
+    <string name="url">http://192.168.31.73/overview</string>
+    <string name="load_message">Loading. Please wait...</string>
+    <string name="quit_message">Quit the application?</string>
+    <string name="done">Done</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="no_internet_connection">You need an internet connection to open the application</string>
+
 </resources>
