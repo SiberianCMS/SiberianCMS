@@ -1,0 +1,79 @@
+<?php $application = $this->getApplication(); ?>
+<?php $is_overview = $this->getRequest()->getParam('overview'); ?>
+<?php $option_values = $application->getPages($is_overview ? 10 : null); ?>
+<?php $nbr_of_option_values = $option_values->count(); ?>
+<?php if($application->usesUserAccount()) $nbr_of_option_values++; ?>
+<?php $color = $this->getBlock('tabbar')->getImageColor(); ?>
+<div class="general relative">
+    <div id="homepage_content" class="content">
+        <img id="homepage_background_image_link" src="" alt=""/>
+    </div>
+</div>
+<footer id="tabbar_items" class="tabbar_items type_scroll l5 animated toBottom">
+    <ul id="tabbar" class="tabbar_l5">
+        <li>
+        <?php $k = 0; ?>
+        <?php foreach($option_values as $j => $option_value) : ?>
+            <?php if($option_value->isActive() OR $is_overview) : ?>
+            <a href="<?php echo $option_value->getUrl('view', array('option_value_id' => $option_value->getId()), false); ?>" id="tabbar_item_<?php echo $option_value->getId(); ?>" rel="<?php echo $option_value->getId(); ?>" class="item item_<?php echo $option_value->getCode(); ?><?php if($option_value->getIsAjax()) : ?> is_ajax<?php endif; ?> not-loaded"<?php if(!$option_value->getIsDummy()) : ?> onclick="page.showSubpage({a:this}); return false;"<?php endif; ?><?php if($option_value->isLink()) : ?> attr-link="is_link"<?php endif; ?> <?php if(!$option_value->isActive()) : ?> style="display:none;"<?php endif; ?>>
+                <div class="relative">
+                    <div class="tabbar background">
+                    </div>
+                    <div class="tabbar no-background">
+                        <img id="icon_<?php echo $option_value->getId(); ?>" src="<?php echo $this->getColorizedImage($option_value->getIconId(), $color); ?>" class="<?php echo $option_value->getImage()->getCanBeColorized() ? 'colorable' : '' ?>" alt="" title="" width="70" height="70" />
+                        <span id="tabbar_name_<?php echo $option_value->getId(); ?>" class="tabbar no-background tabbar_name_<?php echo $option_value->getId(); ?> block"><?php echo $option_value->getShortTabbarName(); ?></span>
+                    </div>
+                </div>
+            </a>
+            <?php endif; ?>
+        <?php if($option_value->isActive()) : ?>
+        <?php if(($k+1)%4==0 AND $k+1 < $nbr_of_option_values) : ?>
+        </li>
+        <li>
+        <?php endif ?>
+        <?php $k++; ?>
+        <?php endif ?>
+            <?php if($j+1 == $option_values->count() AND $application->usesUserAccount()) : ?>
+            <?php $option_value = new Application_Model_Option_Value(); ?>
+            <?php $option_value->findTabbarAccount(); ?>
+            <a href="javascript:void(0)" id="tabbar_item_customer_account" class="item" onclick="customer.openLoginForm();" rel="customer_account">
+                <div class="relative">
+                    <div class="tabbar background">
+                    </div>
+                    <div class="tabbar no-background">
+                        <img src="<?php echo $this->getColorizedImage($option_value->getBaseIconUrl(), $color); ?>" class="colorable" alt="" title="" width="70" height="70" />
+                        <span id="tabbar_name_customer_account" class="tabbar no-background tabbar_name_customer_account block"><?php echo $application->getShortTabbarAccountName() ?></span>
+                    </div>
+                </div>
+            </a>
+            <?php endif; ?>
+        <?php endforeach; ?>
+        </li>
+    </ul>
+    <div id="tabbar_pager" class="tabbar_pager">
+
+    </div>
+    <script type="text/javascript">
+//        tabbar.a = new Array();
+        tabbar.nbr_of_icons_per_row = 0;
+        tabbar.margin = 10;
+        tabbar.nbr_of_icons = 4;
+        tabbar.setType('scroll_x');
+
+        //A ouvrir dans la webview
+        if(typeof Android != "undefined") {
+            $('#tabbar').find('a.item[attr-link]').each(function() {
+                var href = $(this).attr('href');
+                href += /\?/.test(this.search) ? "&webview=1" : "?webivew=1";
+                $(this).attr('href', href);
+            });
+        }
+
+//        $('#tabbar').find('a.item:not([attr-folder])').each(function() {
+//            tabbar.a.push($(this));
+//        });
+    </script>
+    <style>
+        .tabbar_items .tabbar_pager a.selected { border-color: <?php echo $application->getBlock('tabbar')->getImageColor(); ?>; }
+    </style>
+</footer>
