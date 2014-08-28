@@ -2,6 +2,8 @@ var App = angular.module("Siberian", ['ngRoute', 'ngAnimate', 'ngTouch', 'angula
 
 App.run(function($rootScope, $window, $route, $location, $timeout, $templateCache, Connection, Message) {
 
+    Connection.check();
+
     FastClick.attach($window.document);
 
     $rootScope.isOverview = $window.parent.location.href != $window.location.href;
@@ -64,7 +66,11 @@ App.run(function($rootScope, $window, $route, $location, $timeout, $templateCach
 
     }
 
-    $rootScope.$on('$locationChangeStart', function() {
+    $rootScope.$on('$locationChangeStart', function(event) {
+//        if(!Connection.isOnline) {
+//            event.preventDefault();
+//            return;
+//        }
         $rootScope.actualLocation = $location.path();
     });
 
@@ -79,8 +85,6 @@ App.run(function($rootScope, $window, $route, $location, $timeout, $templateCach
     $rootScope.$on('$routeChangeSuccess', function(event, current) {
         $rootScope.code = current.code;
     });
-
-    Connection.check();
 
     $window.addEventListener("online", function() {
         console.log('online');

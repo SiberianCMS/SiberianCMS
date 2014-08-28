@@ -105,6 +105,10 @@ App.config(function($routeProvider) {
         });
     }
 
+    $scope.$on("$destroy", function() {
+        angular.element($window).unbind('scroll');
+    });
+
     $scope.loadContent();
 
 });

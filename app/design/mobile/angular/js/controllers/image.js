@@ -17,7 +17,7 @@ App.config(function($routeProvider) {
 
     $scope.gallery = ImageGallery;
     $scope.sidebar = new Sidebar("image");
-    $scope.is_loading = true;
+    $scope.is_loading = false;
     $scope.images = new Array();
     $scope.show_loader_more = false;
     $scope.value_id = Image.value_id = $routeParams.value_id;
@@ -25,6 +25,9 @@ App.config(function($routeProvider) {
 
     $scope.loadContent = function() {
 
+        if($scope.is_loading) return;
+
+        $scope.is_loading = true;
         $scope.sidebar.is_loading = true;
 
         Image.findAll().success(function(data) {
@@ -110,5 +113,11 @@ App.config(function($routeProvider) {
     $scope.removeScrollEvent = function() {
         angular.element($window).unbind('scroll');
     }
+
+    $scope.$on("$destroy", function() {
+        angular.element($window).unbind('scroll');
+    });
+
+    $scope.loadContent();
 
 });
