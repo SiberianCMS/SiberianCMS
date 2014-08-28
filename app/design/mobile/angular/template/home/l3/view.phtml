@@ -2,11 +2,11 @@
 
     <sb-loader is-loading="is_loading" has-connection="has_connection"></sb-loader>
 
-    <div id="tabbar_items" class="tabbar_items type_scroll l3 slide-top" ng-show="tabbar_is_visible">
+    <div id="tabbar_items" class="tabbar_items type_scroll slide-top {{ layout_id }}" ng-show="tabbar_is_visible">
         <ul id="tabbar" class="tabbar_l3">
             <li>
                 <?php /*option.is_visible && */ ?>
-                <a ng-repeat="option in limited_options" ng-if="option.is_active" href="{{ option.url }}"  class="item" ng-class="{ is_link: option.is_link }">>
+                <a ng-repeat="option in limited_options" ng-if="option.is_active" href="{{ option.url }}"  class="item" ng-class="{ is_link: option.is_link }">
                     <div class="relative">
                         <div class="tabbar">
                             <img ng-src="{{ option.icon_url }}" ng-class="{ colorable: option.icon_is_colorable }" width="55" height="55" />

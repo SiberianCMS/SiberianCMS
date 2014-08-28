@@ -21,7 +21,7 @@
 
     <home_mobile_view_l4>
         <views>
-            <content class="core_view_mobile_default" template="home/l4/view.phtml" />
+            <content class="core_view_mobile_default" template="home/l3/view.phtml" />
         </views>
     </home_mobile_view_l4>
 
