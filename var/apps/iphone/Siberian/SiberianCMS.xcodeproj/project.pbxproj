@@ -41,23 +41,23 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		F511E27B196C27EE004D315F /* Siberian Angular.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Siberian Angular.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F511E27B196C27EE004D315F /* SiberianCMS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SiberianCMS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F511E27E196C27EE004D315F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F511E280196C27EE004D315F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		F511E282196C27EE004D315F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		F511E286196C27EE004D315F /* Siberian Angular-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Siberian Angular-Info.plist"; sourceTree = "<group>"; };
+		F511E286196C27EE004D315F /* SiberianCMS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SiberianCMS-Info.plist"; sourceTree = "<group>"; };
 		F511E288196C27EE004D315F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		F511E28A196C27EE004D315F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		F511E28C196C27EE004D315F /* Siberian Angular-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Siberian Angular-Prefix.pch"; sourceTree = "<group>"; };
+		F511E28C196C27EE004D315F /* SiberianCMS-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SiberianCMS-Prefix.pch"; sourceTree = "<group>"; };
 		F511E28D196C27EE004D315F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		F511E28E196C27EE004D315F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		F511E291196C27EE004D315F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F511E293196C27EE004D315F /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		F511E294196C27EE004D315F /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		F511E296196C27EE004D315F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		F511E29C196C27EE004D315F /* Siberian AngularTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Siberian AngularTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F511E29C196C27EE004D315F /* SiberianCMSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SiberianCMSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F511E29D196C27EE004D315F /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		F511E2A5196C27EE004D315F /* Siberian AngularTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Siberian AngularTests-Info.plist"; sourceTree = "<group>"; };
+		F511E2A5196C27EE004D315F /* SiberianCMSTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SiberianCMSTests-Info.plist"; sourceTree = "<group>"; };
 		F511E2A7196C27EE004D315F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		F511E2A9196C27EE004D315F /* Siberian_AngularTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Siberian_AngularTests.m; sourceTree = "<group>"; };
 		F511E2B5196C3A5C004D315F /* Request.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Request.h; path = Application/Request/Request.h; sourceTree = "<group>"; };
@@ -103,8 +103,8 @@
 		F511E272196C27EE004D315F = {
 			isa = PBXGroup;
 			children = (
-				F511E284196C27EE004D315F /* Siberian Angular */,
-				F511E2A3196C27EE004D315F /* Siberian AngularTests */,
+				F511E284196C27EE004D315F /* SiberianCMS */,
+				F511E2A3196C27EE004D315F /* SiberianCMSTests */,
 				F511E27D196C27EE004D315F /* Frameworks */,
 				F511E27C196C27EE004D315F /* Products */,
 			);
@@ -113,8 +113,8 @@
 		F511E27C196C27EE004D315F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F511E27B196C27EE004D315F /* Siberian Angular.app */,
-				F511E29C196C27EE004D315F /* Siberian AngularTests.xctest */,
+				F511E27B196C27EE004D315F /* SiberianCMS.app */,
+				F511E29C196C27EE004D315F /* SiberianCMSTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -130,7 +130,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		F511E284196C27EE004D315F /* Siberian Angular */ = {
+		F511E284196C27EE004D315F /* SiberianCMS */ = {
 			isa = PBXGroup;
 			children = (
 				F52838C9199A1A9800F3EB90 /* Layout */,
@@ -143,33 +143,33 @@
 				F511E296196C27EE004D315F /* Images.xcassets */,
 				F511E285196C27EE004D315F /* Supporting Files */,
 			);
-			path = "Siberian Angular";
+			path = SiberianCMS;
 			sourceTree = "<group>";
 		};
 		F511E285196C27EE004D315F /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				F511E286196C27EE004D315F /* Siberian Angular-Info.plist */,
+				F511E286196C27EE004D315F /* SiberianCMS-Info.plist */,
 				F511E287196C27EE004D315F /* InfoPlist.strings */,
 				F511E28A196C27EE004D315F /* main.m */,
-				F511E28C196C27EE004D315F /* Siberian Angular-Prefix.pch */,
+				F511E28C196C27EE004D315F /* SiberianCMS-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		F511E2A3196C27EE004D315F /* Siberian AngularTests */ = {
+		F511E2A3196C27EE004D315F /* SiberianCMSTests */ = {
 			isa = PBXGroup;
 			children = (
 				F511E2A9196C27EE004D315F /* Siberian_AngularTests.m */,
 				F511E2A4196C27EE004D315F /* Supporting Files */,
 			);
-			path = "Siberian AngularTests";
+			path = SiberianCMSTests;
 			sourceTree = "<group>";
 		};
 		F511E2A4196C27EE004D315F /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				F511E2A5196C27EE004D315F /* Siberian AngularTests-Info.plist */,
+				F511E2A5196C27EE004D315F /* SiberianCMSTests-Info.plist */,
 				F511E2A6196C27EE004D315F /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -249,9 +249,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		F511E27A196C27EE004D315F /* Siberian Angular */ = {
+		F511E27A196C27EE004D315F /* SiberianCMS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F511E2AD196C27EE004D315F /* Build configuration list for PBXNativeTarget "Siberian Angular" */;
+			buildConfigurationList = F511E2AD196C27EE004D315F /* Build configuration list for PBXNativeTarget "SiberianCMS" */;
 			buildPhases = (
 				F511E277196C27EE004D315F /* Sources */,
 				F511E278196C27EE004D315F /* Frameworks */,
@@ -261,14 +261,14 @@
 			);
 			dependencies = (
 			);
-			name = "Siberian Angular";
+			name = SiberianCMS;
 			productName = "Siberian Angular";
-			productReference = F511E27B196C27EE004D315F /* Siberian Angular.app */;
+			productReference = F511E27B196C27EE004D315F /* SiberianCMS.app */;
 			productType = "com.apple.product-type.application";
 		};
-		F511E29B196C27EE004D315F /* Siberian AngularTests */ = {
+		F511E29B196C27EE004D315F /* SiberianCMSTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F511E2B0196C27EE004D315F /* Build configuration list for PBXNativeTarget "Siberian AngularTests" */;
+			buildConfigurationList = F511E2B0196C27EE004D315F /* Build configuration list for PBXNativeTarget "SiberianCMSTests" */;
 			buildPhases = (
 				F511E298196C27EE004D315F /* Sources */,
 				F511E299196C27EE004D315F /* Frameworks */,
@@ -279,9 +279,9 @@
 			dependencies = (
 				F511E2A2196C27EE004D315F /* PBXTargetDependency */,
 			);
-			name = "Siberian AngularTests";
+			name = SiberianCMSTests;
 			productName = "Siberian AngularTests";
-			productReference = F511E29C196C27EE004D315F /* Siberian AngularTests.xctest */;
+			productReference = F511E29C196C27EE004D315F /* SiberianCMSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -298,7 +298,7 @@
 					};
 				};
 			};
-			buildConfigurationList = F511E276196C27EE004D315F /* Build configuration list for PBXProject "Siberian Angular" */;
+			buildConfigurationList = F511E276196C27EE004D315F /* Build configuration list for PBXProject "SiberianCMS" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -311,8 +311,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				F511E27A196C27EE004D315F /* Siberian Angular */,
-				F511E29B196C27EE004D315F /* Siberian AngularTests */,
+				F511E27A196C27EE004D315F /* SiberianCMS */,
+				F511E29B196C27EE004D315F /* SiberianCMSTests */,
 			);
 		};
 /* End PBXProject section */
@@ -369,7 +369,7 @@
 /* Begin PBXTargetDependency section */
 		F511E2A2196C27EE004D315F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = F511E27A196C27EE004D315F /* Siberian Angular */;
+			target = F511E27A196C27EE004D315F /* SiberianCMS */;
 			targetProxy = F511E2A1196C27EE004D315F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -478,10 +478,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Siberian Angular/Siberian Angular-Prefix.pch";
-				INFOPLIST_FILE = "Siberian Angular/Siberian Angular-Info.plist";
+				GCC_PREFIX_HEADER = "SiberianCMS/SiberianCMS-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/SiberianCMS/SiberianCMS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = SiberianCMS;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -492,10 +492,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Siberian Angular/Siberian Angular-Prefix.pch";
-				INFOPLIST_FILE = "Siberian Angular/Siberian Angular-Info.plist";
+				GCC_PREFIX_HEADER = "SiberianCMS/SiberianCMS-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/SiberianCMS/SiberianCMS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = SiberianCMS;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -515,8 +515,8 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "Siberian AngularTests/Siberian AngularTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "Siberian AngularTests/SiberianCMSTests-Info.plist";
+				PRODUCT_NAME = SiberianCMSTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -533,8 +533,8 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Siberian Angular/Siberian Angular-Prefix.pch";
-				INFOPLIST_FILE = "Siberian AngularTests/Siberian AngularTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "Siberian AngularTests/SiberianCMSTests-Info.plist";
+				PRODUCT_NAME = SiberianCMSTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -543,7 +543,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		F511E276196C27EE004D315F /* Build configuration list for PBXProject "Siberian Angular" */ = {
+		F511E276196C27EE004D315F /* Build configuration list for PBXProject "SiberianCMS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F511E2AB196C27EE004D315F /* Debug */,
@@ -552,7 +552,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F511E2AD196C27EE004D315F /* Build configuration list for PBXNativeTarget "Siberian Angular" */ = {
+		F511E2AD196C27EE004D315F /* Build configuration list for PBXNativeTarget "SiberianCMS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F511E2AE196C27EE004D315F /* Debug */,
@@ -561,7 +561,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F511E2B0196C27EE004D315F /* Build configuration list for PBXNativeTarget "Siberian AngularTests" */ = {
+		F511E2B0196C27EE004D315F /* Build configuration list for PBXNativeTarget "SiberianCMSTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F511E2B1196C27EE004D315F /* Debug */,
