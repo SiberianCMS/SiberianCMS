@@ -101,15 +101,17 @@ class Installer_Model_Installer extends Core_Model_Default {
 
         try {
 
-            $writer = new Zend_Config_Writer_Ini();
+            if(!self::isInstalled()) {
+                $writer = new Zend_Config_Writer_Ini();
 
-            $config = new Zend_Config_Ini(APPLICATION_PATH . '/configs/app.ini', null, array('skipExtends' => true, 'allowModifications' => true));
-            $config->production->isInstalled = "1";
+                $config = new Zend_Config_Ini(APPLICATION_PATH . '/configs/app.ini', null, array('skipExtends' => true, 'allowModifications' => true));
+                $config->production->isInstalled = "1";
 
-            $writer->setConfig($config)
-                ->setFilename(APPLICATION_PATH . '/configs/app.ini')
-                ->write()
-            ;
+                $writer->setConfig($config)
+                    ->setFilename(APPLICATION_PATH . '/configs/app.ini')
+                    ->write()
+                ;
+            }
 
             return true;
 

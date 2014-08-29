@@ -8,10 +8,6 @@ class Installer_InstallationController extends Installer_Controller_Installation
 
     public function endAction() {
 
-        if(Installer_Model_Installer::isInstalled()) {
-            return $this;
-        }
-
         try {
             if(Installer_Model_Installer::setIsInstalled()) {
                 $html = array('success' => 1);
