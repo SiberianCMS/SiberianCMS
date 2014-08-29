@@ -214,6 +214,7 @@ App.directive('sbBackgroundImage', function($http, $window) {
         },
         link: function (scope, element, attrs) {
 
+            console.log("link");
             if(angular.isDefined(scope.valueId)) {
                 $http({
                     method: 'GET',
@@ -229,10 +230,22 @@ App.directive('sbBackgroundImage', function($http, $window) {
             scope.onResizeFunction = function() {
                 var height = $window.innerHeight;
                 var width = $window.innerWidth;
-                if(element.hasClass('has_header')) {
-                    height -= 42;
-                }
-                element[0].style.minHeight = height + "px";
+
+                angular.forEach(element.children(), function(div, key) {
+                    if(angular.element(div).hasClass("scrollable_content")) {
+                        try {
+                            console.log(div.offsetTop);
+                            if(!isNaN(div.offsetTop)) {
+                                div.style.height = height - div.offsetTop +"px";
+                            }
+                        } catch(e) {
+
+                        }
+                    }
+                });
+                console.log(height);
+//                element[0].style.height = height + "px";
+                element[0].style.height = "100%";
                 element[0].style.minWidth = width + "px";
             };
 
@@ -242,6 +255,13 @@ App.directive('sbBackgroundImage', function($http, $window) {
                 scope.onResizeFunction();
                 scope.$apply();
             });
+            scope.$on("$destroy", function() {
+                angular.element($window).unbind('resize');
+            });
+        },
+        controller: function() {
+            console.log("controller");
+
         }
     };
 });
@@ -334,7 +354,7 @@ App.factory("Url", function($rootScope) {
     }
 });
 
-App.factory('Message', function($timeout) {
+App.factory("Message", function($timeout) {
 
     var Message = function() {
 

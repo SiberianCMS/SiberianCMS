@@ -1,9 +1,20 @@
 /** GENERAL **/
 * { max-width:100%; margin:0; padding:0; border:none; font-family: Arial, sans-serif;}
 
-body { font-size: 15px; -webkit-user-select : none; -webkit-text-size-adjust : none; -webkit-touch-callout: none; line-height:1; background-color:white; }
+body { font-size: 15px; -webkit-user-select : none; -webkit-text-size-adjust : none; -webkit-touch-callout: none; line-height:1; background-color:white; overflow:hidden;}
 body.no_scroll {overflow:hidden;}
-
+.scrollable_content {
+    height:100%;
+    overflow-y: auto;
+    -webkit-overflow-scrolling:touch;
+}
+.at-view-slide.background {
+    position:absolute;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+}
 h1 { font-size: 24px }
 h2 { font-size: 22px }
 h3 { font-size: 20px }
@@ -179,7 +190,7 @@ a.connect_button {height:22px; padding-top:10px;}
 /* Type Scroll */
 
 .tabbar_items.type_scroll {position: absolute;bottom:0;height:50%;padding-top:5px;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
-.tabbar_items.type_scroll ul#tabbar {width: 100%; min-height: 260px; text-align: center;}
+.tabbar_items.type_scroll ul#tabbar {width: 100%; height:100%; min-height: 260px; text-align: center;}
 .tabbar_items.type_scroll ul#tabbar li {float: left; width:100%;height:110px; margin:0 2%;}
 .tabbar_items.type_scroll ul#tabbar li a {display:block;float:left;width:28%;margin:0 2% 5px 2%;}
 .tabbar_items.type_scroll ul#tabbar li a div.tabbar.background {opacity: 0.25;}
@@ -247,19 +258,22 @@ a.connect_button {height:22px; padding-top:10px;}
 /** /TABBAR **/
 
 .page_header {
-    position:fixed;
+    position:relative;
+    /*position:fixed;*/
     width: 100%;
-    left: 0;
-    top: 0;
+    /*left: 0;*/
+    /*top: 0;*/
     height: 42px;
-    z-index: 100;
+    /*z-index: 100;*/
 }
+.iOS7 .page_header {height: 63px;}
 
-.page_header .header.absolute { position: absolute; height: 100%; width: 100% }
+.page_header .header.absolute { position: absolute; width: 100% }
 .iOS7 .page_header .header.absolute {padding-top:21px;}
 
-.has_header {margin-top: 42px;}
-.iOS7 .has_header {margin-top: 63px;}
+/*.has_header {margin-top: 42px;}*/
+/*.iOS7 .has_header {margin-top: 63px;}*/
+
 .page_header p.title {position:absolute;left:75px;right:75px;height:42px;overflow:hidden;margin:0;line-height:43px;font-size:16px;font-weight:bold;text-align:center;z-index:10;}
 .page_header .btn_left, .page_header .btn_right {position:relative;width:auto;height:42px;margin:0px;border:none;box-shadow:none;z-index:20;}
 .page_header .btn_left {left:0;float:left;padding-left:25px;}
@@ -286,6 +300,7 @@ a.connect_button {height:22px; padding-top:10px;}
     position: absolute;
     width: 100%;
     height: 100%;
+    z-index: 10;
 }
 
 .page_header .message p {
@@ -394,7 +409,7 @@ a.connect_button {height:22px; padding-top:10px;}
 .list.l2 ul li .details .subtitle span {font-size:14px;text-transform:lowercase;}
 
 /* L3 */
-.list.l3 ul li {cursor:pointer;height:65px;background-position:right 10px center;background-size:14px 20px;background-repeat:no-repeat;border-bottom:1px solid;overflow:hidden;}
+.list.l3 ul li {position:relative;cursor:pointer;height:65px;background-position:right 10px center;background-size:14px 20px;background-repeat:no-repeat;border-bottom:1px solid;overflow:hidden;}
 .list.l3 ul li .picture {height:100%;width:100px;background-position:center center;background-size:cover;background-repeat:no-repeat;}
 .list.l3 ul li .details {position:absolute;height:45px;left:10px;right:35px;margin-top:10px;margin-bottom:10px;padding:0;overflow:hidden;}
 .list.l3 ul li .details.has_picture {left:110px;}

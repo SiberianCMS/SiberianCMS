@@ -4,17 +4,18 @@
 
     <sb-loader is-loading="is_loading" has-connection="has_connection"></sb-loader>
 
-    <div class="padding">
-        <div class="scale-fade" ng-if="weblink.cover_url">
-            <img ng-src="{{ weblink.cover_url }}" width="100%" />
-        </div>
+    <div class="scrollable_content">
+        <div class="padding">
+            <div class="scale-fade" ng-if="weblink.cover_url">
+                <img ng-src="{{ weblink.cover_url }}" width="100%" />
+            </div>
 
-        <div class="buttons">
-            <a ng-repeat="link in weblink.links" target="_blank" href="{{ link.url }}" class="button icon_left arrow_right">
-                <img ng-show="link.picto_url" ng-src="{{ link.picto_url }}" width="21" height="21" />
-                {{ link.title }}
-            </a>
+            <div class="buttons">
+                <a ng-repeat="link in weblink.links" target="_blank" href="{{ link.url }}" class="button icon_left arrow_right">
+                    <img ng-show="link.picto_url" ng-src="{{ link.picto_url }}" width="21" height="21" />
+                    {{ link.title }}
+                </a>
+            </div>
         </div>
     </div>
-
 </div>

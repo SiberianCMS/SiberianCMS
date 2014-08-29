@@ -1,15 +1,20 @@
-<div class="list l3">
-    <ul>
-        <li ng-repeat="item in collection" ng-class="{first: $index == 0, has_picture: item.picture, arrow_right: item.url }" ng-click="showItem(item)" ng-hide="item.is_hidden">
-            <div class="left picture" image-src="item.picture" ng-if="item.picture" sb-image></div>
-            <div class="details padding" ng-class="{has_picture: item.picture}">
-                <h3 class="title">{{ item.title }}</h3>
-                <div class="subtitle">{{ item.subtitle }}</div>
-                <div class="clear"></div>
-            </div>
-        </li>
-        <li class="empty" ng-if="collection_is_empty">
-            <p class="a-center"><?php echo $this->_("Nothing to display"); ?></p>
-        </li>
-    </ul>
+<div class="scrollable_content">
+
+    <?php echo $this->getPartialHtml("cover"); ?>
+
+    <div class="list l3">
+        <ul>
+            <li ng-repeat="item in collection" ng-class="{first: $index == 0, has_picture: item.picture, arrow_right: item.url }" ng-click="showItem(item)" ng-hide="item.is_hidden">
+                <div class="left picture" image-src="item.picture" ng-if="item.picture" sb-image></div>
+                <div class="details padding" ng-class="{has_picture: item.picture}">
+                    <h3 class="title">{{ item.title }}</h3>
+                    <div class="subtitle">{{ item.subtitle }}</div>
+                    <div class="clear"></div>
+                </div>
+            </li>
+            <li class="empty" ng-if="collection_is_empty">
+                <p class="a-center"><?php echo $this->_("Nothing to display"); ?></p>
+            </li>
+        </ul>
+    </div>
 </div>

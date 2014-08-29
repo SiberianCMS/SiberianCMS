@@ -4,70 +4,71 @@
 
     <sb-loader is-loading="is_loading" has-connection="has_connection"></sb-loader>
 
-    <div class="padding">
+    <div class="scrollable_content">
+        <div class="padding">
 
-        <form name="form" ng-submit="post()">
-            <div class="section" ng-repeat="section in sections">
+            <form name="form" ng-submit="post()">
+                <div class="section" ng-repeat="section in sections">
 
-                <h3 class="title">{{ section.name }}</h3>
+                    <h3 class="title">{{ section.name }}</h3>
 
-                <ul class="form">
-                    <li class="field" ng-repeat="field in section.fields" ng-switch on="field.type">
+                    <ul class="form">
+                        <li class="field" ng-repeat="field in section.fields" ng-switch on="field.type">
 
-                        <div ng-switch-when="texte">
-                            <input type="text" placeholder="{{ field.name }}" ng-model="form[field.id]" />
-                        </div>
-                        <div ng-switch-when="textarea">
-                            <textarea rows="3" placeholder="{{ field.name }}" ng-model="form[field.id]"></textarea>
-                        </div>
-                        <div ng-switch-when="email">
-                            <input type="email" placeholder="{{ field.name }}" ng-model="form[field.id]" />
-                        </div>
-                        <div ng-switch-when="nombre">
-                            <input type="number" placeholder="{{ field.name }}" ng-model="form[field.id]" />
-                        </div>
-                        <div ng-switch-when="date">
-                            <input type="date" placeholder="{{ field.name }}" ng-model="form[field.id]" />
-                        </div>
-                        <div ng-switch-when="geoloc">
-                            <input class="left" type="checkbox" id="id="form.{{field.id}}" ng-model="form[field.id]" />
-                            <label for="id="form.{{field.id}}" class="inline">{{ field.name }}</label>
-                            <div class="clear"></div>
-                        </div>
-                        <div ng-switch-when="checkbox">
-                            <p class="label">{{ field.name }}</p>
-                            <div ng-repeat="option in field.options">
-                                <input  class="left" type="checkbox" id="form.{{field.id}}.{{option.id}}" ng-click="selectOption(field, option.id)" ng-value="option.id" />
-                                <label class="inline" for="form.{{field.id}}.{{option.id}}">{{ option.name }}</label>
+                            <div ng-switch-when="texte">
+                                <input type="text" placeholder="{{ field.name }}" ng-model="form[field.id]" />
+                            </div>
+                            <div ng-switch-when="textarea">
+                                <textarea rows="3" placeholder="{{ field.name }}" ng-model="form[field.id]"></textarea>
+                            </div>
+                            <div ng-switch-when="email">
+                                <input type="email" placeholder="{{ field.name }}" ng-model="form[field.id]" />
+                            </div>
+                            <div ng-switch-when="nombre">
+                                <input type="number" placeholder="{{ field.name }}" ng-model="form[field.id]" />
+                            </div>
+                            <div ng-switch-when="date">
+                                <input type="date" placeholder="{{ field.name }}" ng-model="form[field.id]" />
+                            </div>
+                            <div ng-switch-when="geoloc">
+                                <input class="left" type="checkbox" id="id="form.{{field.id}}" ng-model="form[field.id]" />
+                                <label for="id="form.{{field.id}}" class="inline">{{ field.name }}</label>
                                 <div class="clear"></div>
                             </div>
-                        </div>
-                        <div ng-switch-when="radio">
-                            <p class="label">{{ field.name }}</p>
-                            <div ng-repeat="option in field.options">
-                                <input  class="left" type="radio" id="form.{{field.id}}.{{option.id}}" ng-model="form[field.id]" ng-value="option.id" />
-                                <label for="form.{{field.id}}.{{option.id}}" class="inline">{{ option.name }}</label>
-                                <div class="clear"></div>
+                            <div ng-switch-when="checkbox">
+                                <p class="label">{{ field.name }}</p>
+                                <div ng-repeat="option in field.options">
+                                    <input  class="left" type="checkbox" id="form.{{field.id}}.{{option.id}}" ng-click="selectOption(field, option.id)" ng-value="option.id" />
+                                    <label class="inline" for="form.{{field.id}}.{{option.id}}">{{ option.name }}</label>
+                                    <div class="clear"></div>
+                                </div>
                             </div>
-                        </div>
-                        <div ng-switch-when="select">
-                            <p class="label">{{ field.name }}</p>
-                            <div>
-                                <select ng-model="form[field.id]" ng-options="option.id as option.name for option in field.options">
-                                    <option value=""></option>
-                                </select>
+                            <div ng-switch-when="radio">
+                                <p class="label">{{ field.name }}</p>
+                                <div ng-repeat="option in field.options">
+                                    <input  class="left" type="radio" id="form.{{field.id}}.{{option.id}}" ng-model="form[field.id]" ng-value="option.id" />
+                                    <label for="form.{{field.id}}.{{option.id}}" class="inline">{{ option.name }}</label>
+                                    <div class="clear"></div>
+                                </div>
                             </div>
-                        </div>
-                        <div ng-switch-default="">
-                            {{ field.name }}
-                        </div>
-                    </li>
-                </ul>
-            </div>
+                            <div ng-switch-when="select">
+                                <p class="label">{{ field.name }}</p>
+                                <div>
+                                    <select ng-model="form[field.id]" ng-options="option.id as option.name for option in field.options">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div ng-switch-default="">
+                                {{ field.name }}
+                            </div>
+                        </li>
+                    </ul>
+                </div>
 
-            <button type="submit" class=""><?php echo $this->_("Send"); ?></button>
+                <button type="submit" class=""><?php echo $this->_("Send"); ?></button>
 
-        </form>
+            </form>
+        </div>
     </div>
-
 </div>

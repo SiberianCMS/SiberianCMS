@@ -1,4 +1,4 @@
-<div class="has_header sidebar l1" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+<div class="sidebar l1" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
 
     <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="page_title" message="message" right-button="header_right_button"></sb-header>
 
@@ -16,7 +16,9 @@
         </div>
     </div>
 
-    <div ng-include="template_view"></div>
+    <div class="scrollable_content">
+        <div ng-include="template_view"></div>
+    </div>
 
     <sb-loader is-loading="is_loading" has-connection="has_connection"></sb-loader>
 
