@@ -78,10 +78,6 @@ App.run(function($rootScope, $window, $route, $location, $timeout, $templateCach
     }
 
     $rootScope.$on('$locationChangeStart', function(event) {
-//        if(!Connection.isOnline) {
-//            event.preventDefault();
-//            return;
-//        }
         $rootScope.actualLocation = $location.path();
     });
 
@@ -226,7 +222,6 @@ App.directive('sbBackgroundImage', function($http, $window) {
         },
         link: function (scope, element, attrs) {
 
-            console.log("link");
             if(angular.isDefined(scope.valueId)) {
                 $http({
                     method: 'GET',
@@ -270,14 +265,32 @@ App.directive('sbBackgroundImage', function($http, $window) {
             scope.$on("$destroy", function() {
                 angular.element($window).unbind('resize');
             });
-        },
-        controller: function() {
-            console.log("controller");
-
         }
     };
 });
 
+App.directive("sbLoadMore", function() {
+    return {
+        restrict: 'A',
+        scope: {
+            enable_load_onscroll : "=enableLoadOnscroll"
+        },
+        link: function (scope, element, attrs) {
+
+            angular.element(element).bind("scroll", function(e) {
+                if(scope.enable_load_onscroll) {
+                    if(this.scrollHeight - this.clientHeight - this.scrollTop === 0) {
+                        scope.$parent.loadMore();
+                    }
+                }
+            });
+
+            scope.$on("$destroy", function() {
+                angular.element(element).unbind('scroll');
+            })
+        }
+    }
+});
 
 App.factory('Connection', function($rootScope, $window, $http, $timeout, Application) {
 

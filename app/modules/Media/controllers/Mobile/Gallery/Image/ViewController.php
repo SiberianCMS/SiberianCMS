@@ -8,7 +8,7 @@ class Media_Mobile_Gallery_Image_ViewController extends Application_Controller_M
 
             try {
 
-                $data = array("images");
+                $data = array("images" => array());
 
                 $image = new Media_Model_Gallery_Image();
                 $image->find($image_id);

@@ -16,6 +16,7 @@ App.config(function($routeProvider) {
     });
 
     $scope.gallery = ImageGallery;
+    $scope.enable_load_onscroll = true;
     $scope.sidebar = new Sidebar("image");
     $scope.is_loading = false;
     $scope.images = new Array();
@@ -62,7 +63,6 @@ App.config(function($routeProvider) {
 
     $scope.loadItem = function(item, offset) {
 
-        $scope.removeScrollEvent();
         $scope.sidebar.is_loading = true;
 
         item.current_offset = offset;
@@ -78,10 +78,11 @@ App.config(function($routeProvider) {
                 }
             }
 
-            if(data.images.length) {
-                $scope.bindScrollEvent();
+            if(!data.images.length) {
+                $scope.enable_load_onscroll = false;
             }
 
+            $scope.show_loader_more = false;
             $scope.sidebar.is_loading = false;
 
         }).error(function() {
@@ -92,31 +93,16 @@ App.config(function($routeProvider) {
     };
 
     $scope.loadMore = function() {
-        var offset = $scope.collection[$scope.collection.length-1].offset+1;
-        $scope.loadItem($scope.sidebar.current_item, offset);
+        if(!$scope.show_loader_more) {
+            $scope.show_loader_more = true;
+            var offset = $scope.collection[$scope.collection.length-1].offset+1;
+            $scope.loadItem($scope.sidebar.current_item, offset);
+        }
     };
-
-    $scope.bindScrollEvent = function() {
-        $scope.show_loader_more = false;
-        angular.element($window).bind('scroll', function() {
-            if(this.pageYOffset >= $window.getMaxScrollY()) {
-                $scope.show_loader_more = true;
-                $scope.loadMore();
-            }
-        });
-    }
 
     $scope.showGallery = function(index) {
         $scope.gallery.show($scope.collection, index);
     }
-
-    $scope.removeScrollEvent = function() {
-        angular.element($window).unbind('scroll');
-    }
-
-    $scope.$on("$destroy", function() {
-        angular.element($window).unbind('scroll');
-    });
 
     $scope.loadContent();
 

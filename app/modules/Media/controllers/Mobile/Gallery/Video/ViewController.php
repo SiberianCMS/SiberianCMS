@@ -8,7 +8,7 @@ class Media_Mobile_Gallery_Video_ViewController extends Application_Controller_M
 
             try {
 
-                $data = array("videos");
+                $data = array("videos" => array());
 
                 $video = new Media_Model_Gallery_Video();
                 $video->find($video_id);

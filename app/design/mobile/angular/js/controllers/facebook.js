@@ -17,6 +17,7 @@ App.config(function($routeProvider) {
     });
 
     $scope.is_loading = true;
+    $scope.enable_load_onscroll = true;
     $scope.collection = new Array();
     $scope.value_id = Facebook.value_id = $routeParams.value_id;
     $scope.show_posts_loader = false;
@@ -46,7 +47,7 @@ App.config(function($routeProvider) {
 
             $scope.show_user_loader = false;
             $scope.user = user;
-            $scope.findPosts(username, 0);
+            $scope.loadMore();
 
         }, function(error) {
             alert('error');
@@ -54,10 +55,11 @@ App.config(function($routeProvider) {
         });
     }
 
-    $scope.findPosts = function() {
+    $scope.loadMore = function() {
+
+        if($scope.show_posts_loader) return;
 
         $scope.show_posts_loader = true;
-        $scope.removeScrollEvent();
 
         Facebook.findPosts().then(function(response) {
 
@@ -101,8 +103,8 @@ App.config(function($routeProvider) {
                 $scope.collection.push(posts.data[i]);
             }
 
-            if(posts.data.length) {
-                $scope.bindScrollEvent();
+            if(!posts.data.length) {
+                $scope.enable_load_onscroll = false;
             }
 
         }, function(error) {
@@ -114,16 +116,6 @@ App.config(function($routeProvider) {
     $scope.showItem = function(item) {
         var path = Url.get("social/mobile_facebook_view/index", {value_id: $scope.value_id, post_id: item.id});
         $location.path(path);
-    }
-
-    $scope.bindScrollEvent = function() {
-        $scope.show_loader_more = false;
-        angular.element($window).bind('scroll', function() {
-            if(this.pageYOffset >= $window.getMaxScrollY()) {
-                $scope.show_posts_loader = true;
-                $scope.findPosts();
-            }
-        });
     }
 
     $scope.removeScrollEvent = function() {

@@ -2,7 +2,7 @@
 
     <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="page_title" message="message" right-button="header_right_button"></sb-header>
 
-    <div class="subheader sidebar right slide-right" ng-hide="!sidebar.show">
+    <div class="subheader sidebar right ng-hide slide-right" ng-hide="!sidebar.show">
         <div class="content">
             <ul > <!-- ng-click="show_sidebar = false;" -->
                 <li ng-repeat="item in sidebar.collection" ng-include="'sidebar_l1.html'"></li>
@@ -16,7 +16,7 @@
         </div>
     </div>
 
-    <div class="scrollable_content">
+    <div class="scrollable_content" sb-load-more enable-load-onscroll="enable_load_onscroll">
         <div ng-include="template_view"></div>
     </div>
 

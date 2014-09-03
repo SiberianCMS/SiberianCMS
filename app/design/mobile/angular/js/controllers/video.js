@@ -16,6 +16,7 @@ App.config(function($routeProvider) {
     });
 
     $scope.is_loading = false;
+    $scope.enable_load_onscroll = true;
     $scope.sidebar = new Sidebar("video");
     $scope.videos = new Array();
     $scope.value_id = Video.value_id = $routeParams.value_id;
@@ -58,12 +59,13 @@ App.config(function($routeProvider) {
 
     $scope.loadItem = function(item, offset) {
 
-        $scope.removeScrollEvent();
         $scope.sidebar.is_loading = true;
 
         item.current_offset = offset;
         $scope.sidebar.show = false;
         Video.find(item).success(function(data) {
+            console.log(data.videos);
+
             if(!$scope.sidebar.current_item) {
                 $scope.sidebar.current_item = item;
                 $scope.collection = data.videos;
@@ -73,10 +75,11 @@ App.config(function($routeProvider) {
                 }
             }
 
-            if(data.videos.length) {
-                $scope.bindScrollEvent();
+            if(!data.videos.length) {
+                $scope.enable_load_onscroll = false;
             }
 
+            $scope.show_loader_more = false;
             $scope.sidebar.is_loading = false;
 
         }).error(function() {
@@ -87,27 +90,12 @@ App.config(function($routeProvider) {
     };
 
     $scope.loadMore = function() {
-        var offset = $scope.collection[$scope.collection.length-1].offset+1;
-        $scope.loadItem($scope.sidebar.current_item, offset);
+        if(!$scope.show_loader_more) {
+            $scope.show_loader_more = true;
+            var offset = $scope.collection[$scope.collection.length-1].offset+1;
+            $scope.loadItem($scope.sidebar.current_item, offset);
+        }
     };
-
-    $scope.removeScrollEvent = function() {
-        angular.element($window).unbind('scroll');
-    }
-
-    $scope.bindScrollEvent = function() {
-        $scope.show_loader_more = false;
-        angular.element($window).bind('scroll', function() {
-            if(this.pageYOffset >= $window.getMaxScrollY()) {
-                $scope.show_loader_more = true;
-                $scope.loadMore();
-            }
-        });
-    }
-
-    $scope.$on("$destroy", function() {
-        angular.element($window).unbind('scroll');
-    });
 
     $scope.loadContent();
 
