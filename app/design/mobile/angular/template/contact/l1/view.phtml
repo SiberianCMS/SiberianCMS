@@ -28,7 +28,7 @@
                     <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/phone.png', true), $application->getBlock('button')->getColor()); ?>" width="21" height="21" />
                     <?php echo $this->_('Phone'); ?>
                 </a>
-                <button class="button icon_left arrow_right" ng-if="contact.coordinates.latitude && contact.coordinates.longitude" ng-click="showMap();">
+                <button class="button icon_left arrow_right" ng-if="contact.coordinates || contact.street && contact.postcode && contact.city" ng-click="showMap();">
                     <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/marker.png', true), $application->getBlock('button')->getColor()); ?>" width="21" height="21" />
                     <?php echo $this->_('Locate'); ?>
                 </button>

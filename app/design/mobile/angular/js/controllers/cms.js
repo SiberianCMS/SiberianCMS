@@ -103,11 +103,21 @@ App.directive("sbCmsText", function() {
                         +'<h4 ng-if="block.label">{{ block.label}}</h4>'
                         +'<p ng-if="block.address">{{ block.address }}</p>'
                     +'</div>'
-                    +'<button class="button icon_left arrow_right" ng-if="block.address && block.show_geolocation_button">'
+                    +'<button class="button icon_left arrow_right" ng-if="block.address && block.show_geolocation_button" ng-click="showMap()">'
                     +'<img ng-src="{{ picto_marker }}" width="21" height="21" />'
                     +'Locate'
                     +'</button>'
                 +'</div>'
-            +'</div>'
+            +'</div>',
+        controller: function($scope, $location, Url) {
+            $scope.showMap = function() {
+                var address = $scope.block.address;
+                address = encodeURI(address);
+                $location.path(Url.get("map/mobile_view/index", {
+                    address: address,
+                    title: $scope.block.label
+                }));
+            }
+        }
     };
 });

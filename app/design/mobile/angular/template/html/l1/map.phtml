@@ -1,2 +1,11 @@
 <?php $application = $this->getApplication(); ?>
-    <div id="map_canvas" style="display:block; height:600px;width:650px;"></div>
+
+<div class="has_header" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="page_title" message="message"></sb-header>
+
+    <sb-loader is-loading="is_loading" has-connection="has_connection"></sb-loader>
+
+    <div id="map_canvas" style="display:block;height:100%;width:100%;"></div>
+
+</div>

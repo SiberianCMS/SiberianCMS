@@ -1,7 +1,7 @@
 /** GENERAL **/
 * { max-width:100%; margin:0; padding:0; border:none; font-family: Arial, sans-serif;}
 
-body { font-size: 15px; -webkit-user-select : none; -webkit-text-size-adjust : none; -webkit-touch-callout: none; line-height:1; background-color:white; overflow:hidden;}
+body { font-size: 15px; -webkit-user-select : none; -webkit-text-size-adjust : none; -webkit-touch-callout: none; line-height:1; background-color:white; }
 body.no_scroll {overflow:hidden;}
 .scrollable_content {
     height:100%;
@@ -588,6 +588,9 @@ a.connect_button {height:22px; padding-top:10px;}
 /* Form */
 .form form .section {margin-bottom:30px;}
 .form form .section p.label {font-size:16px;}
+
+/* Maps */
+#map_canvas, #map_canvas * {max-width: none;}
 
 /* Place */
 .place .list.l3 ul li {height:85px;}

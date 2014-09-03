@@ -27,9 +27,19 @@ App.config(function($routeProvider) {
     });
 
     $scope.showMap = function() {
-        var address = $scope.contact.street+", "+$scope.contact.postcode+", "+$scope.contact.city;
-        address = escape(address);
-        $location.path(Url.get("map/mobile_view/index", {latitude: $scope.contact.coordinates.latitude, longitude: $scope.contact.coordinates.longitude}));
+
+        var params = {};
+        if($scope.contact.coordinates) {
+            params.latitude = $scope.contact.coordinates.latitude;
+            params.longitude = $scope.contact.coordinates.longitude;
+        } else {
+            var address = $scope.contact.street+", "+$scope.contact.postcode+", "+$scope.contact.city;
+            params.address = encodeURI(address);
+        }
+
+        params.title = $scope.contact.name;
+
+        $location.path(Url.get("map/mobile_view/index", params));
     }
 
     if($scope.isOverview) {
@@ -71,7 +81,6 @@ App.config(function($routeProvider) {
                 ;
 
             }).error(function(data) {
-                console.log(data);
                 if(data && angular.isDefined(data.message)) {
                     $scope.message = new Message();
                     $scope.message.isError(true)
