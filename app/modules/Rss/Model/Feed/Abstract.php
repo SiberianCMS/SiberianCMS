@@ -21,9 +21,9 @@ abstract class Rss_Model_Feed_Abstract extends Core_Model_Default {
             if($entry->getEnclosure() && $entry->getEnclosure()->url) $picture = $entry->getEnclosure()->url;
 
             $description = "";
-            if($entry->getDescription()) {
+            if($entry->getContent()) {
                 $content = new Dom_SmartDOMDocument();
-                $content->loadHTML($entry->getDescription());
+                $content->loadHTML($entry->getContent());
                 $content->encoding = 'utf-8';
                 $description = $content->documentElement;
                 $imgs = $description->getElementsByTagName('img');

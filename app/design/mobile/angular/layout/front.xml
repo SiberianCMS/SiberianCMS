@@ -39,6 +39,7 @@
                 <body class="core_view_mobile_default" template="page/base/body.phtml" />
                 <style class="core_view_mobile_default" template="page/base/css.phtml" />
                 <js class="core_view_mobile_default" template="page/base/js.phtml" />
+                <!--<templates class="core_view_mobile_default" template="page/base/templates.phtml" />-->
             </views>
         </base>
     </front_index_index>

@@ -400,7 +400,8 @@
 //                            this.unsCallback('didcreate');
 //                        });
 //                        iframe.f.page.loadHomePage();
-                        iframe.f.setPath(datas.path);
+                        page.load(a);
+//                        iframe.f.setPath(datas.path);
                         carousel.update().slideToItem(li);
                         page.processEvents();
                     }

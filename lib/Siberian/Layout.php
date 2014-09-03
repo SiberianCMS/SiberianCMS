@@ -319,7 +319,7 @@ class Siberian_Layout extends Zend_Layout
         $this->_defaultLayout = null;
         $this->_otherLayout = array();
         $this->_xml = simplexml_load_string('<?xml version="1.0" encoding="UTF-8"?><xml/>');
-
+        $this->_html = null;
         $this->_is_loaded = false;
 
         Siberian_View::setLayout($this);

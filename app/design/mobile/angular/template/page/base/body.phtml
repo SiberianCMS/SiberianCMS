@@ -9,4 +9,7 @@
         var ORIG_URL = "<?php echo $this->getRequest()->getRequestUri(); ?>";
         if(ORIG_URL.indexOf('/') !== 0) ORIG_URL = '/'+ORIG_URL;
     </script>
+
+    <?php echo $this->getPartialHtml("templates"); ?>
+
 </div>

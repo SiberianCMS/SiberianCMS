@@ -2,4 +2,4 @@
 
 $option = new Application_Model_Option();
 $option->find("wordpress", "code");
-$option->setMobileUri("wordpress/mobile_list/index")->save();
+$option->setMobileUri("wordpress/mobile_list/")->save();

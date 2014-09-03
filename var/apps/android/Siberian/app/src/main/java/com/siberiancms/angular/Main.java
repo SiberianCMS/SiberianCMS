@@ -19,12 +19,19 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.net.Uri;
 
+import android.webkit.WebResourceResponse;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.webkit.GeolocationPermissions;
 
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class Main extends Activity {
@@ -37,13 +44,18 @@ public class Main extends Activity {
     public static Boolean webviewIsLoaded = false;
     public static Boolean webviewHasFailed = false;
 
+    public static String baseUrl = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
 
+        baseUrl = this.getApplicationContext().getString(R.string.url);
+
         webView = (WebView) findViewById(R.id.webView);
+        webView.getSettings().setUserAgentString(webView.getSettings().getUserAgentString() + " type/siberian.application");
         WebSettings settings = webView.getSettings();
 
         settings.setJavaScriptEnabled(true);
@@ -79,9 +91,7 @@ public class Main extends Activity {
                 Log.i("url", url);
 
                 WebView.HitTestResult hr = Webview.getHitTestResult();
-                Log.i("Clicked", "getExtra = "+ hr.getExtra() + "\t\t Type=" + hr.getType());
-                Log.i("SRC_ANCHOR_TYPE", String.valueOf(WebView.HitTestResult.SRC_ANCHOR_TYPE));
-                Log.i("SRC_IMAGE_ANCHOR_TYPE", String.valueOf(WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE));
+
                 if(hr.getType() == WebView.HitTestResult.SRC_ANCHOR_TYPE) {
 
                     if (url.startsWith("tel:")) {
@@ -104,14 +114,87 @@ public class Main extends Activity {
 
                     return true;
 
+                } else {
+                    Log.e("Webview", "Not from a click");
                 }
 
                 return false;
 
             }
 
+            @Override
+            public WebResourceResponse shouldInterceptRequest(final WebView view, String url) {
+
+                final Uri uri = Uri.parse(url);
+
+                Log.e("Intercepting path:", uri.getPath());
+                if (uri.getPath().startsWith("/app:")) {
+
+                    Main.this.runOnUiThread(new Runnable() {
+                        public void run() {
+
+//                            Map<String, String> params = this._parseParams(uri.getPath());
+                            ArrayList paramsTmp = new ArrayList(Arrays.asList(uri.getPath().split(":")));
+                            paramsTmp.remove(0);
+                            Map<String, String> params = new HashMap<String, String>();
+
+                            for(int i = 0; i < paramsTmp.size(); i++) {
+                                params.put(paramsTmp.get(i).toString(), paramsTmp.get(i+1).toString());
+                                i++;
+                            }
+
+                            Log.e("Method", "Done parsing");
+                            for (String methodName : params.keySet()) {
+                                Log.e("Method", methodName);
+                                Method methodToFind = null;
+
+                                try {
+                                    Class[] cArg = new Class[1];
+                                    cArg[0] = String.class;
+                                    methodToFind = Main.class.getMethod(methodName, cArg);
+                                    if (methodToFind != null) {
+                                        Log.e("Method", "Found");
+
+                                        methodToFind.invoke(Main.this, params.get(methodName));
+
+                                    } else {
+                                        Log.e("Method", "Not Found");
+                                    }
+                                } catch (Exception e) {
+                                    Log.e("Method", e.toString());
+                                }
+
+                            }
+                        }
+                    });
+//                        Log.e("List parameters", Map);
+
+                }
+
+                return super.shouldInterceptRequest(view, url);
+//                if (url.contains(".css")) {
+//                    return getCssWebResourceResponseFromAsset();
+//                } else {
+//                    return super.shouldInterceptRequest(view, url);
+//                }
+            }
+
+            private Map _parseParams(String path) {
+
+                ArrayList paramsTmp = new ArrayList(Arrays.asList(path.split(":")));
+                paramsTmp.remove(0);
+                Map<String, String> params = new HashMap<String, String>();
+
+                for(int i = 0; i < paramsTmp.size(); i++) {
+                    params.put(paramsTmp.get(i).toString(), paramsTmp.get(i+1).toString());
+                    i++;
+                }
+
+                return params;
+            }
+
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                view.setVisibility(WebView.GONE);
+//                view.setVisibility(WebView.GONE);
                 Toast.makeText(getApplicationContext(), R.string.no_internet_connection, Toast.LENGTH_LONG).show();
                 Main.webviewIsLoaded = false;
                 Main.webviewHasFailed = true;
@@ -124,9 +207,19 @@ public class Main extends Activity {
             }
         });
 
-        Log.i("Loading URL", this.getApplicationContext().getString(R.string.url));
-        webView.loadUrl(this.getApplicationContext().getString(R.string.url));
+        Log.i("Loading URL", baseUrl);
+        webView.loadUrl(baseUrl);
 
+    }
+
+    public void setIsOnline(String isOnline) {
+        if(isOnline == "0") {
+            Log.e("Method", "is now offline");
+            webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        } else {
+            Log.e("Method", "is now online");
+            webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+        }
     }
 
     @Override
@@ -165,6 +258,7 @@ public class Main extends Activity {
                         isConnected = true;
                     }
                 }
+
                 if(!isConnected) {
                     webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
                 }

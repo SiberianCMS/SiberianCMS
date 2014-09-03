@@ -1,13 +1,13 @@
 var App = angular.module("Siberian", ['ngRoute', 'ngAnimate', 'ngTouch', 'angular-carousel', 'ngResource', 'ngSanitize', 'ngFacebook']);
 
-App.run(function($rootScope, $window, $route, $location, $timeout, $templateCache, Connection, Message) {
+App.run(function($rootScope, $window, $route, $location, $timeout, $templateCache, Connection, Message, $http, Url) {
 
     Connection.check();
 
     FastClick.attach($window.document);
 
+//    Application_Mobile_Template
     $rootScope.isOverview = $window.parent.location.href != $window.location.href;
-    console.log('Is overview : ', $rootScope.isOverview);
 
     if($rootScope.isOverview) {
 
@@ -64,6 +64,17 @@ App.run(function($rootScope, $window, $route, $location, $timeout, $templateCach
             $window.history.back();
         }
 
+    } else {
+        $http({
+            method: 'GET',
+            url: Url.get("/application/mobile_template/findall"),
+            cache: true,
+            responseType:'json'
+        }).success(function(templates) {
+            for(var i in templates) {
+                $templateCache.put(i, templates[i]);
+            }
+        });
     }
 
     $rootScope.$on('$locationChangeStart', function(event) {
@@ -145,10 +156,11 @@ App.factory("Application", function($http) {
     };
 
     factory.call = function(params) {
+        if(!this.is_native) return;
         var url = ["app"];
         angular.forEach(params, function(value, key) {
-            url.push(value);
             url.push(key);
+            url.push(value);
         });
         url = url.join(":");
         $http({ method: "HEAD", url: "/"+url});
@@ -289,9 +301,7 @@ App.factory('Connection', function($rootScope, $window, $http, $timeout, Applica
 
         if($rootScope.isOnline) return;
 
-        if($rootScope.isApplication) {
-            Application.call({setIsOnline:1});
-        }
+        Application.call({setIsOnline:1});
 
         this.isOnline = true;
         $rootScope.isOnline = true;

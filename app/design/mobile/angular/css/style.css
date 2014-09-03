@@ -145,7 +145,7 @@ button {width: 100%;}
 
 button.icon_left, a.button.icon_left {position:relative;padding-left: 40px;}
 button.icon_left img, a.button.icon_left img, button.icon_left canvas {position:absolute;top:50%;left:10px;margin-top:-10px;border-radius:2px;}
-button.arrow_right, button.arrow_right, a.arrow_right, .arrow_right {padding-right: 40px;background:url(/app/design/mobile/angular/images/pictos/right_arrow.png) no-repeat right 10px center / 14px 20px;}
+button.arrow_right, button.arrow_right, a.arrow_right, .arrow_right {padding-right: 40px;background-image:url(/app/design/mobile/angular/images/pictos/right_arrow.png);background-repeat:no-repeat;background-position:98% center;background-size:14px 20px;}
 button.half, a.button.half {display: inline-block;width: 49%;}
 
 button.connect_button {height: 32px;}
