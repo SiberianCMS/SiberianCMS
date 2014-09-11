@@ -62,9 +62,6 @@ class Installer_ModuleController extends Admin_Controller_Default {
 
             if($adapter->receive()) {
                 $file = $adapter->getFileInfo();
-                if($file['module']['type'] != 'application/zip' AND $file['module']['type'] != 'application/octet-stream') {
-                    throw new Exception($this->_("The sent file is not a valid archive"));
-                }
 
                 $parser = new Installer_Model_Installer_Module_Parser();
                 if($parser->setFile($file['module']['tmp_name'])->check()) {

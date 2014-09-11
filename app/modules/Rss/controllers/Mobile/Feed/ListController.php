@@ -35,15 +35,15 @@ class Rss_Mobile_Feed_ListController extends Application_Controller_Mobile_Defau
 
                     $data['collection'][] = array(
                         "url" => $this->getPath("rss/mobile_feed_view", array("value_id" => $value_id, "feed_id" => base64_encode($entry->getEntryId()))),
-                        "author" => $author,
-                        "message" => $entry->getTitle(),
-                        "picture" => $entry->getPicture(),
-                        "meta" => array(
-                            "area3" => array(
-                                "picto" => $this->_getColorizedImage($this->_getImage("pictos/pencil.png"), $color),
-                                "text" => $this->_('%s ago', $this->_getUpdatedAt($entry))
-                            )
-                        )
+                        "title" => $author ? $author : $entry->getTitle(),
+                        "subtitle" => $author ? $entry->getTitle() : $entry->getShortDescription(),
+                        "picture" => $entry->getPicture()
+//                        "meta" => array(
+//                            "area3" => array(
+//                                "picto" => $this->_getColorizedImage($this->_getImage("pictos/pencil.png"), $color),
+//                                "text" => $this->_('%s ago', $this->_getUpdatedAt($entry))
+//                            )
+//                        )
                     );
 
                 }

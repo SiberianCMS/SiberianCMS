@@ -10,6 +10,7 @@ class Catalog_Mobile_Category_ListController extends Application_Controller_Mobi
 
                 $category = new Catalog_Model_Category();
                 $categories = $category->findByValueId($value_id, null, true, true);
+                $all_products = array();
                 $data = array("categories" => array());
 
                 foreach($categories as $category) {
@@ -57,9 +58,10 @@ class Catalog_Mobile_Category_ListController extends Application_Controller_Mobi
 
                          array_unshift($category_data["children"], array(
                             "id" => $child->getId(),
-                            "name" => $this->_("All %s", $category->getName()),
+                            "name" => $this->_("%s - All", $category->getName()),
                             "collection" => $products
                         ));
+
                     } else {
                         $category_data["collection"] = $products;
                     }

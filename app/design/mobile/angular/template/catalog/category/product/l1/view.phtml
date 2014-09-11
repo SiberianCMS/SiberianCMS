@@ -4,7 +4,9 @@
 
     <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="product.name" message="message"></sb-header>
 
-    <sb-loader is-loading="is_loading" has-connection="has_connection"></sb-loader>
+    <sb-connection has-connection="has_connection"></sb-connection>
+
+    <sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>
 
     <div class="scrollable_content content">
         <ul ng-class="{news: !style_background_image}" class="content_news" ng-show="product">

@@ -4,7 +4,9 @@
 
     <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="feed.title" message="message"></sb-header>
 
-    <sb-loader is-loading="is_loading" has-connection="has_connection"></sb-loader>
+    <sb-connection has-connection="has_connection"></sb-connection>
+
+    <sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>
 
     <div class="scrollable_content content">
         <ul ng-class="{news: !style_background_image}" class="content_news" ng-show="feed.id">
@@ -28,6 +30,9 @@
                     <img ng-src="{{ feed.image_url }}" alt="" title="" width="100%" />
                 </div>
                 <div class="feed_content text" ng-bind-html="feed.content">
+                </div>
+                <div ng-if="feed.url">
+                    <a href="{{ feed.url }}" target="_blank" class="button icon_left arrow_right"><?php echo $this->_("Show article"); ?></a>
                 </div>
             </li>
         </ul>

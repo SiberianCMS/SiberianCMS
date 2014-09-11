@@ -32,15 +32,6 @@ App.config(function($routeProvider) {
 
             $scope.sidebar.reset();
 
-            $scope.header_right_button = {
-                action: function() {
-                    if(!$scope.sidebar.current_item) return;
-                    $scope.sidebar.show = !$scope.sidebar.show
-                },
-                picto_url: data.header_right_button.picto_url,
-                hide_arrow: true
-            };
-
             $scope.sidebar.collection = data.categories;
             $scope.collection = data.products;
             $scope.page_title = data.page_title;

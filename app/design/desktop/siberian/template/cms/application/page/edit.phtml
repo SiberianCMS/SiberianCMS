@@ -417,6 +417,7 @@
         CKEDITOR.config.language = '<?php echo $this->_('en') ?>';
         CKEDITOR.config.extraPlugins = 'cms';
         CKEDITOR.config.toolbar = [
+            { name: 'source', items: [ 'Source' ] },
             { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat' ] },
             { name: 'paragraph', groups: [ 'indent', 'align' ], items: [ 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ] },
             { name: 'links', items: [ 'Link', 'Unlink' ] },

@@ -33,8 +33,10 @@ class Application_Controller_Default extends Admin_Controller_Default {
             $this->getLayout()->getPartial('content')->setOptionValue($this->getCurrentOptionValue());
             if($this->getLayout()->getPartial('content_editor')) $this->getLayout()->getPartial('content_editor')->setOptionValue($this->getCurrentOptionValue());
             $html = array('html' => mb_convert_encoding($this->getLayout()->render(), 'UTF-8', 'UTF-8'));
-            $html["path"] = $this->getCurrentOptionValue()->getPath(null, array(), "mobile");
+            $path =  $this->getCurrentOptionValue()->getPath(null, array(), "mobile");
+            $html["path"] = $path ? $path : "";
             $this->getLayout()->setHtml(Zend_Json::encode($html));
+
         }
     }
 

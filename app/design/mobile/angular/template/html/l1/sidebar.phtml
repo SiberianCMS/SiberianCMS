@@ -1,6 +1,20 @@
 <div class="sidebar l1" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
 
-    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="page_title" message="message" right-button="header_right_button"></sb-header>
+    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="page_title" message="message"></sb-header>
+
+    <sb-connection has-connection="has_connection"></sb-connection>
+
+    <div class="subheader content">
+        <div>
+            <sb-loader is-loading="sidebar.is_loading" size="'32'" block="'subheader'" ng-class="{left: sidebar.collection.length > 1}"></sb-loader>
+            <h3 class="title" ng-hide="sidebar.is_loading" ng-class="{left: sidebar.collection.length > 1}">{{ sidebar.current_item.name }}</h3>
+            <button type="button" class="btn_open btn_right right subheader reverse" ng-if="sidebar.collection.length > 1" ng-click="sidebar.toggle()">
+                <?php echo $this->_("All items"); ?>
+                <img src="<?php echo $this->getColorizedImage($this->getImage("pictos/browse.png", true), $this->getApplication()->getBlock("subheader")->getBackgroundColor()); ?>" width="10" />
+            </button>
+            <div class="clear"></div>
+        </div>
+    </div>
 
     <div class="subheader sidebar right ng-hide slide-right" ng-hide="!sidebar.show">
         <div class="content">
@@ -9,18 +23,12 @@
             </ul>
         </div>
     </div>
-    <div class="subheader content">
-        <div>
-            <h3 class="title" ng-hide="sidebar.is_loading">{{ sidebar.current_item.name }}</h3>
-            <p class="small loader" ng-show="sidebar.is_loading"></p>
-        </div>
-    </div>
 
     <div class="scrollable_content" sb-load-more enable-load-onscroll="enable_load_onscroll">
         <div ng-include="template_view"></div>
     </div>
 
-    <sb-loader is-loading="is_loading" has-connection="has_connection"></sb-loader>
+    <sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>
 
 </div>
 

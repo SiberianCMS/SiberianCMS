@@ -2,7 +2,7 @@
 
     <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="page_title" message="message"></sb-header>
 
-    <sb-loader is-loading="is_loading" has-connection="has_connection"></sb-loader>
+    <sb-connection has-connection="has_connection"></sb-connection>
 
     <div class="scrollable_content">
         <div class="padding form">
@@ -47,5 +47,7 @@
             </form>
         </div>
     </div>
+
+    <sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>
 
 </div>

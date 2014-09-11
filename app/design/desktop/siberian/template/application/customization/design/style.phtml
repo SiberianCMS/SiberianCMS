@@ -131,7 +131,7 @@
                 countries_loader.show();
                 reload(this.parentNode, '<?php echo $this->getUrl('application/customization_design_style/savelocale'); ?>', false, function(datas) {
                     if(datas.success) {
-                        iframe.f.page.reload();
+                        iframe.reload();
                     }
                     countries_loader.fadeOut();
                 }, function() {

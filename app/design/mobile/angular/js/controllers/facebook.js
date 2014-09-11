@@ -39,7 +39,7 @@ App.config(function($routeProvider) {
 
             console.log(user);
             if(user.cover) {
-                $scope.cover_image_url = user.cover.source;
+                $scope.cover_image_url = user.cover.source;$scope.show_user_loader = false;
             }
 
             user.author = user.name;
@@ -50,8 +50,7 @@ App.config(function($routeProvider) {
             $scope.loadMore();
 
         }, function(error) {
-            alert('error');
-            console.log(error);
+            $scope.show_user_loader = false;
         });
     }
 

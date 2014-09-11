@@ -8,7 +8,7 @@
                 <div class="left picture" image-src="item.picture" ng-if="item.picture" sb-image></div>
                 <div class="details padding" ng-class="{has_picture: item.picture}">
                     <h3 class="title">{{ item.title }}</h3>
-                    <div class="subtitle">{{ item.subtitle }}</div>
+                    <div class="subtitle" ng-bind-html="item.subtitle"></div>
                     <div class="clear"></div>
                 </div>
             </li>

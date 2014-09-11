@@ -52,7 +52,7 @@
         },
 
         setFont: function(fontName) {
-            this.content.find('style#font').replaceWith('<style id="font">'+'.wrapper * {font-family: %ff;}'.replace('%ff', fontName)+'</style>');
+            this.content.find('style#font').replaceWith('<style id="font">'+'#wrapper * {font-family: %ff;}'.replace('%ff', fontName)+'</style>');
         },
 
         setColor: function(to, color) {

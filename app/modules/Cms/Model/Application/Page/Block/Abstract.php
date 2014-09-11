@@ -5,6 +5,6 @@ abstract class Cms_Model_Application_Page_Block_Abstract extends Core_Model_Defa
     public abstract function isValid();
 
     public function getImageUrl() {
-        return Application_Model_Application::getImagePath().$this->getImage();
+        return $this->getImage() ? Application_Model_Application::getImagePath().$this->getImage() : null;
     }
 }

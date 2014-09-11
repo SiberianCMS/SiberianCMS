@@ -39,8 +39,10 @@ App.run(function($rootScope, $window, $route, $location, $timeout, $templateCach
                 $window.back();
                 $timeout(function() {$window.setPath(path);}, 50);
             } else {
-                $location.path(path);
-                $rootScope.$apply();
+                if(path.length) {
+                    $location.path(path);
+                    $rootScope.$apply();
+                }
             }
         }
 
@@ -241,8 +243,9 @@ App.directive('sbBackgroundImage', function($http, $window) {
                 angular.forEach(element.children(), function(div, key) {
                     if(angular.element(div).hasClass("scrollable_content")) {
                         try {
-                            console.log(div.offsetTop);
                             if(!isNaN(div.offsetTop)) {
+                                console.log("div.offsetTop: ", div.offsetTop);
+                                console.log("height: ", height - div.offsetTop);
                                 div.style.height = height - div.offsetTop +"px";
                             }
                         } catch(e) {
@@ -441,17 +444,39 @@ App.directive('sbHeader', function() {
 });
 
 
-App.directive('sbLoader', function() {
+App.directive('sbConnection', function() {
     return {
         restrict: 'E',
         scope: {
             has_connection: '=hasConnection',
-            is_loading: '=isLoading'
         },
-        template: '<div class="toggle" ng-show="is_loading || !has_connection"><div ng-if="is_loading" class="loader"></div><div ng-show="!has_connection" class="no_connection">You are working offline</div></div>',
+        template:
+            '<div class="toggle" ng-show="!has_connection">' +
+                '<div class="no_connection">You are working offline</div>' +
+            '</div>',
         replace: true
     };
 });
+
+App.directive('sbLoader', function() {
+    return {
+        restrict: 'E',
+        scope: {
+            is_loading: '=isLoading',
+            size: '=size',
+            block: '=block'
+        },
+        template:
+            '<div class="toggle relative" ng-show="is_loading">' +
+                '<div class="loader" ng-class="{small: size == 32}">' +
+                    '<div class="{{block}}_floatingCirclesG_{{ size }} floatingCirclesG_{{ size }}"><div class="f_circleG frotateG_01"></div><div class="f_circleG frotateG_02"></div><div class="f_circleG frotateG_03"></div><div class="f_circleG frotateG_04"></div><div class="f_circleG frotateG_05"></div><div class="f_circleG frotateG_06"></div><div class="f_circleG frotateG_07"></div><div class="f_circleG frotateG_08"></div></div>' +
+                '</div>' +
+            '</div>',
+        replace: true
+    };
+});
+
+
 
 App.directive('sbImage', function() {
     return {
@@ -487,7 +512,9 @@ App.directive("sbImageGallery", function($window, $document) {
             '<div class="gallery fullscreen" ng-if="gallery.is_visible">'
                 +'<ul class="block" rn-carousel rn-carousel-index="gallery.index" rn-click="true">'
                     +'<li ng-repeat="image in gallery.images">'
+                        +'<div class="title" ng-if="image.title"><p>{{ image.title }}</p></div>'
                         +'<div sb-image image-src="image.url" ng-style="style_height"></div>'
+                        +'<div class="description" ng-if="image.description"><p>{{ image.description }}</p></div>'
                     +'</li>'
                 +'</ul>'
             +'</div>',
@@ -621,6 +648,11 @@ App.service("Sidebar", function(SidebarInstances) {
 
         this.loadItem = function(item) {
 
+        }
+
+        this.toggle = function() {
+            if(!this.current_item) return;
+            this.show = !this.show;
         }
 
         this.reset = function() {

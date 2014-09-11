@@ -1,7 +1,7 @@
 <div>
     <ul class="image_gallery">
         <li ng-repeat="image in collection" class="image background_image" image-src="image.url" sb-image ng-click="showGallery($index)"></li>
-        <li class="load_more small loader slide-down" ng-show="show_loader_more"></li>
+        <li><sb-loader is-loading="show_loader_more" size="'48'" block="'background'"></sb-loader></li>
     </ul>
 </div>
 

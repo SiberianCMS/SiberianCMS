@@ -3,6 +3,8 @@
         <li class="list_videos relative slide-left" ng-repeat="video in collection">
             <div sb-video video="video"></div>
         </li>
-        <li class="load_more small loader" ng-show="show_loader_more"></li>
+        <li>
+            <sb-loader is-loading="show_loader_more" size="'48'" block="'background'"></sb-loader>
+        </li>
     </ul>
 </div>

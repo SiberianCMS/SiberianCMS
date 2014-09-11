@@ -43,7 +43,7 @@ App.directive("sbCmsText", function() {
         },
         template:
             '<div class="cms_block text padding">'
-            +'<img width="{{block.size}}%" ng-src="{{ block.image_url }}" class="{{ block.alignment }}" />'
+            +'<img width="{{block.size}}%" ng-src="{{ block.image_url }}" ng-if="block.image_url" class="{{ block.alignment }}" />'
                 +'<div class="content" ng-bind-html="block.content"></div>'
             +'<div class="clear"></div>'
         +'</div>'
@@ -109,7 +109,10 @@ App.directive("sbCmsText", function() {
                     +'</button>'
                 +'</div>'
             +'</div>',
-        controller: function($scope, $location, Url) {
+        controller: function($scope, $location, Url, Pictos) {
+            $scope.picto_marker = Pictos.get("marker", "background");
+            console.log(Pictos);
+            console.log(Pictos.get("marker", "background"));
             $scope.showMap = function() {
                 var address = $scope.block.address;
                 address = encodeURI(address);

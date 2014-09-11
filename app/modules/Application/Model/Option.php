@@ -169,7 +169,7 @@ class Application_Model_Option extends Core_Model_Default
         return (bool) $this->getObject() && $this->getObject()->getLink();
     }
 
-    public function getUrl($action, $params = array(), $tiger_url = true, $env = null) {
+    public function getUrl($action, $params = array(), $feature_url = true, $env = null) {
 
         $url = null;
         if($this->getIsDummy()) {
@@ -181,7 +181,9 @@ class Application_Model_Option extends Core_Model_Default
                 $uri = $this->getData("{$env}_uri");
             }
 
-            if(!$this->getIsAjax() AND $this->getObject()->getLink()) $url = (string) $this->getObject()->getLink();
+            if(!$feature_url AND $env != "desktop" AND !$this->getIsAjax() AND $this->getObject()->getLink()) {
+                $url = (string) $this->getObject()->getLink()->getUrl();
+            }
             else $url = parent::getUrl($uri.$action, $params);
         }
         else {
@@ -215,7 +217,7 @@ class Application_Model_Option extends Core_Model_Default
                 }
             }
 
-            if(!$this->getIsAjax() AND $this->getObject()->getLink()) $path = $this->getObject()->getLink();
+            if($env != "desktop" AND !$this->getIsAjax() AND $this->getObject()->getLink()) $path = $this->getObject()->getLink()->getUrl();
             else $path = parent::getPath($uri.$action, $params);
 
         }

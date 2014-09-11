@@ -35,7 +35,7 @@ abstract class Rss_Model_Feed_Abstract extends Core_Model_Default {
 
                             $img = $imgs->item(0);
 
-                            if($img->getAttribute('src')) {
+                            if($img->getAttribute('src') AND stripos($img->getAttribute('src'), ".gif") === false) {
                                 $picture = $img->getAttribute('src');
                                 $img->parentNode->removeChild($img);
                             }
@@ -66,6 +66,7 @@ abstract class Rss_Model_Feed_Abstract extends Core_Model_Default {
                 'entry_id'     => $entry->getId(),
                 'title'        => $entry->getTitle(),
                 'description'  => $description,
+                'short_description'  => strip_tags($description),
                 'dateModified' => $entry->getDateModified(),
                 'authors'      => $entry->getAuthors(),
                 'link'         => $entry->getLink(),
@@ -74,6 +75,7 @@ abstract class Rss_Model_Feed_Abstract extends Core_Model_Default {
                 'timestamp'    => $entry->getDateCreated()->getTimestamp(),
                 'picture'      => $picture,
             ));
+
             $data[] = $edata;
         }
 

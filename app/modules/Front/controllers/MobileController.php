@@ -13,7 +13,7 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
         $option = $this->getCurrentOptionValue();
 
         if($option->getIsHomepage()) {
-            $url = $this->getApplication()->getBackgroundImageUrl("retina4");
+            $url = $this->getApplication()->getHomepageBackgroundImageUrl("retina4");
         } else if($option->hasBackgroundImage()) {
             $url = $option->getBackgroundImageUrl();
         } else if($option->getUseHomepageBackgroundImage()) {

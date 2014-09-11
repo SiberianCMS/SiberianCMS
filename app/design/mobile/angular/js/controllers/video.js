@@ -92,6 +92,7 @@ App.config(function($routeProvider) {
     $scope.loadMore = function() {
         if(!$scope.show_loader_more) {
             $scope.show_loader_more = true;
+            $scope.$apply();
             var offset = $scope.collection[$scope.collection.length-1].offset+1;
             $scope.loadItem($scope.sidebar.current_item, offset);
         }
