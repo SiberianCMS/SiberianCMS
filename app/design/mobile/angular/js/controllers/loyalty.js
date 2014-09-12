@@ -15,6 +15,10 @@ App.config(function($routeProvider) {
         }
     });
 
+    Customer.onStatusChange("loyalty", [
+        Url.get("loyaltycard/mobile_view/findall", {value_id: $routeParams.value_id})
+    ]);
+
     $scope.is_logged_in = Customer.isLoggedIn();
     $scope.is_loading = true;
     $scope.value_id = Loyalty.value_id = $routeParams.value_id;

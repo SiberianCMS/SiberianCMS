@@ -1,9 +1,29 @@
 
-App.factory('Customer', function($http, Url) {
+App.factory('Customer', function($http, $templateCache, httpCache, Url) {
 
     var factory = {};
 
     factory.id = null;
+    factory.events = [];
+
+    factory.onStatusChange = function(id, urls) {
+        factory.events[id] = urls;
+    };
+
+    factory.flushData = function() {
+
+        for(var i in factory.events) {
+
+            if(angular.isArray(factory.events[i])) {
+                var data = factory.events[i];
+                for(var j = 0; j < data.length; j++) {
+                    httpCache.remove(data[j]);
+                }
+            }
+
+        }
+
+    }
 
     factory.login = function(data) {
 
@@ -14,6 +34,7 @@ App.factory('Customer', function($http, Url) {
             responseType:'json'
         }).success(function(data) {
             factory.id = data.customer_id;
+            factory.flushData();
         });
     };
 
@@ -26,6 +47,7 @@ App.factory('Customer', function($http, Url) {
             responseType:'json'
         }).success(function(data) {
             factory.id = data.customer_id;
+            factory.flushData();
         });
     };
 
@@ -57,6 +79,7 @@ App.factory('Customer', function($http, Url) {
             responseType:'json'
         }).success(function() {
             factory.id = null;
+            factory.flushData();
         });
     };
 
