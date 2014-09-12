@@ -52,7 +52,7 @@
                 <?php if($block->getCode() == 'background') : ?>
                 .icheckbox_flat,
                 .iradio_flat {
-                    background-image: url(<?php echo $this->getUrl('template/block/colorize', array('color' => str_replace('#', '', $block->getColor()), 'path' => base64_encode($this->getImage('buttons/checkbox.png')))); ?>)
+                    background-image: url(<?php echo $this->getUrl('template/block/colorize', array('color' => str_replace('#', '', $block->getColor()), 'path' => base64_encode($this->getImage('buttons/checkbox.png', true)))); ?>)
                 }
                 <?php endif; ?>
                 </style>
@@ -91,7 +91,7 @@
             <?php if($block->getCode() == 'background') : ?>
             .icheckbox_flat,
             .iradio_flat {
-                background-image: url(<?php echo $this->getUrl('template/block/colorize', array('color' => str_replace('#', '', $block->getColor()), 'path' => base64_encode($this->getImage('buttons/checkbox.png')))); ?>)
+                background-image: url(<?php echo $this->getUrl('template/block/colorize', array('color' => str_replace('#', '', $block->getColor()), 'path' => base64_encode($this->getImage('buttons/checkbox.png', true)))); ?>)
             }
             <?php endif; ?>
             <?php if($block->getCode() == 'tabbar') : ?>

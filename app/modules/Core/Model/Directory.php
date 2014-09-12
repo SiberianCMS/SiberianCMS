@@ -15,7 +15,10 @@ class Core_Model_Directory
 
     public static function getBasePathTo($path = '') {
         if(substr($path, 0, 1) !== '/') $path = '/'.$path;
-        return self::$_base_path.$path;
+        if(stripos($path, self::$_base_path) === false) {
+            $path = self::$_base_path.$path;
+        }
+        return $path;
     }
 
     public static function getDesignPath($base = false) {
