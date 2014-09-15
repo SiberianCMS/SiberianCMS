@@ -112,12 +112,15 @@ class Application_Model_Device_Iphone extends Core_Model_Default {
 
         // Touch Icon
         $icons = array(
-            $application->getIcon(29, null, true)   => $this->_dst.'/Images.xcassets/AppIcon.appiconset/icon-29.png',
-            $application->getIcon(57, null, true)   => $this->_dst.'/Images.xcassets/AppIcon.appiconset/icon-57.png',
-            $application->getIcon(58, null, true)   => $this->_dst.'/Images.xcassets/AppIcon.appiconset/icon-58.png',
-            $application->getIcon(80, null, true)   => $this->_dst.'/Images.xcassets/AppIcon.appiconset/icon-80.png',
-            $application->getIcon(114, null, true)   => $this->_dst.'/Images.xcassets/AppIcon.appiconset/icon-114.png',
-            $application->getIcon(120, null, true)   => $this->_dst.'/Images.xcassets/AppIcon.appiconset/icon-120.png',
+            $application->getIcon(29, null, true)   => $this->_dst.'/Images.xcassets/AppIcon.appiconset/29x29.png',
+            $application->getIcon(58, null, true)   => $this->_dst.'/Images.xcassets/AppIcon.appiconset/29x29@2x.png',
+            $application->getIcon(87, null, true)   => $this->_dst.'/Images.xcassets/AppIcon.appiconset/29x29@3x.png',
+            $application->getIcon(80, null, true)   => $this->_dst.'/Images.xcassets/AppIcon.appiconset/40x40@2x.png',
+            $application->getIcon(120, null, true)   => $this->_dst.'/Images.xcassets/AppIcon.appiconset/40x40@3x.png',
+            $application->getIcon(57, null, true)   => $this->_dst.'/Images.xcassets/AppIcon.appiconset/57x57.png',
+            $application->getIcon(114, null, true)   => $this->_dst.'/Images.xcassets/AppIcon.appiconset/57x57@2x.png',
+            $application->getIcon(120, null, true)   => $this->_dst.'/Images.xcassets/AppIcon.appiconset/60x60@2x.png',
+            $application->getIcon(180, null, true)   => $this->_dst.'/Images.xcassets/AppIcon.appiconset/60x60@3x.png',
             $application->getAppStoreIcon(true)     => $this->_dst.'/../TouchIcon.png',
         );
 
