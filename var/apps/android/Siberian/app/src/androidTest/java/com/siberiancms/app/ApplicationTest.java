@@ -1,4 +1,4 @@
-package com.siberiancms.angular;
+package com.siberiancms.app;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

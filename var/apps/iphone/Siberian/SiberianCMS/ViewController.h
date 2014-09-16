@@ -7,15 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
 #import "RNCachingURLProtocol.h"
 #import "webViewController.h"
 #import "common.h"
 
-@interface ViewController : UIViewController <UIWebViewDelegate> {
+@interface ViewController : UIViewController <UIWebViewDelegate, CLLocationManagerDelegate> {
     BOOL webViewIsLoaded;
     NSURL *webviewUrl;
 }
 
 @property (nonatomic, strong) IBOutlet UIWebView *webView;
+@property (nonatomic, strong) CLLocationManager *locationManager;
 
 @end

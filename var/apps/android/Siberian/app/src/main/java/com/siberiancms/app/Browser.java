@@ -1,4 +1,4 @@
-package com.siberiancms.angular;
+package com.siberiancms.app;
 
 import android.app.Activity;
 import android.os.Bundle;

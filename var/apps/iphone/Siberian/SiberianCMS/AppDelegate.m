@@ -51,10 +51,16 @@
 
     // Prepare the push notifications
     if(hasConnection) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notifsDidShow:) name:@"notifsDidShow" object:nil];
         // Préparation du push
-        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
-         (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+        if ([application respondsToSelector:@selector(registerUserNotificationSettings:)]) {
+            // use registerUserNotificationSettings
+            [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
+            [[UIApplication sharedApplication] registerForRemoteNotifications];
+            
+        } else {
+            [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
+             (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+        }
     }
 
     
@@ -81,7 +87,12 @@
         pushSound = @"enabled";
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"isFirstLaunch"];
     }
-    else {
+    else if([application respondsToSelector:@selector(currentUserNotificationSettings)]) {
+        // UIUserNotificationSettings *currentSettings = [application currentUserNotificationSettings];
+        pushBadge = @"enabled";
+        pushAlert = @"enabled";
+        pushSound = @"enabled";
+    } else {
         
         if(rntypes == UIRemoteNotificationTypeBadge){
             pushBadge = @"enabled";

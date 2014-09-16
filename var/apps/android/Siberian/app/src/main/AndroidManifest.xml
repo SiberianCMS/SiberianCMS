@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.siberiancms.angular" >
+    package="com.siberiancms.app" >
 
-    <uses-sdk
-        android:minSdkVersion="11"
-        android:targetSdkVersion="19" />
+    <uses-sdk android:minSdkVersion="11" android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -17,18 +15,20 @@
 
     <uses-permission android:name="com.siberiancms.angular.permission.C2D_MESSAGE" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-    <permission android:name="com.siberiancms.angular.permission.C2D_MESSAGE" android:protectionLevel="signature" />
+    <uses-permission android:name="com.google.android.c2dm.intent.RECEIVE" android:category="applicationPackage" />
+    <uses-permission android:name="com.google.android.c2dm.SEND" />
+    <permission android:name="com.siberiancms.app.permission.C2D_MESSAGE" android:protectionLevel="signature" />
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/app_icon"
         android:hardwareAccelerated="true"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.NoTitleBar"
 
         >
         <activity
-            android:name=".Main"
+            android:name="com.siberiancms.app.Main"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen" >
@@ -40,7 +40,7 @@
         </activity>
 
         <activity
-            android:name="Browser"
+            android:name="com.siberiancms.app.Browser"
             android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen"
             android:screenOrientation="portrait"
             android:label="@string/app_name" >
@@ -48,6 +48,20 @@
                 <action android:name="android.intent.action.BROWSER" />
             </intent-filter>
         </activity>
+
+        <uses-library
+            android:name="com.google.android" />
+
+        <receiver
+            android:name=".GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <!-- Receives the actual messages. -->
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <category android:name="com.google.android.gcm.demo.app" />
+            </intent-filter>
+        </receiver>
+        <service android:name=".GcmIntentService" />
 
     </application>
 

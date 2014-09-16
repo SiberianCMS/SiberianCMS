@@ -9,6 +9,7 @@ class Application_Model_Device_Android extends Core_Model_Default {
     protected $_formatted_name = '';
     protected $_formatted_bundle_name = '';
     protected $_dst;
+    protected $_sources_dst;
     protected $_base_dst;
     protected $_zipname;
 
@@ -60,11 +61,13 @@ class Application_Model_Device_Android extends Core_Model_Default {
         $this->_zipname = 'android_source';
 
         $this->_dst = $dst;
+        $this->_sources_dst = "$dst/app/src/main";
 
-        $src = $this->_dst.'/src/com/siberian/app';
-        $dst = $this->_dst.'/src/com/'.$this->_formatted_bundle_name.'/'.$this->_formatted_name;
+        $src = $this->_sources_dst.'/java/com/siberiancms/app';
+        $dst = $this->_sources_dst.'/java/com/'.$this->_formatted_bundle_name.'/'.$this->_formatted_name;
+
         Core_Model_Directory::move($src, $dst);
-        Core_Model_Directory::delete($this->_dst.'/src/com/siberian');
+        Core_Model_Directory::delete($this->_sources_dst.'/java/com/siberiancms');
 
         return $this;
 
@@ -72,13 +75,14 @@ class Application_Model_Device_Android extends Core_Model_Default {
 
     protected function _prepareFiles() {
 
-        $links = glob($this->_dst.'/src/com/'.$this->_formatted_bundle_name.'/'.$this->_formatted_name.'/*');
+        $links = glob($this->_sources_dst.'/java/com/'.$this->_formatted_bundle_name.'/'.$this->_formatted_name.'/util/*');
+
         $url = $this->getUrl();
 
         if(!$links) return $this;
 
         $links = array_merge(
-            array($this->_dst.'/AndroidManifest.xml'),
+            array($this->_sources_dst.'/AndroidManifest.xml'),
             $links
         );
 
@@ -96,12 +100,12 @@ class Application_Model_Device_Android extends Core_Model_Default {
 
         $name = str_replace(array('&', '/'), 'AND', $this->getApplication()->getName());
 
-        $this->__replace(array('<name>Siberian</name>' => '<name>'.$name.'</name>'), $this->_dst.'/.project');
+//        $this->__replace(array('<name>Siberian</name>' => '<name>'.$name.'</name>'), $this->_dst.'/.project');
         $replacements = array(
             'http://app.siberiancms.com' => $this->getApplication()->getUrl(null, array(), false, 'en'),
             '<string name="app_name">Siberian</string>' => '<string name="app_name">'.$name.'</string>',
         );
-        $this->__replace($replacements, $this->_dst.'/res/values/strings.xml');
+        $this->__replace($replacements, $this->_sources_dst.'/res/values/strings.xml');
 
         foreach(Core_Model_Language::getLanguageCodes() as $lang) {
             if($lang != 'en') {
@@ -109,7 +113,8 @@ class Application_Model_Device_Android extends Core_Model_Default {
                     'http://app.siberiancms.com' => $this->getApplication()->getUrl(null, array(), false, $lang),
                     '<string name="app_name">Siberian</string>' => '<string name="app_name">'.$name.'</string>',
                 );
-                $this->__replace($replacements, $this->_dst.'/res/values-'.$lang.'/strings.xml');
+
+                $this->__replace($replacements, $this->_sources_dst.'/res/values-'.$lang.'/strings.xml');
             }
         }
 
@@ -119,19 +124,17 @@ class Application_Model_Device_Android extends Core_Model_Default {
 
     protected function _copyImages() {
 
-        // Touch Icon
         $application = $this->getApplication();
-        $icon_src = Core_Model_Directory::getBasePathTo($this->getApplication()->getIcon());
         $icons = array(
-            $application->getIcon(36, null, true)  => $this->_dst .'/res/drawable-ldpi/app_icon.png',
-            $application->getIcon(19, null, true)  => $this->_dst .'/res/drawable-ldpi/push_icon.png',
-            $application->getIcon(48, null, true)  => $this->_dst .'/res/drawable-mdpi/app_icon.png',
-            $application->getIcon(25, null, true)  => $this->_dst .'/res/drawable-mdpi/push_icon.png',
-            $application->getIcon(72, null, true)  => $this->_dst .'/res/drawable-hdpi/app_icon.png',
-            $application->getIcon(38, null, true)  => $this->_dst .'/res/drawable-hdpi/push_icon.png',
-            $application->getIcon(96, null, true)  => $this->_dst .'/res/drawable-xhdpi/app_icon.png',
-            $application->getIcon(50, null, true)  => $this->_dst .'/res/drawable-xhdpi/push_icon.png',
-            $application->getIcon(512, null, true) => $this->_dst .'/app_icon.png',
+            $application->getIcon(48, null, true)  => $this->_sources_dst.'/res/drawable-mdpi/app_icon.png',
+            $application->getIcon(24, null, true)  => $this->_sources_dst.'/res/drawable-mdpi/push_icon.png',
+            $application->getIcon(72, null, true)  => $this->_sources_dst.'/res/drawable-hdpi/app_icon.png',
+            $application->getIcon(36, null, true)  => $this->_sources_dst.'/res/drawable-hdpi/push_icon.png',
+            $application->getIcon(96, null, true)  => $this->_sources_dst.'/res/drawable-xhdpi/app_icon.png',
+            $application->getIcon(48, null, true)  => $this->_sources_dst.'/res/drawable-xhdpi/push_icon.png',
+            $application->getIcon(144, null, true) => $this->_sources_dst.'/res/drawable-xxhdpi/app_icon.png',
+            $application->getIcon(72, null, true)  => $this->_sources_dst.'/res/drawable-xxhdpi/push_icon.png',
+            $application->getIcon(512, null, true) => $this->_dst.'/app_icon.png',
         );
 
         foreach($icons as $icon_src => $icon_dst) {

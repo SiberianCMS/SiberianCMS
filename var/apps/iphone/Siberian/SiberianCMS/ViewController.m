@@ -14,7 +14,7 @@
 
 @implementation ViewController
 
-@synthesize webView;
+@synthesize webView, locationManager;
 
 - (void)viewDidLoad
 {
@@ -29,12 +29,20 @@
     [webView loadRequest:request];
 }
 
+- (void)viewDidUnload {
+    [self setWebView:nil];
+    [self setLocationManager:nil];
+    [super viewDidUnload];
+}
+
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     
     NSString *url = [NSString stringWithFormat:@"%@", [request URL]];
@@ -43,6 +51,18 @@
         webviewUrl = [[NSURL alloc] initWithString:url];
         [self performSegueWithIdentifier:@"openWebview" sender:self];
         return NO;
+    } else if([url rangeOfString:@"tel:"].location != NSNotFound) {
+        NSLog(@"phone number : %@", [request URL]);
+    } else if([url rangeOfString:@"app:"].location != NSNotFound) {
+        
+        NSArray *words = [url componentsSeparatedByString:@":"];
+        SEL function = NSSelectorFromString([words lastObject]);
+        if([self respondsToSelector:function]) {
+            [self performSelector:function];
+        }
+        
+        return NO;
+        
     }
     
     return YES;
@@ -64,6 +84,48 @@
         [segue.destinationViewController setWebViewUrl:webviewUrl];
     }
 }
+
+- (void)requestLocation {
+    
+    NSLog(@"locationServicesEnabled: %@", [CLLocationManager locationServicesEnabled] ? @"YES":@"NO");
+    
+    locationManager = [[CLLocationManager alloc] init];
+    locationManager.distanceFilter = kCLDistanceFilterNone;
+    locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
+    locationManager.delegate = self;
+    
+    if([locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
+        [locationManager requestWhenInUseAuthorization];
+    }
+    [locationManager startUpdatingLocation];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)location {
+    CLLocation *currentLocation = [location objectAtIndex:0];
+    [locationManager stopUpdatingLocation];
+    NSLog(@"position: %@", currentLocation);
+    NSString *coordinates = [[NSString alloc] initWithFormat:@"setCoordinates(%f, %f)", currentLocation.coordinate.latitude, currentLocation.coordinate.longitude];
+    [webView stringByEvaluatingJavaScriptFromString:coordinates];
+    
+}
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
+    
+    [locationManager stopUpdatingLocation];
+    NSLog(@"position: %@", newLocation);
+    NSString *coordinates = [[NSString alloc] initWithFormat:@"setCoordinates(%f, %f)", newLocation.coordinate.latitude, newLocation.coordinate.longitude];
+    [webView stringByEvaluatingJavaScriptFromString:coordinates];
+    
+}
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+    [webView stringByEvaluatingJavaScriptFromString:@"setCoordinates()"];
+    NSLog(@"Can't access user's position");
+}
+
+- (void)removeBadge {
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+}
+
 
 
 @end
