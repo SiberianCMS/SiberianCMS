@@ -18,6 +18,7 @@
     
     // Check the connection
     NSString *url = [[Url sharedInstance] getBase:@"check_connection.php"];;
+    NSLog(@"loading url: %@", url);
     NSString *hasMenus = [NSString stringWithContentsOfURL:[NSURL URLWithString:url] encoding:NSUTF8StringEncoding error:&error];
     if(error.code == 0 && ([hasMenus isEqualToString:@"1"] || [hasMenus isEqualToString:@"0"])) {
         hasConnection = YES;

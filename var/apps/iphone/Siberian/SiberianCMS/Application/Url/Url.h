@@ -13,6 +13,7 @@
     NSString *domain;
     NSString *language_code;
     NSString *path;
+    NSString *key;    
     NSArray *languages;
 }
 
@@ -20,6 +21,7 @@
 @property (nonatomic, retain) NSString *domain;
 @property (nonatomic, retain) NSString *language_code;
 @property (nonatomic, retain) NSString *path;
+@property (nonatomic, retain) NSString *key;
 
 + (Url *)sharedInstance;
 
@@ -27,8 +29,6 @@
 - (NSString *)get:(NSString *)uri;
 - (NSString *)getImage:(NSString *)path;
 - (NSString *)getBase:(NSString *)uri;
-//- (void)setScheme:(NSString *)newScheme;
-//- (void)setDomain:(NSString *)newDomain;
-//- (void)setPath:(NSString *)newPath;
+
 
 @end

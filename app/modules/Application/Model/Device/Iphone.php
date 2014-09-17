@@ -10,6 +10,7 @@ class Application_Model_Device_Iphone extends Core_Model_Default {
     protected $_base_dst;
     protected $_zipname;
     protected $_new_xml;
+    protected $_request;
 
     public function getCurrentVersion() {
         return $this->_current_version;
@@ -21,6 +22,7 @@ class Application_Model_Device_Iphone extends Core_Model_Default {
 
     public function prepareResources() {
 
+        $this->_prepareRequest();
         $this->_cpFolder();
         $this->_preparePList();
         $this->_copyImages();
@@ -39,6 +41,12 @@ class Application_Model_Device_Iphone extends Core_Model_Default {
 
         return $src;
 
+    }
+
+    protected function _prepareRequest() {
+        $request = new Siberian_Controller_Request_Http($this->getApplication()->getUrl());
+        $request->setPathInfo();
+        $this->_request = $request;
     }
 
     protected function _cpFolder() {
@@ -73,7 +81,6 @@ class Application_Model_Device_Iphone extends Core_Model_Default {
         if(!$plist) {
             throw new Exception('An error occured while copying the source files ('.$file.')');
         }
-
         $r = fwrite($plist, $this->_new_xml->asXml());
         fclose($plist);
 
@@ -97,6 +104,8 @@ class Application_Model_Device_Iphone extends Core_Model_Default {
                     $value = $this->getApplication()->getBundleId();
                 } else if($lastValue == "Default URL") {
                     $value = $this->getApplication()->getUrl();
+                } else if(stripos($lastValue, "url_") !== false) {
+                    $value = $this->__getUrlValue($lastValue);
                 }
 
                 $newNode->addChild($key, $value);
@@ -187,6 +196,23 @@ class Application_Model_Device_Iphone extends Core_Model_Default {
 
         return $src.'/'.$name.'.zip';
 
+    }
+
+    private function __getUrlValue($key) {
+
+        switch($key) {
+            case "url_scheme": $value = $this->_request->getScheme(); break;
+            case "url_domain": $value = $this->_request->getHttpHost(); break;
+            case "url_path": $value = ltrim($this->_request->getBaseUrl(), "/"); break;
+            case "url_key":
+                if($this->_request->useApplicationKey()) {
+                    $value = Application_Model_Application::OVERVIEW_PATH;
+                }
+                break;
+            default: $value = "";
+        }
+
+        return $value;
     }
 
 }

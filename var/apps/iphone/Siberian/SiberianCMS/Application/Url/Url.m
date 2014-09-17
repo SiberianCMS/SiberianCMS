@@ -10,22 +10,25 @@
 
 @implementation Url
 
-@synthesize scheme = _scheme, domain = _domain, language_code, path = _path;
+@synthesize scheme, domain, language_code, key, path;
 
 static Url *sharedInstance = nil;
 
 - (id)init
 {
     self = [super init];
+    
     if (self) {
         
-        NSString *stringUrl = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"Default URL"];
-        NSURL *defaultUrl = [[NSURL alloc] initWithString:stringUrl];
+        NSDictionary *urlParts = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"Url"];
+        NSLog(@"urlParts : %@", urlParts);
+
         sharedInstance = self;
-        _scheme = [defaultUrl scheme];
-        _domain = [defaultUrl host]; // @"192.168.31.69"; //@"192.168.0.16";
+        scheme = [urlParts objectForKey:@"url_scheme"];
+        domain = [urlParts objectForKey:@"url_domain"]; // @"192.168.31.69"; //@"192.168.0.16";
         language_code = @"en";
-        _path = [defaultUrl path]; // @"overview";
+        path = [urlParts objectForKey:@"url_path"];
+        key = [urlParts objectForKey:@"url_key"]; // @"overview";
         
         [self prepareLanguages];
         
@@ -62,18 +65,26 @@ static Url *sharedInstance = nil;
 
 - (NSString *)get:(NSString *)uri {
     
-    NSString *url = [_scheme stringByAppendingFormat:@"://%@/%@", _domain, _path];
+    NSString *url = [scheme stringByAppendingFormat:@"://%@", domain];
+    if(path.length) {
+        url = [url stringByAppendingFormat:@"/%@", path];
+    }
+    if(key.length) {
+        url = [url stringByAppendingFormat:@"/%@", key];
+    }
     if(uri.length > 0) {
         url = [url stringByAppendingFormat:@"/%@", uri];
     }
-    url = [self addPreviewTo:url];
+
     return url;
 }
 
 - (NSString *)getBase:(NSString *)uri {
     
-    NSString *url = [_scheme stringByAppendingFormat:@"://%@", _domain];
-    
+    NSString *url = [scheme stringByAppendingFormat:@"://%@", domain];
+    if(path.length) {
+        url = [url stringByAppendingFormat:@"/%@", path];
+    }
     if(uri.length > 0) {
         url = [url stringByAppendingFormat:@"/%@", uri];
     }
@@ -83,7 +94,7 @@ static Url *sharedInstance = nil;
 }
 
 - (NSString *)getImage:(NSString *)imagePath {
-    return [_scheme stringByAppendingFormat:@"://%@/%@", _domain, imagePath];
+    return [scheme stringByAppendingFormat:@"://%@/%@", domain, imagePath];
 }
 
 - (NSString *)addPreviewTo:url {
@@ -98,13 +109,13 @@ static Url *sharedInstance = nil;
 }
 
 - (void)setScheme:(NSString *)newScheme {
-    _scheme = newScheme;
+    scheme = newScheme;
 }
 - (void)setDomain:(NSString *)newDomain {
-    _domain = [self sanitize:newDomain];
+    domain = [self sanitize:newDomain];
 }
 - (void)setPath:(NSString *)newPath {
-    _path = [self sanitize:newPath];
+    path = [self sanitize:newPath];
 }
 
 

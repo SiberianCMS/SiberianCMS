@@ -22,8 +22,6 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
-	<key>Default URL</key>
-	<string>http://localhost/overview</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIMainStoryboardFile</key>
@@ -38,5 +36,16 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>Url</key>
+	<dict>
+		<key>url_domain</key>
+		<string>192.168.0.43</string>
+		<key>url_key</key>
+		<string>overview</string>
+		<key>url_path</key>
+		<string></string>
+		<key>url_scheme</key>
+		<string>http</string>
+	</dict>
 </dict>
 </plist>
