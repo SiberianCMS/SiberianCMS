@@ -51,9 +51,14 @@ class Contact_Mobile_ViewController extends Application_Controller_Mobile_Defaul
             "twitter_url" => $contact->getTwitter()
         );
 
-        if(!empty($latlon)) {
-            $data['contact']["coordinates"] = $latlon;
+
+        if($contact->getLatitude() AND $contact->getLongitude()) {
+            $data['contact']["coordinates"] = array(
+                "latitude" => $contact->getLatitude(),
+                "longitude" => $contact->getLongitude()
+            );
         }
+
 
         $data['page_title'] = $option->getTabbarName();
 

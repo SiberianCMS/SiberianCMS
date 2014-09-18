@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Siberian Angular</string>
-    <string name="url">http://192.168.31.67/overview</string>
+    <string name="app_name">SiberianCMS</string>
+    <string name="url">http://localhost/overview</string>
     <string name="load_message">Chargement. Merci de patienter...</string>
-    <string name="quit_message">Quitter l'application ?</string>
+    <string name="quit_message">Quitter l\'application ?</string>
     <string name="done">Terminer</string>
     <string name="yes">Oui</string>
     <string name="no">Non</string>

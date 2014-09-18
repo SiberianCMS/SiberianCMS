@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Siberian Angular</string>
-    <string name="url">http://192.168.31.67/overview</string>
+    <string name="app_name">SiberianCMS</string>
+    <string name="url">http://localhost/overview</string>
     <string name="load_message">Loading. Please wait...</string>
     <string name="quit_message">Quit the application?</string>
     <string name="done">Done</string>

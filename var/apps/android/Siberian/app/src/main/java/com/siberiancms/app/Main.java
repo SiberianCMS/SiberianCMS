@@ -58,7 +58,6 @@ public class Main extends Activity {
 
     public static String baseUrl = "";
 
-    TextView mDisplay;
     GoogleCloudMessaging gcm;
     AtomicInteger msgId = new AtomicInteger();
     Context context;
@@ -410,7 +409,7 @@ public class Main extends Activity {
 
             @Override
             protected void onPostExecute(String msg) {
-                mDisplay.append(msg + "\n");
+                Log.e(CommonUtilities.TAG, msg);
             }
         }.execute(null, null, null);
     }
@@ -437,7 +436,7 @@ public class Main extends Activity {
 
             @Override
             protected void onPostExecute(String msg) {
-                mDisplay.append(msg + "\n");
+                Log.e(CommonUtilities.TAG, msg);
             }
         }.execute(null, null, null);
     }

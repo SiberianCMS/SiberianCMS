@@ -37,7 +37,25 @@ class Contact_ApplicationController extends Application_Controller_Default
                     $datas['cover'] = null;
                 }
 
-                $contact->setData($datas)->save();
+                $contact->setData($datas);
+
+                if(empty($datas["latitude"]) AND empty($datas["longitude"])) {
+                    if($contact->getStreet() AND $contact->getPostcode() AND $contact->getCity()) {
+
+                        $latlon = Siberian_Google_Geocoding::getLatLng(array(
+                            "street" => $contact->getStreet(),
+                            "postcode" => $contact->getPostcode(),
+                            "city" => $contact->getCity()
+                        ));
+
+                        if(!empty($latlon[0]) && !empty($latlon[1])) {
+                            $contact->setLatitude($latlon[0]);
+                            $contact->setLongitude($latlon[1]);
+                        }
+                    }
+                }
+
+                $contact->save();
 
                 $html = array(
                     'success' => '1',

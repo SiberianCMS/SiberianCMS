@@ -113,7 +113,7 @@ App.run(function($rootScope, $window, $route, $location, $timeout, $templateCach
         ;
     }
 
-}).config(function($routeProvider, $locationProvider, $httpProvider) {
+}).config(function($routeProvider, $locationProvider, $httpProvider, $compileProvider) {
 
     $httpProvider.interceptors.push(function($q, $injector) {
         return {
@@ -135,6 +135,8 @@ App.run(function($rootScope, $window, $route, $location, $timeout, $templateCach
             templateUrl: BASE_URL+"/front/mobile_home/view"
          })
     ;
+
+    $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|geo|tel):/);
 
 });
 
@@ -448,7 +450,7 @@ App.directive('sbConnection', function() {
     return {
         restrict: 'E',
         scope: {
-            has_connection: '=hasConnection',
+            has_connection: '=hasConnection'
         },
         template:
             '<div class="toggle" ng-show="!has_connection">' +
@@ -674,7 +676,7 @@ App.service("Sidebar", function(SidebarInstances) {
     return {};
 });
 
-App.directive("sbVideo", function() {
+App.directive("sbVideo", function($window, Application) {
     return {
         restrict: "A",
         replace:true,
@@ -696,7 +698,7 @@ App.directive("sbVideo", function() {
                     +'</div>'
                 +'</div>'
                 +'<div ng-if="use_iframe" ng-show="show_player">'
-                    +'<iframe type="text/html" width="100%" height="200" src="" frameborder="0"></iframe>'
+                    +'<iframe type="text/html" width="100%" height="200" src="" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>'
                 +'</div>'
                 +'<div ng-if="!use_iframe" ng-show="show_player">'
                     +'<div id="video_player_view" class="player">'
@@ -714,16 +716,23 @@ App.directive("sbVideo", function() {
 //            }
             element.bind("click", function() {
 
-                if(/(youtube)|(vimeo)/.test(scope.video.url)) {
+                var show_player = true;
+
+                if(Application.isAndroid && /(youtube)|(vimeo)/.test(scope.video.url)) {
+                    show_player = false;
+                    $window.location = scope.video.url;
+                } else if(/(youtube)|(vimeo)/.test(scope.video.url)) {
                     element.find('iframe').attr('src', scope.video.url+"?autoplay=1");
                 } else {
                     element.find('video').attr('src', scope.video.url);
                 }
 
-                scope.show_player = true;
-                scope.$apply();
+                if(show_player) {
+                    scope.show_player = true;
+                    scope.$apply();
 
-                element.unbind("click");
+                    element.unbind("click");
+                }
             });
         },
         controller: function($scope) {

@@ -5,7 +5,7 @@ android {
     buildToolsVersion "19.1.0"
 
     defaultConfig {
-        applicationId "com.siberiancms.angular"
+        applicationId "com.siberiancms.app"
         minSdkVersion 11
         targetSdkVersion 19
         versionCode 1

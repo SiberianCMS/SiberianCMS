@@ -30,10 +30,14 @@
                     <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/phone.png', true), $application->getBlock('button')->getColor()); ?>" width="21" height="21" />
                     <?php echo $this->_('Phone'); ?>
                 </a>
-                <button class="button icon_left arrow_right" ng-if="contact.coordinates || contact.street && contact.postcode && contact.city" ng-click="showMap();">
+                <button class="button icon_left arrow_right" ng-if="!contact.handle_geo_protocol && (contact.coordinates || contact.street && contact.postcode && contact.city)" ng-click="showMap();">
                     <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/marker.png', true), $application->getBlock('button')->getColor()); ?>" width="21" height="21" />
                     <?php echo $this->_('Locate'); ?>
                 </button>
+                <a href="geo:{{ getGeoData() }}" class="button icon_left arrow_right" ng-if="contact.handle_geo_protocol && (contact.coordinates || contact.street && contact.postcode && contact.city)">
+                    <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/marker.png', true), $application->getBlock('button')->getColor()); ?>" width="21" height="21" />
+                    <?php echo $this->_('Locate'); ?>
+                </a>
                 <a href="{{ contact.form_url }}" class="button icon_left arrow_right" ng-if="contact.email">
                     <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/envelope.png', true), $application->getBlock('button')->getColor()); ?>" width="21" height="21" />
                     <?php echo $this->_('Email'); ?>
