@@ -12,7 +12,7 @@ App.factory('Push', function($http, Url, Customer) {
         return $http({
             method: 'GET',
             url: Url.get("push/mobile_list/findall", {value_id: this.value_id, device_uid: Customer.device_uid}),
-            cache: true,
+            cache: false,
             responseType:'json'
         });
     };
