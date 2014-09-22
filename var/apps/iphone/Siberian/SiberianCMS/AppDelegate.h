@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 // #import "EVURLCache.h"
 #import "RNCachingURLProtocol.h"
+#import "Url.h"
+#import "request.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, Request>
 
 @property (strong, nonatomic) UIWindow *window;
 

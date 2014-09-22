@@ -181,6 +181,7 @@
     NSDictionary *apsInfo = [userInfo objectForKey:@"aps"];
     int badge = [[apsInfo objectForKey:@"badge"] intValue];
     badge++;
+/*
     mainViewController *controller = (mainViewController *) self.window.rootViewController;
     controller.canLoadNotifs = YES;
     if (application.applicationState == UIApplicationStateActive) {
@@ -188,9 +189,10 @@
         [controller loadNotifs];
     }
     else {
+*/
         // Inutil car déjà mis à jour
         application.applicationIconBadgeNumber = badge;
-    }
+//    }
     
 #endif
 }

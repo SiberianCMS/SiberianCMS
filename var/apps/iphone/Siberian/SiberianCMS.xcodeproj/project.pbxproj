@@ -402,6 +402,70 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		F506A25A19CEC0CA00B7C97F /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Distribution;
+		};
+		F506A25B19CEC0CA00B7C97F /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SiberianCMS/SiberianCMS-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/SiberianCMS/SiberianCMS-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				PRODUCT_NAME = SiberianCMS;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Distribution;
+		};
+		F506A25C19CEC0CA00B7C97F /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SiberianCMS.app/SiberianCMS";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SiberianCMS/SiberianCMS-Prefix.pch";
+				INFOPLIST_FILE = "SiberianCMSTests/SiberianCMSTests-Info.plist";
+				PRODUCT_NAME = SiberianCMSTests;
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Distribution;
+		};
 		F511E2AB196C27EE004D315F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -434,7 +498,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -466,7 +530,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -503,19 +567,19 @@
 		F511E2B1196C27EE004D315F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Siberian Angular.app/Siberian Angular";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SiberianCMS.app/SiberianCMS";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Siberian Angular/Siberian Angular-Prefix.pch";
+				GCC_PREFIX_HEADER = "SiberianCMS/SiberianCMS-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "Siberian AngularTests/SiberianCMSTests-Info.plist";
+				INFOPLIST_FILE = "SiberianCMSTests/SiberianCMSTests-Info.plist";
 				PRODUCT_NAME = SiberianCMSTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -525,15 +589,15 @@
 		F511E2B2196C27EE004D315F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Siberian Angular.app/Siberian Angular";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SiberianCMS.app/SiberianCMS";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Siberian Angular/Siberian Angular-Prefix.pch";
-				INFOPLIST_FILE = "Siberian AngularTests/SiberianCMSTests-Info.plist";
+				GCC_PREFIX_HEADER = "SiberianCMS/SiberianCMS-Prefix.pch";
+				INFOPLIST_FILE = "SiberianCMSTests/SiberianCMSTests-Info.plist";
 				PRODUCT_NAME = SiberianCMSTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -548,6 +612,7 @@
 			buildConfigurations = (
 				F511E2AB196C27EE004D315F /* Debug */,
 				F511E2AC196C27EE004D315F /* Release */,
+				F506A25A19CEC0CA00B7C97F /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -557,6 +622,7 @@
 			buildConfigurations = (
 				F511E2AE196C27EE004D315F /* Debug */,
 				F511E2AF196C27EE004D315F /* Release */,
+				F506A25B19CEC0CA00B7C97F /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -566,6 +632,7 @@
 			buildConfigurations = (
 				F511E2B1196C27EE004D315F /* Debug */,
 				F511E2B2196C27EE004D315F /* Release */,
+				F506A25C19CEC0CA00B7C97F /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
