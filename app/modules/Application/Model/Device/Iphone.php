@@ -121,22 +121,31 @@ class Application_Model_Device_Iphone extends Core_Model_Default {
 
         // Touch Icon
         $icons = array(
-            $application->getIcon(29, null, true)   => $this->_dst.'/Images.xcassets/AppIcon.appiconset/29x29.png',
-            $application->getIcon(58, null, true)   => $this->_dst.'/Images.xcassets/AppIcon.appiconset/29x29@2x.png',
-            $application->getIcon(87, null, true)   => $this->_dst.'/Images.xcassets/AppIcon.appiconset/29x29@3x.png',
-            $application->getIcon(80, null, true)   => $this->_dst.'/Images.xcassets/AppIcon.appiconset/40x40@2x.png',
-            $application->getIcon(120, null, true)   => $this->_dst.'/Images.xcassets/AppIcon.appiconset/40x40@3x.png',
-            $application->getIcon(57, null, true)   => $this->_dst.'/Images.xcassets/AppIcon.appiconset/57x57.png',
-            $application->getIcon(114, null, true)   => $this->_dst.'/Images.xcassets/AppIcon.appiconset/57x57@2x.png',
-            $application->getIcon(120, null, true)   => $this->_dst.'/Images.xcassets/AppIcon.appiconset/60x60@2x.png',
-            $application->getIcon(180, null, true)   => $this->_dst.'/Images.xcassets/AppIcon.appiconset/60x60@3x.png',
-            $application->getAppStoreIcon(true)     => $this->_dst.'/../TouchIcon.png',
+            $this->_dst.'/Images.xcassets/AppIcon.appiconset/29x29.png'    => $application->getIcon(29, null, true),
+            $this->_dst.'/Images.xcassets/AppIcon.appiconset/29x29@2x.png' => $application->getIcon(58, null, true),
+            $this->_dst.'/Images.xcassets/AppIcon.appiconset/29x29@3x.png' => $application->getIcon(87, null, true),
+            $this->_dst.'/Images.xcassets/AppIcon.appiconset/40x40@2x.png' => $application->getIcon(80, null, true),
+            $this->_dst.'/Images.xcassets/AppIcon.appiconset/40x40@3x.png' => $application->getIcon(120, null, true),
+            $this->_dst.'/Images.xcassets/AppIcon.appiconset/57x57.png'    => $application->getIcon(57, null, true),
+            $this->_dst.'/Images.xcassets/AppIcon.appiconset/57x57@2x.png' => $application->getIcon(114, null, true),
+            // $this->_dst.'/Images.xcassets/AppIcon.appiconset/60x60@2x.png' => $application->getIcon(120, null, true),
+            $this->_dst.'/Images.xcassets/AppIcon.appiconset/60x60@3x.png' => $application->getIcon(180, null, true),
+            $this->_dst.'/../TouchIcon.png' => $application->getAppStoreIcon(true)
         );
 
-        foreach($icons as $icon_src => $icon_dst) {
+        foreach($icons as $icon_dst => $icon_src) {
             if(!@rename($icon_src, $icon_dst)) {
+                Zend_Debug::dump(file_exists($icon_src));
+                Zend_Debug::dump($this->_($icon_src . " => " . $icon_dst));
+                Zend_Debug::dump($application->getIcon(120, null, true));
+                Zend_Debug::dump($application->getIcon(60, null, true));
+                die;
                 throw new Exception($this->_('An error occured while copying your app icon. Please check the icon, try to send it again and try again.'));
             }
+        }
+        
+        if(!@rename($application->getIcon(120, null, true), $this->_dst.'/Images.xcassets/AppIcon.appiconset/60x60@2x.png')) {
+            throw new Exception($this->_('An error occured while copying your app icon. Please check the icon, try to send it again and try again.'));
         }
 
 
