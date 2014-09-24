@@ -62,8 +62,21 @@
                         <div class="right">
                             <input type="checkbox" name="show_in_social_gaming" id="show_in_social_gaming" class="checkbox" value="1" ng-model="customer.show_in_social_gaming" />
                         </div>
+                        <div class="clear"></div>
                     </li>
                     <?php endif; ?>
+                    <li>
+                        <div class="left">
+                            <label id="label_privacy_policy" for="privacy_policy">
+                                <a href="<?php echo $this->getUrl("cms/mobile_privacypolicy"); ?>"><?php echo $this->_("I accept the <u>privacy policy</u>") ?></a>
+                            </label>
+                        </div>
+                        <div class="right">
+                            <input type="checkbox" name="privacy_policy" id="privacy_policy" class="checkbox" value="1" ng-model="customer.privacy_policy" required />
+                        </div>
+                        <label class="error block full_width a-left" ng-show="registerForm.privacy_policy.$invalid && registerForm.submitted"><?php echo $this->_("This field is required"); ?></label>
+                        <div class="clear"></div>
+                    </li>
                 </ul>
             </div>
             <button type="submit" class="ng-hide"></button>
