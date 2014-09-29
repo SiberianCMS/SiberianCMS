@@ -83,12 +83,19 @@ class Application_Model_Device_Android extends Core_Model_Default {
         if(!$links) return $this;
 
         foreach($links as $link) {
-            if(!$link->isDir() AND in_array($link->getExtension(), $allowed_extensions)) {
-                if(strpos($link, 'CommonUtilities.java') !== false) {
-                    $this->__replace(array(
-                        'String SENDER_ID = ""' => 'String SENDER_ID = "'.Push_Model_Certificat::getAndroidSenderId().'"',
-                        'SERVEUR_URL = "http://www.siberiancms.com/";' => 'SERVEUR_URL = "'.$this->getUrl().'";'
-                    ), $link);
+
+            if(!$link->isDir()) {
+
+                $info = pathinfo($link->getPathName());
+                $extension = $info["extension"];
+
+                if(in_array($extension, $allowed_extensions)) {
+                    if (strpos($link, 'CommonUtilities.java') !== false) {
+                        $this->__replace(array(
+                            'String SENDER_ID = ""' => 'String SENDER_ID = "' . Push_Model_Certificat::getAndroidSenderId() . '"',
+                            'SERVEUR_URL = "http://www.siberiancms.com/";' => 'SERVEUR_URL = "' . $this->getUrl() . '";'
+                        ), $link);
+                    }
                 }
             }
         }
