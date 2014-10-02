@@ -12,8 +12,6 @@ App.config(function($routeProvider) {
 
 }).controller('ContactViewController', function($window, $scope, $routeParams, $location, Application, Url, Contact) {
 
-    Application.handle_geo_protocol = true;
-
     $scope.$watch("isOnline", function(isOnline) {
         $scope.has_connection = isOnline;
     });
@@ -33,14 +31,14 @@ App.config(function($routeProvider) {
 
         var params = "";
         if($scope.contact.coordinates) {
-            params = $scope.contact.coordinates.latitude + ", " + $scope.contact.coordinates.longitude;
+            params = $scope.contact.coordinates.latitude + "," + $scope.contact.coordinates.longitude;
         } else {
             var address = $scope.contact.street+", "+$scope.contact.postcode+", "+$scope.contact.city;
-            params = encodeURI(address);
+            params = "0,0?q="+encodeURI(address);
         }
 
         return params;
-    }
+    };
     $scope.showMap = function() {
 
         var params = {};
@@ -56,7 +54,7 @@ App.config(function($routeProvider) {
 
         $location.path(Url.get("map/mobile_view/index", params));
 
-    }
+    };
 
     if($scope.isOverview) {
 

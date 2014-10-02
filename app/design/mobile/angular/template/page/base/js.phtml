@@ -23,6 +23,8 @@
         };
 
         Application.is_native = <?php echo $this->getRequest()->isNative() ? 1 : 0; ?>;
+        Application.is_android = <?php echo $this->getDevice()->isAndroid() ? 1 : 0; ?>;
+        Application.is_ios = <?php echo $this->getDevice()->isIphone() || $this->getDevice()->isIpad() ? 1 : 0; ?>;
         $window.Application = Application;
 
     }).config(function($facebookProvider) {

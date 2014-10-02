@@ -49,8 +49,8 @@
             </intent-filter>
         </activity>
 
-        <uses-library
-            android:name="com.google.android" />
+        <!--<uses-library-->
+            <!--android:name="com.google.android" />-->
 
         <receiver
             android:name=".GcmBroadcastReceiver"

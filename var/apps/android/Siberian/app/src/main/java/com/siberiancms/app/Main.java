@@ -101,6 +101,7 @@ public class Main extends Activity {
             public void onPageFinished(WebView view, String url) {
 
                 Main.webviewIsLoaded = !Main.webviewHasFailed;
+                view.loadUrl("javascript:if(window.Application) window.Application.handle_geo_protocol = true;");
                 pd.dismiss();
             }
 
@@ -110,30 +111,42 @@ public class Main extends Activity {
 
                 WebView.HitTestResult hr = Webview.getHitTestResult();
 
-                if(hr.getType() == WebView.HitTestResult.SRC_ANCHOR_TYPE) {
+                try {
 
-                    if (url.startsWith("tel:")) {
-                        startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse(url)));
-                    } else if (url.startsWith("geo:")) {
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
-                    } else if (url.contains("www.youtube.com")) {
-                        Intent myWebLink = new Intent(Intent.ACTION_VIEW);
-                        Uri uri = Uri.parse(url);
-                        myWebLink.setDataAndType(uri, "text/html");
-                        myWebLink.addCategory(Intent.CATEGORY_BROWSABLE);
-                        startActivity(myWebLink);
-
-                    } else {
-                        Intent intent = new Intent(Main.this, Browser.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.putExtra("url", url);
-                        startActivity(intent);
+                    if (hr == null) {
+                        return false;
                     }
 
-                    return true;
+                    if (hr.getType() == WebView.HitTestResult.SRC_ANCHOR_TYPE) {
 
-                } else {
-                    Log.e("Webview", "Not from a click");
+                        if (url.startsWith("tel:")) {
+                            startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse(url)));
+                        } else if (url.contains("www.youtube.com")) {
+                            Intent myWebLink = new Intent(Intent.ACTION_VIEW);
+                            Uri uri = Uri.parse(url);
+                            myWebLink.setDataAndType(uri, "text/html");
+                            myWebLink.addCategory(Intent.CATEGORY_BROWSABLE);
+                            startActivity(myWebLink);
+                        } else if (url.startsWith("geo:")) {
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+                            return true;
+                        } else {
+                            Intent intent = new Intent(Main.this, Browser.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.putExtra("url", url);
+                            startActivity(intent);
+                        }
+
+                        return true;
+
+                    } else if (url.startsWith("geo:")) {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+                        return true;
+                    } else {
+                        Log.e("Webview", "Not from a click");
+                    }
+                } catch(Exception e) {
+
                 }
 
                 return false;

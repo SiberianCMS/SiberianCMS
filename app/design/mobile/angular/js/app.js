@@ -145,6 +145,8 @@ App.factory("Application", function($http) {
     var factory = {};
 
     factory.is_native = false;
+    factory.is_android = false;
+    factory.is_ios = false;
 
     factory.callbacks = {
         success: null,
